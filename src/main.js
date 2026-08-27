@@ -1,108 +1,18 @@
-import './style.css';
-import { makeInitialSpots, STATUS, zones } from './data.js';
-
-const STORAGE_KEY = 'hana-parking-renewal-v1';
-const saved = localStorage.getItem(STORAGE_KEY);
-const state = {
-  spots: saved ? JSON.parse(saved) : makeInitialSpots(),
-  query: '',
-  zone: 'all',
-  filter: 'all',
-  selected: null
-};
-
-const app = document.querySelector('#app');
-const save = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state.spots));
-
-function stats() {
-  const occupied = state.spots.filter(s => s.plate).length;
-  return { total: state.spots.length, occupied, empty: state.spots.length - occupied, alerts: state.spots.filter(s => s.alerts.length).length };
-}
-
-function filteredSpots() {
-  const q = state.query.trim().toLowerCase();
-  return state.spots.filter(s => {
-    const zoneOk = state.zone === 'all' || s.zoneId === state.zone;
-    const filterOk = state.filter === 'all' || (state.filter === 'occupied' && s.plate) || (state.filter === 'empty' && !s.plate) || (state.filter === 'alert' && s.alerts.length);
-    const queryOk = !q || [s.plate, s.model, s.color, s.label, s.zone].some(v => v.toLowerCase().includes(q));
-    return zoneOk && filterOk && queryOk;
-  });
-}
-
-function render() {
-  const { total, occupied, empty, alerts } = stats();
-  const visible = filteredSpots();
-  app.innerHTML = `
-    <header class="topbar">
-      <a class="brand" href="#top" aria-label="하나 파킹 홈"><span class="brand-mark">H</span><span>HANA <b>PARKING</b></span></a>
-      <nav><a href="#dashboard" class="active">현황판</a><a href="#zones">구역 관리</a><button class="print-link" data-print>인쇄</button></nav>
-      <button class="profile" aria-label="관리자 메뉴">관리자 <span>●</span></button>
-    </header>
-    <main id="top">
-      <section class="hero" id="dashboard">
-        <div>
-          <p class="eyebrow">LIVE PARKING BOARD</p>
-          <h1>차량의 위치를<br><em>한눈에, 정확하게.</em></h1>
-          <p class="lede">주차 현황부터 차량 상태까지, 필요한 정보를 빠르게 확인하세요.</p>
-        </div>
-        <div class="hero-stat"><span>현재 주차율</span><strong>${Math.round(occupied / total * 100)}<small>%</small></strong><div class="meter"><i style="width:${occupied / total * 100}%"></i></div><p>${occupied}대 주차 · ${empty}자리 여유</p></div>
-      </section>
-
-      <section class="summary" aria-label="주차 요약">
-        ${metric('전체 주차면', total, 'TOTAL', 'neutral')}
-        ${metric('주차 중', occupied, 'IN USE', 'dark')}
-        ${metric('빈 자리', empty, 'AVAILABLE', 'green')}
-        ${metric('확인 필요', alerts, 'CHECK', 'amber')}
-      </section>
-
-      <section class="workspace" id="zones">
-        <div class="section-head"><div><p class="eyebrow">PARKING MAP</p><h2>주차 현황</h2></div><p class="updated">● 실시간 반영 <span>방금 전 업데이트</span></p></div>
-        <div class="toolbar">
-          <label class="search"><span>⌕</span><input id="search" value="${escapeHtml(state.query)}" placeholder="차량번호, 차종, 색상 검색" aria-label="차량 검색"></label>
-          <div class="segmented" aria-label="상태 필터">${filterButton('all','전체')}${filterButton('occupied','주차 중')}${filterButton('empty','빈 자리')}${filterButton('alert','확인 필요')}</div>
-        </div>
-        <div class="zone-tabs" role="tablist"><button data-zone="all" class="${state.zone === 'all' ? 'active' : ''}">전체 구역</button>${zones.map(z => `<button data-zone="${z.id}" class="${state.zone === z.id ? 'active' : ''}">${z.short}</button>`).join('')}</div>
-        <div class="legend"><span><i class="dot occupied"></i>주차 중</span><span><i class="dot empty"></i>빈 자리</span><span><i class="dot alert"></i>확인 필요</span></div>
-        <div class="zones">${zones.map(zone => zoneCard(zone, visible.filter(s => s.zoneId === zone.id))).join('')}</div>
-        ${visible.length ? '' : '<div class="no-result"><strong>검색 결과가 없습니다.</strong><p>다른 차량번호나 필터를 확인해 주세요.</p></div>'}
-      </section>
-    </main>
-    <footer><span>HANA PARKING</span><p>현장의 흐름을 더 단순하게.</p><small>데이터는 이 기기의 브라우저에 저장됩니다.</small></footer>
-    ${state.selected ? modal(state.spots.find(s => s.id === state.selected)) : ''}
-  `;
-  bind();
-}
-
-function metric(label, value, english, tone) { return `<article class="metric ${tone}"><span>${english}</span><div><strong>${value}</strong><small>${label}</small></div></article>`; }
-function filterButton(id, label) { return `<button data-filter="${id}" class="${state.filter === id ? 'active' : ''}">${label}</button>`; }
-function zoneCard(zone, spots) {
-  if (!spots.length) return '';
-  const all = state.spots.filter(s => s.zoneId === zone.id);
-  const used = all.filter(s => s.plate).length;
-  return `<article class="zone-card"><div class="zone-title"><div><span>${zone.short}</span><h3>${zone.name}</h3></div><p><b>${used}</b> / ${all.length}대</p></div><div class="spot-grid">${spots.map(spotButton).join('')}</div></article>`;
-}
-function spotButton(s) {
-  const alert = s.alerts.length ? ' has-alert' : '';
-  return `<button class="spot ${s.plate ? 'is-used' : 'is-empty'}${alert}" data-spot="${s.id}" aria-label="${s.zone} ${s.label} ${s.plate || '빈 자리'}"><span class="spot-label">${s.label}</span>${s.alerts.length ? `<span class="alert-mark">${s.alerts.length}</span>` : ''}<strong>${s.plate || '빈 자리'}</strong><small>${s.plate ? `${s.model} · ${s.color}` : '입차 가능'}</small></button>`;
-}
-
-function modal(s) {
-  return `<div class="modal-backdrop" data-close><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" data-modal><button class="modal-close" data-close aria-label="닫기">×</button><p class="eyebrow">${s.zone} · ${s.label}</p><h2 id="modal-title">${s.plate ? '차량 정보' : '신규 입차'}</h2><form id="vehicle-form"><label>차량번호<input name="plate" value="${escapeHtml(s.plate)}" placeholder="123가 4567" required></label><div class="form-row"><label>차종<input name="model" value="${escapeHtml(s.model)}" placeholder="예: 쏘나타"></label><label>색상<input name="color" value="${escapeHtml(s.color)}" placeholder="예: 흰색"></label></div><fieldset><legend>확인 필요 상태</legend><div class="status-list">${STATUS.map(item => `<label><input type="checkbox" name="alerts" value="${item.id}" ${s.alerts.includes(item.id) ? 'checked' : ''}><span>${item.mark}</span>${item.label}</label>`).join('')}</div></fieldset><div class="modal-actions">${s.plate ? '<button type="button" class="ghost danger" data-exit>출차 처리</button>' : '<span></span>'}<button type="submit" class="primary">${s.plate ? '변경사항 저장' : '입차 등록'}</button></div></form></section></div>`;
-}
-
-function bind() {
-  document.querySelector('#search')?.addEventListener('input', e => { state.query = e.target.value; render(); document.querySelector('#search')?.focus(); });
-  document.querySelectorAll('[data-filter]').forEach(el => el.addEventListener('click', () => { state.filter = el.dataset.filter; render(); }));
-  document.querySelectorAll('[data-zone]').forEach(el => el.addEventListener('click', () => { state.zone = el.dataset.zone; render(); }));
-  document.querySelectorAll('[data-spot]').forEach(el => el.addEventListener('click', () => { state.selected = el.dataset.spot; render(); }));
-  document.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', e => { if (e.target.closest('[data-modal]') && !e.target.matches('.modal-close')) return; state.selected = null; render(); }));
-  document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
-  document.querySelector('#vehicle-form')?.addEventListener('submit', e => {
-    e.preventDefault(); const form = new FormData(e.currentTarget); const spot = state.spots.find(s => s.id === state.selected);
-    spot.plate = String(form.get('plate')).trim(); spot.model = String(form.get('model')).trim(); spot.color = String(form.get('color')).trim(); spot.alerts = form.getAll('alerts'); spot.updatedAt = '방금 전'; save(); state.selected = null; render();
-  });
-  document.querySelector('[data-exit]')?.addEventListener('click', () => { const spot = state.spots.find(s => s.id === state.selected); Object.assign(spot,{plate:'',model:'',color:'',alerts:[],updatedAt:'방금 전'}); save(); state.selected = null; render(); });
-}
-
-function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
-render();
+import './style.css'; import {makeInitialSpots,STATUS,zones} from './data.js';
+const KEY='hana-parking-renewal-v2',app=document.querySelector('#app');
+const state={spots:[],query:'',zone:'all',filter:'all',selected:null,mode:'detail',notice:'',error:''};
+function load(){try{const raw=localStorage.getItem(KEY);state.spots=raw?JSON.parse(raw):makeInitialSpots();if(!Array.isArray(state.spots))throw Error();}catch{state.spots=makeInitialSpots();state.error='저장된 데이터를 불러오지 못해 데모 데이터로 복구했습니다.';}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state.spots));}catch{state.error='변경사항을 브라우저에 저장하지 못했습니다.';}},used=s=>Boolean(s.plate),esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+function stats(){const p=state.spots.filter(s=>zones.find(z=>z.id===s.zoneId)?.type==='parking'),n=p.filter(used).length;return{total:p.length,occupied:n,empty:p.length-n,alerts:state.spots.filter(s=>used(s)&&s.alerts.length).length};}
+function visible(){const q=state.query.trim().toLowerCase();return state.spots.filter(s=>(state.zone==='all'||s.zoneId===state.zone)&&(state.filter==='all'||(state.filter==='occupied'&&used(s))||(state.filter==='empty'&&!used(s))||(state.filter==='alert'&&s.alerts.length)||(state.filter==='service'&&zones.find(z=>z.id===s.zoneId)?.type==='service'))&&(!q||[s.plate,s.model,s.color,s.label,s.zone,s.memo].some(v=>String(v).toLowerCase().includes(q))));}
+const metric=(l,v,en,t='')=>`<article class="metric ${t}"><span>${en}</span><div><strong>${v}</strong><small>${l}</small></div></article>`;
+function spot(s){const a=s.alerts.map(id=>STATUS.find(x=>x.id===id)?.label).filter(Boolean);return`<button class="spot ${used(s)?'is-used':'is-empty'} ${a.length?'has-alert':''}" data-spot="${s.id}" aria-label="${s.zone} ${s.label} ${s.plate||'빈 자리'}"><span class="spot-label">${s.label}</span>${a.length?`<span class="alert-mark">${a.length}</span>`:''}<strong>${s.plate||'빈 자리'}</strong><small>${used(s)?`${s.model} · ${s.color}`:'입차 가능'}</small>${a.length?`<span class="alert-text">${a.join(' · ')}</span>`:''}</button>`;}
+function zoneCard(z,list){if(!list.length)return'';const all=state.spots.filter(s=>s.zoneId===z.id),n=all.filter(used).length;return`<article class="zone-card ${z.type}"><div class="zone-title"><div><span>${z.short}</span><div><h3>${z.name}</h3><small>${z.type==='service'?'서비스 구역':'일반 주차 구역'}</small></div></div><p><b>${n}</b> / ${all.length}대</p></div><div class="spot-grid">${list.map(spot).join('')}</div></article>`;}
+function vehicleForm(s){const isNew=!used(s);return`<form id="vehicle-form"><label>차량번호<input name="plate" value="${esc(s.plate)}" placeholder="123가 4567" required autocomplete="off"></label><div class="form-row"><label>차종<input name="model" value="${esc(s.model)}" placeholder="예: 쏘나타"></label><label>색상<input name="color" value="${esc(s.color)}" placeholder="예: 흰색"></label></div><label>메모<input name="memo" value="${esc(s.memo)}" placeholder="작업 내용 또는 특이사항"></label>${!isNew?`<dl class="vehicle-meta"><div><dt>입차 일시</dt><dd>${esc(s.enteredAt||'-')}</dd></div><div><dt>최근 변경</dt><dd>${esc(s.updatedAt||'-')}</dd></div></dl>`:''}<fieldset><legend>확인이 필요한 상태</legend><div class="status-list">${STATUS.map(x=>`<label><input type="checkbox" name="alerts" value="${x.id}" ${s.alerts.includes(x.id)?'checked':''}><span>${x.mark}</span>${x.label}</label>`).join('')}</div></fieldset><div class="modal-actions">${isNew?'<span></span>':`<div><button type="button" class="ghost" data-move>위치 이동</button><button type="button" class="ghost danger" data-exit>출차</button></div>`}<button class="primary">${isNew?'입차 등록':'정보 저장'}</button></div></form>`;}
+function moveForm(s){const empty=state.spots.filter(x=>!used(x));return`<form id="move-form"><p class="move-car"><b>${esc(s.plate)}</b><span>${esc(s.model)} · ${esc(s.color)}</span></p><label>이동할 빈 자리<select name="destination" required><option value="">구역과 위치를 선택하세요</option>${zones.map(z=>{const list=empty.filter(x=>x.zoneId===z.id);return list.length?`<optgroup label="${z.name}">${list.map(x=>`<option value="${x.id}">${x.label}</option>`).join('')}</optgroup>`:''}).join('')}</select></label><div class="modal-actions"><button type="button" class="ghost" data-back>취소</button><button class="primary">이동 완료</button></div></form>`;}
+function modal(s){return`<div class="modal-backdrop" data-close><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" data-modal><button class="modal-close" data-close aria-label="상세 화면 닫기">×</button><p class="eyebrow">${s.zone} · ${s.label}</p><h2 id="modal-title">${state.mode==='move'?'위치 이동':used(s)?'차량 상세':'신규 입차'}</h2>${state.mode==='move'?moveForm(s):vehicleForm(s)}</section></div>`;}
+function render(){const c=stats(),v=visible(),selected=state.spots.find(s=>s.id===state.selected);app.innerHTML=`<header class="topbar"><a class="brand" href="#top" aria-label="하나오토 주차관리 홈"><span class="brand-mark">H</span><span>HANA <b>AUTO</b></span></a><nav aria-label="주 메뉴"><a href="#dashboard">현황판</a><a href="#zones">구역 관리</a><button data-print>인쇄</button></nav><button class="new-button" data-new>+ 신규 입차</button></header><main id="top"><div class="demo-banner" role="status"><b>DEMO</b> 현재 화면은 브라우저에만 저장되는 데모 환경입니다. 운영 데이터와 연결되어 있지 않습니다.</div>${state.error?`<div class="toast error" role="alert">${esc(state.error)} <button data-dismiss>닫기</button></div>`:''}${state.notice?`<div class="toast" role="status">${esc(state.notice)}</div>`:''}<section class="hero" id="dashboard"><div><p class="eyebrow">FIELD PARKING CONTROL</p><h1>차량 위치와 상태를<br><em>빠르고 정확하게.</em></h1><p class="lede">입차부터 이동·정비·출차까지 한 화면에서 처리하세요.</p></div><div class="hero-stat"><span>일반 주차 구역 주차율</span><strong>${Math.round(c.occupied/c.total*100)}<small>%</small></strong><div class="meter"><i style="width:${c.occupied/c.total*100}%"></i></div><p>${c.occupied}대 주차 · ${c.empty}자리 여유</p></div></section><section class="summary">${metric('전체 주차면',c.total,'TOTAL')}${metric('주차 차량',c.occupied,'IN USE','dark')}${metric('빈 자리',c.empty,'AVAILABLE','green')}${metric('확인 필요',c.alerts,'CHECK','amber')}</section><section class="workspace" id="zones"><div class="section-head"><div><p class="eyebrow">PARKING MAP</p><h2>주차 현황</h2></div><p class="updated">● 이 기기에서 즉시 반영</p></div><div class="toolbar"><label class="search"><span>⌕</span><span class="sr-only">차량 검색</span><input id="search" value="${esc(state.query)}" placeholder="차량번호 · 차종 · 색상 검색"></label><div class="segmented" aria-label="상태 필터">${[['all','전체'],['occupied','주차 중'],['empty','빈 자리'],['alert','확인 필요'],['service','서비스']].map(([id,l])=>`<button data-filter="${id}" class="${state.filter===id?'active':''}" aria-pressed="${state.filter===id}">${l}</button>`).join('')}</div></div><div class="zone-tabs" role="tablist"><button data-zone="all" class="${state.zone==='all'?'active':''}">전체 구역</button>${zones.map(z=>`<button data-zone="${z.id}" class="${state.zone===z.id?'active':''}">${z.short}</button>`).join('')}</div><div class="legend"><span><i class="dot occupied"></i>주차 중</span><span><i class="dot empty"></i>빈 자리</span><span><i class="dot alert"></i>확인 필요</span></div><div class="zones">${zones.map(z=>zoneCard(z,v.filter(s=>s.zoneId===z.id))).join('')}</div>${v.length?'':'<div class="no-result"><strong>조건에 맞는 차량이나 주차면이 없습니다.</strong><p>검색어 또는 필터를 변경해 주세요.</p><button data-reset>필터 초기화</button></div>'}</section></main><footer><span>HANA AUTO PARKING</span><p>현장의 흐름을 더 단순하게.</p><small>데모 데이터 · 이 기기의 브라우저에 저장</small></footer>${selected?modal(selected):''}`;bind();}
+function flash(m){state.notice=m;render();setTimeout(()=>{state.notice='';render();},2200);}
+function bind(){document.querySelector('#search')?.addEventListener('input',e=>{const p=e.target.selectionStart;state.query=e.target.value;render();const i=document.querySelector('#search');i?.focus();i?.setSelectionRange(p,p);});document.querySelectorAll('[data-filter]').forEach(e=>e.onclick=()=>{state.filter=e.dataset.filter;render();});document.querySelectorAll('[data-zone]').forEach(e=>e.onclick=()=>{state.zone=e.dataset.zone;render();});document.querySelectorAll('[data-spot]').forEach(e=>e.onclick=()=>{state.selected=e.dataset.spot;state.mode='detail';render();});document.querySelectorAll('[data-close]').forEach(el=>el.onclick=e=>{if(e.target.closest('[data-modal]')&&!e.target.matches('.modal-close'))return;state.selected=null;render();});document.querySelector('[data-new]')?.addEventListener('click',()=>{const s=state.spots.find(x=>!used(x));if(!s){state.error='입차 가능한 빈 자리가 없습니다.';render();return;}state.selected=s.id;state.mode='detail';render();});document.querySelector('[data-print]')?.addEventListener('click',()=>print());document.querySelector('[data-dismiss]')?.addEventListener('click',()=>{state.error='';render();});document.querySelector('[data-reset]')?.addEventListener('click',()=>{state.query='';state.zone='all';state.filter='all';render();});document.querySelector('[data-move]')?.addEventListener('click',()=>{state.mode='move';render();});document.querySelector('[data-back]')?.addEventListener('click',()=>{state.mode='detail';render();});
+document.querySelector('#vehicle-form')?.addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.currentTarget),s=state.spots.find(x=>x.id===state.selected),fresh=!used(s);Object.assign(s,{plate:String(f.get('plate')).trim(),model:String(f.get('model')).trim(),color:String(f.get('color')).trim(),memo:String(f.get('memo')).trim(),alerts:f.getAll('alerts'),enteredAt:s.enteredAt||new Date().toLocaleString('ko-KR'),updatedAt:'방금 전'});save();state.selected=null;flash(fresh?'입차 등록을 완료했습니다.':'차량 정보를 수정했습니다.');});document.querySelector('#move-form')?.addEventListener('submit',e=>{e.preventDefault();const from=state.spots.find(x=>x.id===state.selected),to=state.spots.find(x=>x.id===new FormData(e.currentTarget).get('destination'));if(!to||used(to)){state.error='선택한 자리를 사용할 수 없습니다.';render();return;}Object.assign(to,{plate:from.plate,model:from.model,color:from.color,memo:from.memo,alerts:[...from.alerts],enteredAt:from.enteredAt,updatedAt:'방금 전'});Object.assign(from,{plate:'',model:'',color:'',memo:'',alerts:[],enteredAt:'',updatedAt:'방금 전'});save();state.selected=null;flash(`${to.zone} ${to.label}(으)로 이동했습니다.`);});document.querySelector('[data-exit]')?.addEventListener('click',()=>{const s=state.spots.find(x=>x.id===state.selected),plate=s.plate;Object.assign(s,{plate:'',model:'',color:'',memo:'',alerts:[],enteredAt:'',updatedAt:'방금 전'});save();state.selected=null;flash(`${plate} 차량을 출차 처리했습니다.`);});document.onkeydown=e=>{if(e.key==='Escape'&&state.selected){state.selected=null;render();}};}
+load();render();
