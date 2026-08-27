@@ -20,6 +20,10 @@ nav a.active { color:#fff; }
 .profile { border:1px solid #526158; border-radius:999px; padding:9px 14px; color:#fff; background:transparent; font-size:13px; }
 .profile span { color:var(--lime); font-size:9px; margin-left:6px; }
 .new-button { border:0; padding:11px 16px; color:var(--ink); background:var(--lime); font-weight:800; cursor:pointer; }
+.admin-link { display:grid; place-items:center; width:42px; height:42px; margin-left:10px; border:1px solid #526158; border-radius:50%; color:#fff; text-decoration:none; font-size:20px; }
+.admin-link:focus-visible { outline:3px solid var(--lime); outline-offset:3px; }
+.admin-page { min-height:100vh; display:grid; place-items:center; padding:24px; color:#fff; background:radial-gradient(circle at 80% 20%,#28553e 0,transparent 32%),linear-gradient(135deg,#102119,#193426); }
+.admin-card { width:min(620px,100%); padding:48px; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.06); }.admin-card h1{font-size:clamp(38px,7vw,62px)}.admin-card>p:last-child{color:#b8c4bd;line-height:1.7}.admin-back{display:inline-block;margin-bottom:50px;color:var(--lime);text-decoration:none}.admin-status{display:grid;gap:6px;margin:34px 0;padding:18px;color:var(--ink);background:var(--lime)}.admin-status b{font-size:18px}.admin-status span{font-size:13px}
 .notify-button { position:fixed; right:18px; bottom:18px; z-index:8; min-height:46px; padding:0 18px; border:1px solid var(--lime); border-radius:999px; color:var(--lime); background:var(--ink); box-shadow:0 8px 24px rgba(0,0,0,.2); cursor:pointer; font-weight:700; }
 .demo-banner.connected { color:#0e5739; background:#dff8e9; border-color:#9ad6b5; }
 .loading { padding:18px; text-align:center; color:#fff; background:#245b42; }
