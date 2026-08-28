@@ -2,6 +2,7 @@ import {PARKING_COLUMNS,normalizePosition,positionInRanges,positionParts} from '
 
 const escapeHtml=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 const lastFour=plate=>String(plate||'').slice(-4);
+const vehicleColorClass=value=>({검정:'black',흰색:'white',쥐색:'gray',회색:'gray',은색:'gray',녹색:'green',빨강:'red',파랑:'blue',베이지:'beige',노랑:'yellow'}[String(value||'').trim()]||'black');
 
 function areaBounds(area){
   const from=positionParts(area.from),to=positionParts(area.to||area.from);
@@ -15,7 +16,7 @@ function areaAt(layout,column,row){
 function parkingCell(code,spot,visible,column,gridRow,columnSpan=1,rowSpan=1,tinted=false){
   const position=`grid-column:${column+1}/span ${columnSpan};grid-row:${gridRow}/span ${rowSpan}`;
   if(!spot)return`<div class="parking-cell is-vacant is-virtual${tinted?' is-company-tint':''}" style="${position}" role="gridcell" aria-label="${code} 빈 자리"><small>${code}</small><strong>빈 자리</strong><span>주차 가능</span></div>`;
-  const occupied=Boolean(spot.plate),alert=occupied&&spot.alerts?.length,classes=['parking-cell',occupied?'is-occupied':'is-vacant',alert?'has-alert':'',visible?'':'is-filtered'].filter(Boolean).join(' ');
+  const occupied=Boolean(spot.plate),alert=occupied&&spot.alerts?.length,classes=['parking-cell',occupied?'is-occupied':'is-vacant',occupied?`vehicle-color-${vehicleColorClass(spot.color)}`:'',alert?'has-alert':'',visible?'':'is-filtered'].filter(Boolean).join(' ');
   return`<button class="${classes}${tinted&&!occupied?' is-company-tint':''}" data-spot="${escapeHtml(spot.id)}" style="${position}" role="gridcell" aria-label="${code} ${occupied?`${spot.plate} 주차 중`:'빈 자리'}"><small>${code}</small>${alert?'<i aria-hidden="true">!</i>':''}<strong>${occupied?escapeHtml(lastFour(spot.plate)):'빈 자리'}</strong>${occupied?`<span>${escapeHtml(spot.model||'차량')}</span>`:'<span>주차 가능</span>'}</button>`;
 }
 
