@@ -105,7 +105,7 @@ h2 { margin:0; font-family:'Gowun Batang',serif; font-size:38px; letter-spacing:
 .zone-title h3 { margin:0; font-size:18px; }
 .zone-title p { margin:0; color:#8a918b; font-size:12px; }.zone-title p b { color:var(--ink); font-size:18px; }
 .zone-title h3+small { display:block; margin-top:3px; color:#899089; font-size:10px; }
-.zone-card.service { border-left:4px solid var(--green); background:#fbfdf9; }
+.zone-card.service { background:#fff; }
 .spot-grid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px; }
 .spot { min-height:96px; padding:13px; text-align:left; border:1px solid var(--line); background:#fafaf7; cursor:pointer; position:relative; transition:.18s ease; }
 .spot:hover { transform:translateY(-2px); border-color:var(--ink); box-shadow:0 8px 18px rgba(16,33,25,.09); }
