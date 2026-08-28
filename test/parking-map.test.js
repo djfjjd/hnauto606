@@ -45,6 +45,18 @@ test('오토플렉스 13층은 지정 행과 12개 주차면만 기본 표시한
   assert.doesNotMatch(html,/>08<\/b>/);
   assert.match(html,/grid-column:2\/span 2;grid-row:6\/span 1[^>]+><strong>화장실<\/strong>/);
   assert.match(html,/grid-column:2\/span 2;grid-row:7\/span 1[^>]+><strong>E\/V<\/strong>/);
+  assert.match(html,/4 × 20 GRID/);
+  assert.doesNotMatch(html,/>E<\/b>/);
+  assert.doesNotMatch(html,/E09/);
+});
+
+test('B5층은 접으면 17~20행도 숨긴다',()=>{
+  const html=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:false});
+  assert.match(html,/>15<\/b>/);
+  assert.match(html,/>16<\/b>/);
+  assert.match(html,/>21<\/b>/);
+  assert.doesNotMatch(html,/>17<\/b>/);
+  assert.doesNotMatch(html,/>20<\/b>/);
 });
 
 test('특수 공간 범위는 하나의 CSS Grid 영역으로 합쳐진다',()=>{

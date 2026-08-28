@@ -22,7 +22,8 @@ export const parkingLayouts={
   b3:baseLayout('서서울모터리움 B3층'),
   b5:baseLayout('서서울모터리움 B5층',{
     rows:21,
-    collapseBeforeRow:15,
+    collapsedVisibleRows:[15,16,21],
+    toggleBeforeRow:15,
     defaultCellType:'blocked',
     parkingRanges:[{from:'A15',to:'E16'}],
     specialAreas:[
@@ -50,6 +51,7 @@ export const parkingLayouts={
   }),
   tower:baseLayout('좋은책신사고 새싹타워'),
   auto13:baseLayout('오토플렉스 13층',{
+    columns:4,
     collapsedVisibleRows:[9,10,11,19,20],
     toggleBeforeRow:9,
     defaultCellType:'blocked',

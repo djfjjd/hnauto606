@@ -52,5 +52,5 @@ export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=
       cells.push(parking?parkingCell(code,spot,!spot||visibleIds.has(spot.id),column,gridRow):blockedCell(code,column,gridRow));
     }
   }
-  return`<section class="parking-map" aria-label="${escapeHtml(layout.name)} 주차장 배치"><div class="parking-map-head"><div><span>9 × ${layout.rows} GRID</span><h2>${escapeHtml(layout.name)}</h2></div><div class="parking-map-actions"><p>차량번호 뒤 4자리 표시</p></div></div><div class="parking-map-scroll"><div class="parking-map-grid" role="grid" style="--map-columns:${layout.columns};--map-rows:${visibleRows.length+(hasToggle?1:0)}">${cells.join('')}</div></div></section>`;
+  return`<section class="parking-map" aria-label="${escapeHtml(layout.name)} 주차장 배치"><div class="parking-map-head"><div><span>${layout.columns} × ${layout.rows} GRID</span><h2>${escapeHtml(layout.name)}</h2></div><div class="parking-map-actions"><p>차량번호 뒤 4자리 표시</p></div></div><div class="parking-map-scroll"><div class="parking-map-grid" role="grid" style="--map-columns:${layout.columns};--map-rows:${visibleRows.length+(hasToggle?1:0)}">${cells.join('')}</div></div></section>`;
 }
