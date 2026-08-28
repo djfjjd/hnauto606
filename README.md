@@ -18,7 +18,7 @@ R2는 차량 사진·성능점검표·문서 업로드가 실제로 필요한 �
 
 ## 구현 범위
 
-- 주차 통계, 구역 배치, 검색, 상태·구역 필터, 모바일/인쇄 UI
+- 주차 통계, 층별 9×20 주차 도면, 검색, 모바일/인쇄 UI
 - 신규 입차는 주차면을 자동 배정하지 않고 차량 현황판의 미배정 목록에 등록
 - 차량 현황판에서 차량번호 뒤 4자리 검색 후 빈 주차면 또는 서비스 구역 지정
 - 차량 정보 수정, 위치·서비스 구역 이동, 출차
@@ -35,7 +35,26 @@ R2는 차량 사진·성능점검표·문서 업로드가 실제로 필요한 �
 
 `users`, `vehicles`, `parking_zones`, `parking_spots`, `parking_movements`, `vehicle_status`, `service_records`, `vehicle_files`, `push_subscriptions`, `notification_preferences`, `audit_logs`, `notification_events`
 
-초기 구역과 116개 주차면도 같은 마이그레이션에 포함됩니다. 운영 적용 전 실제 구역·주차면과 대조하고 기존 데이터 백업 및 매핑을 완료해야 합니다. 운영 D1에는 사용자 확인 없이 마이그레이션을 적용하지 않습니다.
+초기 구역과 주차면도 같은 마이그레이션에 포함됩니다. `0005_expand_parking_grid.sql`은 기존 주차면 ID와 차량 연결을 유지하면서 일반 주차층의 위치 라벨을 `A01~I20` 형식으로 정규화하고 누락된 기본 Grid 주차면만 추가합니다.
+
+## 주차장 도면 설정
+
+`src/parking-layouts.js`가 층별 도면 설정의 기준입니다. 기본값은 가로 A~I 9칸, 세로 01~20 20칸이며 `src/parking-map.js`가 180개 Cell을 자동 생성합니다. 실제 구조는 렌더링 코드를 수정하지 않고 해당 층의 `specialAreas`만 추가합니다.
+
+```js
+b3: {
+  name: '지하 3층',
+  columns: 9,
+  rows: 20,
+  specialAreas: [
+    {from: 'A01', to: 'C04', type: 'company-area', label: '제이카'},
+    {from: 'A17', to: 'D20', type: 'elevator', label: 'E/V'},
+    {from: 'H17', to: 'I20', type: 'office', label: '사무실'},
+  ],
+}
+```
+
+지원 타입은 기본 `parking` 외에 `elevator`, `walkway`, `office`, `entrance`, `service`, `blocked`, `company-area`이며 새 타입도 `type-*` CSS를 추가해 확장할 수 있습니다. 특수 영역은 CSS Grid의 column/row span으로 하나의 영역처럼 표시됩니다.
 
 ## 로그인과 권한
 
@@ -43,7 +62,7 @@ R2는 차량 사진·성능점검표·문서 업로드가 실제로 필요한 �
 
 현재 현장 요청에 따라 `ALLOW_ANONYMOUS_WRITES=true`로 설정되어 로그인 없이 입차·수정·이동·출차가 가능하며 모든 변경자는 `현장 공용 기기`로 기록됩니다. 이 설정은 공개 주소를 아는 사람에게도 쓰기 권한을 허용하므로 Cloudflare Access 구성이 완료되면 반드시 `false`로 되돌려야 합니다.
 
-우측 상단 톱니바퀴는 `/admin`으로 연결됩니다. Cloudflare Zero Trust에서 `hnauto606.pages.dev`를 Self-hosted 애플리케이션으로 보호하고 One-time PIN을 로그인 방식으로 지정합니다. 첫 번째로 인증된 실제 이메일은 D1 `users`에 관리자로 자동 등록되며, 초기 데이터 가져오기용 `.invalid` 시스템 사용자는 이 계산에서 제외됩니다. OTP 정책은 임의 이메일 전체가 아니라 허용할 이메일 주소 또는 회사 이메일 도메인으로 제한해야 합니다.
+하단 톱니바퀴는 `/admin`으로 연결됩니다. Cloudflare Zero Trust에서 `hnauto606.pages.dev`를 Self-hosted 애플리케이션으로 보호하고 One-time PIN을 로그인 방식으로 지정합니다. 첫 번째로 인증된 실제 이메일은 D1 `users`에 관리자로 자동 등록되며, 초기 데이터 가져오기용 `.invalid` 시스템 사용자는 이 계산에서 제외됩니다. OTP 정책은 임의 이메일 전체가 아니라 허용할 이메일 주소 또는 회사 이메일 도메인으로 제한해야 합니다.
 
 - `admin`: 모든 데이터와 사용자 관리
 - `staff`: 입차·수정·이동·상태·출차

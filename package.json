@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "test": "node --test",
-    "lint": "node --check src/main.js && node --check src/validation.js && node --check 'functions/api/[[path]].js'"
+    "lint": "node --check src/main.js && node --check src/parking-layouts.js && node --check src/parking-map.js && node --check src/validation.js && node --check 'functions/api/[[path]].js'"
   },
   "devDependencies": {
     "vite": "^7.1.3"
