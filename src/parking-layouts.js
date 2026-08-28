@@ -53,7 +53,7 @@ export const parkingLayouts={
 };
 
 export function normalizePosition(value){
-  const match=String(value||'').trim().toUpperCase().match(/^([A-I])0?([1-9]|1\d|20)$/);
+  const match=String(value||'').trim().toUpperCase().match(/^([A-I])0?([1-9]|1\d|2[01])$/);
   return match?`${match[1]}${String(Number(match[2])).padStart(2,'0')}`:'';
 }
 
