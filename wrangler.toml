@@ -15,5 +15,6 @@ preview_database_id = "7235c263-d567-481e-8492-f183f539a4b7"
 
 [vars]
 AUTH_MODE = "cloudflare-access"
+VAPID_PUBLIC_KEY = "BKyiyC5A_gpgmpTFgfM7xWvbYV_VJYfVFXSuKMFTPcjhO4ghQ-Eya35cUY5aZuRUez3zP6aris0qhcWrbF3qJwc"
 ALLOW_DEMO_AUTH = "false"
 ALLOW_ANONYMOUS_WRITES = "true"
