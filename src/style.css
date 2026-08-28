@@ -128,6 +128,7 @@ footer>strong { flex:none; color:var(--lime); font-weight:800; letter-spacing:.1
 .modal input[type=text],.modal input:not([type]) { min-width:0; padding:13px 12px; border:1px solid var(--line); outline:none; color:var(--ink); background:#fafaf7; }
 .modal select { width:100%; min-width:0; padding:13px 12px; border:1px solid var(--line); color:var(--ink); background:#fafaf7; }
 .assign-destination { display:grid; gap:6px; padding:18px; background:#f1f4eb; }.assign-destination span,.form-help{color:#737c74;font-size:12px}.assign-destination strong{font-size:20px}.form-help{margin:0;line-height:1.6}
+.assign-results{max-height:190px;overflow:auto;border:1px solid var(--line);background:#fafaf7}.assign-results p{margin:0;padding:18px;color:#777f78;text-align:center;font-size:13px}.assign-results button{width:100%;display:flex;justify-content:space-between;gap:12px;padding:13px 14px;border:0;border-bottom:1px solid var(--line);background:#fff;cursor:pointer;text-align:left}.assign-results button:last-child{border-bottom:0}.assign-results button:hover,.assign-results button:focus-visible{background:var(--lime);outline:none}.assign-results button span{color:#6d756e;font-size:12px}
 .modal input:focus { border-color:var(--green); }
 .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 fieldset { margin:0; padding:0; border:0; }
