@@ -38,6 +38,15 @@ test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
   assert.match(html,/주차장 출입구 램프/);
 });
 
+test('오토플렉스 13층은 지정 행과 12개 주차면만 기본 표시한다',()=>{
+  const html=renderParkingMap(parkingLayouts.auto13,[],new Set(),{zoneId:'auto13',expanded:false});
+  assert.equal((html.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,12);
+  assert.match(html,/>09<\/b>/);
+  assert.doesNotMatch(html,/>08<\/b>/);
+  assert.match(html,/grid-column:2\/span 2;grid-row:6\/span 1[^>]+><strong>화장실<\/strong>/);
+  assert.match(html,/grid-column:2\/span 2;grid-row:7\/span 1[^>]+><strong>E\/V<\/strong>/);
+});
+
 test('특수 공간 범위는 하나의 CSS Grid 영역으로 합쳐진다',()=>{
   const layout={name:'테스트',columns:9,rows:20,specialAreas:[{from:'A01',to:'C04',type:'company-area',label:'제이카'}]};
   const html=renderParkingMap(layout,[]);

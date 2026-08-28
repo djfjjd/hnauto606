@@ -49,7 +49,16 @@ export const parkingLayouts={
     ],
   }),
   tower:baseLayout('좋은책신사고 새싹타워'),
-  auto13:baseLayout('오토플렉스 13층'),
+  auto13:baseLayout('오토플렉스 13층',{
+    collapsedVisibleRows:[9,10,11,19,20],
+    toggleBeforeRow:9,
+    defaultCellType:'blocked',
+    parkingRanges:[{from:'A09',to:'D11'}],
+    specialAreas:[
+      {from:'A19',to:'B19',type:'facility',label:'화장실'},
+      {from:'A20',to:'B20',type:'elevator',label:'E/V'},
+    ],
+  }),
 };
 
 export function normalizePosition(value){
