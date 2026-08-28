@@ -35,5 +35,5 @@ export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=
       cells.push(parkingCell(code,spot,!spot||visibleIds.has(spot.id),column,row));
     }
   }
-  return`<section class="parking-map" aria-label="${escapeHtml(layout.name)} 주차장 도면"><div class="parking-map-head"><div><span>9 × 20 GRID</span><h2>${escapeHtml(layout.name)} 주차 도면</h2></div><p>차량번호 뒤 4자리 표시</p></div><div class="parking-map-scroll"><div class="parking-map-grid" role="grid" style="--map-columns:${layout.columns}">${cells.join('')}</div></div></section>`;
+  return`<section class="parking-map" aria-label="${escapeHtml(layout.name)} 주차장 배치"><div class="parking-map-head"><div><span>9 × 20 GRID</span><h2>${escapeHtml(layout.name)}</h2></div><p>차량번호 뒤 4자리 표시</p></div><div class="parking-map-scroll"><div class="parking-map-grid" role="grid" style="--map-columns:${layout.columns}">${cells.join('')}</div></div></section>`;
 }
