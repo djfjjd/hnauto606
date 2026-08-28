@@ -36,6 +36,8 @@ test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.roof,[{id:'roof-a17',label:'A17',plate:'',alerts:[]}]);
   assert.match(html,/data-spot="roof-a17"[^>]+grid-column:2\/span 3/);
   assert.match(html,/주차장 출입구 램프/);
+  assert.doesNotMatch(html,/>09<\/b>/);
+  assert.match(html,/>▼<\/span> 펼치기/);
 });
 
 test('오토플렉스 13층은 지정 행과 12개 주차면만 기본 표시한다',()=>{
@@ -48,6 +50,10 @@ test('오토플렉스 13층은 지정 행과 12개 주차면만 기본 표시한
   assert.match(html,/4 × 20 GRID/);
   assert.doesNotMatch(html,/>E<\/b>/);
   assert.doesNotMatch(html,/E09/);
+  const expanded=renderParkingMap(parkingLayouts.auto13,[],new Set(),{zoneId:'auto13',expanded:true});
+  assert.match(expanded,/9 × 20 GRID/);
+  assert.match(expanded,/>I<\/b>/);
+  assert.match(expanded,/I18/);
 });
 
 test('B5층은 접으면 17~20행도 숨긴다',()=>{
@@ -64,5 +70,6 @@ test('특수 공간 범위는 하나의 CSS Grid 영역으로 합쳐진다',()=>
   const html=renderParkingMap(layout,[]);
   assert.match(html,/grid-column:2\/span 3;grid-row:2\/span 4/);
   assert.equal((html.match(/class="parking-special/g)||[]).length,1);
+  assert.doesNotMatch(html,/<small>company-area<\/small>/);
   assert.equal((html.match(/class="parking-cell/g)||[]).length,168);
 });

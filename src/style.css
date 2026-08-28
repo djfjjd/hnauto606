@@ -108,6 +108,8 @@ h2 { margin:0; font-family:inherit; font-size:38px; font-weight:800; letter-spac
 .map-row-toggle{min-height:0;padding:0;border:0;border-top:1px solid #aeb8b0;border-bottom:1px solid #aeb8b0;color:#496253;background:#edf3ee;cursor:pointer;font-weight:600}
 .map-row-toggle span{margin-right:5px;color:var(--green)}
 .parking-special.type-office{border-color:#bdd8c7;color:#315c45;background:#e7f5eb}
+.parking-special.type-office{border:3px solid #315c45}
+.parking-special.is-borderless{border-color:transparent}
 .zone-card { padding:24px; border:1px solid var(--line); background:#fff; }
 .zone-title { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
 .zone-title>div { display:flex; align-items:center; gap:12px; }
