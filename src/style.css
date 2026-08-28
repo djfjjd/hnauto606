@@ -125,6 +125,7 @@ footer span { color:var(--lime); font-weight:800; letter-spacing:.1em; } footer 
 .modal label,.modal legend { display:grid; gap:8px; color:#636b64; font-size:12px; }
 .modal input[type=text],.modal input:not([type]) { min-width:0; padding:13px 12px; border:1px solid var(--line); outline:none; color:var(--ink); background:#fafaf7; }
 .modal select { width:100%; min-width:0; padding:13px 12px; border:1px solid var(--line); color:var(--ink); background:#fafaf7; }
+.assign-destination { display:grid; gap:6px; padding:18px; background:#f1f4eb; }.assign-destination span,.form-help{color:#737c74;font-size:12px}.assign-destination strong{font-size:20px}.form-help{margin:0;line-height:1.6}
 .modal input:focus { border-color:var(--green); }
 .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 fieldset { margin:0; padding:0; border:0; }
