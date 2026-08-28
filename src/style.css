@@ -26,6 +26,7 @@ nav a.active { color:#fff; }
 .parking-title { min-height:230px; display:grid; place-content:center; text-align:center; padding:52px 24px 88px; color:#fff; background:radial-gradient(circle at 80% 20%,#28553e 0,transparent 32%),linear-gradient(135deg,#102119,#193426); }
 .parking-title h1 { font-size:clamp(38px,6vw,62px); }
 .parking-title .eyebrow { color:var(--lime); }
+.parking-title .hero-buttons { margin-top:28px; }
 .parking-summary { margin-top:-50px; }
 .board-nav { margin-left:auto; gap:18px; }.board-nav a{color:#fff}.board-nav button{min-height:42px;padding:0 17px;border:0;background:var(--lime);font-weight:800;cursor:pointer}
 .board-page { min-height:100vh; }
@@ -37,7 +38,7 @@ nav a.active { color:#fff; }
 .admin-page { min-height:100vh; display:grid; place-items:center; padding:24px; color:#fff; background:radial-gradient(circle at 80% 20%,#28553e 0,transparent 32%),linear-gradient(135deg,#102119,#193426); }
 .admin-card { width:min(620px,100%); padding:48px; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.06); }.admin-card h1{font-size:clamp(38px,7vw,62px)}.admin-card>p:last-child{color:#b8c4bd;line-height:1.7}.admin-back{display:inline-block;margin-bottom:50px;color:var(--lime);text-decoration:none}.admin-status{display:grid;gap:6px;margin:34px 0;padding:18px;color:var(--ink);background:var(--lime)}.admin-status b{font-size:18px}.admin-status span{font-size:13px}
 .notify-button { position:fixed; right:18px; bottom:18px; z-index:8; min-height:46px; padding:0 18px; border:1px solid var(--lime); border-radius:999px; color:var(--lime); background:var(--ink); box-shadow:0 8px 24px rgba(0,0,0,.2); cursor:pointer; font-weight:700; }
-.demo-banner.connected { color:#0e5739; background:#dff8e9; border-color:#9ad6b5; }
+.demo-banner.connected { display:none; }
 .loading { padding:18px; text-align:center; color:#fff; background:#245b42; }
 .history-panel { display:grid; gap:10px; margin-top:24px; }.history-panel article{display:grid;gap:4px;padding:13px;background:#f5f5f0}.history-panel article span,.history-panel article small{color:#6f776f;font-size:12px}
 .hero { min-height:420px; padding:76px max(24px,calc((100vw - 1280px)/2)) 108px; display:flex; justify-content:space-between; align-items:flex-end; color:#fff; background:radial-gradient(circle at 80% 20%,#28553e 0,transparent 32%),linear-gradient(135deg,#102119 0%,#193426 100%); }
