@@ -10,6 +10,7 @@ export const parkingLayouts={
     collapseBeforeRow:15,
     defaultCellType:'blocked',
     parkingRanges:[{from:'E15',to:'I20'}],
+    tintedRanges:[{from:'E15',to:'I15'}],
     specialAreas:[
       {from:'A15',to:'D20',type:'company-area',label:'윤카'},
       {from:'A21',to:'B21',type:'company-area',label:'윤카'},

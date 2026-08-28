@@ -28,6 +28,7 @@ test('6층은 기본적으로 01~14행을 숨기고 30개 자리를 표시한다
   assert.match(html,/grid-column:1\/span 10;grid-row:2[^>]+data-toggle-map="pillar11"/);
   assert.match(html,/>▼<\/span> 펼치기/);
   assert.equal((html.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,30);
+  assert.equal((html.match(/is-company-tint/g)||[]).length,5);
   assert.match(html,/>윤카<\/strong>/);
   assert.match(html,/grid-column:2\/span 2;grid-row:9\/span 1[^>]+><strong>윤카<\/strong>/);
 });
