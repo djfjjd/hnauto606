@@ -50,6 +50,8 @@ test('6층은 기본적으로 01~14행을 숨기고 30개 자리를 표시한다
   const expanded=renderParkingMap(parkingLayouts.pillar11,[],new Set(),{zoneId:'pillar11',expanded:true});
   assert.doesNotMatch(html,/>01<\/b>/);
   assert.match(html,/class="map-head-toggle" data-toggle-map="pillar11"/);
+  assert.match(html,/class="parking-map" data-map-zone="pillar11"/);
+  assert.doesNotMatch(html,/class="parking-map" data-zone=/);
   assert.match(html,/>▼<\/span> 펼치기/);
   assert.equal((html.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,30);
   assert.equal((html.match(/is-company-tint/g)||[]).length,5);
