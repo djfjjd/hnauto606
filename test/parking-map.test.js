@@ -9,21 +9,31 @@ test('기존 위치 라벨을 두 자리 행 좌표로 정규화한다',()=>{
   assert.equal(normalizePosition('A21'),'A21');
 });
 
-test('기본 층 도면은 9×20 주차 Cell을 자동 생성한다',()=>{
+test('B3층 확장 도면은 9×21 Grid Cell을 자동 생성한다',()=>{
   const html=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
   assert.equal((html.match(/class="parking-cell/g)||[]).length,180);
   assert.match(html,/A01/);
   assert.match(html,/I20/);
+  assert.match(html,/E\/V · 화장실/);
 });
 
-test('B3층과 새싹타워는 기본 접힘 상태에서 제목 행 토글만 표시한다',()=>{
-  for(const zoneId of ['b3','tower']){
-    const collapsed=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:false});
-    assert.match(collapsed,new RegExp(`class="map-head-toggle" data-toggle-map="${zoneId}"`));
-    assert.doesNotMatch(collapsed,/class="parking-cell/);
-    const expanded=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:true});
-    assert.match(expanded,/aria-label="A01 빈 자리"/);
-  }
+test('B3층은 접으면 16~17행 주차면과 21행 시설만 표시한다',()=>{
+  const collapsed=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:false});
+  assert.match(collapsed,/class="map-head-toggle" data-toggle-map="b3"/);
+  assert.equal((collapsed.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,10);
+  assert.doesNotMatch(collapsed,/>15<\/b>|>18<\/b>|>20<\/b>/);
+  assert.match(collapsed,/E\/V · 화장실/);
+  const expanded=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
+  assert.match(expanded,/aria-label="A01 비주차 구역"/);
+  assert.match(expanded,/aria-label="E16 빈 자리"/);
+});
+
+test('새싹타워는 기본 접힘 상태에서 제목 행 토글만 표시한다',()=>{
+  const collapsed=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:false});
+  assert.match(collapsed,/class="map-head-toggle" data-toggle-map="tower"/);
+  assert.doesNotMatch(collapsed,/class="parking-cell/);
+  const expanded=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:true});
+  assert.match(expanded,/aria-label="A01 빈 자리"/);
 });
 
 test('빈 자리에는 주차 가능 보조 문구를 표시하지 않는다',()=>{
@@ -32,14 +42,14 @@ test('빈 자리에는 주차 가능 보조 문구를 표시하지 않는다',()
 });
 
 test('차량 Cell에는 차량번호 뒤 4자리만 크게 표시한다',()=>{
-  const html=renderParkingMap(parkingLayouts.b3,[{id:'spot-1',label:'A1',plate:'186저9439',model:'쏘나타',alerts:[]}],undefined,{expanded:true});
+  const html=renderParkingMap(parkingLayouts.b3,[{id:'spot-1',label:'E16',plate:'186저9439',model:'쏘나타',alerts:[]}],undefined,{expanded:true});
   assert.match(html,/<strong>9439<\/strong>/);
   assert.match(html,/data-spot="spot-1"/);
 });
 
 test('주차 차량 Cell에는 차량 색상 클래스가 적용된다',()=>{
-  const white=renderParkingMap(parkingLayouts.b3,[{id:'white-car',label:'A1',plate:'11가1234',model:'차량',color:'흰색',alerts:[]}],undefined,{expanded:true});
-  const gray=renderParkingMap(parkingLayouts.b3,[{id:'gray-car',label:'A1',plate:'11가5678',model:'차량',color:'은색',alerts:[]}],undefined,{expanded:true});
+  const white=renderParkingMap(parkingLayouts.b3,[{id:'white-car',label:'E16',plate:'11가1234',model:'차량',color:'흰색',alerts:[]}],undefined,{expanded:true});
+  const gray=renderParkingMap(parkingLayouts.b3,[{id:'gray-car',label:'E16',plate:'11가5678',model:'차량',color:'은색',alerts:[]}],undefined,{expanded:true});
   assert.match(white,/vehicle-color-white/);
   assert.match(gray,/vehicle-color-gray/);
   assert.match(white,/draggable="true"/);

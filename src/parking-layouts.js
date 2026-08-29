@@ -21,8 +21,16 @@ export const parkingLayouts={
     ],
   }),
   b3:baseLayout('서서울모터리움 B3층',{
-    collapsedVisibleRows:[],
-    toggleBeforeRow:1,
+    rows:21,
+    collapsedVisibleRows:[16,17,21],
+    toggleBeforeRow:16,
+    defaultCellType:'blocked',
+    parkingRanges:[{from:'E16',to:'I17'}],
+    specialAreas:[
+      {from:'A21',to:'C21',type:'blocked',label:''},
+      {from:'D21',to:'E21',type:'facility',label:'E/V · 화장실'},
+      {from:'F21',to:'I21',type:'blocked',label:''},
+    ],
   }),
   b5:baseLayout('서서울모터리움 B5층',{
     rows:21,
