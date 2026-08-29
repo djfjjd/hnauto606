@@ -97,7 +97,7 @@ h2 { margin:0; font-family:inherit; font-size:38px; font-weight:800; letter-spac
 .zone-tabs { display:flex; gap:8px; overflow:auto; padding:22px 0 14px; border-bottom:1px solid var(--line); }
 .zone-tabs button { white-space:nowrap; padding:9px 16px; border:1px solid transparent; }
 .zone-tabs button.active { color:var(--ink); border-color:var(--ink); background:var(--lime); font-weight:700; }
-.legend { display:flex; justify-content:flex-end; gap:18px; padding:16px 0; color:#6f776f; font-size:12px; }
+.legend { display:flex; justify-content:flex-start; flex-wrap:wrap; gap:8px 14px; padding:16px 0; color:#6f776f; font-size:12px; }.legend strong{color:var(--ink)}
 .dot { display:inline-block; width:8px; height:8px; margin-right:6px; border-radius:50%; }
 .dot.occupied { background:var(--ink); }.dot.empty { border:1px solid #adb3ad; background:#fff; }.dot.alert { background:var(--amber); }
 .dot.service{background:var(--green)}.dot.special{border:1px solid #547292;background:#dce8f3}
