@@ -31,6 +31,7 @@ test('주차 차량 Cell에는 차량 색상 클래스가 적용된다',()=>{
 
 test('6층은 기본적으로 01~14행을 숨기고 30개 자리를 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.pillar11,[],new Set(),{zoneId:'pillar11',expanded:false});
+  const expanded=renderParkingMap(parkingLayouts.pillar11,[],new Set(),{zoneId:'pillar11',expanded:true});
   assert.doesNotMatch(html,/>01<\/b>/);
   assert.match(html,/grid-column:1\/span 10;grid-row:2[^>]+data-toggle-map="pillar11"/);
   assert.match(html,/>▼<\/span> 펼치기/);
@@ -38,6 +39,8 @@ test('6층은 기본적으로 01~14행을 숨기고 30개 자리를 표시한다
   assert.equal((html.match(/is-company-tint/g)||[]).length,5);
   assert.match(html,/>윤카<\/strong>/);
   assert.match(html,/grid-column:2\/span 2;grid-row:9\/span 1[^>]+><strong>윤카<\/strong>/);
+  assert.match(expanded,/grid-column:1\/span 10;grid-row:2[^>]+data-toggle-map="pillar11"/);
+  assert.match(expanded,/>▲<\/span> 접기/);
 });
 
 test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
@@ -62,6 +65,7 @@ test('오토플렉스 13층은 지정 행과 12개 주차면만 기본 표시한
   assert.match(expanded,/9 × 20 GRID/);
   assert.match(expanded,/>I<\/b>/);
   assert.match(expanded,/I18/);
+  assert.match(expanded,/grid-column:1\/span 10;grid-row:2[^>]+data-toggle-map="auto13"/);
 });
 
 test('B5층은 접으면 17~20행도 숨긴다',()=>{
@@ -71,6 +75,15 @@ test('B5층은 접으면 17~20행도 숨긴다',()=>{
   assert.match(html,/>21<\/b>/);
   assert.doesNotMatch(html,/>17<\/b>/);
   assert.doesNotMatch(html,/>20<\/b>/);
+});
+
+test('모든 접이식 층은 펼친 뒤에도 토글 행이 움직이지 않는다',()=>{
+  for(const zoneId of ['pillar11','b5','roof','auto13']){
+    const collapsed=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:false});
+    const expanded=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:true});
+    const toggleRow=html=>html.match(new RegExp(`grid-column:1\\/span \\d+;grid-row:(\\d+)[^>]+data-toggle-map="${zoneId}"`))?.[1];
+    assert.equal(toggleRow(expanded),toggleRow(collapsed),`${zoneId} 토글 위치가 변경됨`);
+  }
 });
 
 test('특수 공간 범위는 하나의 CSS Grid 영역으로 합쳐진다',()=>{

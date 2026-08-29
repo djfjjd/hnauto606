@@ -26,10 +26,9 @@ function blockedCell(code,column,gridRow){
 
 export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=>spot.id)),options={}){
   const byPosition=new Map(spots.map(spot=>[normalizePosition(spot.label),spot]));
-  const allRows=Array.from({length:layout.rows},(_,index)=>index+1),hasToggle=Boolean(layout.collapseBeforeRow||layout.collapsedVisibleRows),collapsed=hasToggle&&!options.expanded,toggleBeforeRow=layout.toggleBeforeRow||layout.collapseBeforeRow,visibleRows=collapsed?(layout.collapsedVisibleRows||allRows.filter(row=>row>=layout.collapseBeforeRow)):allRows,columns=options.expanded&&layout.expandedColumns?layout.expandedColumns:layout.columns,gridRowByActual=new Map(visibleRows.map((row,index)=>[row,index+2+(hasToggle&&row>=toggleBeforeRow?1:0)])),cells=[];
+  const allRows=Array.from({length:layout.rows},(_,index)=>index+1),hasToggle=Boolean(layout.collapseBeforeRow||layout.collapsedVisibleRows),collapsed=hasToggle&&!options.expanded,toggleBeforeRow=layout.toggleBeforeRow||layout.collapseBeforeRow,collapsedRows=layout.collapsedVisibleRows||allRows.filter(row=>row>=layout.collapseBeforeRow),visibleRows=collapsed?collapsedRows:allRows,columns=options.expanded&&layout.expandedColumns?layout.expandedColumns:layout.columns,fixedRowsBeforeToggle=collapsedRows.filter(row=>row<toggleBeforeRow).length,toggleRow=fixedRowsBeforeToggle+2,gridRowByActual=new Map(visibleRows.map((row,index)=>[row,index+2+(hasToggle&&index>=fixedRowsBeforeToggle?1:0)])),cells=[];
   cells.push('<span class="map-corner" style="grid-column:1;grid-row:1" aria-hidden="true"></span>',...PARKING_COLUMNS.slice(0,columns).map((column,index)=>`<b class="map-column" style="grid-column:${index+2};grid-row:1" aria-hidden="true">${column}</b>`));
   if(hasToggle){
-    const toggleRow=visibleRows.filter(row=>row<toggleBeforeRow).length+2;
     cells.push(`<button class="map-row-toggle" style="grid-column:1/span ${columns+1};grid-row:${toggleRow}" data-toggle-map="${escapeHtml(options.zoneId||'')}" aria-expanded="${options.expanded?'true':'false'}"><span aria-hidden="true">${options.expanded?'▲':'▼'}</span> ${options.expanded?'접기':'펼치기'}</button>`);
   }
   for(const row of visibleRows){
