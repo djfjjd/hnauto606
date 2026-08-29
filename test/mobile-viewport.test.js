@@ -17,11 +17,11 @@ test('모든 주차 도면 Cell은 기존 크기의 절반으로 표시한다',(
   assert.match(css,/\.parking-cell\.is-occupied span\{color:#111!important\}/);
 });
 
-test('전체 보기의 주차 도면을 요청한 세 행으로 배치한다',()=>{
+test('전체 보기에서 B5층을 B3층 바로 아래에 배치한다',()=>{
   assert.match(css,/data-map-zone="pillar11"\]\{grid-column:1\/span 3;grid-row:1\}/);
   assert.match(css,/data-map-zone="roof"\]\{grid-column:4\/span 3;grid-row:1\}/);
   assert.match(css,/data-map-zone="b3"\]\{grid-column:1\/span 2;grid-row:2\}/);
-  assert.match(css,/data-map-zone="b5"\]\{grid-column:3\/span 2;grid-row:2\}/);
+  assert.match(css,/data-map-zone="b5"\]\{grid-column:1\/span 2;grid-row:3\}/);
   assert.match(css,/data-map-zone="auto13"\]\{grid-column:5\/span 2;grid-row:2\}/);
-  assert.match(css,/data-map-zone="tower"\]\{grid-column:1\/span 2;grid-row:3\}/);
+  assert.match(css,/data-map-zone="tower"\]\{grid-column:1\/span 2;grid-row:4\}/);
 });
