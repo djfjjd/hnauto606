@@ -176,7 +176,6 @@ fieldset { margin:0; padding:0; border:0; }
 @media(max-width:640px){.manager-tabs{grid-template-columns:repeat(3,1fr)!important;padding:0!important;gap:0!important}}
 @media(max-width:640px){.parking-search-results>button{grid-template-columns:1fr 1fr;padding:13px 12px}.parking-search-results strong{grid-column:1/-1}.parking-search-results span:last-child{grid-column:1/-1}}
 .parking-title>.eyebrow,.board-hero .eyebrow,.board-hero p:last-child{display:none}
-.assign-results button:disabled{opacity:.55;color:#6f776f;background:#f1f2ef;cursor:not-allowed}
 .toolbar{flex-wrap:wrap}.parking-search-results{flex:1 0 100%}
 .zone-tabs button.search-match{color:#111;border:1px solid #111;background:#ffe36d}
 @media(max-width:640px){.parking-search-results{margin-top:12px}}
