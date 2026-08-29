@@ -30,6 +30,7 @@ nav a.active { color:#fff; }
 .parking-title .hero-buttons { margin-top:28px; }
 .parking-summary { margin-top:-50px; margin-bottom:24px; }
 .board-nav { margin-left:auto; gap:18px; }.board-nav a{color:#fff}.board-nav button{min-height:42px;padding:0 17px;border:0;background:var(--lime);font-weight:800;cursor:pointer}
+.board-nav [data-new],.board-tools .compact-assign{display:none}
 .board-page { min-height:100vh; }
 .board-hero { width:min(1280px,calc(100% - 48px)); margin:48px auto 24px; padding:38px; display:flex; justify-content:space-between; align-items:end; color:#fff; background:var(--ink); }.board-hero h1{font-size:clamp(38px,6vw,62px)}.board-hero p:last-child{margin:14px 0 0;color:#aebbb3}.board-hero>strong{font-family:inherit;font-size:58px;font-weight:800;letter-spacing:-.04em;color:var(--lime)}.board-hero>strong small{margin-left:7px;font-size:14px}
 .board-tools { width:min(1280px,calc(100% - 48px)); margin:0 auto 24px; padding:16px; display:flex; gap:14px; border:1px solid var(--line); background:#fff; }.board-tools .search{min-height:52px}.compact-assign{display:flex;gap:8px}.compact-assign input{height:52px;padding:0 14px;border:1px solid var(--line);font-weight:800}.compact-assign button{border:0;padding:0 18px;background:var(--lime);font-weight:800;cursor:pointer}
