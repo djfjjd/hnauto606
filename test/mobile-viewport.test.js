@@ -13,4 +13,6 @@ test('모바일 축소 화면에서 입력 포커스 자동 확대를 차단한�
 test('모든 주차 도면 Cell은 기존 크기의 절반으로 표시한다',()=>{
   assert.match(css,/grid-template-columns:19px repeat\(var\(--map-columns\),36px\)/);
   assert.match(css,/grid-template-rows:15px repeat\(var\(--map-rows\),26px\)/);
+  assert.match(css,/\.parking-cell\.is-vacant strong\{font-size:8px;letter-spacing:-\.08em;white-space:nowrap\}/);
+  assert.match(css,/\.parking-cell\.is-occupied span\{color:#111!important\}/);
 });
