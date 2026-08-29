@@ -31,3 +31,14 @@ test('페이지 탐색에 맨처음·이전·번호·다음·맨끝을 제공한
   assert.match(main,/>맨끝<\/button>/);
   assert.match(css,/\.board-pagination\{/);
 });
+
+test('담당자명 옆에 차량 대수를 표시하고 전체 펼치기와 10대 접기를 전환한다',()=>{
+  assert.match(main,/expandedManagers:new Set\(\)/);
+  assert.match(main,/class="manager-heading"><h2>/);
+  assert.match(main,/data-manager-expand/);
+  assert.match(main,/expanded\?\'접기\':\'펼치기\'/);
+  assert.match(main,/pager\.hidden=expanded/);
+  assert.match(main,/!expanded&&\(index<start\|\|index>=start\+BOARD_PAGE_SIZE\)/);
+  assert.match(css,/\.manager-heading\{display:flex;align-items:center;gap:10px\}/);
+  assert.match(css,/\.board-pagination\[hidden\]\{display:none\}/);
+});
