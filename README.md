@@ -104,7 +104,7 @@ Pages 설정은 운영 브랜치 `main`, 빌드 명령 `npm run build`, 출력 �
 
 구현됨: dashboard, zones, spots, vehicles 목록·상세·이력, check-in, update, move/service, check-out, status, push subscribe/unsubscribe, notification preferences. 입력 검증과 401/403/404/409/500 오류 응답을 포함합니다.
 
-푸시 구독과 알림 이벤트 저장은 구현되어 있습니다. 실제 Web Push 발송은 VAPID Secret 설정 후 발송 Worker 또는 Queue 소비자를 연결해야 합니다. 위치 저장은 알림 이벤트와 분리되어 알림 전송 실패가 차량 변경을 되돌리지 않습니다.
+푸시 구독, 알림 이벤트 저장, 위치 변경 Web Push 발송이 구현되어 있습니다. 알림 본문은 `차량번호 뒤 4자리(차종), 구역` 형식이며, 위치 저장과 알림 발송은 분리되어 알림 실패가 차량 변경을 되돌리지 않습니다.
 
 ## 운영 전 필수 확인
 

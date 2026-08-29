@@ -39,6 +39,7 @@ test('6층은 기본적으로 01~14행을 숨기고 30개 자리를 표시한다
   assert.equal((html.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,30);
   assert.equal((html.match(/is-company-tint/g)||[]).length,5);
   assert.match(html,/>윤카<\/strong>/);
+  assert.match(html,/type-company-area is-borderless[^>]+><strong>윤카<\/strong>/);
   assert.match(html,/grid-column:2\/span 2;grid-row:9\/span 1[^>]+><strong>윤카<\/strong>/);
   assert.match(expanded,/grid-column:1\/span 10;grid-row:2[^>]+data-toggle-map="pillar11"/);
   assert.match(expanded,/>▲<\/span> 접기/);
@@ -48,6 +49,8 @@ test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.roof,[{id:'roof-a17',label:'A17',plate:'',alerts:[]}]);
   assert.match(html,/data-spot="roof-a17"[^>]+grid-column:2\/span 3/);
   assert.match(html,/주차장 출입구 램프/);
+  assert.match(html,/grid-column:5\/span 2;grid-row:11\/span 4[^>]+><strong>계단<\/strong>/);
+  assert.doesNotMatch(html,/A21|D21|I21/);
   assert.doesNotMatch(html,/>09<\/b>/);
   assert.match(html,/>▼<\/span> 펼치기/);
 });

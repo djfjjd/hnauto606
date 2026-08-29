@@ -12,8 +12,8 @@ export const parkingLayouts={
     parkingRanges:[{from:'E15',to:'I20'}],
     tintedRanges:[{from:'E15',to:'I15'}],
     specialAreas:[
-      {from:'A15',to:'D20',type:'company-area',label:'윤카'},
-      {from:'A21',to:'B21',type:'company-area',label:'윤카'},
+      {from:'A15',to:'D20',type:'company-area',label:'윤카',borderless:true},
+      {from:'A21',to:'B21',type:'company-area',label:'윤카',borderless:true},
       {from:'C21',to:'D21',type:'facility',label:'E/V · 화장실'},
       {from:'E21',type:'company-area',label:'제이카',borderless:true},
       {from:'F21',to:'G21',type:'company-area',label:'픽카소',borderless:true},
@@ -34,8 +34,8 @@ export const parkingLayouts={
     ],
   }),
   roof:baseLayout('서서울모터리움 옥상층',{
-    rows:21,
-    collapsedVisibleRows:[1,2,3,4,5,6,7,8,17,18,19,20,21],
+    rows:20,
+    collapsedVisibleRows:[1,2,3,4,5,6,7,8,17,18,19,20],
     toggleBeforeRow:9,
     defaultCellType:'blocked',
     parkingRanges:[
@@ -47,9 +47,7 @@ export const parkingLayouts={
     specialAreas:[
       {from:'H03',to:'I07',type:'entrance',label:'주차장 출입구 램프'},
       {from:'A17',to:'C17',type:'parking',label:'A17'},
-      {from:'A21',to:'C21',type:'blocked',label:''},
-      {from:'D21',type:'stairs',label:'계단'},
-      {from:'E21',to:'I21',type:'blocked',label:''},
+      {from:'D17',to:'E20',type:'stairs',label:'계단'},
     ],
   }),
   tower:baseLayout('좋은책신사고 새싹타워'),
