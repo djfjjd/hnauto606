@@ -10,21 +10,36 @@ test('기존 위치 라벨을 두 자리 행 좌표로 정규화한다',()=>{
 });
 
 test('기본 층 도면은 9×20 주차 Cell을 자동 생성한다',()=>{
-  const html=renderParkingMap(parkingLayouts.b3,[]);
+  const html=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
   assert.equal((html.match(/class="parking-cell/g)||[]).length,180);
   assert.match(html,/A01/);
   assert.match(html,/I20/);
 });
 
+test('B3층과 새싹타워는 기본 접힘 상태에서 1행 위 토글만 표시한다',()=>{
+  for(const zoneId of ['b3','tower']){
+    const collapsed=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:false});
+    assert.match(collapsed,new RegExp(`grid-row:2[^>]+data-toggle-map="${zoneId}"`));
+    assert.doesNotMatch(collapsed,/class="parking-cell/);
+    const expanded=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:true});
+    assert.match(expanded,/aria-label="A01 빈 자리"/);
+  }
+});
+
+test('빈 자리에는 주차 가능 보조 문구를 표시하지 않는다',()=>{
+  const html=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
+  assert.doesNotMatch(html,/주차 가능/);
+});
+
 test('차량 Cell에는 차량번호 뒤 4자리만 크게 표시한다',()=>{
-  const html=renderParkingMap(parkingLayouts.b3,[{id:'spot-1',label:'A1',plate:'186저9439',model:'쏘나타',alerts:[]}]);
+  const html=renderParkingMap(parkingLayouts.b3,[{id:'spot-1',label:'A1',plate:'186저9439',model:'쏘나타',alerts:[]}],undefined,{expanded:true});
   assert.match(html,/<strong>9439<\/strong>/);
   assert.match(html,/data-spot="spot-1"/);
 });
 
 test('주차 차량 Cell에는 차량 색상 클래스가 적용된다',()=>{
-  const white=renderParkingMap(parkingLayouts.b3,[{id:'white-car',label:'A1',plate:'11가1234',model:'차량',color:'흰색',alerts:[]}]);
-  const gray=renderParkingMap(parkingLayouts.b3,[{id:'gray-car',label:'A1',plate:'11가5678',model:'차량',color:'은색',alerts:[]}]);
+  const white=renderParkingMap(parkingLayouts.b3,[{id:'white-car',label:'A1',plate:'11가1234',model:'차량',color:'흰색',alerts:[]}],undefined,{expanded:true});
+  const gray=renderParkingMap(parkingLayouts.b3,[{id:'gray-car',label:'A1',plate:'11가5678',model:'차량',color:'은색',alerts:[]}],undefined,{expanded:true});
   assert.match(white,/vehicle-color-white/);
   assert.match(gray,/vehicle-color-gray/);
   assert.match(white,/draggable="true"/);
@@ -86,7 +101,7 @@ test('B5층은 접으면 17~20행도 숨긴다',()=>{
 });
 
 test('모든 접이식 층은 펼친 뒤에도 토글 행이 움직이지 않는다',()=>{
-  for(const zoneId of ['pillar11','b5','roof','auto13']){
+  for(const zoneId of ['pillar11','b3','b5','roof','tower','auto13']){
     const collapsed=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:false});
     const expanded=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:true});
     const toggleRow=html=>html.match(new RegExp(`grid-column:1\\/span \\d+;grid-row:(\\d+)[^>]+data-toggle-map="${zoneId}"`))?.[1];

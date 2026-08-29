@@ -20,7 +20,10 @@ export const parkingLayouts={
       {from:'H21',to:'I21',type:'office',label:'사무실'},
     ],
   }),
-  b3:baseLayout('서서울모터리움 B3층'),
+  b3:baseLayout('서서울모터리움 B3층',{
+    collapsedVisibleRows:[],
+    toggleBeforeRow:1,
+  }),
   b5:baseLayout('서서울모터리움 B5층',{
     rows:21,
     collapsedVisibleRows:[15,16,21],
@@ -50,7 +53,10 @@ export const parkingLayouts={
       {from:'D17',to:'E20',type:'stairs',label:'계단'},
     ],
   }),
-  tower:baseLayout('좋은책신사고 새싹타워'),
+  tower:baseLayout('좋은책신사고 새싹타워',{
+    collapsedVisibleRows:[],
+    toggleBeforeRow:1,
+  }),
   auto13:baseLayout('오토플렉스 13층',{
     columns:4,
     expandedColumns:9,
