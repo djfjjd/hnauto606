@@ -6,9 +6,14 @@ const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 
-test('모바일 축소 화면에서 입력 포커스 자동 확대를 차단한다',()=>{
-  assert.match(html,/name="viewport" content="width=780, maximum-scale=1, user-scalable=no"/);
+test('모바일 입력 자동 확대는 막고 두 손가락 확대·축소는 허용한다',()=>{
+  assert.match(html,/name="viewport" content="width=780, maximum-scale=5, user-scalable=yes"/);
   assert.match(css,/@media\(max-width:800px\)\{\.search input,\.modal input,\.modal select,\.modal textarea,\.vehicle-list-search input,\.compact-assign input\{font-size:18px!important\}\}/);
+});
+
+test('모바일 통계 카드 네 개를 한 줄로 표시한다',()=>{
+  assert.match(css,/@media\(max-width:800px\)\{\.summary\.parking-summary\{grid-template-columns:repeat\(4,minmax\(0,1fr\)\)\}/);
+  assert.match(css,/\.parking-summary \.metric\{min-height:110px;padding:16px\}/);
 });
 
 test('모바일 상단 업무 메뉴를 표시하고 통계와 검색 사이 간격을 줄인다',()=>{
