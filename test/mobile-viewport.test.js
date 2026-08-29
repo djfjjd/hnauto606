@@ -4,7 +4,6 @@ import {readFileSync} from 'node:fs';
 
 const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
-const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 
 test('모바일 축소 화면에서 입력 포커스 자동 확대를 차단한다',()=>{
   assert.match(html,/name="viewport" content="width=780, maximum-scale=1, user-scalable=no"/);
@@ -18,6 +17,11 @@ test('모든 주차 도면 Cell은 기존 크기의 절반으로 표시한다',(
   assert.match(css,/\.parking-cell\.is-occupied span\{color:#111!important\}/);
 });
 
-test('전체 보기에서 B5층은 B3층 바로 아래 열에 배치한다',()=>{
-  assert.match(main,/overviewOrder=\['pillar11','b3','roof','tower','b5','auto13'\]/);
+test('전체 보기의 주차 도면을 요청한 세 행으로 배치한다',()=>{
+  assert.match(css,/data-map-zone="pillar11"\]\{grid-column:1\/span 3;grid-row:1\}/);
+  assert.match(css,/data-map-zone="roof"\]\{grid-column:4\/span 3;grid-row:1\}/);
+  assert.match(css,/data-map-zone="b3"\]\{grid-column:1\/span 2;grid-row:2\}/);
+  assert.match(css,/data-map-zone="b5"\]\{grid-column:3\/span 2;grid-row:2\}/);
+  assert.match(css,/data-map-zone="auto13"\]\{grid-column:5\/span 2;grid-row:2\}/);
+  assert.match(css,/data-map-zone="tower"\]\{grid-column:1\/span 2;grid-row:3\}/);
 });
