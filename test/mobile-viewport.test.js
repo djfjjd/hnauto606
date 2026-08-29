@@ -22,10 +22,18 @@ test('모바일 통계 카드 네 개를 한 줄로 표시한다',()=>{
 });
 
 test('모바일 초기 화면에서 6층과 지하 3층 도면을 오른쪽 끝에 맞춘다',()=>{
+  assert.match(main,/if\(state\.loading\|\|!matchMedia/);
   assert.match(main,/\['pillar11','b3'\]\.forEach\(zoneId=>/);
   assert.match(main,/scroll\.scrollLeft=Math\.max\(0,scroll\.scrollWidth-scroll\.clientWidth\)/);
   assert.match(main,/initialRightScrolledMaps\.add\(zoneId\)/);
   assert.match(main,/alignInitialMobileParkingMaps\(\);/);
+});
+
+test('좌우 스와이프로 주차 현황과 차량 현황판 사이를 이동하지 않는다',()=>{
+  assert.match(main,/function disableMobileHistorySwipe\(\)/);
+  assert.match(main,/location\.replace\(link\.getAttribute\('href'\)\)/);
+  assert.match(main,/event\.preventDefault\(\);\},\{passive:false\}\)/);
+  assert.match(css,/overscroll-behavior-x:none/);
 });
 
 test('모바일 상단 업무 메뉴를 표시하고 통계와 검색 사이 간격을 줄인다',()=>{
