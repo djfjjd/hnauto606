@@ -88,7 +88,7 @@ h2 { margin:0; font-family:inherit; font-size:38px; font-weight:800; letter-spac
 .workspace>.toolbar>.segmented { display:none; }
 .search { position:relative; flex:1; display:flex; align-items:center; gap:10px; padding:0 14px; border-bottom:1px solid #b8bdb8; }
 .search span { font-size:26px; }
-.search input { width:100%; padding:12px 0; border:0; outline:0; background:transparent; }
+.search input { width:100%; padding:12px 0; border:0; outline:0; background:transparent; font-size:16px; touch-action:manipulation; }
 .search-clear{flex:0 0 32px;width:32px;height:32px;padding:0;border:0;color:var(--ink);background:transparent;font-size:21px;line-height:1;cursor:pointer}.search-clear[hidden]{display:none}.search-clear:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .segmented { display:flex; background:#eeeee8; padding:4px; }
 .segmented button,.zone-tabs button { border:0; background:transparent; cursor:pointer; color:#707870; }
