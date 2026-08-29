@@ -21,6 +21,13 @@ test('모바일 통계 카드 네 개를 한 줄로 표시한다',()=>{
   assert.match(css,/\.parking-summary \.metric\{min-height:110px;padding:16px\}/);
 });
 
+test('모바일 초기 화면에서 6층과 지하 3층 도면을 오른쪽 끝에 맞춘다',()=>{
+  assert.match(main,/\['pillar11','b3'\]\.forEach\(zoneId=>/);
+  assert.match(main,/scroll\.scrollLeft=Math\.max\(0,scroll\.scrollWidth-scroll\.clientWidth\)/);
+  assert.match(main,/initialRightScrolledMaps\.add\(zoneId\)/);
+  assert.match(main,/alignInitialMobileParkingMaps\(\);/);
+});
+
 test('모바일 상단 업무 메뉴를 표시하고 통계와 검색 사이 간격을 줄인다',()=>{
   assert.match(css,/\.summary\.parking-summary \{ margin-bottom:0; \}/);
   assert.match(css,/@media\(max-width:800px\)\{\.topbar \.external-tools,\.topbar \.board-nav\{display:flex\}\}/);
