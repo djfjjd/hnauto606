@@ -18,11 +18,11 @@ test('모든 주차 도면 Cell은 가독성 크기로 표시한다',()=>{
   assert.match(css,/vehicle-color-black span,.parking-cell\.is-occupied:not\(\.has-alert\)\.vehicle-color-gray span,.parking-cell\.is-occupied:not\(\.has-alert\)\.vehicle-color-red span,.parking-cell\.is-occupied:not\(\.has-alert\)\.vehicle-color-blue span\{color:#fff!important\}/);
 });
 
-test('전체 보기에서 B5층을 B3층 바로 아래에 배치한다',()=>{
+test('전체 보기에서 B3·B5 2줄과 13층 1줄을 한 행 묶음으로 배치한다',()=>{
   assert.match(css,/data-map-zone="pillar11"\]\{grid-column:1\/span 3;grid-row:1\}/);
   assert.match(css,/data-map-zone="roof"\]\{grid-column:4\/span 3;grid-row:1\}/);
-  assert.match(css,/data-map-zone="b3"\]\{grid-column:1\/span 2;grid-row:2\}/);
-  assert.match(css,/data-map-zone="b5"\]\{grid-column:1\/span 2;grid-row:3\}/);
-  assert.match(css,/data-map-zone="auto13"\]\{grid-column:5\/span 2;grid-row:2\}/);
-  assert.match(css,/data-map-zone="tower"\]\{grid-column:1\/span 2;grid-row:4\}/);
+  assert.match(css,/data-map-zone="b3"\]\{grid-column:1\/span 3;grid-row:2\}/);
+  assert.match(css,/data-map-zone="b5"\]\{grid-column:1\/span 3;grid-row:3\}/);
+  assert.match(css,/data-map-zone="auto13"\]\{grid-column:4\/span 3;grid-row:2\/span 2\}/);
+  assert.match(css,/data-map-zone="tower"\]\{grid-column:1\/span 3;grid-row:4\}/);
 });
