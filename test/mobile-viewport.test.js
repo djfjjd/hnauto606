@@ -20,6 +20,12 @@ test('두 화면의 상단 브랜드에 public 파비콘을 사용한다',()=>{
   assert.equal((main.match(/<img class="brand-mark" src="\/favicon-32\.png" alt="">/g)||[]).length,2);
 });
 
+test('통계 카드의 영문 라벨을 숨기고 빈 자리 숫자를 빨간색으로 표시한다',()=>{
+  assert.match(main,/class="metric \$\{t\}"><div><strong>\$\{v\}<\/strong><small>\$\{l\}<\/small><\/div>/);
+  assert.match(css,/\.metric \{[^}]*justify-content:flex-start/);
+  assert.match(css,/\.metric\.green strong \{ color:#c43d35; \}/);
+});
+
 test('모든 주차 도면 Cell은 가독성 크기로 표시한다',()=>{
   assert.match(css,/grid-template-columns:var\(--row-label-width,20px\) repeat\(var\(--map-columns\),var\(--cell-width,62px\)\)/);
   assert.match(css,/grid-template-rows:23px repeat\(var\(--map-rows\),39px\)/);
