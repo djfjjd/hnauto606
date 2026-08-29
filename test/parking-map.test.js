@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {normalizePosition,parkingLayouts} from '../src/parking-layouts.js';
+import {normalizePosition,parkingCapacity,parkingLayouts} from '../src/parking-layouts.js';
 import {renderParkingMap} from '../src/parking-map.js';
 
 test('기존 위치 라벨을 두 자리 행 좌표로 정규화한다',()=>{
@@ -8,6 +8,16 @@ test('기존 위치 라벨을 두 자리 행 좌표로 정규화한다',()=>{
   assert.equal(normalizePosition('I20'),'I20');
   assert.equal(normalizePosition('J2'),'J02');
   assert.equal(normalizePosition('A21'),'A21');
+});
+
+test('전체 주차면은 실제 parking Cell만 합산한다',()=>{
+  assert.equal(parkingCapacity(parkingLayouts.pillar11),30);
+  assert.equal(parkingCapacity(parkingLayouts.b3),10);
+  assert.equal(parkingCapacity(parkingLayouts.b5),10);
+  assert.equal(parkingCapacity(parkingLayouts.roof),20);
+  assert.equal(parkingCapacity(parkingLayouts.tower),20);
+  assert.equal(parkingCapacity(parkingLayouts.auto13),12);
+  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),102);
 });
 
 test('B3층 확장 도면은 9×21 Grid Cell을 자동 생성한다',()=>{

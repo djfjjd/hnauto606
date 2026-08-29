@@ -96,3 +96,19 @@ export function positionInRanges(code,ranges=[]){
   const position=positionParts(code);
   return Boolean(position&&ranges.some(range=>{const from=positionParts(range.from),to=positionParts(range.to||range.from);return from&&to&&position.column>=Math.min(from.column,to.column)&&position.column<=Math.max(from.column,to.column)&&position.row>=Math.min(from.row,to.row)&&position.row<=Math.max(from.row,to.row);}));
 }
+
+export function parkingCapacity(layout){
+  let total=0;
+  for(let row=1;row<=layout.rows;row+=1){
+    for(let column=1;column<=layout.columns;column+=1){
+      const code=`${PARKING_COLUMNS[column-1]}${String(row).padStart(2,'0')}`;
+      const area=layout.specialAreas.find(item=>positionInRanges(code,[item]));
+      if(area){
+        if(area.type==='parking'&&normalizePosition(area.from)===code)total+=1;
+        continue;
+      }
+      if(layout.defaultCellType==='parking'||positionInRanges(code,layout.parkingRanges))total+=1;
+    }
+  }
+  return total;
+}
