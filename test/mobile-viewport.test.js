@@ -8,7 +8,9 @@ const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 
 test('모바일 입력 자동 확대는 막고 두 손가락 확대·축소는 허용한다',()=>{
   assert.match(html,/name="viewport" content="width=780, maximum-scale=5, user-scalable=yes"/);
-  assert.match(css,/@media\(max-width:800px\)\{\.search input,\.modal input,\.modal select,\.modal textarea,\.vehicle-list-search input,\.compact-assign input\{font-size:18px!important\}\}/);
+  assert.match(css,/\.modal input,\.modal select,\.modal textarea,\.vehicle-list-search input\{font-size:var\(--modal-control-font-size,18px\)!important\}/);
+  assert.match(main,/function syncModalViewportScale\(\)/);
+  assert.match(main,/Math\.ceil\(16\/scale\)/);
 });
 
 test('모바일 통계 카드 네 개를 한 줄로 표시한다',()=>{
