@@ -26,14 +26,14 @@ function blockedCell(code,column,gridRow){
 
 export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=>spot.id)),options={}){
   const byPosition=new Map(spots.map(spot=>[normalizePosition(spot.label),spot]));
-  const allRows=Array.from({length:layout.rows},(_,index)=>index+1),hasToggle=Boolean(layout.collapseBeforeRow||layout.collapsedVisibleRows),collapsed=hasToggle&&!options.expanded,toggleBeforeRow=layout.toggleBeforeRow||layout.collapseBeforeRow,collapsedRows=layout.collapsedVisibleRows||allRows.filter(row=>row>=layout.collapseBeforeRow),visibleRows=collapsed?collapsedRows:allRows,columns=options.expanded&&layout.expandedColumns?layout.expandedColumns:layout.columns,fixedRowsBeforeToggle=collapsedRows.filter(row=>row<toggleBeforeRow).length,toggleRow=fixedRowsBeforeToggle+2,gridRowByActual=new Map(visibleRows.map((row,index)=>[row,index+2+(hasToggle&&index>=fixedRowsBeforeToggle?1:0)])),cells=[];
-  cells.push('<span class="map-corner" style="grid-column:1;grid-row:1" aria-hidden="true"></span>',...PARKING_COLUMNS.slice(0,columns).map((column,index)=>`<b class="map-column" style="grid-column:${index+2};grid-row:1" aria-hidden="true">${column}</b>`));
+  const allRows=Array.from({length:layout.rows},(_,index)=>index+1),hasToggle=Boolean(layout.collapseBeforeRow||layout.collapsedVisibleRows),collapsed=hasToggle&&!options.expanded,showCoordinates=!collapsed,toggleBeforeRow=layout.toggleBeforeRow||layout.collapseBeforeRow,collapsedRows=layout.collapsedVisibleRows||allRows.filter(row=>row>=layout.collapseBeforeRow),visibleRows=collapsed?collapsedRows:allRows,columns=options.expanded&&layout.expandedColumns?layout.expandedColumns:layout.columns,fixedRowsBeforeToggle=collapsedRows.filter(row=>row<toggleBeforeRow).length,toggleRow=fixedRowsBeforeToggle+2,gridRowByActual=new Map(visibleRows.map((row,index)=>[row,index+2+(hasToggle&&index>=fixedRowsBeforeToggle?1:0)])),cells=[];
+  if(showCoordinates)cells.push('<span class="map-corner" style="grid-column:1;grid-row:1" aria-hidden="true"></span>',...PARKING_COLUMNS.slice(0,columns).map((column,index)=>`<b class="map-column" style="grid-column:${index+2};grid-row:1" aria-hidden="true">${column}</b>`));
   if(hasToggle){
     cells.push(`<button class="map-row-toggle" style="grid-column:1/span ${columns+1};grid-row:${toggleRow}" data-toggle-map="${escapeHtml(options.zoneId||'')}" aria-expanded="${options.expanded?'true':'false'}"><span aria-hidden="true">${options.expanded?'▲':'▼'}</span> ${options.expanded?'접기':'펼치기'}</button>`);
   }
   for(const row of visibleRows){
     const gridRow=gridRowByActual.get(row);
-    cells.push(`<b class="map-row" style="grid-column:1;grid-row:${gridRow}" aria-hidden="true">${String(row).padStart(2,'0')}</b>`);
+    if(showCoordinates)cells.push(`<b class="map-row" style="grid-column:1;grid-row:${gridRow}" aria-hidden="true">${String(row).padStart(2,'0')}</b>`);
     for(let column=1;column<=columns;column+=1){
       const code=`${PARKING_COLUMNS[column-1]}${String(row).padStart(2,'0')}`,match=areaAt(layout,column,row);
       if(match){
@@ -52,5 +52,5 @@ export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=
       cells.push(parking?parkingCell(code,spot,!spot||visibleIds.has(spot.id),column,gridRow,1,1,positionInRanges(code,layout.tintedRanges)):blockedCell(code,column,gridRow));
     }
   }
-  return`<section class="parking-map" aria-label="${escapeHtml(layout.name)} 주차장 배치"><div class="parking-map-head"><div><span>${columns} × ${layout.rows} GRID</span><h2>${escapeHtml(layout.name)}</h2></div><div class="parking-map-actions"><p>차량번호 뒤 4자리 표시</p></div></div><div class="parking-map-scroll"><div class="parking-map-grid" role="grid" style="--map-columns:${columns};--map-rows:${visibleRows.length+(hasToggle?1:0)}">${cells.join('')}</div></div></section>`;
+  return`<section class="parking-map" aria-label="${escapeHtml(layout.name)} 주차장 배치"><div class="parking-map-head"><h2>${escapeHtml(layout.name)}</h2></div><div class="parking-map-scroll"><div class="parking-map-grid" role="grid" style="--map-columns:${columns};--map-rows:${visibleRows.length+(hasToggle?1:0)}">${cells.join('')}</div></div></section>`;
 }
