@@ -52,5 +52,5 @@ export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=
       cells.push(parking?parkingCell(code,spot,!spot||visibleIds.has(spot.id),column,gridRow,1,1,positionInRanges(code,layout.tintedRanges)):blockedCell(code,column,gridRow));
     }
   }
-  return`<section class="parking-map" aria-label="${escapeHtml(layout.name)} 주차장 배치"><div class="parking-map-head"><h2>${escapeHtml(layout.name)}</h2></div><div class="parking-map-scroll"><div class="parking-map-grid" role="grid" style="--map-columns:${columns};--map-rows:${visibleRows.length+(hasToggle?1:0)}">${cells.join('')}</div></div></section>`;
+  return`<section class="parking-map" data-zone="${escapeHtml(options.zoneId||'')}" aria-label="${escapeHtml(layout.name)} 주차장 배치"><div class="parking-map-head"><h2>${escapeHtml(layout.name)}</h2></div><div class="parking-map-scroll"><div class="parking-map-grid" role="grid" style="--map-columns:${columns};--map-rows:${visibleRows.length+(hasToggle?1:0)}">${cells.join('')}</div></div></section>`;
 }
