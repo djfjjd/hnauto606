@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+
+const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
+
+test('신규 입고 저장 후 Web Push를 발송한다',()=>{
+  assert.match(api,/notifyVehicleAction\(context,\{id:vehicleId,plate:valid\.value\.plate,model:valid\.value\.model\},'신규 차량 입고','차량현황판',eventId\)/);
+  assert.match(api,/bind\(eventId,'check_in',vehicleId/);
+});
+
+test('출고 저장 후 Web Push를 발송한다',()=>{
+  assert.match(api,/notifyVehicleAction\(context,vehicle,'차량 출고','출고',eventId\)/);
+  assert.match(api,/bind\(eventId,'check_out',vehicle\.id/);
+});
