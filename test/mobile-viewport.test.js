@@ -12,7 +12,7 @@ test('모바일 축소 화면에서 입력 포커스 자동 확대를 차단한�
 });
 
 test('모바일 상단 업무 메뉴를 표시하고 통계와 검색 사이 간격을 줄인다',()=>{
-  assert.match(css,/\.parking-summary \{ margin-top:-50px; margin-bottom:8px; \}/);
+  assert.match(css,/\.summary\.parking-summary \{ margin-bottom:0; \}/);
   assert.match(css,/@media\(max-width:800px\)\{\.topbar \.external-tools,\.topbar \.board-nav\{display:flex\}\}/);
 });
 
