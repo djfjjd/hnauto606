@@ -98,6 +98,7 @@ test('B5층은 접으면 17~20행도 숨긴다',()=>{
   const expanded=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:true});
   assert.match(expanded,/>15<\/b>/);
   assert.match(expanded,/>21<\/b>/);
+  assert.match(expanded,/grid-column:5\/span 2[^>]+><strong>E\/V · 화장실<\/strong>/);
 });
 
 test('모든 접이식 층은 펼친 뒤에도 토글 행이 움직이지 않는다',()=>{

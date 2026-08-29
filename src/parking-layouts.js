@@ -31,9 +31,9 @@ export const parkingLayouts={
     defaultCellType:'blocked',
     parkingRanges:[{from:'A15',to:'E16'}],
     specialAreas:[
-      {from:'A21',to:'B21',type:'blocked',label:''},
-      {from:'C21',to:'D21',type:'facility',label:'E/V · 화장실'},
-      {from:'E21',to:'I21',type:'blocked',label:''},
+      {from:'A21',to:'C21',type:'blocked',label:''},
+      {from:'D21',to:'E21',type:'facility',label:'E/V · 화장실'},
+      {from:'F21',to:'I21',type:'blocked',label:''},
     ],
   }),
   roof:baseLayout('서서울모터리움 옥상층',{
