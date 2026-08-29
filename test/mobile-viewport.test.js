@@ -4,10 +4,20 @@ import {readFileSync} from 'node:fs';
 
 const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 
 test('모바일 축소 화면에서 입력 포커스 자동 확대를 차단한다',()=>{
   assert.match(html,/name="viewport" content="width=780, maximum-scale=1, user-scalable=no"/);
   assert.match(css,/@media\(max-width:800px\)\{\.search input,\.modal input,\.modal select,\.modal textarea,\.vehicle-list-search input,\.compact-assign input\{font-size:18px!important\}\}/);
+});
+
+test('모바일 상단 업무 메뉴를 표시하고 통계와 검색 사이 간격을 줄인다',()=>{
+  assert.match(css,/\.parking-summary \{ margin-top:-50px; margin-bottom:8px; \}/);
+  assert.match(css,/@media\(max-width:800px\)\{\.topbar \.external-tools,\.topbar \.board-nav\{display:flex\}\}/);
+});
+
+test('두 화면의 상단 브랜드에 public 파비콘을 사용한다',()=>{
+  assert.equal((main.match(/<img class="brand-mark" src="\/favicon-32\.png" alt="">/g)||[]).length,2);
 });
 
 test('모든 주차 도면 Cell은 가독성 크기로 표시한다',()=>{

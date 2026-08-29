@@ -13,7 +13,7 @@ button,a { -webkit-tap-highlight-color:transparent; }
 .topbar { position:sticky; top:0; z-index:3; height:76px; padding:0 max(24px,calc((100vw - 1280px)/2)); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,.14); color:#fff; background:var(--ink); }
 .brand { display:flex; gap:12px; align-items:center; color:#fff; text-decoration:none; font-weight:700; letter-spacing:.08em; }
 .brand b { color:var(--lime); }
-.brand-mark { display:grid; place-items:center; width:34px; height:34px; border:1px solid var(--lime); border-radius:50%; color:var(--lime); font-family:inherit; font-size:20px; font-weight:800; }
+.brand-mark { display:block; width:34px; height:34px; border-radius:8px; object-fit:contain; }
 nav { display:flex; gap:30px; align-items:center; }
 nav a,.print-link { color:#aebbb3; text-decoration:none; border:0; background:none; cursor:pointer; font-size:14px; }
 nav a.active { color:#fff; }
@@ -28,7 +28,7 @@ nav a.active { color:#fff; }
 .parking-title h1 { font-size:clamp(38px,6vw,62px); }
 .parking-title .eyebrow { color:var(--lime); }
 .parking-title .hero-buttons { margin-top:28px; }
-.parking-summary { margin-top:-50px; margin-bottom:24px; }
+.parking-summary { margin-top:-50px; margin-bottom:8px; }
 .board-nav { margin-left:auto; gap:18px; }.board-nav a{color:#fff}.board-nav button{min-height:42px;padding:0 17px;border:0;background:var(--lime);font-weight:800;cursor:pointer}
 .board-nav [data-new],.board-tools .compact-assign{display:none}
 .board-page { min-height:100vh; }
@@ -192,5 +192,6 @@ fieldset { margin:0; padding:0; border:0; }
 @media(max-width:640px){.header-dashboard-link{padding:9px 10px;font-size:11px}.parking-title{min-height:190px;padding:42px 14px 76px}.board-nav{gap:8px}.board-nav a{font-size:11px}.board-nav button{padding:0 10px;font-size:11px}.board-hero,.manager-tabs,.board-tools,.manager-groups{width:calc(100% - 28px)}.board-hero{margin-top:24px;padding:24px 18px;align-items:start}.board-hero>strong{font-size:40px}.manager-tabs{grid-template-columns:1.2fr 1fr .7fr 28px;padding:13px 12px;gap:8px}.manager-tabs button{min-height:48px;border-bottom:1px solid var(--line);font-size:12px}.board-tools{display:grid}.compact-assign{display:grid;grid-template-columns:1fr auto}.compact-assign input{width:100%;min-width:0}.board-table{overflow-x:auto}.board-row{min-width:560px;grid-template-columns:1.25fr 1fr .65fr .65fr 1.45fr 28px;padding:13px 12px;gap:8px}.board-row strong,.board-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.board-edit-icon{grid-column:6;grid-row:1}.board-labels{display:none}.manager-group>header{padding:15px}.manager-group h2{font-size:20px}}
 @media(max-width:800px){body:has(main#top){min-width:780px;overflow-x:auto}body:has(main#top) .topbar,body:has(main#top) .demo-banner,body:has(main#top) .parking-title,body:has(main#top) .parking-summary,body:has(main#top) .workspace,body:has(main#top) footer{width:780px;max-width:none;margin-left:0;margin-right:0}}
 @media(max-width:800px){body:has(.board-page){min-width:780px;overflow-x:auto}body:has(.board-page) .topbar,body:has(.board-page) .demo-banner,body:has(.board-page) .board-hero,body:has(.board-page) .manager-tabs,body:has(.board-page) .board-tools,body:has(.board-page) .manager-groups{width:780px;max-width:none;margin-left:0;margin-right:0}.board-table{overflow:hidden}.board-row{min-width:0}}
+@media(max-width:800px){.topbar .external-tools,.topbar .board-nav{display:flex}}
 @media(max-width:800px){.search input,.modal input,.modal select,.modal textarea,.vehicle-list-search input,.compact-assign input{font-size:18px!important}}
 @media print {.topbar,.hero,.parking-title,.toolbar,.zone-tabs,.legend,footer,.modal-backdrop,.demo-banner,.toast,.new-button{display:none!important}.summary{margin:12px auto 24px;box-shadow:none}.workspace{margin-bottom:0;width:100%}.section-head{margin-bottom:12px}.spot{break-inside:avoid;min-height:70px}.zone-card{break-inside:avoid;padding:12px}.spot-grid{grid-template-columns:repeat(6,1fr)}body{background:#fff}}
