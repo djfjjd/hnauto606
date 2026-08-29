@@ -109,6 +109,7 @@ h2 { margin:0; font-family:inherit; font-size:38px; font-weight:800; letter-spac
 .parking-map-grid{grid-template-rows:30px repeat(var(--map-rows),52px)}
 .map-row-toggle{min-height:0;padding:0;border:0;border-top:1px solid #aeb8b0;border-bottom:1px solid #aeb8b0;color:#496253;background:#edf3ee;cursor:pointer;font-weight:600}
 .map-row-toggle span{margin-right:5px;color:var(--green)}
+.parking-cell[draggable=true],.spot[draggable=true]{cursor:grab}.parking-cell.is-dragging,.spot.is-dragging{opacity:.45;cursor:grabbing}.parking-cell.is-drag-target,.spot.is-drag-target{outline:4px solid var(--lime);outline-offset:-4px;box-shadow:0 0 0 2px var(--ink);transform:scale(.97)}
 .parking-special.type-office{border-color:#bdd8c7;color:#315c45;background:#e7f5eb}
 .parking-special.type-office{border:3px solid #315c45}
 .parking-special.is-borderless{border-color:transparent}

@@ -27,6 +27,7 @@ test('주차 차량 Cell에는 차량 색상 클래스가 적용된다',()=>{
   const gray=renderParkingMap(parkingLayouts.b3,[{id:'gray-car',label:'A1',plate:'11가5678',model:'차량',color:'은색',alerts:[]}]);
   assert.match(white,/vehicle-color-white/);
   assert.match(gray,/vehicle-color-gray/);
+  assert.match(white,/draggable="true"/);
 });
 
 test('6층은 기본적으로 01~14행을 숨기고 30개 자리를 표시한다',()=>{

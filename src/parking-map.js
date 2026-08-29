@@ -17,7 +17,7 @@ function parkingCell(code,spot,visible,column,gridRow,columnSpan=1,rowSpan=1,tin
   const position=`grid-column:${column+1}/span ${columnSpan};grid-row:${gridRow}/span ${rowSpan}`;
   if(!spot)return`<div class="parking-cell is-vacant is-virtual${tinted?' is-company-tint':''}" style="${position}" role="gridcell" aria-label="${code} 빈 자리"><small>${code}</small><strong>빈 자리</strong><span>주차 가능</span></div>`;
   const occupied=Boolean(spot.plate),alert=occupied&&spot.alerts?.length,classes=['parking-cell',occupied?'is-occupied':'is-vacant',occupied?`vehicle-color-${vehicleColorClass(spot.color)}`:'',alert?'has-alert':'',visible?'':'is-filtered'].filter(Boolean).join(' ');
-  return`<button class="${classes}${tinted&&!occupied?' is-company-tint':''}" data-spot="${escapeHtml(spot.id)}" style="${position}" role="gridcell" aria-label="${code} ${occupied?`${spot.plate} 주차 중`:'빈 자리'}"><small>${code}</small>${alert?'<i aria-hidden="true">!</i>':''}<strong>${occupied?escapeHtml(lastFour(spot.plate)):'빈 자리'}</strong>${occupied?`<span>${escapeHtml(spot.model||'차량')}</span>`:'<span>주차 가능</span>'}</button>`;
+  return`<button class="${classes}${tinted&&!occupied?' is-company-tint':''}" data-spot="${escapeHtml(spot.id)}" ${occupied?'draggable="true"':''} style="${position}" role="gridcell" aria-label="${code} ${occupied?`${spot.plate} 주차 중`:'빈 자리'}"><small>${code}</small>${alert?'<i aria-hidden="true">!</i>':''}<strong>${occupied?escapeHtml(lastFour(spot.plate)):'빈 자리'}</strong>${occupied?`<span>${escapeHtml(spot.model||'차량')}</span>`:'<span>주차 가능</span>'}</button>`;
 }
 
 function blockedCell(code,column,gridRow){
