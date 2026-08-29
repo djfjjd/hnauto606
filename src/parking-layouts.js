@@ -1,4 +1,4 @@
-export const PARKING_COLUMNS=['A','B','C','D','E','F','G','H','I'];
+export const PARKING_COLUMNS=['A','B','C','D','E','F','G','H','I','J'];
 
 const baseLayout=(name,overrides={})=>({name,columns:9,rows:20,defaultCellType:'parking',parkingRanges:[],specialAreas:[],...overrides});
 
@@ -62,8 +62,11 @@ export const parkingLayouts={
     ],
   }),
   tower:baseLayout('좋은책신사고 새싹타워',{
-    collapsedVisibleRows:[],
-    toggleBeforeRow:1,
+    columns:10,
+    rows:2,
+    cellWidth:58,
+    rowLabelWidth:42,
+    rowLabels:{1:'B5층',2:'B6층'},
   }),
   auto13:baseLayout('오토플렉스 13층',{
     columns:4,
@@ -80,7 +83,7 @@ export const parkingLayouts={
 };
 
 export function normalizePosition(value){
-  const match=String(value||'').trim().toUpperCase().match(/^([A-I])0?([1-9]|1\d|2[01])$/);
+  const match=String(value||'').trim().toUpperCase().match(/^([A-J])0?([1-9]|1\d|2[01])$/);
   return match?`${match[1]}${String(Number(match[2])).padStart(2,'0')}`:'';
 }
 

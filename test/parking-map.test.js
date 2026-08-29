@@ -6,6 +6,7 @@ import {renderParkingMap} from '../src/parking-map.js';
 test('기존 위치 라벨을 두 자리 행 좌표로 정규화한다',()=>{
   assert.equal(normalizePosition('A1'),'A01');
   assert.equal(normalizePosition('I20'),'I20');
+  assert.equal(normalizePosition('J2'),'J02');
   assert.equal(normalizePosition('A21'),'A21');
 });
 
@@ -28,12 +29,15 @@ test('B3층은 접으면 16~17행 주차면과 21행 시설만 표시한다',()=
   assert.match(expanded,/aria-label="E16 빈 자리"/);
 });
 
-test('새싹타워는 기본 접힘 상태에서 제목 행 토글만 표시한다',()=>{
-  const collapsed=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:false});
-  assert.match(collapsed,/class="map-head-toggle" data-toggle-map="tower"/);
-  assert.doesNotMatch(collapsed,/class="parking-cell/);
-  const expanded=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:true});
-  assert.match(expanded,/aria-label="A01 빈 자리"/);
+test('새싹타워는 A~J열의 B5·B6층 20면으로 표시한다',()=>{
+  const html=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower'});
+  assert.equal((html.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,20);
+  assert.match(html,/aria-label="A01 빈 자리"/);
+  assert.match(html,/aria-label="J02 빈 자리"/);
+  assert.match(html,/>B5층<\/b>/);
+  assert.match(html,/>B6층<\/b>/);
+  assert.match(html,/--cell-width:58px;--row-label-width:42px/);
+  assert.doesNotMatch(html,/data-toggle-map="tower"/);
 });
 
 test('빈 자리에는 주차 가능 보조 문구를 표시하지 않는다',()=>{
@@ -114,7 +118,7 @@ test('B5층은 접으면 17~20행도 숨긴다',()=>{
 });
 
 test('모든 접이식 층은 토글을 제목 행 오른쪽에 표시하고 Grid 토글 행을 만들지 않는다',()=>{
-  for(const zoneId of ['pillar11','b3','b5','roof','tower','auto13']){
+  for(const zoneId of ['pillar11','b3','b5','roof','auto13']){
     const collapsed=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:false});
     const expanded=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:true});
     for(const html of [collapsed,expanded]){
