@@ -46,7 +46,9 @@ test('새싹타워는 A~J열의 B5·B6층 20면으로 표시한다',()=>{
   assert.match(html,/aria-label="J02 빈 자리"/);
   assert.match(html,/>B5층<\/b>/);
   assert.match(html,/>B6층<\/b>/);
-  assert.match(html,/--cell-width:58px;--row-label-width:42px/);
+  assert.doesNotMatch(html,/class="map-column"/);
+  assert.match(html,/--map-header-rows:0;--cell-width:58px;--row-label-width:42px/);
+  assert.match(html,/class="map-row" style="grid-column:1;grid-row:1"[^>]*>B5층<\/b>/);
   assert.doesNotMatch(html,/data-toggle-map="tower"/);
 });
 

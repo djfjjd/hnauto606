@@ -64,6 +64,7 @@ export const parkingLayouts={
   tower:baseLayout('좋은책신사고 새싹타워',{
     columns:10,
     rows:2,
+    hideColumnHeaders:true,
     cellWidth:58,
     rowLabelWidth:42,
     rowLabels:{1:'B5층',2:'B6층'},
