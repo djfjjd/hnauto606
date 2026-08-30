@@ -9,8 +9,8 @@ test('차량 선택 검색어가 비어 있으면 안내 문구와 목록을 표
   assert.match(main,/options\.innerHTML=!query\?'':matches\.length/);
 });
 
-test('출고 차량은 차량현황판의 미배정 차량에서만 선택한다',()=>{
-  assert.match(main,/차량현황판에 있는 차량만 출고할 수 있습니다\./);
-  assert.match(main,/checkoutPickerRoot\?createVehicleListPicker\(checkoutPickerRoot,\{vehicles:state\.unassigned\.map/);
-  assert.doesNotMatch(main,/checkoutPickerRoot\?createVehicleListPicker\(checkoutPickerRoot,\{vehicles:state\.spots\.filter/);
+test('출고 차량은 주차·상품화·미배정을 포함한 차량현황판 전체에서 선택한다',()=>{
+  assert.match(main,/차량현황판에 등록된 모든 차량을 출고할 수 있습니다\./);
+  assert.match(main,/checkoutPickerRoot\?createVehicleListPicker\(checkoutPickerRoot,\{vehicles:boardVehicles\(\)\.map/);
+  assert.match(main,/function boardVehicles\(\)\{return\[\.\.\.new Map\(state\.spots\.filter\(used\)/);
 });
