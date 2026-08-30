@@ -16,9 +16,9 @@ test('모바일 입력 자동 확대는 막고 두 손가락 확대·축소는 �
   assert.match(main,/Math\.ceil\(16\/scale\)/);
 });
 
-test('모바일 통계 카드 네 개를 한 줄로 표시한다',()=>{
-  assert.match(css,/@media\(max-width:800px\)\{\.summary\.parking-summary\{grid-template-columns:repeat\(4,minmax\(0,1fr\)\)\}/);
-  assert.match(css,/\.parking-summary \.metric\{min-height:110px;padding:16px\}/);
+test('모바일 통계 카드 다섯 개를 한 줄로 표시한다',()=>{
+  assert.match(css,/@media\(max-width:800px\)\{\.summary\.parking-summary\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)\}/);
+  assert.match(css,/\.parking-summary \.metric\{min-height:110px;padding:14px\}/);
 });
 
 test('모바일에서 6층과 지하 3층 도면을 다시 그릴 때마다 오른쪽 끝에 맞춘다',()=>{
