@@ -5,7 +5,8 @@ import {readFileSync} from 'node:fs';
 const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 
 test('신규 입고 저장 후 Web Push를 발송한다',()=>{
-  assert.match(api,/notifyVehicleAction\(context,\{id:vehicleId,plate:valid\.value\.plate,model:valid\.value\.model\},'신규 차량 입고','차량현황판',eventId\)/);
+  assert.match(api,/notifyVehicleAction\(context,\{id:vehicleId,plate:valid\.value\.plate,model:valid\.value\.model\},'신규 차량 입고',manager,eventId\)/);
+  assert.match(api,/JSON\.stringify\(\{plate:valid\.value\.plate,manager\}\)/);
   assert.match(api,/bind\(eventId,'check_in',vehicleId/);
 });
 
