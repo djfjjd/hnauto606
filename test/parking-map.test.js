@@ -13,11 +13,11 @@ test('기존 위치 라벨을 두 자리 행 좌표로 정규화한다',()=>{
 test('전체 주차면은 실제 parking Cell만 합산한다',()=>{
   assert.equal(parkingCapacity(parkingLayouts.pillar11),30);
   assert.equal(parkingCapacity(parkingLayouts.b3),10);
-  assert.equal(parkingCapacity(parkingLayouts.b5),10);
+  assert.equal(parkingCapacity(parkingLayouts.b5),12);
   assert.equal(parkingCapacity(parkingLayouts.roof),20);
   assert.equal(parkingCapacity(parkingLayouts.tower),20);
   assert.equal(parkingCapacity(parkingLayouts.auto13),12);
-  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),102);
+  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),104);
 });
 
 test('B3층 확장 도면은 9×21 Grid Cell을 자동 생성한다',()=>{
@@ -116,6 +116,8 @@ test('오토플렉스 13층은 지정 행과 12개 주차면만 기본 표시한
 
 test('B5층은 접으면 17~20행도 숨긴다',()=>{
   const html=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:false});
+  assert.match(html,/aria-label="F15 빈 자리"/);
+  assert.match(html,/aria-label="F16 빈 자리"/);
   assert.doesNotMatch(html,/>15<\/b>/);
   assert.doesNotMatch(html,/>16<\/b>/);
   assert.doesNotMatch(html,/>21<\/b>/);
