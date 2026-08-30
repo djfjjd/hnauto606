@@ -13,3 +13,10 @@ test('출고 저장 후 Web Push를 발송한다',()=>{
   assert.match(api,/notifyVehicleAction\(context,vehicle,'차량 출고','출고',eventId\)/);
   assert.match(api,/bind\(eventId,'check_out',vehicle\.id/);
 });
+
+test('차량 위치 교환은 두 차량과 새 위치를 한 알림으로 발송한다',()=>{
+  assert.match(api,/function notifyVehicleSwap/);
+  assert.match(api,/body:`\$\{label\(source\)\} ↔ \$\{label\(target\)\}`/);
+  assert.match(api,/await notifyVehicleSwap\(context,source\.id,target\.id,eventId\)/);
+  assert.doesNotMatch(api,/Promise\.all\(\[notifyVehicleLocation\(context,source\.id\),notifyVehicleLocation\(context,target\.id\)\]\)/);
+});
