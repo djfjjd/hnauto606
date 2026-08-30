@@ -21,12 +21,12 @@ test('모바일 통계 카드 네 개를 한 줄로 표시한다',()=>{
   assert.match(css,/\.parking-summary \.metric\{min-height:110px;padding:16px\}/);
 });
 
-test('모바일 초기 화면에서 6층과 지하 3층 도면을 오른쪽 끝에 맞춘다',()=>{
+test('모바일에서 6층과 지하 3층 도면을 다시 그릴 때마다 오른쪽 끝에 맞춘다',()=>{
   assert.match(main,/if\(state\.loading\|\|!matchMedia/);
   assert.match(main,/\['pillar11','b3'\]\.forEach\(zoneId=>/);
   assert.match(main,/scroll\.scrollLeft=Math\.max\(0,scroll\.scrollWidth-scroll\.clientWidth\)/);
-  assert.match(main,/initialRightScrolledMaps\.add\(zoneId\)/);
-  assert.match(main,/alignInitialMobileParkingMaps\(\);/);
+  assert.match(main,/bindParkingDragAndDrop\(container\);alignPinnedMobileParkingMaps\(\);/);
+  assert.doesNotMatch(main,/initialRightScrolledMaps/);
 });
 
 test('좌우 스와이프로 주차 현황과 차량 현황판 사이를 이동하지 않는다',()=>{
