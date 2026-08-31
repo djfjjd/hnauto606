@@ -21,6 +21,11 @@ test('출고 차량 행은 수정·순서 변경 없이 빨간 취소선으로 �
   assert.match(css,/\.board-drag-handle\.is-disabled\{[^}]*opacity:1/);
 });
 
+test('출고 차량의 비활성 핸들이 있어도 현황판 조작 이벤트를 계속 연결한다',()=>{
+  assert.match(main,/const handle=row\.querySelector\('\[data-board-drag\]'\);if\(!handle\)return;handle\.addEventListener/);
+  assert.ok(main.indexOf('bindDashboardDragAndDrop();')<main.indexOf("document.querySelectorAll('[data-manager-filter]')"));
+});
+
 test('출고 차량을 임시 주차면에 배정하고 출고 번호 요약을 표시한다',()=>{
   assert.match(api,/parts\[2\]==='assign-checked-out'/);
   assert.match(api,/출고 후 임시 주차/);
