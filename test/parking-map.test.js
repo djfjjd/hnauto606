@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {normalizePosition,parkingCapacity,parkingLayouts} from '../src/parking-layouts.js';
 import {renderParkingMap} from '../src/parking-map.js';
 
@@ -76,6 +77,11 @@ test('출고 후 주차 중인 차량은 빨간 글씨와 출고됨 표시를 �
   assert.match(html,/is-checked-out/);
   assert.match(html,/<strong>6853<\/strong><span>\(출고됨\) A6<\/span>/);
   assert.match(html,/335모6853 출고됨/);
+});
+
+test('출고 차량의 빨간 글씨에는 그림자를 표시하지 않는다',()=>{
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+  assert.match(css,/\.parking-cell\.is-occupied\.is-checked-out strong,[^{]+\{[^}]*text-shadow:none/);
 });
 
 test('6층은 기본적으로 01~14행을 숨기고 30개 자리를 표시한다',()=>{
