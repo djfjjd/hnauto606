@@ -41,3 +41,9 @@ test('출고 차량을 임시 주차면에 배정하고 출고 번호 요약을 
   assert.match(main,/<strong>출고됨 :<\/strong>/);
   assert.match(css,/\.checked-out-summary\{/);
 });
+
+test('출고됨 요약에는 실제 주차면에 남아 있는 출고 차량만 표시한다',()=>{
+  assert.match(main,/const parked=state\.spots\.filter\(spot=>used\(spot\)&&spot\.isCheckedOut&&!spot\.isUnassigned\)/);
+  assert.match(main,/parked\.length\?parked\.map\(vehicle=>/);
+  assert.doesNotMatch(main,/state\.checkedOut\.length\?state\.checkedOut\.map\(vehicle=>/);
+});
