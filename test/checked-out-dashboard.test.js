@@ -15,8 +15,10 @@ test('대시보드 API가 기존 출고 차량을 별도 목록으로 반환한�
 test('출고 차량 행은 수정·순서 변경 없이 빨간 취소선으로 표시한다',()=>{
   assert.match(main,/class=\"board-row \$\{checkedOut\?'is-checked-out':''\}\"/);
   assert.match(main,/board-checkout-label\">출고/);
+  assert.match(main,/class=\"board-drag-handle is-disabled\" disabled[^>]*>⠿<\/button>/);
   assert.match(main,/querySelectorAll\('\[data-board-search\]:not\(\.is-checked-out\)'\)/);
   assert.match(css,/\.board-row\.is-checked-out::after\{[^}]*background:#d22f2f/);
+  assert.match(css,/\.board-drag-handle\.is-disabled\{[^}]*opacity:1/);
 });
 
 test('출고 차량을 임시 주차면에 배정하고 출고 번호 요약을 표시한다',()=>{
