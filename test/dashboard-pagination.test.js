@@ -33,6 +33,8 @@ test('순번 왼쪽 연필 버튼으로 숫자 수정 모드와 저장 모드를
   assert.match(main,/saveDashboardOrder\(group\)/);
   assert.match(css,/\.sequence-edit-button\{/);
   assert.match(css,/\.board-sequence input\{/);
+  assert.match(css,/\.board-sequence input\[type=number\]\{appearance:textfield/);
+  assert.match(css,/::-webkit-inner-spin-button/);
 });
 
 test('순번 편집 중에는 차량 행을 눌러도 상세정보를 열지 않는다',()=>{
