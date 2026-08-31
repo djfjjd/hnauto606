@@ -24,6 +24,17 @@ test('차량 목록에 순번과 6점 드래그 핸들을 표시하고 D1에 순
   assert.match(css,/\.board-drag-handle\{/);
 });
 
+test('순번 왼쪽 연필 버튼으로 숫자 수정 모드와 저장 모드를 전환한다',()=>{
+  assert.match(main,/class="sequence-edit-button" data-sequence-edit[^>]*>✎<\/button><span>순번<\/span>/);
+  assert.match(main,/function toggleDashboardSequenceEdit\(group,button\)/);
+  assert.match(main,/cell\.innerHTML=`<input type="number" min="1" step="1"/);
+  assert.match(main,/button\.textContent='저장'/);
+  assert.match(main,/entries\.sort\(\(a,b\)=>a\.order-b\.order\|\|a\.index-b\.index\)/);
+  assert.match(main,/saveDashboardOrder\(group\)/);
+  assert.match(css,/\.sequence-edit-button\{/);
+  assert.match(css,/\.board-sequence input\{/);
+});
+
 test('페이지 탐색에 맨처음·이전·번호·다음·맨끝을 제공한다',()=>{
   assert.match(main,/>맨처음<\/button>/);
   assert.match(main,/aria-label="이전 페이지"/);
