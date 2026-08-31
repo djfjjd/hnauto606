@@ -16,3 +16,20 @@ test('출고 API는 출고일을 검증해 차량과 감사 이력에 저장한�
   assert.match(api,/checked_out_at=\?/);
   assert.match(api,/JSON\.stringify\(\{checkedOutDate\}\)/);
 });
+
+test('출고 API는 현재 주차면을 유지하고 출고 상태만 기록한다',()=>{
+  const start=api.indexOf("parts[2]==='check-out'");
+  const end=api.indexOf("parts[2]==='status'",start);
+  const handler=api.slice(start,end);
+  assert.match(handler,/UPDATE vehicles SET checked_out_at=\?/);
+  assert.doesNotMatch(handler,/current_spot_id=NULL/);
+  assert.doesNotMatch(handler,/UPDATE parking_spots SET current_vehicle_id=NULL/);
+});
+
+test('출고 차량도 주차면에서 나중에 삭제할 수 있다',()=>{
+  const start=api.indexOf("parts[2]==='unassign'");
+  const end=api.indexOf("parts[2]==='check-out'",start);
+  const handler=api.slice(start,end);
+  assert.match(handler,/SELECT id,plate,current_spot_id,version FROM vehicles WHERE id=\?/);
+  assert.doesNotMatch(handler,/checked_out_at IS NULL/);
+});

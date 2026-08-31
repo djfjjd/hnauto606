@@ -71,6 +71,13 @@ test('주차 차량 Cell에는 차량 색상 클래스가 적용된다',()=>{
   assert.match(white,/draggable="true"/);
 });
 
+test('출고 후 주차 중인 차량은 빨간 글씨와 출고됨 표시를 사용한다',()=>{
+  const html=renderParkingMap(parkingLayouts.b3,[{id:'checked-out-car',label:'E16',plate:'335모6853',model:'A6',color:'검정',isCheckedOut:true,alerts:[]}],undefined,{expanded:true});
+  assert.match(html,/is-checked-out/);
+  assert.match(html,/<strong>6853<\/strong><span>\(출고됨\) A6<\/span>/);
+  assert.match(html,/335모6853 출고됨/);
+});
+
 test('6층은 기본적으로 01~14행을 숨기고 30개 자리를 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.pillar11,[],new Set(),{zoneId:'pillar11',expanded:false});
   const expanded=renderParkingMap(parkingLayouts.pillar11,[],new Set(),{zoneId:'pillar11',expanded:true});
