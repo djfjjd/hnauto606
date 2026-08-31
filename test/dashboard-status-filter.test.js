@@ -18,3 +18,8 @@ test('각 담당자의 상태 필터를 독립 저장하고 검색·페이지 �
   assert.match(main,/status==='active'&&!row\.classList\.contains\('is-checked-out'\)/);
   assert.match(main,/state\.managerPages\[manager\]=1;updateDashboardGroup\(group,state\.query\)/);
 });
+
+test('현황판 상단 차량 대수는 출고 차량을 제외한다',()=>{
+  assert.match(main,/vehicles=boardVehicles\(\)\.filter\(vehicle=>!vehicle\.isCheckedOut\)/);
+  assert.match(main,/<strong>\$\{vehicles\.length\}<small>대<\/small><\/strong>/);
+});

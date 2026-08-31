@@ -41,6 +41,12 @@ test('모바일 상단 업무 메뉴를 표시하고 통계와 검색 사이 간
   assert.match(css,/@media\(max-width:800px\)\{\.topbar \.external-tools,\.topbar \.board-nav\{display:flex\}\}/);
 });
 
+test('모바일 당겨서 새로고침 안내를 두 배 크기로 표시한다',()=>{
+  assert.match(css,/\.pull-refresh\{[^}]*min-width:380px[^}]*padding:20px 32px[^}]*font-size:24px/);
+  assert.match(main,/distance-90/);
+  assert.match(main,/translate\(-50%, -90px\)/);
+});
+
 test('두 화면의 상단 브랜드에 public 파비콘을 사용한다',()=>{
   assert.equal((main.match(/<img class="brand-mark" src="\/favicon-32\.png" alt="">/g)||[]).length,2);
 });
