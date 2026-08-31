@@ -56,6 +56,14 @@ test('새싹타워는 A~J열의 B5·B6층 20면으로 표시한다',()=>{
 test('빈 자리에는 주차 가능 보조 문구를 표시하지 않는다',()=>{
   const html=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
   assert.doesNotMatch(html,/주차 가능/);
+  assert.doesNotMatch(html,/>빈 자리</);
+});
+
+test('빈 주차면은 문구 대신 모서리를 잇는 빨간 대각선 X로 표시한다',()=>{
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+  assert.match(css,/\.parking-cell\.is-vacant::before,.parking-cell\.is-vacant::after/);
+  assert.match(css,/linear-gradient\(to top right[^}]+#e76565/);
+  assert.match(css,/linear-gradient\(to bottom right[^}]+#e76565/);
 });
 
 test('차량 Cell에는 차량번호 뒤 4자리만 크게 표시한다',()=>{
