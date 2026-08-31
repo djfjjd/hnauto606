@@ -35,6 +35,10 @@ test('순번 왼쪽 연필 버튼으로 숫자 수정 모드와 저장 모드를
   assert.match(css,/\.board-sequence input\{/);
 });
 
+test('순번 편집 중에는 차량 행을 눌러도 상세정보를 열지 않는다',()=>{
+  assert.match(main,/el\.closest\('\.manager-group'\)\?\.classList\.contains\('is-sequence-editing'\).*return/);
+});
+
 test('페이지 탐색에 맨처음·이전·번호·다음·맨끝을 제공한다',()=>{
   assert.match(main,/>맨처음<\/button>/);
   assert.match(main,/aria-label="이전 페이지"/);
