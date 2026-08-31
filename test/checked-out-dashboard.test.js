@@ -18,3 +18,11 @@ test('출고 차량 행은 수정·순서 변경 없이 빨간 취소선으로 �
   assert.match(main,/querySelectorAll\('\[data-board-search\]:not\(\.is-checked-out\)'\)/);
   assert.match(css,/\.board-row\.is-checked-out::after\{[^}]*background:#d22f2f/);
 });
+
+test('출고 차량을 임시 주차면에 배정하고 출고 번호 요약을 표시한다',()=>{
+  assert.match(api,/parts\[2\]==='assign-checked-out'/);
+  assert.match(api,/출고 후 임시 주차/);
+  assert.match(main,/function renderCheckedOutSummary\(\)/);
+  assert.match(main,/<strong>출고됨 :<\/strong>/);
+  assert.match(css,/\.checked-out-summary\{/);
+});

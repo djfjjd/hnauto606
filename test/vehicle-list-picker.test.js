@@ -14,3 +14,8 @@ test('출고 차량은 주차·상품화·미배정을 포함한 차량현황판
   assert.match(main,/checkoutPickerRoot\?createVehicleListPicker\(checkoutPickerRoot,\{vehicles:boardVehicles\(\)\.filter\(vehicle=>!vehicle\.isCheckedOut\)\.map/);
   assert.match(main,/function boardVehicles\(\)\{return\[\.\.\.new Map\(\[\.\.\.state\.spots\.filter\(used\),\.\.\.state\.checkedOut\]/);
 });
+
+test('빈 자리 배정 목록에서 미배정 차량과 아직 주차되지 않은 출고 차량을 검색한다',()=>{
+  assert.match(main,/assignableVehicles=\[\.\.\.state\.unassigned,\.\.\.state\.checkedOut\.filter\(vehicle=>!vehicle\.currentSpotId\)\]/);
+  assert.match(main,/vehicle\.isCheckedOut\?'assign-checked-out':'move'/);
+});
