@@ -48,6 +48,13 @@ test('출고됨 요약에는 실제 주차면에 남아 있는 출고 차량만 
   assert.doesNotMatch(main,/state\.checkedOut\.length\?state\.checkedOut\.map\(vehicle=>/);
 });
 
+test('첫 화면 검색은 주차면이 없는 출고 차량도 포함하고 위치를 출고됨으로 표시한다',()=>{
+  assert.match(main,/searchPool=\[\.\.\.state\.spots,\.\.\.state\.checkedOut\.filter\(vehicle=>!vehicle\.currentSpotId\)\]/);
+  assert.match(main,/matches=searchPool\.filter/);
+  assert.match(main,/s\.isCheckedOut&&!s\.currentSpotId\?'출고됨'/);
+  assert.match(main,/const vehicle=searchPool\.find\(item=>item\.id===button\.dataset\.searchSpot\)/);
+});
+
 test('출고 차량 행의 휴지통 왼쪽에 출고취소 버튼을 표시한다',()=>{
   assert.match(main,/class="board-checkout-cancel" data-cancel-checkout=/);
   assert.match(main,/>출고취소<\/button>/);
