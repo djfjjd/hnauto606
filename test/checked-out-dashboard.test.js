@@ -47,3 +47,27 @@ test('출고됨 요약에는 실제 주차면에 남아 있는 출고 차량만 
   assert.match(main,/parked\.length\?parked\.map\(vehicle=>/);
   assert.doesNotMatch(main,/state\.checkedOut\.length\?state\.checkedOut\.map\(vehicle=>/);
 });
+
+test('출고 차량 행의 휴지통 왼쪽에 출고취소 버튼을 표시한다',()=>{
+  assert.match(main,/class="board-checkout-cancel" data-cancel-checkout=/);
+  assert.match(main,/>출고취소<\/button>/);
+  assert.ok(main.indexOf('board-checkout-cancel')<main.indexOf('board-delete-icon'));
+  assert.match(css,/\.board-checkout-cancel\{/);
+});
+
+test('출고취소 확인 후 판매 중 상태로 복원하는 API를 호출한다',()=>{
+  assert.match(main,/function cancelVehicleCheckout\(button\)/);
+  assert.match(main,/판매 중 상태로 되돌릴까요/);
+  assert.match(main,/vehicles\/\$\{vehicleId\}\/cancel-check-out/);
+});
+
+test('출고취소 API는 중복 활성 차량을 막고 출고일을 되돌린다',()=>{
+  const start=api.indexOf("parts[2]==='cancel-check-out'");
+  const end=api.indexOf("parts[2]==='status'",start);
+  const handler=api.slice(start,end);
+  assert.match(handler,/checked_out_at IS NOT NULL/);
+  assert.match(handler,/plate=\? AND checked_out_at IS NULL AND id<>\?/);
+  assert.match(handler,/UPDATE vehicles SET checked_out_at=NULL/);
+  assert.match(handler,/cancel_check_out/);
+  assert.match(handler,/출고 취소/);
+});
