@@ -33,3 +33,14 @@ test('출고 차량도 주차면에서 나중에 삭제할 수 있다',()=>{
   assert.match(handler,/SELECT id,plate,current_spot_id,version FROM vehicles WHERE id=\?/);
   assert.doesNotMatch(handler,/checked_out_at IS NULL/);
 });
+
+test('출고 차량도 빈 자리 이동과 차량 간 자리 교환을 할 수 있다',()=>{
+  const moveStart=api.indexOf("parts[2]==='move'");
+  const swapStart=api.indexOf("parts[2]==='swap'",moveStart);
+  const unassignStart=api.indexOf("parts[2]==='unassign'",swapStart);
+  const moveHandler=api.slice(moveStart,swapStart);
+  const swapHandler=api.slice(swapStart,unassignStart);
+  assert.match(moveHandler,/SELECT id,plate,current_spot_id,version FROM vehicles WHERE id=\?/);
+  assert.doesNotMatch(moveHandler,/checked_out_at IS NULL/);
+  assert.doesNotMatch(swapHandler,/checked_out_at IS NULL/);
+});
