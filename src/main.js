@@ -1,7 +1,7 @@
 import './style.css';
 import {makeInitialSpots,STATUS,zones} from './data.js';
 import {normalizePlate,validateVehicle} from './validation.js';
-import {parkingCapacity,parkingLayouts} from './parking-layouts.js';
+import {normalizePosition,parkingCapacity,parkingLayouts} from './parking-layouts.js';
 import {renderParkingMap} from './parking-map.js';
 
 const app=document.querySelector('#app');

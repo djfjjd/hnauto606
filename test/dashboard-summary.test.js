@@ -33,9 +33,15 @@ test('첫 화면 검색 결과는 보조 제목 없이 실제 값을 큰 글씨�
 });
 
 test('새싹타워 검색 결과는 행에 따라 B5층과 B6층을 구분한다',()=>{
+  assert.match(main,/import \{normalizePosition,parkingCapacity,parkingLayouts\} from '\.\/parking-layouts\.js'/);
   assert.match(main,/function parkingSearchZoneLabel\(spot\)/);
   assert.match(main,/spot\.zoneId==='tower'/);
   assert.match(main,/row==='01'\)return'새싹 B5층'/);
   assert.match(main,/row==='02'\)return'새싹 B6층'/);
   assert.match(main,/zoneLabel=parkingSearchZoneLabel\(s\)/);
+});
+
+test('주차 검색 목록은 네 자리 완전 일치가 아닌 부분검색을 유지한다',()=>{
+  assert.match(main,/matches=searchPool\.filter\(s=>used\(s\)&&\[s\.plate,s\.model,s\.color,s\.manager,s\.label,s\.zone\]\.some\(value=>String\(value\)\.toLowerCase\(\)\.includes\(query\)\)\)/);
+  assert.doesNotMatch(main,/renderParkingSearchResults\(\)[^}]*endsWith\(query\)/);
 });
