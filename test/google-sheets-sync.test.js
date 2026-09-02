@@ -37,7 +37,7 @@ test('탭·테스트·개별·전체 동기화 API와 탭 선택 UI를 제공한
   assert.match(handler,/parts\[1\]==='sync-all'/);
   assert.match(main,/data-sheet-tab/);
   assert.match(main,/SHEET_TAB_STORAGE/);
-  assert.match(main,/>스프레드시트 동기화<\/button>/);
+  assert.match(main,/>저장<\/button>/);
   assert.match(main,/>전체 동기화<\/button>/);
   assert.match(handler,/SELECT plate,model,model_year,color,options,manager,memo,updated_at FROM vehicles/);
 });
