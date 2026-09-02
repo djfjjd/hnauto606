@@ -116,3 +116,12 @@ test('선택차량목록은 기본 접힘·10개 페이지·삭제 기능을 제
   assert.match(main,/api\(`heydealer\/\$\{record\.id\}`,\{method:'DELETE'\}\)/);
   assert.match(css,/\.heydealer-delete\{[^}]*color:#c82020/);
 });
+
+test('선택차량목록의 법인 차량만 R2 첨부파일 다운로드 기능을 제공한다',()=>{
+  assert.match(main,/record\.customer_type==='법인'/);
+  assert.match(main,/class="corporate-label">\(법인차량\)<\/span><button type="button" class="heydealer-download"/);
+  assert.match(main,/data-heydealer-files/);
+  assert.match(main,/openHeydealerFiles\(record\)/);
+  assert.match(main,/업로드된 파일이 없습니다\./);
+  assert.match(main,/\/api\/heydealer\/\$\{esc\(record\.id\)\}\/files\/\$\{esc\(file\.id\)\}/);
+});

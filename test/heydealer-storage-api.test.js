@@ -23,6 +23,7 @@ test('법인 파일만 비공개 R2에 저장하고 실패 시 객체를 정리�
   assert.match(handler,/await env\.FILES\.put\(objectKey/);
   assert.match(handler,/await env\.FILES\.delete\(objectKey\)/);
   assert.match(handler,/Content-Disposition/);
+  assert.match(handler,/filename\*=UTF-8''\$\{encodeURIComponent\(file\.filename\)\}/);
 });
 
 test('헤이딜러 API는 옵션 외 모든 거래 항목을 필수로 검증한다',()=>{
