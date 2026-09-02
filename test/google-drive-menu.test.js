@@ -11,6 +11,7 @@ test('상단 헤이딜러 메뉴와 첫 화면 Sheets·캘린더 바로가기를
   assert.match(main,/class="external-submenu"><a href="\/drive">프롬프트양식<\/a>/);
   assert.match(main,/<a href="\/drive\/heydealer">선택차량목록<\/a>/);
   assert.match(main,/class="header-actions"><a class="header-sheet-link" href="https:\/\/docs\.google\.com\/spreadsheets\/d\/1N3cAmPeS7eOZoqW-k9r1bx_xI0XI-4e0aGo9B04wGbA\/edit\?gid=1361663048#gid=1361663048"[^>]*aria-label="Google Sheets 바로가기"[^>]*><img src="\/sheets\.png" alt=""><\/a><a class="header-dashboard-link" href="\/dashboard">차량 현황판<\/a>/);
+  assert.match(main,/class="header-actions"><a class="header-sheet-link" href="https:\/\/docs\.google\.com\/spreadsheets\/d\/1N3cAmPeS7eOZoqW-k9r1bx_xI0XI-4e0aGo9B04wGbA\/edit\?gid=1361663048#gid=1361663048"[^>]*><img src="\/sheets\.png" alt=""><\/a><nav class="board-nav"><a href="\/">주차 위치 현황<\/a>/);
   assert.match(main,/class="external-submenu"><a href="\/drive">프롬프트양식<\/a><a href="\/drive\/heydealer">선택차량목록<\/a><\/div>/);
   assert.match(css,/\.external-tools>a:not\(\.drive-icon-link\)\{font-size:15px\}\.external-tools>\.external-menu>button\{font-size:16px\}/);
   assert.match(css,/\.header-sheet-link img\{display:block;width:30px;height:30px/);
