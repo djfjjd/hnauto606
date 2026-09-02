@@ -35,3 +35,17 @@ test('제원 바로 아래의 옵션 문구를 자동 입력한다',()=>{
   const result=parseHeydealerText(sample.replace('\n거래 주요정보','\n선루프,1인신조\n거래 주요정보'));
   assert.equal(result.options,'선루프,1인신조');
 });
+
+test('옵션 다음 여러 줄과 특이사항 및 출발시간을 인식한다',()=>{
+  const source=`219더4124\nBMW 120i\n2023-10 (23년형)\n휘발유ㆍ오토ㆍ흰색\n옵션\n선루프\n1인신조\n어라운드뷰\n특이사항\n앞범퍼 흠집\n출발시간\n18:00`;
+  const result=parseHeydealerText(source);
+  assert.equal(result.options,'선루프,1인신조,어라운드뷰');
+  assert.equal(result.notes,'앞범퍼 흠집');
+  assert.equal(result.departureTime,'18:00');
+});
+
+test('차대금 원문처럼 차량번호가 없으면 차종을 임의 추출하지 않는다',()=>{
+  const result=parseHeydealerText('차대금\n2,020만원\n입금 계좌\n우리은행 123-456');
+  assert.equal(result.model,'');
+  assert.equal(result.price,'2,020만원');
+});

@@ -28,9 +28,14 @@ test('/drive 경로에 Google API 연결 전 안전한 프롬프트 화면을 �
   assert.match(main,/parseHeydealerText\(prompt\.value\)/);
   assert.match(main,/driveField\('manager','담당자'\)/);
   assert.match(main,/driveField\('departureTime','출발시간'\)/);
+  assert.match(main,/id="drive-payment-prompt"/);
+  assert.match(main,/\(탁송인수 정보\)/);
+  assert.match(main,/\(차대금 입금\)/);
+  assert.match(main,/mergeParsed\(parsed\)/);
   assert.match(main,/저장 내용은 이 브라우저에 보관됩니다/);
   assert.match(main,/location\.pathname==='\/drive'/);
   assert.match(css,/\.drive-prompt-panel\{/);
+  assert.match(css,/\.drive-prompt-grid\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
 });
 
 test('헤이딜러 입력은 초기화와 저장을 지원하고 목록 페이지에서 확인한다',()=>{
