@@ -1,0 +1,70 @@
+UPDATE vehicles
+SET board_order = CASE plate
+  WHEN '56마7937' THEN 1
+  WHEN '28도3661' THEN 2
+  WHEN '07두4248' THEN 3
+  WHEN '112부3532' THEN 4
+  WHEN '141라2216' THEN 5
+  WHEN '59버5186' THEN 6
+  WHEN '146로6121' THEN 7
+  WHEN '229오5495' THEN 8
+  WHEN '08어2109' THEN 9
+  WHEN '323로9939' THEN 10
+  WHEN '310주4121' THEN 11
+  WHEN '42루7601' THEN 12
+  WHEN '330무5458' THEN 13
+  WHEN '289무7006' THEN 14
+  WHEN '332거4844' THEN 15
+  WHEN '97수0945' THEN 16
+  WHEN '61부3226' THEN 17
+  WHEN '186저9439' THEN 18
+  WHEN '104누5036' THEN 19
+  WHEN '152로9903' THEN 20
+  WHEN '217주9214' THEN 21
+  WHEN '257저9955' THEN 22
+  WHEN '167조3574' THEN 23
+  WHEN '42보6676' THEN 24
+  WHEN '246루7446' THEN 25
+  WHEN '62라8424' THEN 26
+  WHEN '05서0807' THEN 27
+  WHEN '170누6876' THEN 28
+  WHEN '108주7275' THEN 29
+  WHEN '26조9511' THEN 30
+  WHEN '151마1779' THEN 31
+  WHEN '179로1163' THEN 32
+  WHEN '163고7334' THEN 33
+  WHEN '242부9198' THEN 34
+  WHEN '26더6881' THEN 35
+  WHEN '249라5370' THEN 36
+  WHEN '352거9633' THEN 37
+  WHEN '106오3833' THEN 38
+  WHEN '04고2790' THEN 39
+  WHEN '164로3630' THEN 40
+  WHEN '290모2278' THEN 41
+  WHEN '335모6853' THEN 42
+  WHEN '328가3298' THEN 43
+  WHEN '143루5988' THEN 44
+  WHEN '39수5109' THEN 45
+  WHEN '348누5827' THEN 46
+  WHEN '256조1083' THEN 47
+  WHEN '156하9280' THEN 50
+  WHEN '59다3609' THEN 51
+  WHEN '69두9567' THEN 52
+  ELSE board_order
+END
+WHERE manager = '대표님';
+
+INSERT INTO audit_logs(id,actor_user_id,action,entity_type,entity_id,details_json)
+VALUES(
+  lower(hex(randomblob(16))),
+  'shared-field-device',
+  'reorder',
+  'vehicle_board',
+  '대표님',
+  json_object(
+    'source','requested_plate_suffix_order',
+    'orderedCount',46,
+    'unlistedStart',50,
+    'missingSuffix','3574,4124'
+  )
+);
