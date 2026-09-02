@@ -15,6 +15,13 @@ test('출고 저장 후 Web Push를 발송한다',()=>{
   assert.match(api,/bind\(eventId,'check_out',vehicle\.id/);
 });
 
+test('프롬프트양식 저장 완료 후 전체 차량번호로 캘린더 추가 알림을 발송한다',()=>{
+  assert.match(api,/function notifyCalendarAdd/);
+  assert.match(api,/body:`\$\{record\.plate\}, 캘린더 추가`/);
+  assert.match(api,/eventId,'calendar_add'/);
+  assert.match(api,/notifyCalendarAdd\(context,record,eventId\)/);
+});
+
 test('차량 위치 교환은 두 차량과 새 위치를 한 알림으로 발송한다',()=>{
   assert.match(api,/function notifyVehicleSwap/);
   assert.match(api,/body:`\$\{label\(source\)\} ↔ \$\{label\(target\)\}`/);

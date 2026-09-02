@@ -80,6 +80,10 @@ test('헤이딜러 입력은 초기화와 저장을 지원하고 목록 페이�
   assert.match(css,/\.heydealer-record-list\{/);
 });
 
+test('프롬프트양식 저장 완료 요청에 캘린더 푸시 알림 표시를 전달한다',()=>{
+  assert.match(main,/recordId:savedRecordId,tab:sheetSelect\.value,notifyCalendar:true/);
+});
+
 test('특이사항은 필수 개인·법인 선택이며 법인만 파일 첨부를 활성화한다',()=>{
   assert.match(main,/driveField\('notes','특이사항'\)/);
   assert.match(main,/required-mark">\(필수\)<\/small>/);
