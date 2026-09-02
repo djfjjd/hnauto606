@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const migration=readFileSync(new URL('../migrations/0013_add_heydealer_records.sql',import.meta.url),'utf8');
+const mileageMigration=readFileSync(new URL('../migrations/0014_add_heydealer_mileage.sql',import.meta.url),'utf8');
 const wrangler=readFileSync(new URL('../wrangler.toml',import.meta.url),'utf8');
 
 test('헤이딜러 거래와 파일 메타데이터를 별도 D1 테이블에 보관한다',()=>{
@@ -25,6 +26,15 @@ test('법인 파일만 비공개 R2에 저장하고 실패 시 객체를 정리�
 });
 
 test('헤이딜러 API는 옵션 외 모든 거래 항목을 필수로 검증한다',()=>{
-  assert.match(handler,/requiredValues=\[input\?\.manager,input\?\.modelYear,input\?\.plate,input\?\.model,input\?\.color,input\?\.customerType\|\|input\?\.notes,input\?\.price,input\?\.account,input\?\.origin,input\?\.departureTime\]/);
+  assert.match(mileageMigration,/ALTER TABLE heydealer_records ADD COLUMN mileage TEXT NOT NULL DEFAULT ''/);
+  assert.match(handler,/requiredValues=\[input\?\.manager,input\?\.modelYear,input\?\.plate,input\?\.model,input\?\.color,input\?\.mileage,input\?\.customerType\|\|input\?\.notes,input\?\.price,input\?\.account,input\?\.origin,input\?\.departureTime\]/);
   assert.match(handler,/message:'필수사항을 입력하세요\.'/);
+});
+
+test('잘못 입력한 선택 차량은 R2 파일과 D1 기록을 안전하게 삭제한다',()=>{
+  assert.match(handler,/method==='DELETE'&&parts\[1\]&&!parts\[2\]/);
+  assert.match(handler,/for\(const file of files\)await env\.FILES\.delete\(file\.object_key\)/);
+  assert.match(handler,/DELETE FROM heydealer_files WHERE record_id=\?/);
+  assert.match(handler,/DELETE FROM heydealer_records WHERE id=\?/);
+  assert.match(handler,/'delete','heydealer_record'/);
 });

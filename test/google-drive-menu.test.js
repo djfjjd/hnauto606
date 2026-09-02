@@ -71,8 +71,20 @@ test('프롬프트 입력은 특이사항 개인·법인 선택값을 자동 변
 
 test('헤이딜러 거래는 옵션만 선택이고 나머지 입력값을 필수로 검증한다',()=>{
   assert.match(main,/const required=name!=='options'/);
-  assert.match(main,/requiredNames=\['manager','date','modelYear','plate','model','color','notes','price','account','origin','departureTime'\]/);
+  assert.doesNotMatch(main,/driveField\('date','날짜'/);
+  assert.match(main,/driveField\('mileage','총 주행거리'\)/);
+  assert.match(main,/requiredNames=\['manager','modelYear','plate','model','color','mileage','notes','price','account','origin','departureTime'\]/);
   assert.match(main,/status\.textContent='필수사항을 입력하세요\.'/);
   assert.match(main,/status\.classList\.add\('is-error'\)/);
   assert.match(css,/\.drive-parse-status\.is-error\{color:#c82020/);
+});
+
+test('선택차량목록은 기본 접힘·10개 페이지·삭제 기능을 제공한다',()=>{
+  assert.match(main,/class="heydealer-record-details"><summary>펼치기<\/summary>/);
+  assert.match(main,/records\.slice\(\(currentPage-1\)\*10,currentPage\*10\)/);
+  assert.match(main,/>맨처음<\/button>/);
+  assert.match(main,/>맨끝<\/button>/);
+  assert.match(main,/data-heydealer-delete/);
+  assert.match(main,/api\(`heydealer\/\$\{record\.id\}`,\{method:'DELETE'\}\)/);
+  assert.match(css,/\.heydealer-delete\{[^}]*color:#c82020/);
 });
