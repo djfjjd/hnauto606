@@ -48,7 +48,8 @@ test('헤이딜러 입력은 초기화와 저장을 지원하고 목록 페이�
   assert.match(main,/location\.href='\/drive\/heydealer'/);
   assert.match(main,/function renderHeydealerRecordsPage\(\)/);
   assert.match(main,/location\.pathname==='\/drive\/heydealer'/);
-  assert.match(main,/헤이딜러 저장 목록/);
+  assert.match(main,/<div class="heydealer-list-head"><h1>선택차량목록<\/h1>/);
+  assert.doesNotMatch(main,/GOOGLE DRIVE · HEYDEALER|헤이딜러 저장 목록|거래 정보는 D1, 법인 첨부파일은 비공개 R2에 저장됩니다/);
   assert.match(css,/\.heydealer-record-list\{/);
 });
 
