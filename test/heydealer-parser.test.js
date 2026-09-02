@@ -74,3 +74,19 @@ test('입금 안내의 2시간 전 문구를 출발시간으로 오인하지 않
   const result=parseHeydealerText('탁송정보\n원활한 탁송을 위해 탁송 출발 2시간 전까지 입금해 주세요.\n차대금 입금');
   assert.equal(result.departureTime,'');
 });
+
+test('앞쪽 탁송인수 정보보다 뒤쪽 실제 탁송정보의 일정을 우선한다',()=>{
+  const source=`탁송인수 정보
+차대금 입금
+거래 마무리
+거래종결
+매수자 인적사항
+탁송정보
+탁송기사님이 송금과 서류 확인을 담당합니다.
+일정
+2026-09-04 (금) 오전 10시 출발예정
+탁송받을 주소
+서울 강서구 양천로53길 30`;
+  const result=parseHeydealerText(source);
+  assert.equal(result.departureTime,'2026-09-04 (금) 오전 10시 출발예정');
+});

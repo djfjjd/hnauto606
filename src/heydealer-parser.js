@@ -18,7 +18,8 @@ function valuesAfterLabel(lines,labels,stopLabels){
 }
 
 function pickupSchedule(lines){
-  const pickupIndex=lines.findIndex(line=>/^탁송(?:인수)?\s*정보/.test(line));
+  const actualPickupIndex=lines.findIndex(line=>/^탁송\s*정보/.test(line));
+  const pickupIndex=actualPickupIndex>=0?actualPickupIndex:lines.findIndex(line=>/^탁송(?:인수)?\s*정보/.test(line));
   if(pickupIndex<0)return'';
   const section=lines.slice(pickupIndex+1),end=section.findIndex(line=>/^(차대금\s*입금|거래 마무리|거래종결|입금 상태|차대금)$/.test(line)),values=end<0?section:section.slice(0,end);
   const scheduleIndex=values.findIndex(line=>/^(일정|탁송일정|탁송 일정|출발일정|출발 일정|출발 예정시간)$/.test(line));
