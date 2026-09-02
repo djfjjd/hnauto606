@@ -24,6 +24,10 @@ test('구글드라이브 메뉴는 모바일 클릭과 키보드 Escape 조작�
   assert.match(main,/if\(event\.key==='Escape'\)/);
 });
 
+test('헤이딜러 페이지 상단은 차량 현황판 링크만 표시한다',()=>{
+  assert.match(css,/body:has\(\.drive-prompt-panel\) \.topbar \.board-nav a\[href="\/"\][^,]*,body:has\(\.heydealer-list-page\) \.topbar \.board-nav a\[href="\/drive"\]\{display:none\}/);
+});
+
 test('/drive 경로에 Google API 연결 전 안전한 프롬프트 화면을 제공한다',()=>{
   assert.match(main,/function renderDrivePage\(\)/);
   assert.match(main,/class="drive-prompt-panel"/);
