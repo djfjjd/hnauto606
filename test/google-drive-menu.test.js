@@ -62,6 +62,11 @@ test('특이사항은 필수 개인·법인 선택이며 법인만 파일 첨부
   assert.match(css,/\.drive-file-button\.is-disabled/);
 });
 
+test('프롬프트 입력은 특이사항 개인·법인 선택값을 자동 변경하지 않는다',()=>{
+  assert.match(main,/if\(name==='notes'\)return;const field=form\.elements\.namedItem\(name\)/);
+  assert.match(main,/const reset=\(\)=>\{fillDriveFields\(form,empty\)/);
+});
+
 test('헤이딜러 거래는 옵션만 선택이고 나머지 입력값을 필수로 검증한다',()=>{
   assert.match(main,/const required=name!=='options'/);
   assert.match(main,/requiredNames=\['manager','date','modelYear','plate','model','color','notes','price','account','origin','departureTime'\]/);
