@@ -88,6 +88,7 @@ test('헤이딜러 거래는 옵션만 선택이고 나머지 입력값을 필�
   assert.match(main,/requiredNames=\['manager','modelYear','plate','model','color','mileage','notes','price','account','origin','departureTime'\]/);
   assert.match(main,/status\.textContent='필수사항을 입력하세요\.'/);
   assert.match(main,/status\.classList\.add\('is-error'\)/);
+  assert.match(css,/\.drive-parse-status\{[^}]*text-align:right/);
   assert.match(css,/\.drive-parse-status\.is-error\{color:#c82020/);
 });
 
