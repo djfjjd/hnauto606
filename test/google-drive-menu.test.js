@@ -22,10 +22,10 @@ test('상단 헤이딜러 메뉴는 프롬프트·목록만 표시하고 Drive �
   assert.ok(main.indexOf('>엔카진단예약</a>')<main.indexOf('class="drive-shortcut drive-icon-link"'));
 });
 
-test('구글드라이브 메뉴는 모바일 클릭과 키보드 Escape 조작을 지원한다',()=>{
-  assert.match(main,/driveMenu\.classList\.toggle\('is-open'\)/);
-  assert.match(main,/button\.setAttribute\('aria-expanded',String\(open\)\)/);
+test('헤이딜러 버튼은 프롬프트양식으로 이동하고 키보드 Escape 조작을 지원한다',()=>{
+  assert.match(main,/button\.onclick=\(\)=>\{location\.href='\/drive';\}/);
   assert.match(main,/if\(event\.key==='Escape'\)/);
+  assert.match(css,/\.drive-menu>button:hover\+\.external-submenu a:first-child,[^{]*\{text-decoration:underline;text-underline-offset:4px\}/);
 });
 
 test('헤이딜러 페이지 상단은 차량 현황판 링크만 표시한다',()=>{
