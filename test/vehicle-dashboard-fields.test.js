@@ -17,6 +17,7 @@ test('차량 현황판에 총 주행키로수와 상품화 작업 체크 열을 
   assert.match(css,/\.board-option-cell\{position:sticky;right:0;[^}]*display:flex/);
   assert.match(css,/\.board-option-cell\{[^}]*background:transparent;box-shadow:none/);
   assert.match(css,/repeat\(7,58px\) minmax\(136px,1fr\)/);
+  assert.match(css,/\.board-row>:last-child\{width:58px;justify-self:start\}/);
   assert.match(css,/\.board-row\{width:100%;min-width:1620px;padding-right:0/);
   assert.match(css,/\.board-labels>span:nth-child\(9\)\{padding:6px 8px\}/);
   assert.doesNotMatch(css,/\.board-labels>span:nth-child\(9\)\{[^}]*position:sticky/);
