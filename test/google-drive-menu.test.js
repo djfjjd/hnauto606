@@ -5,17 +5,20 @@ import {readFileSync} from 'node:fs';
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 
-test('상단 헤이딜러 메뉴는 프롬프트·목록·Drive 바로가기를 구분한다',()=>{
+test('상단 헤이딜러 메뉴는 프롬프트·목록만 표시하고 Drive 아이콘은 밖에 둔다',()=>{
   assert.match(main,/class="external-menu drive-menu"/);
   assert.match(main,/data-drive-menu aria-expanded="false">헤이딜러/);
   assert.match(main,/class="external-submenu"><a href="\/drive">프롬프트양식<\/a>/);
   assert.match(main,/<a href="\/drive\/heydealer">선택차량목록<\/a>/);
-  assert.match(main,/class="drive-shortcut"[^>]*><span>Drive<\/span><img src="\/gdrive\.png" alt="Google Drive"><\/a>/);
+  assert.match(main,/class="drive-shortcut drive-icon-link"[^>]*aria-label="Google Drive 바로가기"[^>]*><img src="\/gdrive\.png" alt=""><\/a>/);
+  assert.match(main,/class="external-submenu"><a href="\/drive">프롬프트양식<\/a><a href="\/drive\/heydealer">선택차량목록<\/a><\/div>/);
   assert.match(css,/\.drive-shortcut img\{width:20px;height:20px/);
+  assert.match(css,/\.external-tools \.drive-icon-link\{width:30px;height:30px/);
   assert.match(css,/\.external-menu:hover \.external-submenu/);
   assert.match(css,/\.external-menu:focus-within \.external-submenu/);
   assert.ok(main.indexOf('>헤이딜러</button>')<main.indexOf('>새싹타워정기권</a>'));
   assert.ok(main.indexOf('>새싹타워정기권</a>')<main.indexOf('>엔카진단예약</a>'));
+  assert.ok(main.indexOf('>엔카진단예약</a>')<main.indexOf('class="drive-shortcut drive-icon-link"'));
 });
 
 test('구글드라이브 메뉴는 모바일 클릭과 키보드 Escape 조작을 지원한다',()=>{
