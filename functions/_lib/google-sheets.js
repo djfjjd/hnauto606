@@ -16,7 +16,7 @@ async function googleFetch(env,path,options={}){const token=await accessToken(en
 export async function listGoogleSheetTabs(env){const {sheetId}=googleConfig(env),data=await googleFetch(env,`spreadsheets/${encodeURIComponent(sheetId)}?fields=spreadsheetId,sheets.properties(sheetId,title,index)`);return(data.sheets||[]).map(sheet=>({id:sheet.properties.sheetId,title:sheet.properties.title,index:sheet.properties.index})).sort((a,b)=>a.index-b.index);}
 
 function recordValues(record){return[
-  normalizeSheetPlate(record.plate),String(record.model||''),'',String(record.model_year||''),String(record.color||''),String(record.mileage||''),'',String(record.options||''),String(record.customer_type||''),false,false,false,'','','','','',String(record.memo||record.manager||''),
+  normalizeSheetPlate(record.plate),String(record.model||''),'',String(record.model_year||''),String(record.color||''),String(record.mileage||''),String(record.manager||''),String(record.options||''),String(record.customer_type||''),false,false,false,'','','','','',String(record.memo||''),
 ];}
 
 async function writeValues(env,sheetId,tab,row,values,startColumn){const range=sheetRange(tab,`${startColumn}${row}:S${row}`);await googleFetch(env,`spreadsheets/${encodeURIComponent(sheetId)}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`,{method:'PUT',body:JSON.stringify({range,majorDimension:'ROWS',values:[values]})});}

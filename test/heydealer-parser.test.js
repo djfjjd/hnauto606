@@ -25,10 +25,19 @@ BMW 1시리즈 (F40) 120i M 스포츠
 test('헤이딜러 전체 복사문에서 거래 입력값을 추출한다',()=>{
   assert.deepEqual(parseHeydealerText(sample),{
     manager:'하성은 대표',modelYear:'2023-10',plate:'219더4124',
-    model:'BMW 1시리즈 (F40) 120i M 스포츠',color:'알파인 화이트',mileage:'18,634km',options:'',notes:'',
+    model:'BMW 1시리즈 (F40) 120i M 스포츠',color:'흰색',mileage:'18,634km',options:'',notes:'',
     price:'2,420만원',account:'우리은행 296-969767-18-810 (예금주: (주)피알앤디컴퍼니)',
     origin:'경남 창원시',departureTime:'',date:'2026-09-01',
   });
+});
+
+test('헤이딜러 색상명을 현장 표준 색상으로 정규화한다',()=>{
+  const parseColor=color=>parseHeydealerText(`219더4124\nBMW 120i\n휘발유ㆍ오토ㆍ${color}`).color;
+  assert.equal(parseColor('알파인 화이트'),'흰색');
+  assert.equal(parseColor('딥 오션 블루'),'블루');
+  assert.equal(parseColor('메탈릭 실버'),'쥐색');
+  assert.equal(parseColor('스페이스 그레이'),'쥐색');
+  assert.equal(parseColor('사파이어 블랙'),'검정');
 });
 
 test('제원 바로 아래의 옵션 문구를 자동 입력한다',()=>{

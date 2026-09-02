@@ -1,4 +1,5 @@
 const clean=value=>String(value||'').replace(/\u00a0/g,' ').trim();
+const normalizeColor=value=>{const color=clean(value);if(/화이트/i.test(color))return'흰색';if(/블루/i.test(color))return'블루';if(/은색|실버|그레이/i.test(color))return'쥐색';if(/블랙/i.test(color))return'검정';return color;};
 
 function nextValue(lines,label,predicate=Boolean){
   const index=lines.findIndex(line=>line===label);
@@ -51,7 +52,7 @@ export function parseHeydealerText(raw){
   return{
     manager:lines.find(line=>/^[가-힣]{2,5}\s*(대표|대리|주임|과장|부장|사원)$/.test(line))||'',
     modelYear:yearLine.match(/^\d{4}-\d{2}/)?.[0]||'',plate,model,
-    color:specLine.split('ㆍ').at(-1)||'',mileage,options,notes,
+    color:normalizeColor(specLine.split('ㆍ').at(-1)),mileage,options,notes,
     price:nextValue(lines,'차대금',value=>/[\d,]+만원/.test(value)),
     account:nextValue(lines,'입금 계좌'),
     origin:lines.find(line=>/^[가-힣]+\s+[가-힣]+(?:시|군|구)$/.test(line))||'',

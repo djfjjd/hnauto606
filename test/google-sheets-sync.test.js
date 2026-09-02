@@ -19,6 +19,8 @@ test('신규 행은 직전 행 서식과 validation을 복사하고 A 순번을 
   assert.match(sheets,/\[lastSequence,\.\.\.values\]/);
   assert.match(sheets,/false,false,false/);
   assert.match(sheets,/String\(record\.mileage\|\|''\)/);
+  assert.match(sheets,/String\(record\.mileage\|\|''\),String\(record\.manager\|\|''\),String\(record\.options\|\|''\)/);
+  assert.match(sheets,/String\(record\.memo\|\|''\)/);
 });
 
 test('Sheets API는 서버 전용 서비스계정 JWT와 Web Crypto를 사용한다',()=>{
