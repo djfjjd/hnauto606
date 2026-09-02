@@ -6,10 +6,17 @@ const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 
 test('신규 입고 모달은 저장된 헤이딜러 차량과 직접입력을 선택할 수 있다',()=>{
   assert.match(main,/class="heydealer-vehicle-picker"/);
+  assert.match(main,/<option value="">차량 불러오기<\/option>/);
   assert.match(main,/<option value="manual">직접입력<\/option>/);
   assert.match(main,/const data=await api\('heydealer'\)/);
   assert.match(main,/state\.heydealerRecords=data\.records\|\|\[\]/);
   assert.match(main,/document\.querySelectorAll\('\[data-new\]'\)\.forEach\(el=>el\.onclick=openNewVehicle\)/);
+});
+
+test('차량목록과 담당자 선택 글씨는 색상 선택과 같은 크기로 표시한다',()=>{
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+  assert.match(css,/#vehicle-form \.form-row select\{font-size:17px\}/);
+  assert.match(css,/#vehicle-form \.heydealer-vehicle-picker select,#vehicle-form select\[name=manager\]\{font-size:17px\}/);
 });
 
 test('저장 차량 선택 시 현재 입고 양식의 일치 필드를 자동 입력한다',()=>{
