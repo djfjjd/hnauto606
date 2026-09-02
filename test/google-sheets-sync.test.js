@@ -21,8 +21,8 @@ test('신규 행은 직전 행 서식과 validation을 복사하고 A 순번을 
   assert.match(sheets,/String\(record\.mileage\|\|''\)/);
   assert.match(sheets,/String\(record\.mileage\|\|''\),String\(record\.manager\|\|''\),String\(record\.options\|\|''\)/);
   assert.doesNotMatch(sheets,/String\(record\.memo\|\|''\)/);
-  assert.match(sheets,/sheetRange\(tab\.title,'A:T'\)/);
-  assert.match(sheets,/startColumnIndex:0,endColumnIndex:20/);
+  assert.match(sheets,/sheetRange\(tab\.title,'A:X'\)/);
+  assert.match(sheets,/startColumnIndex:0,endColumnIndex:24/);
 });
 
 test('스프레드시트 T열에 탁송 출발 날짜와 시간을 24시간제로 기록한다',()=>{
@@ -32,9 +32,18 @@ test('스프레드시트 T열에 탁송 출발 날짜와 시간을 24시간제�
   assert.equal(normalizeSheetDepartureDate('오전 10시 출발예정'),'');
   assert.match(sheets,/normalizeSheetDepartureDate\(record\.departure_time\)/);
   assert.match(sheets,/`\$\{startColumn\}\$\{row\}:T\$\{row\}`/);
-  assert.match(sheets,/ensureSyncHeaders\(env,sheetId,tab\.title,rows\[0\]\?\.\[18\],rows\[0\]\?\.\[19\]\)/);
+  assert.match(sheets,/ensureSyncHeaders\(env,sheetId,tab\.title,rows\[0\]\|\|\[\]\)/);
   assert.match(sheets,/values:\[\['탁송출발지','탁송출발시간'\]\]/);
   assert.match(sheets,/String\(record\.origin\|\|''\),normalizeSheetDepartureDate\(record\.departure_time\)/);
+});
+
+test('W열 차대금과 X열 입금계좌를 쓰되 U/V열은 덮어쓰지 않는다',()=>{
+  assert.match(sheets,/sheetRange\(tab,`W\$\{row\}:X\$\{row\}`\)/);
+  assert.match(sheets,/String\(record\.price\|\|''\),String\(record\.account\|\|''\)/);
+  assert.match(sheets,/sheetRange\(tab,'W1:X1'\)/);
+  assert.match(sheets,/values:\[\['차대금','입금계좌'\]\]/);
+  assert.match(sheets,/await writePaymentValues\(env,sheetId,tab\.title,existingRow,record\)/);
+  assert.doesNotMatch(sheets,/`\$\{startColumn\}\$\{row\}:X\$\{row\}`/);
 });
 
 test('Sheets API는 서버 전용 서비스계정 JWT와 Web Crypto를 사용한다',()=>{
