@@ -7,7 +7,7 @@ const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 
 test('상단 구글드라이브 메뉴는 내부 페이지와 외부 바로가기를 구분한다',()=>{
   assert.match(main,/class="external-menu drive-menu"/);
-  assert.match(main,/data-drive-menu aria-expanded="false">구글드라이브/);
+  assert.match(main,/data-drive-menu aria-expanded="false">캘린더/);
   assert.match(main,/class="external-submenu"><a href="\/drive">구글드라이브<\/a>/);
   assert.match(main,/<a href="\/drive\/heydealer">헤이딜러<\/a>/);
   assert.match(main,/drive\.google\.com\/drive\/folders\/1k4BU4_b2khbN2iY9neB43Fqms58J2GaU\?usp=drive_link" target="_blank"[^>]*>바로가기<\/a>/);
