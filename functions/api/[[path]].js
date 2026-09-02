@@ -1,5 +1,6 @@
 import {canWrite,normalizePlate,STATUSES,validateVehicle} from '../../src/validation.js';
 import {sendNotification} from 'web-push-neo';
+import {listGoogleSheetTabs,syncGoogleSheetRecords,testGoogleSheets} from '../_lib/google-sheets.js';
 const json=(data,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 const id=()=>crypto.randomUUID();
 const validDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(String(value||''))?String(value):null;
@@ -27,6 +28,13 @@ export async function onRequest(context){const {request,env,params}=context;if(!
   if(method==='GET'&&parts.join('/')==='auth/me')return json({authenticated:Boolean(user),user:user||null});
   if(method==='GET'&&parts[0]==='zones')return json({zones:(await env.DB.prepare('SELECT * FROM parking_zones WHERE active=1 ORDER BY sort_order').all()).results});
   if(method==='GET'&&parts[0]==='spots')return json({spots:await listSpots(env.DB)});
+  if(parts[0]==='google-sheets'){
+   const access=user?{user}:await requireUser(request,env,method!=='GET');if(access.error)return access.error;const sheetsUser=access.user;
+   if(method==='GET'&&parts[1]==='tabs')return json({tabs:await listGoogleSheetTabs(env)});
+   if(method==='GET'&&parts[1]==='test')return json(await testGoogleSheets(env));
+   if(method==='POST'&&parts[1]==='sync-vehicle'){const input=await body(request),tab=safeText(input?.tab,200),record=await env.DB.prepare('SELECT * FROM heydealer_records WHERE id=?').bind(String(input?.recordId||'')).first();if(!tab)return json({message:'대상 탭을 선택해 주세요.'},400);if(!record)return json({message:'동기화할 차량을 찾을 수 없습니다.'},404);const result=await syncGoogleSheetRecords(env,tab,[record]);if(result.failed)return json({message:'차량 정보를 스프레드시트에 동기화하지 못했습니다.'},502);await audit(env.DB,sheetsUser,'sync_google_sheet','heydealer_record',record.id,{tab,action:result.action,row:result.row});return json({success:true,action:result.action,row:result.row});}
+   if(method==='POST'&&parts[1]==='sync-all'){const input=await body(request),tab=safeText(input?.tab,200);if(!tab)return json({message:'대상 탭을 선택해 주세요.'},400);const rows=(await env.DB.prepare('SELECT plate,model,model_year,color,options,manager,memo,updated_at FROM vehicles ORDER BY updated_at DESC').all()).results,latest=[],seen=new Set();for(const record of rows){const plate=normalizePlate(record.plate);if(plate&&!seen.has(plate)){seen.add(plate);latest.push(record);}}const result=await syncGoogleSheetRecords(env,tab,latest);await audit(env.DB,sheetsUser,'sync_google_sheet_all','vehicle','all',{tab,updated:result.updated,inserted:result.inserted,failed:result.failed});return json({success:true,updated:result.updated,inserted:result.inserted,failed:result.failed});}
+  }
   if(parts[0]==='heydealer'){
    const access=user?{user}:await requireUser(request,env,method!=='GET');if(access.error)return access.error;const heydealerUser=access.user;
    if(method==='GET'&&!parts[1]){const [recordsResult,filesResult]=await Promise.all([env.DB.prepare('SELECT * FROM heydealer_records ORDER BY record_date DESC,created_at DESC LIMIT 500').all(),env.DB.prepare('SELECT id,record_id,filename,mime_type,size_bytes,created_at FROM heydealer_files ORDER BY created_at DESC').all()]),filesByRecord=new Map();for(const file of filesResult.results){const list=filesByRecord.get(file.record_id)||[];list.push(file);filesByRecord.set(file.record_id,list);}return json({records:recordsResult.results.map(record=>({...record,files:filesByRecord.get(record.id)||[]}))});}

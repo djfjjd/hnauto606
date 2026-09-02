@@ -42,9 +42,9 @@ test('/drive 경로에 Google API 연결 전 안전한 프롬프트 화면을 �
 
 test('헤이딜러 입력은 초기화와 저장을 지원하고 목록 페이지에서 확인한다',()=>{
   assert.match(main,/data-drive-reset>초기화/);
-  assert.match(main,/data-drive-save>저장/);
+  assert.match(main,/data-drive-save>스프레드시트 동기화/);
   assert.match(main,/await api\('heydealer'/);
-  assert.match(main,/uploadHeydealerFile\(result\.id,corporateFile\)/);
+  assert.match(main,/uploadHeydealerFile\(savedRecordId,corporateFile\)/);
   assert.match(main,/location\.href='\/drive\/heydealer'/);
   assert.match(main,/function renderHeydealerRecordsPage\(\)/);
   assert.match(main,/location\.pathname==='\/drive\/heydealer'/);
@@ -66,7 +66,7 @@ test('특이사항은 필수 개인·법인 선택이며 법인만 파일 첨부
 
 test('프롬프트 입력은 특이사항 개인·법인 선택값을 자동 변경하지 않는다',()=>{
   assert.match(main,/if\(name==='notes'\)return;const field=form\.elements\.namedItem\(name\)/);
-  assert.match(main,/const reset=\(\)=>\{fillDriveFields\(form,empty\)/);
+  assert.match(main,/const reset=\(\)=>\{savedRecordId='';fileUploaded=false;fillDriveFields\(form,empty\)/);
 });
 
 test('헤이딜러 거래는 옵션만 선택이고 나머지 입력값을 필수로 검증한다',()=>{

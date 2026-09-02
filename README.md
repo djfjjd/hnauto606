@@ -27,6 +27,7 @@ R2는 헤이딜러 법인 거래 서류 업로드에 활성화되어 있습니�
 - 차량 상태 및 중요 알림 이벤트 저장
 - 푸시 구독·해제와 사용자별 알림 설정 API, PWA manifest, 서비스 워커
 - 헤이딜러 거래 D1 저장과 법인 서류용 비공개 R2 업로드·다운로드
+- 헤이딜러 거래를 D1에 먼저 저장한 뒤 선택한 Google Sheets 탭으로 단방향 동기화
 - 로딩·저장 중·완료·오류·빈 결과·읽기 전용 데모 상태
 
 ## 데이터베이스
@@ -97,12 +98,13 @@ sqlite3 /tmp/hnauto-test.sqlite < migrations/0001_initial.sql
 4. Cloudflare Access 애플리케이션과 허용 사용자를 설정하고 `users`에 관리자부터 등록합니다.
 5. `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`를 Pages 환경 변수/Secret에 설정합니다. 비밀키는 저장소에 넣지 않습니다.
 6. 비공개 R2 버킷 `hnauto606-private-files`와 `FILES` 바인딩을 유지합니다. 버킷을 공개로 전환하지 않습니다.
+7. `GOOGLE_CLIENT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_SHEET_ID`를 Pages의 서버 환경 변수/Secret으로 설정하고 서비스계정 이메일에 대상 Spreadsheet 편집 권한을 부여합니다. `GOOGLE_PRIVATE_KEY`는 프론트엔드나 Git에 넣지 않으며 `\\n` 형식도 서버에서 처리됩니다.
 
 Pages 설정은 운영 브랜치 `main`, 빌드 명령 `npm run build`, 출력 폴더 `dist`입니다. `public/_redirects`가 SPA 경로 새로고침을 지원합니다.
 
 ## API
 
-구현됨: dashboard, zones, spots, vehicles 목록·상세·이력, check-in, update, move/service, check-out, status, push subscribe/unsubscribe, notification preferences, heydealer 거래 목록·저장·법인 파일 업로드/다운로드. 입력 검증과 401/403/404/409/413/415/500 오류 응답을 포함합니다.
+구현됨: dashboard, zones, spots, vehicles 목록·상세·이력, check-in, update, move/service, check-out, status, push subscribe/unsubscribe, notification preferences, heydealer 거래 목록·저장·법인 파일 업로드/다운로드, Google Sheets 연결 테스트·탭 목록·차량/전체 동기화. 입력 검증과 401/403/404/409/413/415/500 오류 응답을 포함합니다.
 
 푸시 구독, 알림 이벤트 저장, 위치 변경 Web Push 발송이 구현되어 있습니다. 알림 본문은 `차량번호 뒤 4자리(차종), 구역` 형식이며, 위치 저장과 알림 발송은 분리되어 알림 실패가 차량 변경을 되돌리지 않습니다.
 
