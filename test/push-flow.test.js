@@ -21,3 +21,12 @@ test('차량 위치 교환은 두 차량과 새 위치를 한 알림으로 발�
   assert.match(api,/await notifyVehicleSwap\(context,source\.id,target\.id,eventId\)/);
   assert.doesNotMatch(api,/Promise\.all\(\[notifyVehicleLocation\(context,source\.id\),notifyVehicleLocation\(context,target\.id\)\]\)/);
 });
+
+test('주차구역에서 삭제한 차량은 상품화출차 위치로 알린다',()=>{
+  const start=api.indexOf("parts[2]==='unassign'");
+  const end=api.indexOf("parts[2]==='check-out'",start);
+  const handler=api.slice(start,end);
+  assert.match(handler,/SELECT id,plate,model,current_spot_id,version FROM vehicles/);
+  assert.match(handler,/notifyVehicleAction\(context,vehicle,'차량 위치 변경','상품화출차'\)/);
+  assert.doesNotMatch(handler,/notifyVehicleLocation\(context,vehicle\.id\)/);
+});

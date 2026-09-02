@@ -30,7 +30,7 @@ test('출고 차량도 주차면에서 나중에 삭제할 수 있다',()=>{
   const start=api.indexOf("parts[2]==='unassign'");
   const end=api.indexOf("parts[2]==='check-out'",start);
   const handler=api.slice(start,end);
-  assert.match(handler,/SELECT id,plate,current_spot_id,version FROM vehicles WHERE id=\?/);
+  assert.match(handler,/SELECT id,plate,model,current_spot_id,version FROM vehicles WHERE id=\?/);
   assert.doesNotMatch(handler,/checked_out_at IS NULL/);
 });
 
