@@ -20,6 +20,11 @@ test('상단 헤이딜러 메뉴는 프롬프트·목록만 표시하고 Drive �
   assert.ok(main.indexOf('>헤이딜러</button>')<main.indexOf('>새싹타워정기권</a>'));
   assert.ok(main.indexOf('>새싹타워정기권</a>')<main.indexOf('>엔카진단예약</a>'));
   assert.ok(main.indexOf('>엔카진단예약</a>')<main.indexOf('class="drive-shortcut drive-icon-link"'));
+  assert.match(main,/function todayCalendarLabel\(now=new Date\(\)\)/);
+  assert.match(main,/timeZone:'Asia\/Seoul'/);
+  assert.match(main,/class="calendar-today" href="https:\/\/calendar\.google\.com\/"[^>]*>\$\{todayCalendarLabel\(\)\}<\/a>/);
+  assert.ok(main.indexOf('class="drive-shortcut drive-icon-link"')<main.indexOf('class="calendar-today"'));
+  assert.match(css,/\.external-tools \.calendar-today\{display:inline-flex/);
 });
 
 test('헤이딜러 버튼은 프롬프트양식으로 이동하고 키보드 Escape 조작을 지원한다',()=>{
