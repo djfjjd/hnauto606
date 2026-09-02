@@ -41,6 +41,14 @@ test('모바일 상단 업무 메뉴를 표시하고 통계와 검색 사이 간
   assert.match(css,/@media\(max-width:800px\)\{\.topbar \.external-tools,\.topbar \.board-nav\{display:flex\}\}/);
 });
 
+test('넓은 차량 현황판 표는 상단 화면 폭을 밀어내지 않고 내부에서만 스크롤한다',()=>{
+  assert.match(css,/\.manager-groups,\.manager-group,\.board-table\{min-width:0;max-width:100%\}/);
+  assert.match(css,/\.manager-group\{overflow:hidden\}/);
+  assert.match(css,/body:has\(\.board-page\)\{width:780px;max-width:780px;overflow-x:hidden\}/);
+  assert.match(css,/\.board-page\{width:780px;max-width:780px;overflow-x:hidden\}/);
+  assert.match(css,/\.board-table\{width:100%;max-width:100%;overflow-x:auto\}/);
+});
+
 test('모바일 당겨서 새로고침 안내를 두 배 크기로 표시한다',()=>{
   assert.match(css,/\.pull-refresh\{[^}]*min-width:380px[^}]*padding:20px 32px[^}]*font-size:24px/);
   assert.match(main,/distance-90/);
