@@ -13,7 +13,7 @@ test('차량 현황판에 총 주행키로수·색상·입고일·옵션을 순�
 test('상단 브랜드를 간결하게 표시하고 구글 드라이브 업무 링크를 제공한다',()=>{
   assert.doesNotMatch(main,/HANA AUTO/);
   assert.match(main,/https:\/\/drive\.google\.com\/drive\/folders\/1k4BU4_b2khbN2iY9neB43Fqms58J2GaU\?usp=drive_link/);
-  assert.match(main,/<a href="\/drive">헤이딜러<\/a>/);
+  assert.match(main,/<a href="\/drive">프롬프트양식<\/a>/);
 });
 
 test('주차 차량과 상품화 차량을 분리해 다섯 개 통계 카드로 표시한다',()=>{
