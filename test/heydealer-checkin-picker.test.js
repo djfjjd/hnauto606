@@ -33,3 +33,8 @@ test('신규 입고 양식은 차량 불러오기 선택 전까지 나머지 항
   assert.match(main,/select\.addEventListener\('change',sync\);sync\(\)/);
   assert.match(css,/#vehicle-form \.checkin-fields:disabled\{opacity:\.45\}/);
 });
+
+test('신규 입고 팝업은 차량현황판 위치 문구를 표시하지 않는다',()=>{
+  assert.match(main,/const hideLocation=state\.mode==='checkout'\|\|s\.id==='draft'/);
+  assert.match(main,/\$\{hideLocation\?'':`<p class="eyebrow">\$\{s\.zone\} · \$\{s\.label\}<\/p>`\}/);
+});
