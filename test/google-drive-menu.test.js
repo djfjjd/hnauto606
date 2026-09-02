@@ -20,7 +20,7 @@ test('상단 헤이딜러 메뉴와 첫 화면 Sheets·캘린더 바로가기를
   assert.match(main,/timeZone:'Asia\/Seoul'/);
   assert.match(main,/class="parking-title"><a class="parking-calendar" href="https:\/\/calendar\.google\.com\/"[^>]*>\$\{todayCalendarLabel\(\)\}<\/a>/);
   assert.ok(main.indexOf('>새싹타워정기권</a>')<main.indexOf('>엔카진단예약</a>'));
-  assert.match(css,/\.parking-calendar\{justify-self:center/);
+  assert.match(css,/\.parking-calendar\{position:absolute;left:50%;top:16px;min-height:44px;[^}]*font-size:17px/);
 });
 
 test('헤이딜러 버튼은 프롬프트양식으로 이동하고 키보드 Escape 조작을 지원한다',()=>{
