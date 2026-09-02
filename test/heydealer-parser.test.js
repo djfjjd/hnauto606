@@ -63,6 +63,11 @@ test('옵션 다음 여러 줄과 특이사항 및 출발시간을 인식한다'
   assert.equal(result.departureTime,'18:00');
 });
 
+test('옵션은 출고정보 전까지만 추출한다',()=>{
+  const result=parseHeydealerText('219더4124\nBMW 120i\n옵션\n선루프\n어라운드뷰\n출고정보\n출고지 서울\n탁송기사 홍길동');
+  assert.equal(result.options,'선루프,어라운드뷰');
+});
+
 test('매수자 인적사항에 법인명이 있으면 특이사항을 법인으로 선택한다',()=>{
   const result=parseHeydealerText('매수자 인적사항\n법인명\n주식회사 하나오토\n법인 번호\n110111-0937349');
   assert.equal(result.notes,'법인');
@@ -76,22 +81,22 @@ test('차대금 원문처럼 차량번호가 없으면 차종을 임의 추출�
 
 test('탁송정보 다음 일정에서 출발시간을 인식한다',()=>{
   const result=parseHeydealerText('탁송정보\n일정\n2026-09-03 오후 2:30\n탁송기사 배정 대기\n차대금 입금');
-  assert.equal(result.departureTime,'2026-09-03 오후 2:30');
+  assert.equal(result.departureTime,'2026-09-03 14:30');
 });
 
 test('탁송 일정이 한 줄로 표시되어도 출발시간을 인식한다',()=>{
   const result=parseHeydealerText('탁송인수 정보\n탁송 일정: 2026. 9. 3. 18:00\n차대금 입금');
-  assert.equal(result.departureTime,'2026. 9. 3. 18:00');
+  assert.equal(result.departureTime,'2026-09-03 18:00');
 });
 
 test('탁송정보 일정의 실제 출발예정 문구를 출발시간으로 입력한다',()=>{
   const result=parseHeydealerText('탁송정보\n일정\n2026-09-04(금) 오전 10시 출발예정\n탁송기사 배정 대기\n차대금 입금');
-  assert.equal(result.departureTime,'2026-09-04(금) 오전 10시 출발예정');
+  assert.equal(result.departureTime,'2026-09-04 (금) 10:00 출발예정');
 });
 
 test('일정과 출발예정 문구가 같은 줄이어도 인식한다',()=>{
   const result=parseHeydealerText('탁송인수 정보\n일정 2026-09-04(금) 오전 10시 출발예정\n차대금 입금');
-  assert.equal(result.departureTime,'2026-09-04(금) 오전 10시 출발예정');
+  assert.equal(result.departureTime,'2026-09-04 (금) 10:00 출발예정');
 });
 
 test('입금 안내의 2시간 전 문구를 출발시간으로 오인하지 않는다',()=>{
@@ -112,5 +117,5 @@ test('앞쪽 탁송인수 정보보다 뒤쪽 실제 탁송정보의 일정을 �
 탁송받을 주소
 서울 강서구 양천로53길 30`;
   const result=parseHeydealerText(source);
-  assert.equal(result.departureTime,'2026-09-04 (금) 오전 10시 출발예정');
+  assert.equal(result.departureTime,'2026-09-04 (금) 10:00 출발예정');
 });

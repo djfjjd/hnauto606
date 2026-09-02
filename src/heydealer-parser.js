@@ -32,6 +32,28 @@ function pickupSchedule(lines){
   return values.find(line=>/(?:\d{4}[-./년]\s*\d{1,2}|오전|오후).*(?:\d{1,2}:\d{2}|\d{1,2}시(?!간)|출발\s*예정)/.test(line))||'';
 }
 
+function normalizeDepartureTime(value){
+  const source=clean(value);
+  if(!source)return'';
+  const date=source.match(/(\d{4})\s*(?:[-./년])\s*(\d{1,2})\s*(?:[-./월])\s*(\d{1,2})\s*(?:일)?/);
+  const weekday=source.match(/\(([월화수목금토일])(?:요일)?\)/)?.[1];
+  const koreanTime=source.match(/(오전|오후)\s*(\d{1,2})\s*(?::|시)\s*(\d{1,2})?\s*분?/);
+  const clockTime=source.match(/(?:^|\s)([01]?\d|2[0-3]):([0-5]\d)(?:\s|$|출발)/);
+  let hours,minutes;
+  if(koreanTime){
+    hours=Number(koreanTime[2])%12+(koreanTime[1]==='오후'?12:0);
+    minutes=Number(koreanTime[3]||0);
+  }else if(clockTime){
+    hours=Number(clockTime[1]);
+    minutes=Number(clockTime[2]);
+  }
+  if(hours===undefined)return source;
+  const time=`${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}`;
+  if(!date)return time;
+  const formattedDate=`${date[1]}-${String(date[2]).padStart(2,'0')}-${String(date[3]).padStart(2,'0')}`;
+  return `${formattedDate}${weekday?` (${weekday})`:''} ${time}${/출발\s*예정/.test(source)?' 출발예정':''}`;
+}
+
 export function parseHeydealerText(raw){
   const lines=String(raw||'').split(/\r?\n/).map(clean).filter(Boolean);
   const platePattern=/\d{2,3}[가-힣]\s?\d{4}/;
@@ -43,13 +65,13 @@ export function parseHeydealerText(raw){
   const mileage=lines.find(line=>/^\d[\d,]*\s*km$/i.test(line))?.replace(/\s+/g,'')||'';
   const specLine=lines.find(line=>line.includes('ㆍ')&&/(휘발유|경유|전기|하이브리드|LPG)/i.test(line))||'';
   const specIndex=lines.indexOf(specLine);
-  const nextSection=/^(거래 주요정보|원부정보|내 견적|선택날짜|견적 재확인|탁송정보|탁송 정보|탁송인수 정보|차대금 입금|거래 마무리|거래종결|입금 상태|차대금|입금 계좌|안내사항|경매|경매종료|제로|특이사항|출발시간|탁송 출발시간|탁송출발시간)$/;
+  const nextSection=/^(출고정보|출고 정보|거래 주요정보|원부정보|내 견적|선택날짜|견적 재확인|탁송정보|탁송 정보|탁송인수 정보|차대금 입금|거래 마무리|거래종결|입금 상태|차대금|입금 계좌|안내사항|경매|경매종료|제로|특이사항|출발시간|탁송 출발시간|탁송출발시간)$/;
   const optionCandidate=specIndex<0?'':lines[specIndex+1]||'';
   const labeledOptions=valuesAfterLabel(lines,['옵션'],nextSection);
   const options=(labeledOptions.length?labeledOptions:nextSection.test(optionCandidate)?[]:[optionCandidate]).filter(Boolean).join(',');
   const noteValues=valuesAfterLabel(lines,['특이사항'],nextSection),notes=lines.includes('법인명')?'법인':noteValues.includes('법인')?'법인':noteValues.includes('개인')||lines.includes('개인')?'개인':'';
   const calendarTime=lines.find(line=>/^[A-Za-z]+,\s+[A-Za-z]+\s+\d{1,2}.*·.*\d{1,2}:\d{2}/)||'';
-  const departureTime=nextValue(lines,'출발시간')||nextValue(lines,'탁송 출발시간')||nextValue(lines,'탁송출발시간')||pickupSchedule(lines)||calendarTime.split('·')[1]||'';
+  const departureTime=normalizeDepartureTime(nextValue(lines,'출발시간')||nextValue(lines,'탁송 출발시간')||nextValue(lines,'탁송출발시간')||pickupSchedule(lines)||calendarTime.split('·')[1]||'');
   const selectedDate=nextValue(lines,'선택날짜',value=>/^\d{4}-\d{2}-\d{2}$/.test(value))||nextValue(lines,'경매종료',value=>/^\d{4}-\d{2}-\d{2}$/.test(value));
   return{
     manager:normalizeManager(lines.find(line=>managerPattern.test(line))||''),
