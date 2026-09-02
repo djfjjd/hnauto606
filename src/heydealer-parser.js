@@ -17,6 +17,17 @@ function valuesAfterLabel(lines,labels,stopLabels){
   return values;
 }
 
+function pickupSchedule(lines){
+  const pickupIndex=lines.findIndex(line=>/^(탁송정보|탁송 정보|탁송인수 정보)$/.test(line));
+  if(pickupIndex<0)return'';
+  const section=lines.slice(pickupIndex+1),end=section.findIndex(line=>/^(차대금 입금|거래 마무리|거래종결|입금 상태|차대금)$/.test(line)),values=end<0?section:section.slice(0,end);
+  const scheduleIndex=values.findIndex(line=>/^(일정|탁송일정|탁송 일정|출발일정|출발 일정|출발 예정시간)$/.test(line));
+  if(scheduleIndex>=0)return values[scheduleIndex+1]||'';
+  const inline=values.find(line=>/^(일정|탁송일정|탁송 일정|출발일정|출발 일정|출발 예정시간)\s*[:：]/.test(line));
+  if(inline)return inline.replace(/^[^:：]+[:：]\s*/,'');
+  return values.find(line=>/(오전|오후|\d{1,2}:\d{2}|\d{1,2}시)/.test(line))||'';
+}
+
 export function parseHeydealerText(raw){
   const lines=String(raw||'').split(/\r?\n/).map(clean).filter(Boolean);
   const platePattern=/\d{2,3}[가-힣]\s?\d{4}/;
@@ -27,13 +38,13 @@ export function parseHeydealerText(raw){
   const yearLine=lines.find(line=>/^\d{4}-\d{2}\s*\(\d{2}년형\)/.test(line))||'';
   const specLine=lines.find(line=>line.includes('ㆍ')&&/(휘발유|경유|전기|하이브리드|LPG)/i.test(line))||'';
   const specIndex=lines.indexOf(specLine);
-  const nextSection=/^(거래 주요정보|원부정보|내 견적|선택날짜|견적 재확인|탁송인수 정보|차대금 입금|거래 마무리|거래종결|입금 상태|차대금|입금 계좌|안내사항|경매|경매종료|제로|특이사항|출발시간|탁송 출발시간|탁송출발시간)$/;
+  const nextSection=/^(거래 주요정보|원부정보|내 견적|선택날짜|견적 재확인|탁송정보|탁송 정보|탁송인수 정보|차대금 입금|거래 마무리|거래종결|입금 상태|차대금|입금 계좌|안내사항|경매|경매종료|제로|특이사항|출발시간|탁송 출발시간|탁송출발시간)$/;
   const optionCandidate=specIndex<0?'':lines[specIndex+1]||'';
   const labeledOptions=valuesAfterLabel(lines,['옵션'],nextSection);
   const options=(labeledOptions.length?labeledOptions:nextSection.test(optionCandidate)?[]:[optionCandidate]).filter(Boolean).join(',');
   const notes=valuesAfterLabel(lines,['특이사항'],nextSection).join(',');
   const calendarTime=lines.find(line=>/^[A-Za-z]+,\s+[A-Za-z]+\s+\d{1,2}.*·.*\d{1,2}:\d{2}/)||'';
-  const departureTime=nextValue(lines,'출발시간')||nextValue(lines,'탁송 출발시간')||nextValue(lines,'탁송출발시간')||calendarTime.split('·')[1]||'';
+  const departureTime=nextValue(lines,'출발시간')||nextValue(lines,'탁송 출발시간')||nextValue(lines,'탁송출발시간')||pickupSchedule(lines)||calendarTime.split('·')[1]||'';
   const selectedDate=nextValue(lines,'선택날짜',value=>/^\d{4}-\d{2}-\d{2}$/.test(value))||nextValue(lines,'경매종료',value=>/^\d{4}-\d{2}-\d{2}$/.test(value));
   return{
     manager:lines.find(line=>/^[가-힣]{2,5}\s*(대표|대리|주임|과장|부장|사원)$/.test(line))||'',

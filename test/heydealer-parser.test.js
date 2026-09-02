@@ -49,3 +49,13 @@ test('차대금 원문처럼 차량번호가 없으면 차종을 임의 추출�
   assert.equal(result.model,'');
   assert.equal(result.price,'2,020만원');
 });
+
+test('탁송정보 다음 일정에서 출발시간을 인식한다',()=>{
+  const result=parseHeydealerText('탁송정보\n일정\n2026-09-03 오후 2:30\n탁송기사 배정 대기\n차대금 입금');
+  assert.equal(result.departureTime,'2026-09-03 오후 2:30');
+});
+
+test('탁송 일정이 한 줄로 표시되어도 출발시간을 인식한다',()=>{
+  const result=parseHeydealerText('탁송인수 정보\n탁송 일정: 2026. 9. 3. 18:00\n차대금 입금');
+  assert.equal(result.departureTime,'2026. 9. 3. 18:00');
+});
