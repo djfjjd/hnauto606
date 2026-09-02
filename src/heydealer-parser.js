@@ -18,14 +18,14 @@ function valuesAfterLabel(lines,labels,stopLabels){
 }
 
 function pickupSchedule(lines){
-  const pickupIndex=lines.findIndex(line=>/^(탁송정보|탁송 정보|탁송인수 정보)$/.test(line));
+  const pickupIndex=lines.findIndex(line=>/^탁송(?:인수)?\s*정보/.test(line));
   if(pickupIndex<0)return'';
-  const section=lines.slice(pickupIndex+1),end=section.findIndex(line=>/^(차대금 입금|거래 마무리|거래종결|입금 상태|차대금)$/.test(line)),values=end<0?section:section.slice(0,end);
+  const section=lines.slice(pickupIndex+1),end=section.findIndex(line=>/^(차대금\s*입금|거래 마무리|거래종결|입금 상태|차대금)$/.test(line)),values=end<0?section:section.slice(0,end);
   const scheduleIndex=values.findIndex(line=>/^(일정|탁송일정|탁송 일정|출발일정|출발 일정|출발 예정시간)$/.test(line));
   if(scheduleIndex>=0)return values[scheduleIndex+1]||'';
-  const inline=values.find(line=>/^(일정|탁송일정|탁송 일정|출발일정|출발 일정|출발 예정시간)\s*[:：]/.test(line));
-  if(inline)return inline.replace(/^[^:：]+[:：]\s*/,'');
-  return values.find(line=>/(오전|오후|\d{1,2}:\d{2}|\d{1,2}시)/.test(line))||'';
+  const inline=values.map(line=>line.match(/^(?:탁송\s*)?(?:출발\s*)?일정\s*[:：-]?\s*(.+)$/)).find(Boolean);
+  if(inline?.[1])return inline[1];
+  return values.find(line=>/(?:\d{4}[-./년]\s*\d{1,2}|오전|오후).*(?:\d{1,2}:\d{2}|\d{1,2}시(?!간)|출발\s*예정)/.test(line))||'';
 }
 
 export function parseHeydealerText(raw){

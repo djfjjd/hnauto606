@@ -59,3 +59,18 @@ test('탁송 일정이 한 줄로 표시되어도 출발시간을 인식한다',
   const result=parseHeydealerText('탁송인수 정보\n탁송 일정: 2026. 9. 3. 18:00\n차대금 입금');
   assert.equal(result.departureTime,'2026. 9. 3. 18:00');
 });
+
+test('탁송정보 일정의 실제 출발예정 문구를 출발시간으로 입력한다',()=>{
+  const result=parseHeydealerText('탁송정보\n일정\n2026-09-04(금) 오전 10시 출발예정\n탁송기사 배정 대기\n차대금 입금');
+  assert.equal(result.departureTime,'2026-09-04(금) 오전 10시 출발예정');
+});
+
+test('일정과 출발예정 문구가 같은 줄이어도 인식한다',()=>{
+  const result=parseHeydealerText('탁송인수 정보\n일정 2026-09-04(금) 오전 10시 출발예정\n차대금 입금');
+  assert.equal(result.departureTime,'2026-09-04(금) 오전 10시 출발예정');
+});
+
+test('입금 안내의 2시간 전 문구를 출발시간으로 오인하지 않는다',()=>{
+  const result=parseHeydealerText('탁송정보\n원활한 탁송을 위해 탁송 출발 2시간 전까지 입금해 주세요.\n차대금 입금');
+  assert.equal(result.departureTime,'');
+});
