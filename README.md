@@ -14,7 +14,7 @@ Vite 정적 UI → Cloudflare Pages → Pages Functions API → Cloudflare D1
 
 기존 프로젝트가 Vite 정적 사이트이며 이미 Cloudflare Pages와 GitHub에 연결되어 있어 Pages + Pages Functions를 유지했습니다. 별도 Worker 프로젝트 없이 같은 도메인에서 UI와 API를 운영할 수 있어 CORS와 배포 구성이 단순합니다. D1은 운영 데이터의 기준 저장소이며 브라우저 저장소는 사용하지 않습니다.
 
-R2는 차량 사진·성능점검표·문서 업로드가 실제로 필요한 시점에만 활성화합니다. 버킷은 비공개로 두고 Pages Function이 권한을 확인한 뒤 객체를 처리하며 D1에는 파일 메타데이터만 저장합니다.
+R2는 헤이딜러 법인 거래 서류 업로드에 활성화되어 있습니다. `hnauto606-private-files` 버킷은 공개하지 않고 Pages Function이 권한·거래 유형·파일 형식·크기를 확인한 뒤 객체를 처리하며 D1에는 파일 메타데이터만 저장합니다.
 
 ## 구현 범위
 
@@ -26,14 +26,14 @@ R2는 차량 사진·성능점검표·문서 업로드가 실제로 필요한 �
 - 입차·이동·서비스·출차 전체 이력과 감사 로그
 - 차량 상태 및 중요 알림 이벤트 저장
 - 푸시 구독·해제와 사용자별 알림 설정 API, PWA manifest, 서비스 워커
-- 사진·문서용 비공개 R2 메타데이터 테이블(버킷은 아직 미사용)
+- 헤이딜러 거래 D1 저장과 법인 서류용 비공개 R2 업로드·다운로드
 - 로딩·저장 중·완료·오류·빈 결과·읽기 전용 데모 상태
 
 ## 데이터베이스
 
 `migrations/0001_initial.sql`은 다음 테이블과 검색 인덱스를 생성합니다.
 
-`users`, `vehicles`, `parking_zones`, `parking_spots`, `parking_movements`, `vehicle_status`, `service_records`, `vehicle_files`, `push_subscriptions`, `notification_preferences`, `audit_logs`, `notification_events`
+`users`, `vehicles`, `parking_zones`, `parking_spots`, `parking_movements`, `vehicle_status`, `service_records`, `vehicle_files`, `push_subscriptions`, `notification_preferences`, `audit_logs`, `notification_events`, `heydealer_records`, `heydealer_files`
 
 초기 구역과 주차면도 같은 마이그레이션에 포함됩니다. `0005_expand_parking_grid.sql`은 기존 주차면 ID와 차량 연결을 유지하면서 일반 주차층의 위치 라벨을 `A01~I20` 형식으로 정규화하고 누락된 기본 Grid 주차면만 추가합니다.
 
@@ -96,13 +96,13 @@ sqlite3 /tmp/hnauto-test.sqlite < migrations/0001_initial.sql
 3. 운영 적용 승인을 받은 뒤 먼저 미리보기 D1에 마이그레이션을 적용합니다.
 4. Cloudflare Access 애플리케이션과 허용 사용자를 설정하고 `users`에 관리자부터 등록합니다.
 5. `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`를 Pages 환경 변수/Secret에 설정합니다. 비밀키는 저장소에 넣지 않습니다.
-6. 실제 사진·문서 기능을 열 때만 비공개 R2 버킷을 생성하고 `FILES` 바인딩을 활성화합니다.
+6. 비공개 R2 버킷 `hnauto606-private-files`와 `FILES` 바인딩을 유지합니다. 버킷을 공개로 전환하지 않습니다.
 
 Pages 설정은 운영 브랜치 `main`, 빌드 명령 `npm run build`, 출력 폴더 `dist`입니다. `public/_redirects`가 SPA 경로 새로고침을 지원합니다.
 
 ## API
 
-구현됨: dashboard, zones, spots, vehicles 목록·상세·이력, check-in, update, move/service, check-out, status, push subscribe/unsubscribe, notification preferences. 입력 검증과 401/403/404/409/500 오류 응답을 포함합니다.
+구현됨: dashboard, zones, spots, vehicles 목록·상세·이력, check-in, update, move/service, check-out, status, push subscribe/unsubscribe, notification preferences, heydealer 거래 목록·저장·법인 파일 업로드/다운로드. 입력 검증과 401/403/404/409/413/415/500 오류 응답을 포함합니다.
 
 푸시 구독, 알림 이벤트 저장, 위치 변경 Web Push 발송이 구현되어 있습니다. 알림 본문은 `차량번호 뒤 4자리(차종), 구역` 형식이며, 위치 저장과 알림 발송은 분리되어 알림 실패가 차량 변경을 되돌리지 않습니다.
 

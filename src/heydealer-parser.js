@@ -43,7 +43,7 @@ export function parseHeydealerText(raw){
   const optionCandidate=specIndex<0?'':lines[specIndex+1]||'';
   const labeledOptions=valuesAfterLabel(lines,['옵션'],nextSection);
   const options=(labeledOptions.length?labeledOptions:nextSection.test(optionCandidate)?[]:[optionCandidate]).filter(Boolean).join(',');
-  const notes=valuesAfterLabel(lines,['특이사항'],nextSection).join(',');
+  const noteValues=valuesAfterLabel(lines,['특이사항'],nextSection),notes=lines.includes('법인명')?'법인':noteValues.includes('법인')?'법인':noteValues.includes('개인')||lines.includes('개인')?'개인':'';
   const calendarTime=lines.find(line=>/^[A-Za-z]+,\s+[A-Za-z]+\s+\d{1,2}.*·.*\d{1,2}:\d{2}/)||'';
   const departureTime=nextValue(lines,'출발시간')||nextValue(lines,'탁송 출발시간')||nextValue(lines,'탁송출발시간')||pickupSchedule(lines)||calendarTime.split('·')[1]||'';
   const selectedDate=nextValue(lines,'선택날짜',value=>/^\d{4}-\d{2}-\d{2}$/.test(value))||nextValue(lines,'경매종료',value=>/^\d{4}-\d{2}-\d{2}$/.test(value));

@@ -37,11 +37,16 @@ test('제원 바로 아래의 옵션 문구를 자동 입력한다',()=>{
 });
 
 test('옵션 다음 여러 줄과 특이사항 및 출발시간을 인식한다',()=>{
-  const source=`219더4124\nBMW 120i\n2023-10 (23년형)\n휘발유ㆍ오토ㆍ흰색\n옵션\n선루프\n1인신조\n어라운드뷰\n특이사항\n앞범퍼 흠집\n출발시간\n18:00`;
+  const source=`219더4124\nBMW 120i\n2023-10 (23년형)\n휘발유ㆍ오토ㆍ흰색\n옵션\n선루프\n1인신조\n어라운드뷰\n특이사항\n법인\n출발시간\n18:00`;
   const result=parseHeydealerText(source);
   assert.equal(result.options,'선루프,1인신조,어라운드뷰');
-  assert.equal(result.notes,'앞범퍼 흠집');
+  assert.equal(result.notes,'법인');
   assert.equal(result.departureTime,'18:00');
+});
+
+test('매수자 인적사항에 법인명이 있으면 특이사항을 법인으로 선택한다',()=>{
+  const result=parseHeydealerText('매수자 인적사항\n법인명\n주식회사 하나오토\n법인 번호\n110111-0937349');
+  assert.equal(result.notes,'법인');
 });
 
 test('차대금 원문처럼 차량번호가 없으면 차종을 임의 추출하지 않는다',()=>{

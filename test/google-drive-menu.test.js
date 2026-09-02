@@ -32,7 +32,7 @@ test('/drive 경로에 Google API 연결 전 안전한 프롬프트 화면을 �
   assert.match(main,/\(탁송인수 정보\)/);
   assert.match(main,/\(차대금 입금\)/);
   assert.match(main,/mergeParsed\(parsed\)/);
-  assert.match(main,/저장 내용은 이 브라우저에 보관됩니다/);
+  assert.match(main,/거래 정보는 D1에 저장되며 법인 첨부파일은 비공개 R2에 보관됩니다/);
   assert.match(main,/location\.pathname==='\/drive'/);
   assert.match(css,/\.drive-prompt-panel\{/);
   assert.match(css,/\.drive-prompt-grid\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
@@ -41,10 +41,22 @@ test('/drive 경로에 Google API 연결 전 안전한 프롬프트 화면을 �
 test('헤이딜러 입력은 초기화와 저장을 지원하고 목록 페이지에서 확인한다',()=>{
   assert.match(main,/data-drive-reset>초기화/);
   assert.match(main,/data-drive-save>저장/);
-  assert.match(main,/saveHeydealerRecord\(/);
+  assert.match(main,/await api\('heydealer'/);
+  assert.match(main,/uploadHeydealerFile\(result\.id,corporateFile\)/);
   assert.match(main,/location\.href='\/drive\/heydealer'/);
   assert.match(main,/function renderHeydealerRecordsPage\(\)/);
   assert.match(main,/location\.pathname==='\/drive\/heydealer'/);
   assert.match(main,/헤이딜러 저장 목록/);
   assert.match(css,/\.heydealer-record-list\{/);
+});
+
+test('특이사항은 필수 개인·법인 선택이며 법인만 파일 첨부를 활성화한다',()=>{
+  assert.match(main,/driveField\('notes','특이사항'\)/);
+  assert.match(main,/required-mark">\(필수\)<\/small>/);
+  assert.match(main,/<option value="개인">개인<\/option><option value="법인">법인<\/option>/);
+  assert.match(main,/name="corporateFile"[^>]*disabled/);
+  assert.match(main,/const enabled=customerSelect\.value==='법인'/);
+  assert.match(main,/fileInput\.disabled=!enabled/);
+  assert.match(main,/>📎<\/span><b>파일 업로드<\/b>/);
+  assert.match(css,/\.drive-file-button\.is-disabled/);
 });

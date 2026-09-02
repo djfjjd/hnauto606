@@ -1,0 +1,25 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+
+const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
+const migration=readFileSync(new URL('../migrations/0013_add_heydealer_records.sql',import.meta.url),'utf8');
+const wrangler=readFileSync(new URL('../wrangler.toml',import.meta.url),'utf8');
+
+test('헤이딜러 거래와 파일 메타데이터를 별도 D1 테이블에 보관한다',()=>{
+  assert.match(migration,/CREATE TABLE IF NOT EXISTS heydealer_records/);
+  assert.match(migration,/customer_type TEXT NOT NULL CHECK\(customer_type IN \('개인','법인'\)\)/);
+  assert.match(migration,/CREATE TABLE IF NOT EXISTS heydealer_files/);
+  assert.match(migration,/record_id TEXT NOT NULL REFERENCES heydealer_records\(id\) ON DELETE CASCADE/);
+  assert.match(handler,/INSERT INTO heydealer_records/);
+  assert.match(handler,/INSERT INTO heydealer_files/);
+});
+
+test('법인 파일만 비공개 R2에 저장하고 실패 시 객체를 정리한다',()=>{
+  assert.match(wrangler,/binding = "FILES"[\s\S]*bucket_name = "hnauto606-private-files"/);
+  assert.match(handler,/record\.customer_type!=='법인'/);
+  assert.match(handler,/file\.size>20\*1024\*1024/);
+  assert.match(handler,/await env\.FILES\.put\(objectKey/);
+  assert.match(handler,/await env\.FILES\.delete\(objectKey\)/);
+  assert.match(handler,/Content-Disposition/);
+});

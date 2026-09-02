@@ -9,10 +9,9 @@ database_name = "hnauto606-production"
 database_id = "255bf58e-33f6-42dc-99a5-a6f3ae1ab4be"
 preview_database_id = "7235c263-d567-481e-8492-f183f539a4b7"
 
-# 사진·문서 기능을 활성화할 때만 생성하고 주석을 해제합니다.
-# [[r2_buckets]]
-# binding = "FILES"
-# bucket_name = "hnauto606-private-files"
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "hnauto606-private-files"
 
 [vars]
 AUTH_MODE = "cloudflare-access"
