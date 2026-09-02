@@ -68,6 +68,13 @@ test('옵션은 출고정보 전까지만 추출한다',()=>{
   assert.equal(result.options,'선루프,어라운드뷰');
 });
 
+test('금액이 붙은 신차 정가와 출고 정보부터는 옵션에 포함하지 않는다',()=>{
+  const priceResult=parseHeydealerText('219더4124\nBMW 120i\n옵션\n선루프\n통풍시트\n🏷 신차정가 약 4,890만원\n📄 등록증출고가 4,081만원');
+  const deliveryResult=parseHeydealerText('219더4124\nBMW 120i\n옵션\n선루프\n어라운드뷰\n출고 정보: 2026-09-03\n탁송기사 홍길동');
+  assert.equal(priceResult.options,'선루프,통풍시트');
+  assert.equal(deliveryResult.options,'선루프,어라운드뷰');
+});
+
 test('매수자 인적사항에 법인명이 있으면 특이사항을 법인으로 선택한다',()=>{
   const result=parseHeydealerText('매수자 인적사항\n법인명\n주식회사 하나오토\n법인 번호\n110111-0937349');
   assert.equal(result.notes,'법인');

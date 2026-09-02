@@ -66,9 +66,10 @@ export function parseHeydealerText(raw){
   const specLine=lines.find(line=>line.includes('ㆍ')&&/(휘발유|경유|전기|하이브리드|LPG)/i.test(line))||'';
   const specIndex=lines.indexOf(specLine);
   const nextSection=/^(출고정보|출고 정보|거래 주요정보|원부정보|내 견적|선택날짜|견적 재확인|탁송정보|탁송 정보|탁송인수 정보|차대금 입금|거래 마무리|거래종결|입금 상태|차대금|입금 계좌|안내사항|경매|경매종료|제로|특이사항|출발시간|탁송 출발시간|탁송출발시간)$/;
+  const optionStopSection=/^(출고정보|출고 정보|거래 주요정보|원부정보|내 견적|선택날짜|견적 재확인|탁송정보|탁송 정보|탁송인수 정보|차대금 입금|거래 마무리|거래종결|입금 상태|차대금|입금 계좌|안내사항|경매|경매종료|제로|특이사항|출발시간|탁송 출발시간|탁송출발시간)$|^[^가-힣A-Za-z0-9]*(?:출고\s*정보|신차\s*정가|등록증\s*출고가)(?:\s|[:：]|$)/;
   const optionCandidate=specIndex<0?'':lines[specIndex+1]||'';
-  const labeledOptions=valuesAfterLabel(lines,['옵션'],nextSection);
-  const options=(labeledOptions.length?labeledOptions:nextSection.test(optionCandidate)?[]:[optionCandidate]).filter(Boolean).join(',');
+  const labeledOptions=valuesAfterLabel(lines,['옵션'],optionStopSection);
+  const options=(labeledOptions.length?labeledOptions:optionStopSection.test(optionCandidate)?[]:[optionCandidate]).filter(Boolean).join(',');
   const noteValues=valuesAfterLabel(lines,['특이사항'],nextSection),notes=lines.includes('법인명')?'법인':noteValues.includes('법인')?'법인':noteValues.includes('개인')||lines.includes('개인')?'개인':'';
   const calendarTime=lines.find(line=>/^[A-Za-z]+,\s+[A-Za-z]+\s+\d{1,2}.*·.*\d{1,2}:\d{2}/)||'';
   const departureTime=normalizeDepartureTime(nextValue(lines,'출발시간')||nextValue(lines,'탁송 출발시간')||nextValue(lines,'탁송출발시간')||pickupSchedule(lines)||calendarTime.split('·')[1]||'');
