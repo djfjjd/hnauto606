@@ -5,26 +5,22 @@ import {readFileSync} from 'node:fs';
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 
-test('상단 헤이딜러 메뉴는 프롬프트·목록만 표시하고 Drive 아이콘은 밖에 둔다',()=>{
+test('상단 헤이딜러 메뉴와 첫 화면 Sheets·캘린더 바로가기를 분리해 표시한다',()=>{
   assert.match(main,/class="external-menu drive-menu"/);
   assert.match(main,/data-drive-menu aria-expanded="false">헤이딜러/);
   assert.match(main,/class="external-submenu"><a href="\/drive">프롬프트양식<\/a>/);
   assert.match(main,/<a href="\/drive\/heydealer">선택차량목록<\/a>/);
-  assert.match(main,/class="drive-shortcut drive-icon-link" href="https:\/\/docs\.google\.com\/spreadsheets\/d\/1N3cAmPeS7eOZoqW-k9r1bx_xI0XI-4e0aGo9B04wGbA\/edit\?gid=1361663048#gid=1361663048"[^>]*aria-label="Google Sheets 바로가기"[^>]*><img src="\/sheets\.png" alt=""><\/a>/);
+  assert.match(main,/class="header-actions"><a class="header-sheet-link" href="https:\/\/docs\.google\.com\/spreadsheets\/d\/1N3cAmPeS7eOZoqW-k9r1bx_xI0XI-4e0aGo9B04wGbA\/edit\?gid=1361663048#gid=1361663048"[^>]*aria-label="Google Sheets 바로가기"[^>]*><img src="\/sheets\.png" alt=""><\/a><a class="header-dashboard-link" href="\/dashboard">차량 현황판<\/a>/);
   assert.match(main,/class="external-submenu"><a href="\/drive">프롬프트양식<\/a><a href="\/drive\/heydealer">선택차량목록<\/a><\/div>/);
   assert.match(css,/\.external-tools>a:not\(\.drive-icon-link\)\{font-size:15px\}\.external-tools>\.external-menu>button\{font-size:16px\}/);
-  assert.match(css,/\.drive-shortcut img\{width:30px;height:30px;aspect-ratio:460\/460;border-radius:50%;object-fit:cover/);
-  assert.match(css,/\.external-tools \.drive-icon-link\{width:36px;height:36px;[^}]*border-radius:50%;background:transparent;overflow:hidden/);
+  assert.match(css,/\.header-sheet-link img\{display:block;width:30px;height:30px/);
   assert.match(css,/\.external-menu:hover \.external-submenu/);
   assert.match(css,/\.external-menu:focus-within \.external-submenu/);
-  assert.ok(main.indexOf('>헤이딜러</button>')<main.indexOf('class="drive-shortcut drive-icon-link"'));
   assert.match(main,/function todayCalendarLabel\(now=new Date\(\)\)/);
   assert.match(main,/timeZone:'Asia\/Seoul'/);
-  assert.match(main,/class="calendar-today" href="https:\/\/calendar\.google\.com\/"[^>]*>\$\{todayCalendarLabel\(\)\}<\/a>/);
-  assert.ok(main.indexOf('class="drive-shortcut drive-icon-link"')<main.indexOf('class="calendar-today"'));
-  assert.ok(main.indexOf('class="calendar-today"')<main.indexOf('>새싹타워정기권</a>'));
+  assert.match(main,/class="parking-title"><a class="parking-calendar" href="https:\/\/calendar\.google\.com\/"[^>]*>\$\{todayCalendarLabel\(\)\}<\/a>/);
   assert.ok(main.indexOf('>새싹타워정기권</a>')<main.indexOf('>엔카진단예약</a>'));
-  assert.match(css,/\.external-tools \.calendar-today\{display:inline-flex/);
+  assert.match(css,/\.parking-calendar\{justify-self:center/);
 });
 
 test('헤이딜러 버튼은 프롬프트양식으로 이동하고 키보드 Escape 조작을 지원한다',()=>{
