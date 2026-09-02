@@ -12,8 +12,8 @@ test('상단 헤이딜러 메뉴는 프롬프트·목록만 표시하고 Drive �
   assert.match(main,/<a href="\/drive\/heydealer">선택차량목록<\/a>/);
   assert.match(main,/class="drive-shortcut drive-icon-link"[^>]*aria-label="Google Drive 바로가기"[^>]*><img src="\/gdrive\.png" alt=""><\/a>/);
   assert.match(main,/class="external-submenu"><a href="\/drive">프롬프트양식<\/a><a href="\/drive\/heydealer">선택차량목록<\/a><\/div>/);
-  assert.match(css,/\.drive-shortcut img\{width:20px;height:20px/);
-  assert.match(css,/\.external-tools \.drive-icon-link\{width:30px;height:30px/);
+  assert.match(css,/\.drive-shortcut img\{width:24px;height:24px;border-radius:50%;object-fit:cover/);
+  assert.match(css,/\.external-tools \.drive-icon-link\{width:30px;height:30px;[^}]*border-radius:50%;background:transparent;overflow:hidden/);
   assert.match(css,/\.external-menu:hover \.external-submenu/);
   assert.match(css,/\.external-menu:focus-within \.external-submenu/);
   assert.ok(main.indexOf('>헤이딜러</button>')<main.indexOf('>새싹타워정기권</a>'));
