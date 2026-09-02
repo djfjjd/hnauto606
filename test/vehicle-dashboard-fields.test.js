@@ -15,6 +15,7 @@ test('차량 현황판에 km와 상품화 작업 체크 열을 순서대로 표�
   assert.match(css,/\.board-row\{width:100%;min-width:1540px/);
   assert.match(main,/class="board-option-cell"><span class="board-option-text">\$\{esc\(s\.options\)\|\|'-'\}<\/span>\$\{actions\}<\/span>/);
   assert.match(css,/\.board-option-cell\{position:sticky;right:0;[^}]*display:flex/);
+  assert.match(css,/\.board-option-cell\{[^}]*background:transparent;box-shadow:none/);
 });
 
 test('현황판 체크 상태와 주행거리를 D1에 보존한다',()=>{
