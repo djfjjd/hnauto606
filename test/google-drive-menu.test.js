@@ -25,6 +25,7 @@ test('구글드라이브 메뉴는 모바일 클릭과 키보드 Escape 조작�
 test('/drive 경로에 Google API 연결 전 안전한 프롬프트 화면을 제공한다',()=>{
   assert.match(main,/function renderDrivePage\(\)/);
   assert.match(main,/class="drive-prompt-panel"/);
+  assert.doesNotMatch(main,/class="drive-prompt-panel"><p class="eyebrow">GOOGLE DRIVE<\/p><h1>구글드라이브<\/h1>/);
   assert.match(main,/id="drive-prompt"[^>]*maxlength="12000"/);
   assert.match(main,/parseHeydealerText\(prompt\.value\)/);
   assert.match(main,/driveField\('manager','담당자'\)/);
