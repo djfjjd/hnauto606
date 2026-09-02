@@ -5,8 +5,8 @@ import {readFileSync} from 'node:fs';
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 
-test('차량 현황판에 색상과 옵션 사이 입고일을 표시한다',()=>{
-  assert.match(main,/<span>색상<\/span><span>입고일<\/span><span>옵션<\/span>/);
+test('차량 현황판에 km·색상·입고일·옵션을 순서대로 표시한다',()=>{
+  assert.match(main,/<span>연식<\/span><span>km<\/span><span>색상<\/span><span>입고일<\/span><span>옵션<\/span>/);
   assert.match(main,/String\(s\.checkedInAt\|\|''\)\.slice\(0,10\)/);
 });
 

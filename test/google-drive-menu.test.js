@@ -34,10 +34,16 @@ test('/drive 경로에 Google API 연결 전 안전한 프롬프트 화면을 �
   assert.match(main,/\(탁송인수 정보\)/);
   assert.match(main,/\(차대금 입금\)/);
   assert.match(main,/mergeParsed\(parsed\)/);
-  assert.match(main,/거래 정보는 D1에 저장되며 법인 첨부파일은 비공개 R2에 보관됩니다/);
+  assert.doesNotMatch(main,/거래 정보는 D1에 저장되며 법인 첨부파일은 비공개 R2에 보관됩니다/);
+  assert.match(main,/class="drive-prompt-title">헤이딜러 거래 화면 전체를 아래 프롬프트에 붙여넣으면 거래 정보가 자동 입력됩니다/);
+  assert.match(main,/data-sheet-tab hidden aria-hidden="true"/);
+  assert.doesNotMatch(main,/sheet-sync-target/);
+  assert.doesNotMatch(main,/구글드라이브 바로가기/);
+  assert.match(main,/loadGoogleSheetTabs\(sheetSelect,status,true\)/);
   assert.match(main,/location\.pathname==='\/drive'/);
   assert.match(css,/\.drive-prompt-panel\{/);
   assert.match(css,/\.drive-prompt-grid\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+  assert.match(css,/\.drive-prompt-title\{color:#111/);
 });
 
 test('헤이딜러 입력은 초기화와 저장을 지원하고 목록 페이지에서 확인한다',()=>{
