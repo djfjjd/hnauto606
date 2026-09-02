@@ -89,7 +89,7 @@ test('헤이딜러 거래는 옵션만 선택이고 나머지 입력값을 필�
   assert.match(main,/status\.textContent='필수사항을 입력하세요\.'/);
   assert.match(main,/status\.classList\.add\('is-error'\)/);
   assert.match(css,/\.drive-parse-status\{[^}]*text-align:right/);
-  assert.match(css,/\.drive-parse-status\.is-error\{color:#c82020/);
+  assert.match(css,/\.drive-prompt-panel>\.drive-parse-status\.is-error\{color:#c82020/);
 });
 
 test('선택차량목록은 기본 접힘·10개 페이지·삭제 기능을 제공한다',()=>{
