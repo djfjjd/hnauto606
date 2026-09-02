@@ -16,6 +16,10 @@ test('상단 브랜드를 간결하게 표시하고 구글 드라이브 업무 �
   assert.match(main,/<a href="\/drive">프롬프트양식<\/a>/);
 });
 
+test('차량 현황판의 주차위치현황 링크는 투명 배경과 테마 글자색을 사용한다',()=>{
+  assert.match(css,/body:has\(\.board-page\) \.topbar \.board-nav a\[href="\/"\]\{color:var\(--lime\);background:transparent\}/);
+});
+
 test('주차 차량과 상품화 차량을 분리해 다섯 개 통계 카드로 표시한다',()=>{
   assert.match(main,/occupied:parked,productization/);
   assert.match(main,/metric\('주차 차량',c\.occupied,'IN USE','dark'\)\}\$\{metric\('상품화',c\.productization,'PRODUCT','product'\)\}\$\{metric\('빈 자리'/);
