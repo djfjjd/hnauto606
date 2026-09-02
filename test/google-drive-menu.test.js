@@ -60,3 +60,11 @@ test('특이사항은 필수 개인·법인 선택이며 법인만 파일 첨부
   assert.match(main,/>📎<\/span><b>파일 업로드<\/b>/);
   assert.match(css,/\.drive-file-button\.is-disabled/);
 });
+
+test('헤이딜러 거래는 옵션만 선택이고 나머지 입력값을 필수로 검증한다',()=>{
+  assert.match(main,/const required=name!=='options'/);
+  assert.match(main,/requiredNames=\['manager','date','modelYear','plate','model','color','notes','price','account','origin','departureTime'\]/);
+  assert.match(main,/status\.textContent='필수사항을 입력하세요\.'/);
+  assert.match(main,/status\.classList\.add\('is-error'\)/);
+  assert.match(css,/\.drive-parse-status\.is-error\{color:#c82020/);
+});

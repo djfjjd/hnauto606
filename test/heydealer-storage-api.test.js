@@ -23,3 +23,8 @@ test('법인 파일만 비공개 R2에 저장하고 실패 시 객체를 정리�
   assert.match(handler,/await env\.FILES\.delete\(objectKey\)/);
   assert.match(handler,/Content-Disposition/);
 });
+
+test('헤이딜러 API는 옵션 외 모든 거래 항목을 필수로 검증한다',()=>{
+  assert.match(handler,/requiredValues=\[input\?\.manager,input\?\.modelYear,input\?\.plate,input\?\.model,input\?\.color,input\?\.customerType\|\|input\?\.notes,input\?\.price,input\?\.account,input\?\.origin,input\?\.departureTime\]/);
+  assert.match(handler,/message:'필수사항을 입력하세요\.'/);
+});
