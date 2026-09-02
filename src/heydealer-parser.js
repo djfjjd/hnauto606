@@ -1,5 +1,7 @@
 const clean=value=>String(value||'').replace(/\u00a0/g,' ').trim();
 const normalizeColor=value=>{const color=clean(value);if(/화이트/i.test(color))return'흰색';if(/블루/i.test(color))return'블루';if(/은색|실버|그레이/i.test(color))return'쥐색';if(/블랙/i.test(color))return'검정';return color;};
+const normalizeManager=value=>{const manager=clean(value).replace(/\s+/g,'');if(/하성은|대표/.test(manager))return'대표님';if(/황정웅|황대리/.test(manager))return'황정웅대리';if(/김지민|김대리/.test(manager))return'김지민대리';if(/권용민|권주임/.test(manager))return'권용민주임';return'';};
+const managerPattern=/^(?:하성은\s*(?:대표|대표님)?|대표님|황정웅\s*대리|황대리|김지민\s*대리|김대리|권용민\s*주임|권주임)$/;
 
 function nextValue(lines,label,predicate=Boolean){
   const index=lines.findIndex(line=>line===label);
@@ -50,7 +52,7 @@ export function parseHeydealerText(raw){
   const departureTime=nextValue(lines,'출발시간')||nextValue(lines,'탁송 출발시간')||nextValue(lines,'탁송출발시간')||pickupSchedule(lines)||calendarTime.split('·')[1]||'';
   const selectedDate=nextValue(lines,'선택날짜',value=>/^\d{4}-\d{2}-\d{2}$/.test(value))||nextValue(lines,'경매종료',value=>/^\d{4}-\d{2}-\d{2}$/.test(value));
   return{
-    manager:lines.find(line=>/^[가-힣]{2,5}\s*(대표|대리|주임|과장|부장|사원)$/.test(line))||'',
+    manager:normalizeManager(lines.find(line=>managerPattern.test(line))||''),
     modelYear:yearLine.match(/^\d{4}-\d{2}/)?.[0]||'',plate,model,
     color:normalizeColor(specLine.split('ㆍ').at(-1)),mileage,options,notes,
     price:nextValue(lines,'차대금',value=>/[\d,]+만원/.test(value)),
