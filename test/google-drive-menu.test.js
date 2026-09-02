@@ -10,7 +10,7 @@ test('상단 헤이딜러 메뉴는 프롬프트·목록만 표시하고 Drive �
   assert.match(main,/data-drive-menu aria-expanded="false">헤이딜러/);
   assert.match(main,/class="external-submenu"><a href="\/drive">프롬프트양식<\/a>/);
   assert.match(main,/<a href="\/drive\/heydealer">선택차량목록<\/a>/);
-  assert.match(main,/class="drive-shortcut drive-icon-link"[^>]*aria-label="Google Drive 바로가기"[^>]*><img src="\/gdrive\.png" alt=""><\/a>/);
+  assert.match(main,/class="drive-shortcut drive-icon-link" href="https:\/\/docs\.google\.com\/spreadsheets\/d\/1N3cAmPeS7eOZoqW-k9r1bx_xI0XI-4e0aGo9B04wGbA\/edit\?gid=1361663048#gid=1361663048"[^>]*aria-label="Google Sheets 바로가기"[^>]*><img src="\/sheets\.png" alt=""><\/a>/);
   assert.match(main,/class="external-submenu"><a href="\/drive">프롬프트양식<\/a><a href="\/drive\/heydealer">선택차량목록<\/a><\/div>/);
   assert.match(css,/\.external-tools>a:not\(\.drive-icon-link\)\{font-size:15px\}\.external-tools>\.external-menu>button\{font-size:16px\}/);
   assert.match(css,/\.drive-shortcut img\{width:30px;height:30px;aspect-ratio:460\/460;border-radius:50%;object-fit:cover/);
