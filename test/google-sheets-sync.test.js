@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
+import {normalizeSheetDepartureDate,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
 
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const sheets=readFileSync(new URL('../functions/_lib/google-sheets.js',import.meta.url),'utf8');
@@ -21,6 +21,18 @@ test('신규 행은 직전 행 서식과 validation을 복사하고 A 순번을 
   assert.match(sheets,/String\(record\.mileage\|\|''\)/);
   assert.match(sheets,/String\(record\.mileage\|\|''\),String\(record\.manager\|\|''\),String\(record\.options\|\|''\)/);
   assert.match(sheets,/String\(record\.memo\|\|''\)/);
+  assert.match(sheets,/sheetRange\(tab\.title,'A:T'\)/);
+  assert.match(sheets,/startColumnIndex:0,endColumnIndex:20/);
+});
+
+test('스프레드시트 T열에 탁송 출발 날짜를 YYYY-MM-DD로 기록한다',()=>{
+  assert.equal(normalizeSheetDepartureDate('2026-09-04 (금) 오전 10시 출발예정'),'2026-09-04');
+  assert.equal(normalizeSheetDepartureDate('2026. 9. 4. 오후 2시'),'2026-09-04');
+  assert.equal(normalizeSheetDepartureDate('오전 10시 출발예정'),'');
+  assert.match(sheets,/normalizeSheetDepartureDate\(record\.departure_time\)/);
+  assert.match(sheets,/`\$\{startColumn\}\$\{row\}:T\$\{row\}`/);
+  assert.match(sheets,/ensureDepartureHeader\(env,sheetId,tab\.title,rows\[0\]\?\.\[19\]\)/);
+  assert.match(sheets,/values:\[\['탁송출발날짜'\]\]/);
 });
 
 test('Sheets API는 서버 전용 서비스계정 JWT와 Web Crypto를 사용한다',()=>{
