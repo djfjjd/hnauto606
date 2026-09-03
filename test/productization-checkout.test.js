@@ -15,7 +15,7 @@ test('주차 도면 차량 클릭은 상세 대신 상품화출차 팝업을 연
 test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입력을 제공한다',()=>{
   assert.match(main,/\['performance','성능'\],\['body','판금'\],\['dent','덴트'\],\['polish','광택'\],\['car-center','카센터\(기타\)'\]/);
   assert.match(main,/name="serviceDate" value="\$\{today\}" required/);
-  assert.match(main,/data-service-detail="performance"[\s\S]*value="입력하지 않음" disabled/);
+  assert.doesNotMatch(main,/data-service-detail="performance"/);
   assert.match(main,/name="exteriorCount"/);
   assert.match(main,/name="dentNote"[\s\S]*name="dentCost"/);
   assert.match(main,/name="polishType"[\s\S]*value="스타"[\s\S]*value="광택"/);
