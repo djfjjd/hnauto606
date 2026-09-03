@@ -18,11 +18,11 @@ test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입�
   assert.doesNotMatch(main,/data-service-detail="performance"/);
   assert.match(main,/name="exteriorCount"[\s\S]*name="bodyNote"[\s\S]*placeholder="외판부위"/);
   assert.match(main,/name="dentNote"[\s\S]*name="dentCost"/);
-  assert.match(main,/광택업체명[\s\S]*name="polishType"[\s\S]*value="스타"[\s\S]*value="신화"/);
+  assert.match(main,/class="polish-vendors"[\s\S]*type="radio" name="polishType" value="스타"[\s\S]*type="radio" name="polishType" value="신화"/);
   assert.match(main,/name="carCenterNote"[\s\S]*placeholder="작업 내용"[\s\S]*name="carCenterCost"/);
   assert.match(main,/bindProductizationFields/);
   assert.match(css,/\.productization-tabs\{display:grid;grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
-  assert.match(css,/#productization-form select\[name=polishType\]\{font-size:17px\}/);
+  assert.match(css,/\.modal \.polish-vendors label\{[^}]*font-size:17px/);
   assert.match(css,/#productization-form \.productization-detail\[hidden\]\{display:none!important\}/);
 });
 
