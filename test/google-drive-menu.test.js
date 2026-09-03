@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 
 test('상단 헤이딜러 메뉴와 첫 화면 Sheets·캘린더 바로가기를 분리해 표시한다',()=>{
   assert.match(main,/class="external-menu drive-menu"/);
@@ -112,13 +113,24 @@ test('헤이딜러 거래는 옵션만 선택이고 나머지 입력값을 필�
 });
 
 test('선택차량목록은 기본 접힘·10개 페이지·삭제 기능을 제공한다',()=>{
-  assert.match(main,/class="heydealer-record-details"><summary>펼치기<\/summary>/);
+  assert.match(main,/class="heydealer-record-details" \$\{editing\?'open':''\}><summary>\$\{editing\?'접기':'펼치기'\}<\/summary>/);
   assert.match(main,/records\.slice\(\(currentPage-1\)\*10,currentPage\*10\)/);
   assert.match(main,/>맨처음<\/button>/);
   assert.match(main,/>맨끝<\/button>/);
   assert.match(main,/data-heydealer-delete/);
   assert.match(main,/api\(`heydealer\/\$\{record\.id\}`,\{method:'DELETE'\}\)/);
   assert.match(css,/\.heydealer-delete\{[^}]*color:#c82020/);
+});
+
+test('선택차량목록 연필 버튼은 항목을 펼쳐 D1 정보를 수정한다',()=>{
+  assert.match(main,/class="heydealer-edit" data-heydealer-edit=/);
+  assert.match(main,/heydealerRecord\(record,record\.id===editingRecordId\)/);
+  assert.match(main,/class="heydealer-record\$\{editing\?' is-editing':''\}"/);
+  assert.match(main,/class="heydealer-edit-form" data-heydealer-edit-form=/);
+  assert.match(main,/api\(`heydealer\/\$\{record\.id\}`,\{method:'PATCH'/);
+  assert.match(handler,/if\(method==='PATCH'&&parts\[1\]&&!parts\[2\]\)/);
+  assert.match(handler,/UPDATE heydealer_records SET manager=\?,record_date=\?/);
+  assert.match(handler,/'update','heydealer_record'/);
 });
 
 test('선택차량목록의 법인 차량만 R2 첨부파일 다운로드 기능을 제공한다',()=>{
