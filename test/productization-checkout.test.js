@@ -23,6 +23,7 @@ test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입�
   assert.match(main,/bindProductizationFields/);
   assert.match(css,/\.productization-tabs\{display:grid;grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
   assert.match(css,/#productization-form select\[name=polishType\]\{font-size:17px\}/);
+  assert.match(css,/#productization-form \.productization-detail\[hidden\]\{display:none!important\}/);
 });
 
 test('상품화출차 팝업은 위치 문구와 취소를 숨기고 기존 주차 삭제를 제공한다',()=>{
