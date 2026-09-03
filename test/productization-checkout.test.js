@@ -16,12 +16,13 @@ test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입�
   assert.match(main,/\['performance','성능'\],\['body','판금'\],\['dent','덴트'\],\['polish','광택'\],\['car-center','카센터\(기타\)'\]/);
   assert.match(main,/name="serviceDate" value="\$\{today\}" required/);
   assert.doesNotMatch(main,/data-service-detail="performance"/);
-  assert.match(main,/name="exteriorCount"/);
+  assert.match(main,/name="exteriorCount"[\s\S]*name="bodyNote"[\s\S]*placeholder="외판부위"/);
   assert.match(main,/name="dentNote"[\s\S]*name="dentCost"/);
-  assert.match(main,/name="polishType"[\s\S]*value="스타"[\s\S]*value="광택"/);
-  assert.match(main,/name="carCenterNote"/);
+  assert.match(main,/광택업체명[\s\S]*name="polishType"[\s\S]*value="스타"[\s\S]*value="광택"/);
+  assert.match(main,/name="carCenterNote"[\s\S]*placeholder="작업 내용"[\s\S]*name="carCenterCost"/);
   assert.match(main,/bindProductizationFields/);
   assert.match(css,/\.productization-tabs\{display:grid;grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+  assert.match(css,/#productization-form select\[name=polishType\]\{font-size:17px\}/);
 });
 
 test('상품화출차 팝업은 위치 문구와 취소를 숨기고 기존 주차 삭제를 제공한다',()=>{
