@@ -21,6 +21,8 @@ test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입�
   assert.match(main,/class="polish-vendors"[\s\S]*type="radio" name="polishType" value="스타"[\s\S]*type="radio" name="polishType" value="신화"/);
   assert.match(main,/name="carCenterNote"[\s\S]*placeholder="작업 내용"[\s\S]*name="carCenterCost"/);
   assert.match(main,/bindProductizationFields/);
+  assert.match(main,/input\.dataset\.wasChecked=String\(input\.checked\)/);
+  assert.match(main,/if\(input\.dataset\.wasChecked==='true'\)input\.checked=false/);
   assert.match(css,/\.productization-tabs\{display:grid;grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
   assert.match(css,/\.modal \.polish-vendors label\{[^}]*font-size:17px/);
   assert.match(css,/#productization-form \.productization-detail\[hidden\]\{display:none!important\}/);
