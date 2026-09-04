@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
+import {normalizePolishingVendor,normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
 
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const sheets=readFileSync(new URL('../functions/_lib/google-sheets.js',import.meta.url),'utf8');
@@ -31,18 +31,26 @@ test('L열 성능일자는 조건부 수식이 계산할 수 있는 Sheets 숫�
   assert.equal(august25-august24,1);
   assert.equal(normalizeSheetDate('2026-8-4 10:30:00'),normalizeSheetDate('2026-08-04'));
   assert.equal(normalizeSheetDate(''),'');
-  assert.match(sheets,/normalizeSheetDate\(record\.performance_service_date\),false,false/);
+  assert.match(sheets,/normalizeSheetDate\(record\.performance_service_date\),normalizePolishingVendor\(record\.polishing_note\),false/);
   assert.match(handler,/performance_service_date FROM vehicles/);
   assert.match(handler,/performance_service_date FROM heydealer_records/);
   assert.match(handler,/COALESCE\(\(SELECT sr\.started_at/);
   assert.match(handler,/,checked_in_at\) performance_service_date FROM vehicles/);
 });
 
+test('M열 광택은 체크값 대신 최신 작업 업체명 스타 또는 신화로 동기화한다',()=>{
+  assert.equal(normalizePolishingVendor('[광택] 스타'),'스타');
+  assert.equal(normalizePolishingVendor('[광택] 신화'),'신화');
+  assert.equal(normalizePolishingVendor('[광택] 기타'),'');
+  assert.match(handler,/LIKE '\[광택\]%'/);
+  assert.match(handler,/\) polishing_note,COALESCE/);
+});
+
 test('신규 행은 직전 행 서식과 validation을 복사하고 현황판 순번을 기록한다',()=>{
   assert.match(sheets,/'PASTE_FORMAT','PASTE_DATA_VALIDATION'/);
   assert.match(sheets,/sheetSequence\(record,lastSequence\+1\)/);
   assert.match(sheets,/\[sequence,\.\.\.values\]/);
-  assert.match(sheets,/normalizeSheetDate\(record\.performance_service_date\),false,false/);
+  assert.match(sheets,/normalizeSheetDate\(record\.performance_service_date\),normalizePolishingVendor\(record\.polishing_note\),false/);
   assert.match(sheets,/String\(record\.mileage\|\|''\)/);
   assert.match(sheets,/String\(record\.mileage\|\|''\),String\(record\.manager\|\|''\),String\(record\.options\|\|''\)/);
   assert.doesNotMatch(sheets,/String\(record\.memo\|\|''\)/);
@@ -72,7 +80,7 @@ test('X열 차대금, Y열 입금계좌, Z열 판매 여부를 쓰되 V/W열은 
 });
 
 test('개별 및 전체 동기화가 출고일을 조회해 Z열 판매됨을 boolean으로 기록한다',()=>{
-  assert.match(handler,/\) checked_out_at,COALESCE/);
+  assert.match(handler,/\) checked_out_at,\(SELECT sr\.note/);
   assert.match(handler,/memo,checked_in_at,checked_out_at,updated_at/);
 });
 
