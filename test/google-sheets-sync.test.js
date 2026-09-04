@@ -20,9 +20,11 @@ test('기존 차량도 현황판 board_order를 스프레드시트 A열 순번�
   assert.match(handler,/SELECT h\.\*,\(SELECT v\.board_order/);
 });
 
-test('K열 성능일자는 최신 D1 성능 기록을 yyyy.mm.dd 형식으로 동기화한다',()=>{
-  assert.equal(normalizeSheetDate('2026-08-24'),'2026.08.24');
-  assert.equal(normalizeSheetDate('2026-8-4 10:30:00'),'2026.08.04');
+test('K열 성능일자는 조건부 수식이 계산할 수 있는 Sheets 숫자형 날짜로 동기화한다',()=>{
+  const august24=normalizeSheetDate('2026-08-24'),august25=normalizeSheetDate('2026-08-25');
+  assert.equal(typeof august24,'number');
+  assert.equal(august25-august24,1);
+  assert.equal(normalizeSheetDate('2026-8-4 10:30:00'),normalizeSheetDate('2026-08-04'));
   assert.equal(normalizeSheetDate(''),'');
   assert.match(sheets,/normalizeSheetDate\(record\.performance_service_date\),false,false/);
   assert.match(handler,/performance_service_date FROM vehicles/);
