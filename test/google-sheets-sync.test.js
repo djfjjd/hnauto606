@@ -46,8 +46,8 @@ test('신규 행은 직전 행 서식과 validation을 복사하고 현황판 �
   assert.match(sheets,/String\(record\.mileage\|\|''\)/);
   assert.match(sheets,/String\(record\.mileage\|\|''\),String\(record\.manager\|\|''\),String\(record\.options\|\|''\)/);
   assert.doesNotMatch(sheets,/String\(record\.memo\|\|''\)/);
-  assert.match(sheets,/sheetRange\(tab\.title,'A:X'\)/);
-  assert.match(sheets,/startColumnIndex:0,endColumnIndex:24/);
+  assert.match(sheets,/sheetRange\(tab\.title,'A:Y'\)/);
+  assert.match(sheets,/startColumnIndex:0,endColumnIndex:25/);
 });
 
 test('스프레드시트 T열에 탁송 출발 날짜와 시간을 24시간제로 기록한다',()=>{
@@ -62,11 +62,11 @@ test('스프레드시트 T열에 탁송 출발 날짜와 시간을 24시간제�
   assert.match(sheets,/String\(record\.origin\|\|''\),normalizeSheetDepartureDate\(record\.departure_time\)/);
 });
 
-test('W열 차대금과 X열 판매 여부를 쓰되 U/V열은 덮어쓰지 않는다',()=>{
-  assert.match(sheets,/sheetRange\(tab,`W\$\{row\}:X\$\{row\}`\)/);
-  assert.match(sheets,/String\(record\.price\|\|''\),Boolean\(record\.checked_out_at\)/);
-  assert.match(sheets,/sheetRange\(tab,'W1:X1'\)/);
-  assert.match(sheets,/values:\[\['차대금','판매됨'\]\]/);
+test('W열 차대금, X열 입금계좌, Y열 판매 여부를 쓰되 U/V열은 덮어쓰지 않는다',()=>{
+  assert.match(sheets,/sheetRange\(tab,`W\$\{row\}:Y\$\{row\}`\)/);
+  assert.match(sheets,/String\(record\.price\|\|''\),String\(record\.account\|\|''\),Boolean\(record\.checked_out_at\)/);
+  assert.match(sheets,/sheetRange\(tab,'W1:Y1'\)/);
+  assert.match(sheets,/values:\[\['차대금','입금계좌','판매됨'\]\]/);
   assert.match(sheets,/writeRecordBatch\(env,sheetId,tab\.title,batch\)/);
   assert.doesNotMatch(sheets,/`\$\{startColumn\}\$\{row\}:X\$\{row\}`/);
 });
