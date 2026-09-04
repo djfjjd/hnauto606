@@ -10,7 +10,7 @@ const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 test('차량번호는 공백을 제거해 Google Sheet B열 key로 비교한다',()=>{
   assert.equal(normalizeSheetPlate(' 219 더 4124 '),'219더4124');
   assert.match(sheets,/plateRows\.get\(plate\)/);
-  assert.match(sheets,/writeValues\(env,sheetId,tab\.title,existing\.row,\[sequence,\.\.\.values\],'A'\)/);
+  assert.match(sheets,/pending\.push\(\{action:'updated',row:existing\.row,sequence,values,record\}\)/);
 });
 
 test('기존 차량도 현황판 board_order를 스프레드시트 A열 순번으로 동기화한다',()=>{
@@ -38,7 +38,7 @@ test('스프레드시트 T열에 탁송 출발 날짜와 시간을 24시간제�
   assert.equal(normalizeSheetDepartureDate('2026-09-04 (금) 18:30 출발예정'),'2026-09-04 18:30');
   assert.equal(normalizeSheetDepartureDate('오전 10시 출발예정'),'');
   assert.match(sheets,/normalizeSheetDepartureDate\(record\.departure_time\)/);
-  assert.match(sheets,/`\$\{startColumn\}\$\{row\}:T\$\{row\}`/);
+  assert.match(sheets,/`A\$\{row\}:T\$\{row\}`/);
   assert.match(sheets,/ensureSyncHeaders\(env,sheetId,tab\.title,rows\[0\]\|\|\[\]\)/);
   assert.match(sheets,/values:\[\['탁송출발지','탁송출발시간'\]\]/);
   assert.match(sheets,/String\(record\.origin\|\|''\),normalizeSheetDepartureDate\(record\.departure_time\)/);
@@ -49,8 +49,14 @@ test('W열 차대금과 X열 입금계좌를 쓰되 U/V열은 덮어쓰지 않�
   assert.match(sheets,/String\(record\.price\|\|''\),String\(record\.account\|\|''\)/);
   assert.match(sheets,/sheetRange\(tab,'W1:X1'\)/);
   assert.match(sheets,/values:\[\['차대금','입금계좌'\]\]/);
-  assert.match(sheets,/await writePaymentValues\(env,sheetId,tab\.title,existing\.row,record\)/);
+  assert.match(sheets,/writeRecordBatch\(env,sheetId,tab\.title,batch\)/);
   assert.doesNotMatch(sheets,/`\$\{startColumn\}\$\{row\}:X\$\{row\}`/);
+});
+
+test('전체 동기화는 차량별 요청 대신 50대 단위 Sheets batchUpdate를 사용한다',()=>{
+  assert.match(sheets,/values:batchUpdate/);
+  assert.match(sheets,/index\+=50/);
+  assert.match(sheets,/pending\.slice\(index,index\+50\)/);
 });
 
 test('Sheets API는 서버 전용 서비스계정 JWT와 Web Crypto를 사용한다',()=>{
@@ -79,5 +85,6 @@ test('차량현황판 전체 탭 왼쪽에서 Sheets 전체 동기화를 실행�
   assert.match(main,/api\('google-sheets\/sync-all'/);
   assert.match(main,/data-dashboard-sync-label/);
   assert.match(main,/setDashboardSyncLabel\('전체동기화'\)/);
-  assert.match(main,/`동기화 중\$\{'\.'\.repeat\(dots\)\}`/);
+  assert.match(main,/dashboardSyncLabel\.innerHTML=`<span>동기화 중<\/span><i/);
+  assert.match(main,/setDashboardSyncLabel\('',dots\)/);
 });
