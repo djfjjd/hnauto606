@@ -39,8 +39,20 @@ test('상품화출차는 주차면 해제와 서비스·이동·감사·알림 �
   assert.match(api,/parts\[2\]==='productization'/);
   assert.match(api,/INSERT INTO service_records/);
   assert.match(api,/productization_checkout/);
-  assert.match(api,/notifyVehicleAction\(context,vehicle,'상품화출차','상품화출차',eventId\)/);
+  assert.match(api,/notifyVehicleAction\(context,vehicle,'상품화출차',`상품화\(\$\{type\.label\}\)`,eventId\)/);
   assert.match(main,/vehicles\/\$\{s\.vehicleId\}\/productization/);
+});
+
+test('미배정 차량도 상품화출차하고 작업 종류를 위치에 표시한다',()=>{
+  assert.match(api,/if\(!vehicle\)return json\(\{message:'차량현황판에서 차량을 찾을 수 없습니다\.'/);
+  assert.match(api,/const vehicleResultIndex=statements\.length/);
+  assert.match(api,/current_spot_id IS \?/);
+  assert.match(api,/notifyVehicleAction\(context,vehicle,'상품화출차',`상품화\(\$\{type\.label\}\)`/);
+  assert.match(api,/latest_movement_note/);
+  assert.match(api,/latest_productization_date/);
+  assert.match(main,/const productizationLocation=note=>/);
+  assert.match(main,/productizationDate:productization\?date:''/);
+  assert.match(main,/<time datetime="\$\{esc\(s\.productizationDate\)\}">\$\{esc\(s\.productizationDate\)\}<\/time>/);
 });
 
 test('차량현황판 상세 수정은 차량 행이 아닌 연필 버튼으로만 연다',()=>{

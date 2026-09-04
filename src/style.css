@@ -152,7 +152,8 @@ h2 { margin:0; font-family:inherit; font-size:38px; font-weight:800; letter-spac
 .spot-grid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px; }
 .spot { min-height:96px; padding:13px; text-align:left; border:1px solid var(--line); background:#fafaf7; cursor:pointer; position:relative; transition:.18s ease; }
 .spot:hover { transform:translateY(-2px); border-color:var(--ink); box-shadow:0 8px 18px rgba(16,33,25,.09); }
-.spot-label { display:block; color:#7a827b; font-size:11px; }
+.spot-label { display:flex;align-items:center;justify-content:space-between;gap:8px;color:#7a827b;font-size:11px; }
+.spot-label time{flex:none;color:#59625a;font-variant-numeric:tabular-nums}
 .spot strong { display:block; margin:17px 0 4px; font-size:15px; }
 .spot small { color:#848b85; font-size:10px; }
 .alert-text { display:block; margin-top:7px; color:#9b5f0a; font-size:10px; font-weight:700; }
