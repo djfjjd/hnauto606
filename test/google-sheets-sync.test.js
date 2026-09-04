@@ -71,3 +71,10 @@ test('탭·테스트·개별·전체 동기화 API와 탭 선택 UI를 제공한
   assert.match(main,/>전체 동기화<\/button>/);
   assert.match(handler,/SELECT plate,model,model_year,color,options,manager,board_order,memo,updated_at FROM vehicles/);
 });
+
+test('차량현황판 전체 탭 왼쪽에서 Sheets 전체 동기화를 실행한다',()=>{
+  assert.match(main,/data-dashboard-sheet-sync/);
+  assert.match(main,/data-dashboard-sheet-tab/);
+  assert.match(main,/dashboardSyncButton\.onclick=async/);
+  assert.match(main,/api\('google-sheets\/sync-all'/);
+});
