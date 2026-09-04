@@ -19,7 +19,8 @@ test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입�
   assert.match(main,/name="exteriorCount"[\s\S]*name="bodyNote"[\s\S]*placeholder="외판부위"/);
   assert.match(main,/name="dentNote"[\s\S]*name="dentCost"/);
   assert.match(main,/class="polish-vendors"[\s\S]*type="radio" name="polishType" value="스타"[\s\S]*type="radio" name="polishType" value="신화"/);
-  assert.match(main,/name="carCenterNote"[\s\S]*placeholder="작업 내용"[\s\S]*name="carCenterCost"/);
+  assert.match(main,/name="carCenterNote"[\s\S]*placeholder="작업 내용"[\s\S]*수리업체명[\s\S]*name="carCenterVendor"[\s\S]*placeholder="예: 신평카"/);
+  assert.match(main,/`\$\{carCenterNote\} \(\$\{carCenterVendor\}\)`/);
   assert.match(main,/bindProductizationFields/);
   assert.match(main,/input\.dataset\.wasChecked=String\(input\.checked\)/);
   assert.match(main,/if\(input\.dataset\.wasChecked==='true'\)input\.checked=false/);

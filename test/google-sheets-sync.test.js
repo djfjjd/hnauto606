@@ -74,7 +74,7 @@ test('G열 총 주행거리는 콤마와 km 단위를 제거한 숫자값으로 
 });
 
 test('차량현황판 수리내용을 스프레드시트 R열에 동기화한다',()=>{
-  assert.equal(normalizeRepairDescription('[카센터] 엔진오일 교환 · 비용 120,000원'),'엔진오일 교환');
+  assert.equal(normalizeRepairDescription('[카센터] 엔진오일 교환 · 비용 신평카'),'엔진오일 교환 (신평카)');
   assert.equal(normalizeRepairDescription('[카센터(기타)] 타이어 교체'),'타이어 교체');
   assert.match(sheets,/normalizeRepairDescription\(record\.repair_note\)/);
   assert.match(handler,/sync-all.*repair_note/);
