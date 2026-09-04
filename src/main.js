@@ -10,7 +10,7 @@ const state={spots:[],unassigned:[],checkedOut:[],heydealerRecords:[],query:'',z
 const used=s=>Boolean(s.plate),esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 const normalizeVehicleColor=value=>['회색','은색'].includes(String(value||'').trim())?'쥐색':String(value||'').trim();
 const formatMileage=value=>{const digits=String(value||'').replace(/[^0-9]/g,'');return digits?`${Number(digits).toLocaleString('ko-KR')}km`:'-';};
-const BOARD_COLUMNS=[['performance','성능','date'],['polishing','광택','vendor'],['advertising','광고','check'],['performanceDate','재성능','check'],['underbody','하부','check'],['bodywork','판금','count'],['dent','덴트','check'],['repair','수리','note']];
+const BOARD_COLUMNS=[['performance','성능','date'],['performanceDate','재성능','check'],['underbody','하부','check'],['dent','덴트','check'],['bodywork','판금','count'],['polishing','광택','vendor'],['repair','수리','note']];
 const BOARD_CHECKS=BOARD_COLUMNS;
 const boardCheckValues=value=>({performance:Boolean(value.performance_checked),polishing:Boolean(value.polishing_checked),advertising:Boolean(value.advertising_checked),performanceDate:Boolean(value.performance_date_checked),underbody:Boolean(value.underbody_checked),bodywork:Boolean(value.bodywork_checked),dent:Boolean(value.dent_checked),repair:Boolean(value.repair_checked)});
 function parkingSearchZoneLabel(spot){if(spot.isCheckedOut&&!spot.currentSpotId)return'출고됨';if(spot.isUnassigned)return String(spot.label).startsWith('상품화(')?spot.label:'상품화';if(spot.zoneId==='tower'){const row=normalizePosition(spot.label).slice(1);if(row==='01')return'새싹 B5층';if(row==='02')return'새싹 B6층';return'새싹';}return zones.find(zone=>zone.id===spot.zoneId)?.short||spot.zoneShort||spot.zone;}
