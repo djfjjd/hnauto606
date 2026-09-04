@@ -31,8 +31,8 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(css,/\.board-option-cell\{position:relative;[^}]*display:flex/);
   assert.match(css,/\.board-row\.is-checked-out \.board-option-cell\{position:sticky;right:0/);
   assert.match(css,/\.board-option-cell\{[^}]*background:transparent;box-shadow:none/);
-  assert.match(css,/repeat\(7,58px\) minmax\(136px,1fr\)/);
-  assert.match(css,/\.board-row>:last-child\{width:58px;justify-self:start\}/);
+  assert.match(css,/repeat\(6,58px\) minmax\(180px,1fr\)/);
+  assert.match(css,/\.board-row>:last-child\{width:100%;justify-self:stretch\}/);
   assert.match(css,/\.board-row:not\(\.board-labels\) \.board-repair-note\{padding-left:24px\}/);
   assert.match(css,/\.board-row\{width:100%;min-width:1620px;padding-right:0/);
   assert.match(css,/\.board-labels>span:nth-child\(9\)\{padding:6px 8px\}/);
