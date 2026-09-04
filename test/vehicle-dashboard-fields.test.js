@@ -7,10 +7,15 @@ const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const migration=readFileSync(new URL('../migrations/0015_add_vehicle_dashboard_fields.sql',import.meta.url),'utf8');
 
-test('차량 현황판에 총 주행키로수와 상품화 작업 체크 열을 순서대로 표시한다',()=>{
-  assert.match(main,/\['performance','성능'\],\['polishing','광택'\],\['advertising','광고'\],\['performanceDate','성능일자'\],\['underbody','하부'\],\['bodywork','판금'\],\['dent','덴트'\],\['repair','수리'\]/);
+test('차량 현황판에 성능 날짜·광택업체·재성능과 작업 체크 열을 순서대로 표시한다',()=>{
+  assert.match(main,/\['performance','성능','date'\],\['polishing','광택','vendor'\],\['advertising','광고','check'\],\['performanceDate','재성능','check'\]/);
   assert.match(main,/<span>연식<\/span><span>총 주행키로수<\/span><span>색상<\/span><span>입고일<\/span><span>옵션<\/span>/);
   assert.match(main,/type="checkbox" data-board-check=/);
+  assert.match(main,/class="board-service-date"/);
+  assert.match(main,/class="board-polishing-vendor"/);
+  assert.match(main,/polishingVendor:String\(s\.polishing_note/);
+  assert.match(handler,/performance_service_date/);
+  assert.match(handler,/polishing_note/);
   assert.match(main,/esc\(s\.mileage\)\|\|'-'/);
   assert.match(css,/\.board-row\{width:100%;min-width:1620px/);
   assert.match(main,/class="board-option-cell"><span class="board-option-text">\$\{esc\(s\.options\)\|\|'-'\}<\/span>\$\{actions\}<\/span>/);
