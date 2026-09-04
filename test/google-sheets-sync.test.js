@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {normalizePolishingVendor,normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetMileage,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
+import {normalizePolishingVendor,normalizeRepairDescription,normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetMileage,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
 
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const sheets=readFileSync(new URL('../functions/_lib/google-sheets.js',import.meta.url),'utf8');
@@ -43,7 +43,7 @@ test('M열 광택은 체크값 대신 최신 작업 업체명 스타 또는 신�
   assert.equal(normalizePolishingVendor('[광택] 신화'),'신화');
   assert.equal(normalizePolishingVendor('[광택] 기타'),'');
   assert.match(handler,/LIKE '\[광택\]%'/);
-  assert.match(handler,/\) polishing_note,COALESCE/);
+  assert.match(handler,/\) polishing_note,.*COALESCE/);
 });
 
 test('신규 행은 직전 행 서식과 validation을 복사하고 현황판 순번을 기록한다',()=>{
@@ -71,6 +71,14 @@ test('G열 총 주행거리는 콤마와 km 단위를 제거한 숫자값으로 
   assert.match(handler,/mileageUpdated:result\.mileageUpdated/);
   assert.match(handler,/sequenceUpdated:result\.sequenceUpdated/);
   assert.match(handler,/SELECT plate,model,model_year,color,mileage,options/);
+});
+
+test('차량현황판 수리내용을 스프레드시트 R열에 동기화한다',()=>{
+  assert.equal(normalizeRepairDescription('[카센터] 엔진오일 교환 · 비용 120,000원'),'엔진오일 교환');
+  assert.equal(normalizeRepairDescription('[카센터(기타)] 타이어 교체'),'타이어 교체');
+  assert.match(sheets,/normalizeRepairDescription\(record\.repair_note\)/);
+  assert.match(handler,/sync-all.*repair_note/);
+  assert.match(handler,/sync-vehicle.*repair_note/);
 });
 
 test('스프레드시트 U열에 탁송 출발 날짜와 시간을 24시간제로 기록한다',()=>{
