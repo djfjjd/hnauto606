@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {normalizePolishingVendor,normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
+import {normalizePolishingVendor,normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetMileage,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
 
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const sheets=readFileSync(new URL('../functions/_lib/google-sheets.js',import.meta.url),'utf8');
@@ -51,11 +51,17 @@ test('신규 행은 직전 행 서식과 validation을 복사하고 현황판 �
   assert.match(sheets,/sheetSequence\(record,lastSequence\+1\)/);
   assert.match(sheets,/\[sequence,\.\.\.values\]/);
   assert.match(sheets,/normalizeSheetDate\(record\.performance_service_date\),normalizePolishingVendor\(record\.polishing_note\),false/);
-  assert.match(sheets,/String\(record\.mileage\|\|''\)/);
-  assert.match(sheets,/String\(record\.mileage\|\|''\),String\(record\.manager\|\|''\),String\(record\.options\|\|''\)/);
+  assert.match(sheets,/normalizeSheetMileage\(record\.mileage\)/);
+  assert.match(sheets,/normalizeSheetMileage\(record\.mileage\),String\(record\.manager\|\|''\),String\(record\.options\|\|''\)/);
   assert.doesNotMatch(sheets,/String\(record\.memo\|\|''\)/);
   assert.match(sheets,/sheetRange\(tab\.title,'A:Z'\)/);
   assert.match(sheets,/startColumnIndex:0,endColumnIndex:26/);
+});
+
+test('G열 총 주행거리는 콤마와 km 단위를 제거한 숫자값으로 동기화한다',()=>{
+  assert.equal(normalizeSheetMileage('18,634km'),18634);
+  assert.equal(normalizeSheetMileage('23451'),23451);
+  assert.equal(normalizeSheetMileage(''),'');
 });
 
 test('스프레드시트 U열에 탁송 출발 날짜와 시간을 24시간제로 기록한다',()=>{

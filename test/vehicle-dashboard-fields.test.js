@@ -24,7 +24,8 @@ test('차량 현황판에 성능 날짜·광택업체·판금 수량·수리내�
   assert.match(handler,/polishing_note/);
   assert.match(handler,/bodywork_note/);
   assert.match(handler,/repair_note/);
-  assert.match(main,/esc\(s\.mileage\)\|\|'-'/);
+  assert.match(main,/const formatMileage=value=>/);
+  assert.match(main,/<span>\$\{formatMileage\(s\.mileage\)\}<\/span>/);
   assert.match(css,/\.board-row\{width:100%;min-width:1620px/);
   assert.match(main,/class="board-option-cell"><span class="board-option-text">\$\{esc\(s\.options\)\|\|'-'\}<\/span>\$\{actions\}<\/span>/);
   assert.match(css,/\.board-option-cell\{position:relative;[^}]*display:flex/);
