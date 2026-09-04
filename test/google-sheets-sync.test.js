@@ -77,4 +77,7 @@ test('차량현황판 전체 탭 왼쪽에서 Sheets 전체 동기화를 실행�
   assert.match(main,/data-dashboard-sheet-tab/);
   assert.match(main,/dashboardSyncButton\.onclick=async/);
   assert.match(main,/api\('google-sheets\/sync-all'/);
+  assert.match(main,/data-dashboard-sync-label/);
+  assert.match(main,/setDashboardSyncLabel\('전체동기화'\)/);
+  assert.match(main,/`동기화 중\$\{'\.'\.repeat\(dots\)\}`/);
 });
