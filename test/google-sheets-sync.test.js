@@ -70,6 +70,7 @@ test('G열 총 주행거리는 콤마와 km 단위를 제거한 숫자값으로 
   assert.match(sheets,/mileageUpdated\+=verified\.mileageUpdated/);
   assert.match(handler,/mileageUpdated:result\.mileageUpdated/);
   assert.match(handler,/sequenceUpdated:result\.sequenceUpdated/);
+  assert.match(handler,/SELECT plate,model,model_year,color,mileage,options/);
 });
 
 test('스프레드시트 U열에 탁송 출발 날짜와 시간을 24시간제로 기록한다',()=>{
@@ -126,7 +127,7 @@ test('탭·테스트·개별·전체 동기화 API와 탭 선택 UI를 제공한
   assert.match(main,/SHEET_TAB_STORAGE/);
   assert.match(main,/>저장<\/button>/);
   assert.match(main,/>전체 동기화<\/button>/);
-  assert.match(handler,/SELECT plate,model,model_year,color,options,manager,board_order,memo,checked_in_at,checked_out_at,updated_at,/);
+  assert.match(handler,/SELECT plate,model,model_year,color,mileage,options,manager,board_order,memo,checked_in_at,checked_out_at,updated_at,/);
 });
 
 test('차량현황판 전체 탭 왼쪽에서 Sheets 전체 동기화를 실행한다',()=>{
