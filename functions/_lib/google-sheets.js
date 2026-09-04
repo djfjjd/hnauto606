@@ -7,6 +7,7 @@ const bytesToBase64Url=bytes=>{let value='';for(let index=0;index<bytes.length;i
 const utf8Base64Url=value=>bytesToBase64Url(new TextEncoder().encode(value));
 const sheetRange=(title,range)=>`'${String(title).replace(/'/g,"''")}'!${range}`;
 export const normalizeSheetPlate=value=>String(value||'').replace(/\s+/g,'').trim();
+export const normalizeSheetDate=value=>{const match=String(value||'').match(/(\d{4})[-./](\d{1,2})[-./](\d{1,2})/);return match?`${match[1]}.${match[2].padStart(2,'0')}.${match[3].padStart(2,'0')}`:'';};
 export const normalizeSheetDepartureDate=value=>{const source=String(value||''),date=source.match(/(\d{4})\s*[-./년]\s*(\d{1,2})\s*[-./월]\s*(\d{1,2})/);if(!date)return'';const koreanTime=source.match(/(오전|오후)\s*(\d{1,2})\s*(?::|시)\s*(\d{1,2})?\s*분?/),clockTime=source.match(/(?:^|\s)([01]?\d|2[0-3]):([0-5]\d)(?:\s|$|출발)/);let hours,minutes;if(koreanTime){hours=Number(koreanTime[2])%12+(koreanTime[1]==='오후'?12:0);minutes=Number(koreanTime[3]||0);}else if(clockTime){hours=Number(clockTime[1]);minutes=Number(clockTime[2]);}const formattedDate=`${date[1]}-${date[2].padStart(2,'0')}-${date[3].padStart(2,'0')}`;return hours===undefined?formattedDate:`${formattedDate} ${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}`;};
 
 function googleConfig(env){const clientEmail=String(env.GOOGLE_CLIENT_EMAIL||'').trim(),privateKey=String(env.GOOGLE_PRIVATE_KEY||'').replace(/\\n/g,'\n').trim(),sheetId=String(env.GOOGLE_SHEET_ID||'').trim();if(!clientEmail||!privateKey||!sheetId)throw new Error('Google Sheets 환경변수가 설정되지 않았습니다.');return{clientEmail,privateKey,sheetId};}
@@ -17,7 +18,7 @@ async function googleFetch(env,path,options={}){const token=await accessToken(en
 export async function listGoogleSheetTabs(env){const {sheetId}=googleConfig(env),data=await googleFetch(env,`spreadsheets/${encodeURIComponent(sheetId)}?fields=spreadsheetId,sheets.properties(sheetId,title,index)`);return(data.sheets||[]).map(sheet=>({id:sheet.properties.sheetId,title:sheet.properties.title,index:sheet.properties.index})).sort((a,b)=>a.index-b.index);}
 
 function recordValues(record){return[
-  normalizeSheetPlate(record.plate),String(record.model||''),'',String(record.model_year||''),String(record.color||''),String(record.mileage||''),String(record.manager||''),String(record.options||''),String(record.customer_type||''),false,false,false,'','','','','',String(record.origin||''),normalizeSheetDepartureDate(record.departure_time),
+  normalizeSheetPlate(record.plate),String(record.model||''),'',String(record.model_year||''),String(record.color||''),String(record.mileage||''),String(record.manager||''),String(record.options||''),String(record.customer_type||''),normalizeSheetDate(record.performance_service_date),false,false,'','','','','',String(record.origin||''),normalizeSheetDepartureDate(record.departure_time),
 ];}
 
 const sheetSequence=(record,fallback)=>{const sequence=Number(record.board_order);return Number.isInteger(sequence)&&sequence>0?sequence:fallback;};

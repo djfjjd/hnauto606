@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {normalizeSheetDepartureDate,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
+import {normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
 
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const sheets=readFileSync(new URL('../functions/_lib/google-sheets.js',import.meta.url),'utf8');
@@ -16,15 +16,24 @@ test('차량번호는 공백을 제거해 Google Sheet B열 key로 비교한다'
 test('기존 차량도 현황판 board_order를 스프레드시트 A열 순번으로 동기화한다',()=>{
   assert.match(sheets,/const sheetSequence=/);
   assert.match(sheets,/sheetSequence\(record,existing\.sequence/);
-  assert.match(handler,/manager,board_order,memo,updated_at FROM vehicles/);
+  assert.match(handler,/manager,board_order,memo,updated_at,/);
   assert.match(handler,/SELECT h\.\*,\(SELECT v\.board_order/);
+});
+
+test('K열 성능일자는 최신 D1 성능 기록을 yyyy.mm.dd 형식으로 동기화한다',()=>{
+  assert.equal(normalizeSheetDate('2026-08-24'),'2026.08.24');
+  assert.equal(normalizeSheetDate('2026-8-4 10:30:00'),'2026.08.04');
+  assert.equal(normalizeSheetDate(''),'');
+  assert.match(sheets,/normalizeSheetDate\(record\.performance_service_date\),false,false/);
+  assert.match(handler,/performance_service_date FROM vehicles/);
+  assert.match(handler,/performance_service_date FROM heydealer_records/);
 });
 
 test('신규 행은 직전 행 서식과 validation을 복사하고 현황판 순번을 기록한다',()=>{
   assert.match(sheets,/'PASTE_FORMAT','PASTE_DATA_VALIDATION'/);
   assert.match(sheets,/sheetSequence\(record,lastSequence\+1\)/);
   assert.match(sheets,/\[sequence,\.\.\.values\]/);
-  assert.match(sheets,/false,false,false/);
+  assert.match(sheets,/normalizeSheetDate\(record\.performance_service_date\),false,false/);
   assert.match(sheets,/String\(record\.mileage\|\|''\)/);
   assert.match(sheets,/String\(record\.mileage\|\|''\),String\(record\.manager\|\|''\),String\(record\.options\|\|''\)/);
   assert.doesNotMatch(sheets,/String\(record\.memo\|\|''\)/);
@@ -75,7 +84,7 @@ test('탭·테스트·개별·전체 동기화 API와 탭 선택 UI를 제공한
   assert.match(main,/SHEET_TAB_STORAGE/);
   assert.match(main,/>저장<\/button>/);
   assert.match(main,/>전체 동기화<\/button>/);
-  assert.match(handler,/SELECT plate,model,model_year,color,options,manager,board_order,memo,updated_at FROM vehicles/);
+  assert.match(handler,/SELECT plate,model,model_year,color,options,manager,board_order,memo,updated_at,/);
 });
 
 test('차량현황판 전체 탭 왼쪽에서 Sheets 전체 동기화를 실행한다',()=>{
