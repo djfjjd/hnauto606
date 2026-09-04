@@ -16,9 +16,13 @@ test('차량번호는 공백을 제거해 Google Sheet B열 key로 비교한다'
 test('기존 차량도 현황판 board_order를 스프레드시트 A열 순번으로 동기화한다',()=>{
   assert.match(sheets,/const sheetSequence=/);
   assert.match(sheets,/sheetSequence\(record,existing\.sequence/);
-  assert.match(handler,/manager,board_order,memo,updated_at,/);
+  assert.match(handler,/manager,board_order,memo,checked_out_at,updated_at,/);
   assert.match(handler,/SELECT h\.\*,\(SELECT v\.board_order/);
   assert.match(sheets,/normalizeSheetPlate\(record\.plate\)==='59다3609'\)return 0/);
+  assert.match(handler,/function applyDashboardSheetSequences\(records\)/);
+  assert.match(handler,/const groups=new Map\(\)/);
+  assert.match(handler,/record\.board_order=isPinnedSheetVehicle\(record\)\?0:index\+\(hasPinned\?0:1\)/);
+  assert.match(handler,/applyDashboardSheetSequences\(latest\);const result=/);
 });
 
 test('K열 성능일자는 조건부 수식이 계산할 수 있는 Sheets 숫자형 날짜로 동기화한다',()=>{
@@ -89,7 +93,7 @@ test('탭·테스트·개별·전체 동기화 API와 탭 선택 UI를 제공한
   assert.match(main,/SHEET_TAB_STORAGE/);
   assert.match(main,/>저장<\/button>/);
   assert.match(main,/>전체 동기화<\/button>/);
-  assert.match(handler,/SELECT plate,model,model_year,color,options,manager,board_order,memo,updated_at,/);
+  assert.match(handler,/SELECT plate,model,model_year,color,options,manager,board_order,memo,checked_out_at,updated_at,/);
 });
 
 test('차량현황판 전체 탭 왼쪽에서 Sheets 전체 동기화를 실행한다',()=>{
