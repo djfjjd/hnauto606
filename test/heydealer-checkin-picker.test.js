@@ -38,3 +38,10 @@ test('신규 입고 팝업은 차량현황판 위치 문구를 표시하지 않�
   assert.match(main,/const hideLocation=state\.mode==='checkout'\|\|state\.mode==='productization'\|\|s\.id==='draft'/);
   assert.match(main,/\$\{hideLocation\?'':`<p class="eyebrow">\$\{s\.zone\} · \$\{s\.label\}<\/p>`\}/);
 });
+
+test('선택차량을 불러온 신규입고가 성공하면 해당 헤이딜러 기록을 삭제한다',()=>{
+  assert.match(main,/importedRecordId=String\(f\.get\('heydealerRecord'\)\|\|''\)/);
+  assert.match(main,/importedRecordId&&importedRecordId!=='manual'/);
+  assert.match(main,/api\(`heydealer\/\$\{importedRecordId\}`,\{method:'DELETE'\}\)/);
+  assert.match(main,/차량은 입고됐지만 선택차량목록 정리가 실패했습니다/);
+});

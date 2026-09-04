@@ -41,6 +41,14 @@ test('순번 편집 중에는 차량 수정 연필을 눌러도 상세정보를 
   assert.match(main,/button\.closest\('\.manager-group'\)\?\.classList\.contains\('is-sequence-editing'\).*return/);
 });
 
+test('대표님 59다3609 차량은 순번 0으로 고정하고 순번 편집과 드래그에서 제외한다',()=>{
+  assert.match(main,/PINNED_BOARD_PLATE='59다3609'/);
+  assert.match(main,/data-board-pinned="\$\{pinned\}"/);
+  assert.match(main,/pinned\?0:index\+\(hasPinned\?0:1\)/);
+  assert.match(main,/editableRows=rows\.filter\(row=>row\.dataset\.boardPinned!=='true'\)/);
+  assert.match(main,/rows\.filter\(row=>row\.dataset\.boardPinned!=='true'\)\.forEach/);
+});
+
 test('페이지 탐색에 맨처음·이전·번호·다음·맨끝을 제공한다',()=>{
   assert.match(main,/>맨처음<\/button>/);
   assert.match(main,/aria-label="이전 페이지"/);

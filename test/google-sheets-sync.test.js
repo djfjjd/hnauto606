@@ -18,6 +18,7 @@ test('기존 차량도 현황판 board_order를 스프레드시트 A열 순번�
   assert.match(sheets,/sheetSequence\(record,existing\.sequence/);
   assert.match(handler,/manager,board_order,memo,updated_at,/);
   assert.match(handler,/SELECT h\.\*,\(SELECT v\.board_order/);
+  assert.match(sheets,/normalizeSheetPlate\(record\.plate\)==='59다3609'\)return 0/);
 });
 
 test('K열 성능일자는 조건부 수식이 계산할 수 있는 Sheets 숫자형 날짜로 동기화한다',()=>{

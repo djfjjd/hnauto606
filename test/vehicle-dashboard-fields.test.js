@@ -27,7 +27,8 @@ test('차량 현황판에 성능 날짜·광택업체·판금 수량·수리내�
   assert.match(main,/esc\(s\.mileage\)\|\|'-'/);
   assert.match(css,/\.board-row\{width:100%;min-width:1620px/);
   assert.match(main,/class="board-option-cell"><span class="board-option-text">\$\{esc\(s\.options\)\|\|'-'\}<\/span>\$\{actions\}<\/span>/);
-  assert.match(css,/\.board-option-cell\{position:sticky;right:0;[^}]*display:flex/);
+  assert.match(css,/\.board-option-cell\{position:relative;[^}]*display:flex/);
+  assert.match(css,/\.board-row\.is-checked-out \.board-option-cell\{position:sticky;right:0/);
   assert.match(css,/\.board-option-cell\{[^}]*background:transparent;box-shadow:none/);
   assert.match(css,/repeat\(7,58px\) minmax\(136px,1fr\)/);
   assert.match(css,/\.board-row>:last-child\{width:58px;justify-self:start\}/);

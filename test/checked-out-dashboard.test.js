@@ -13,12 +13,17 @@ test('대시보드 API가 기존 출고 차량을 별도 목록으로 반환한�
 });
 
 test('출고 차량 행은 빨간 취소선과 활성 드래그 핸들을 표시한다',()=>{
-  assert.match(main,/class=\"board-row \$\{checkedOut\?'is-checked-out':''\}\"/);
+  assert.match(main,/class=\"board-row \$\{checkedOut\?'is-checked-out':''\} \$\{pinned\?'is-board-pinned':''\}\"/);
   assert.match(main,/board-checkout-label\">출고/);
-  assert.match(main,/handle=`<button type=\"button\" class=\"board-drag-handle\" data-board-drag[^>]*>⠿<\/button>`/);
+  assert.match(main,/class=\"board-drag-handle\" data-board-drag[^>]*>⠿<\/button>/);
   assert.match(main,/querySelectorAll\('\[data-board-search\]'\)/);
   assert.match(css,/\.board-row\.is-checked-out::after\{[^}]*background:#d22f2f/);
   assert.match(css,/\.board-row\.is-checked-out \.board-drag-handle\{[^}]*color:#9e2929/);
+});
+
+test('옵션 내용 열은 출고 차량에서만 스크롤 위치에 고정한다',()=>{
+  assert.match(css,/\.board-option-cell\{position:relative/);
+  assert.match(css,/\.board-row\.is-checked-out \.board-option-cell\{position:sticky;right:0/);
 });
 
 test('현황판 드래그 이벤트와 담당자 조작 이벤트를 계속 연결한다',()=>{
