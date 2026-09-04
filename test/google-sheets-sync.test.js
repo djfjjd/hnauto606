@@ -64,11 +64,12 @@ test('G열 총 주행거리는 콤마와 km 단위를 제거한 숫자값으로 
   assert.equal(normalizeSheetMileage(''),'');
   assert.match(sheets,/sheetRange\(tab,`G\$\{row\}`\)/);
   assert.match(sheets,/values:\[\[normalizeSheetMileage\(record\.mileage\)\]\]/);
-  assert.match(sheets,/valueInputOption:'RAW',data:mileageData/);
-  assert.match(sheets,/readMileageBatch\(env,sheetId,mileageData\)/);
-  assert.match(sheets,/총 주행거리 G열 검증에 실패했습니다/);
-  assert.match(sheets,/mileageUpdated\+=await writeRecordBatch/);
+  assert.match(sheets,/valueInputOption:'RAW',data/);
+  assert.match(sheets,/writeVerifiedNumericBatch\(env,sheetId,mileageData,'총 주행거리 G열'\)/);
+  assert.match(sheets,/writeVerifiedNumericBatch\(env,sheetId,sequenceData,'순번 A열'\)/);
+  assert.match(sheets,/mileageUpdated\+=verified\.mileageUpdated/);
   assert.match(handler,/mileageUpdated:result\.mileageUpdated/);
+  assert.match(handler,/sequenceUpdated:result\.sequenceUpdated/);
 });
 
 test('스프레드시트 U열에 탁송 출발 날짜와 시간을 24시간제로 기록한다',()=>{
