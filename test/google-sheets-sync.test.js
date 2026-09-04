@@ -10,13 +10,20 @@ const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 test('차량번호는 공백을 제거해 Google Sheet B열 key로 비교한다',()=>{
   assert.equal(normalizeSheetPlate(' 219 더 4124 '),'219더4124');
   assert.match(sheets,/plateRows\.get\(plate\)/);
-  assert.match(sheets,/writeValues\(env,sheetId,tab\.title,existingRow,values,'B'\)/);
+  assert.match(sheets,/writeValues\(env,sheetId,tab\.title,existing\.row,\[sequence,\.\.\.values\],'A'\)/);
 });
 
-test('신규 행은 직전 행 서식과 validation을 복사하고 A 순번을 증가시킨다',()=>{
+test('기존 차량도 현황판 board_order를 스프레드시트 A열 순번으로 동기화한다',()=>{
+  assert.match(sheets,/const sheetSequence=/);
+  assert.match(sheets,/sheetSequence\(record,existing\.sequence/);
+  assert.match(handler,/manager,board_order,memo,updated_at FROM vehicles/);
+  assert.match(handler,/SELECT h\.\*,\(SELECT v\.board_order/);
+});
+
+test('신규 행은 직전 행 서식과 validation을 복사하고 현황판 순번을 기록한다',()=>{
   assert.match(sheets,/'PASTE_FORMAT','PASTE_DATA_VALIDATION'/);
-  assert.match(sheets,/lastSequence\+=1/);
-  assert.match(sheets,/\[lastSequence,\.\.\.values\]/);
+  assert.match(sheets,/sheetSequence\(record,lastSequence\+1\)/);
+  assert.match(sheets,/\[sequence,\.\.\.values\]/);
   assert.match(sheets,/false,false,false/);
   assert.match(sheets,/String\(record\.mileage\|\|''\)/);
   assert.match(sheets,/String\(record\.mileage\|\|''\),String\(record\.manager\|\|''\),String\(record\.options\|\|''\)/);
@@ -42,7 +49,7 @@ test('W열 차대금과 X열 입금계좌를 쓰되 U/V열은 덮어쓰지 않�
   assert.match(sheets,/String\(record\.price\|\|''\),String\(record\.account\|\|''\)/);
   assert.match(sheets,/sheetRange\(tab,'W1:X1'\)/);
   assert.match(sheets,/values:\[\['차대금','입금계좌'\]\]/);
-  assert.match(sheets,/await writePaymentValues\(env,sheetId,tab\.title,existingRow,record\)/);
+  assert.match(sheets,/await writePaymentValues\(env,sheetId,tab\.title,existing\.row,record\)/);
   assert.doesNotMatch(sheets,/`\$\{startColumn\}\$\{row\}:X\$\{row\}`/);
 });
 
@@ -62,5 +69,5 @@ test('탭·테스트·개별·전체 동기화 API와 탭 선택 UI를 제공한
   assert.match(main,/SHEET_TAB_STORAGE/);
   assert.match(main,/>저장<\/button>/);
   assert.match(main,/>전체 동기화<\/button>/);
-  assert.match(handler,/SELECT plate,model,model_year,color,options,manager,memo,updated_at FROM vehicles/);
+  assert.match(handler,/SELECT plate,model,model_year,color,options,manager,board_order,memo,updated_at FROM vehicles/);
 });
