@@ -64,6 +64,7 @@ test('G열 총 주행거리는 콤마와 km 단위를 제거한 숫자값으로 
   assert.equal(normalizeSheetMileage(''),'');
   assert.match(sheets,/sheetRange\(tab,`G\$\{row\}`\)/);
   assert.match(sheets,/values:\[\[normalizeSheetMileage\(record\.mileage\)\]\]/);
+  assert.match(sheets,/valueInputOption:'RAW',data:mileageData/);
 });
 
 test('스프레드시트 U열에 탁송 출발 날짜와 시간을 24시간제로 기록한다',()=>{

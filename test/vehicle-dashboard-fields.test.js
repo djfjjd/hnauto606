@@ -9,7 +9,7 @@ const migration=readFileSync(new URL('../migrations/0015_add_vehicle_dashboard_f
 
 test('차량 현황판에 성능 날짜·광택업체·판금 수량·수리내용과 작업 체크 열을 순서대로 표시한다',()=>{
   assert.match(main,/\['performance','성능','date'\],\['polishing','광택','vendor'\],\['advertising','광고','check'\],\['performanceDate','재성능','check'\],\['underbody','하부','check'\],\['bodywork','판금','count'\],\['dent','덴트','check'\],\['repair','수리','note'\]/);
-  assert.match(main,/<span>연식<\/span><span>총 주행키로수<\/span><span>색상<\/span><span>입고일<\/span><span>옵션<\/span>/);
+  assert.match(main,/<span>연식<\/span><span>총 주행거리<\/span><span>색상<\/span><span>입고일<\/span><span>옵션<\/span>/);
   assert.match(main,/type="checkbox" data-board-check=/);
   assert.match(main,/class="board-service-date"/);
   assert.match(main,/class="board-polishing-vendor"/);
