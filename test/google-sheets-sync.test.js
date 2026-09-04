@@ -29,6 +29,8 @@ test('K열 성능일자는 조건부 수식이 계산할 수 있는 Sheets 숫�
   assert.match(sheets,/normalizeSheetDate\(record\.performance_service_date\),false,false/);
   assert.match(handler,/performance_service_date FROM vehicles/);
   assert.match(handler,/performance_service_date FROM heydealer_records/);
+  assert.match(handler,/COALESCE\(\(SELECT sr\.started_at/);
+  assert.match(handler,/,checked_in_at\) performance_service_date FROM vehicles/);
 });
 
 test('신규 행은 직전 행 서식과 validation을 복사하고 현황판 순번을 기록한다',()=>{

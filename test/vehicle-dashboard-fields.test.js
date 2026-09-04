@@ -19,6 +19,8 @@ test('차량 현황판에 성능 날짜·광택업체·판금 수량·수리내�
   assert.match(main,/const bodyworkCount=note=>/);
   assert.match(main,/const repairDescription=note=>/);
   assert.match(handler,/performance_service_date/);
+  assert.match(handler,/COALESCE\(\(SELECT started_at FROM service_records sr WHERE sr\.vehicle_id=v\.id AND sr\.note LIKE '\[성능\]%'/);
+  assert.match(handler,/v\.checked_in_at\) performance_service_date/);
   assert.match(handler,/polishing_note/);
   assert.match(handler,/bodywork_note/);
   assert.match(handler,/repair_note/);
