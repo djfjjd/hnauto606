@@ -62,13 +62,18 @@ test('스프레드시트 T열에 탁송 출발 날짜와 시간을 24시간제�
   assert.match(sheets,/String\(record\.origin\|\|''\),normalizeSheetDepartureDate\(record\.departure_time\)/);
 });
 
-test('W열 차대금과 X열 입금계좌를 쓰되 U/V열은 덮어쓰지 않는다',()=>{
+test('W열 차대금과 X열 판매 여부를 쓰되 U/V열은 덮어쓰지 않는다',()=>{
   assert.match(sheets,/sheetRange\(tab,`W\$\{row\}:X\$\{row\}`\)/);
-  assert.match(sheets,/String\(record\.price\|\|''\),String\(record\.account\|\|''\)/);
+  assert.match(sheets,/String\(record\.price\|\|''\),Boolean\(record\.checked_out_at\)/);
   assert.match(sheets,/sheetRange\(tab,'W1:X1'\)/);
-  assert.match(sheets,/values:\[\['차대금','입금계좌'\]\]/);
+  assert.match(sheets,/values:\[\['차대금','판매됨'\]\]/);
   assert.match(sheets,/writeRecordBatch\(env,sheetId,tab\.title,batch\)/);
   assert.doesNotMatch(sheets,/`\$\{startColumn\}\$\{row\}:X\$\{row\}`/);
+});
+
+test('개별 및 전체 동기화가 출고일을 조회해 X열 판매됨을 boolean으로 기록한다',()=>{
+  assert.match(handler,/\) checked_out_at,COALESCE/);
+  assert.match(handler,/memo,checked_out_at,updated_at/);
 });
 
 test('전체 동기화는 차량별 요청 대신 50대 단위 Sheets batchUpdate를 사용한다',()=>{
