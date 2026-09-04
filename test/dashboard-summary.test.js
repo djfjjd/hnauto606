@@ -50,3 +50,7 @@ test('주차 검색 목록은 네 자리 완전 일치가 아닌 부분검색을
   assert.match(main,/matches=searchPool\.filter\(s=>used\(s\)&&\[s\.plate,s\.model,s\.color,s\.manager,s\.label,s\.zone\]\.some\(value=>String\(value\)\.toLowerCase\(\)\.includes\(query\)\)\)/);
   assert.doesNotMatch(main,/renderParkingSearchResults\(\)[^}]*endsWith\(query\)/);
 });
+
+test('검색 결과의 상품화 차량은 작업 항목까지 위치에 표시한다',()=>{
+  assert.match(main,/if\(spot\.isUnassigned\)return String\(spot\.label\)\.startsWith\('상품화\('\)\?spot\.label:'상품화'/);
+});
