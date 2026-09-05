@@ -68,6 +68,16 @@ test('현황판 판금·광택·수리 열에서 작업 항목을 바로 추가�
   assert.match(main,/serviceAddButton\(s,'polish','광택'\)/);
   assert.match(main,/serviceAddButton\(s,'car-center','수리'\)/);
   assert.match(main,/state\.productizationType=serviceButton\.dataset\.serviceAdd/);
+  assert.match(main,/state\.mode='service-entry'/);
+  assert.match(main,/state\.mode==='service-entry'\?'수리내용입력'/);
+  assert.match(main,/function serviceEntryForm\(s\)/);
+  assert.match(main,/service-note/);
+  assert.match(api,/parts\[2\]==='service-note'/);
+  assert.match(api,/add_service_note/);
+  assert.match(api,/queueVehicleSheetSync\(context,user,\[vehicle\.id\],`service-note:/);
+  const serviceNote=api.slice(api.indexOf("parts[2]==='service-note'"));
+  assert.doesNotMatch(serviceNote,/notifyVehicleAction/);
+  assert.doesNotMatch(serviceNote,/UPDATE vehicles SET current_spot_id=NULL/);
   assert.match(main,/bindDashboardProductization\(\)/);
   assert.match(css,/\.board-service-cell:hover \.board-service-add/);
   assert.match(css,/\.board-service-add\{position:absolute;z-index:5;top:50%;left:50%/);

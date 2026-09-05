@@ -26,6 +26,16 @@ test('상단 헤이딜러 메뉴와 첫 화면 Sheets·캘린더 바로가기를
   assert.match(css,/\.parking-title h1 \{ margin-top:12px;/);
 });
 
+test('새싹 입·출고 후 정기권 수정 안내와 무시·바로가기를 표시한다',()=>{
+  assert.match(main,/function showTowerPassReminder\(\)/);
+  assert.match(main,/정기권-차고지임대\(렌터카\)를 수정해주세요/);
+  assert.match(main,/data-tower-ignore>무시/);
+  assert.match(main,/data-tower-link>바로가기/);
+  assert.match(main,/TOWER_PASS_URL='https:\/\/console\.humax-parcs\.com\/store'/);
+  assert.match(main,/target\.zoneId==='tower'/);
+  assert.match(main,/parked\?\.zoneId==='tower'/);
+});
+
 test('헤이딜러 버튼은 프롬프트양식으로 이동하고 키보드 Escape 조작을 지원한다',()=>{
   assert.match(main,/button\.onclick=\(\)=>\{location\.href='\/drive';\}/);
   assert.match(main,/if\(event\.key==='Escape'\)/);
