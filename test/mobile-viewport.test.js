@@ -21,6 +21,11 @@ test('모바일 통계 카드 다섯 개를 한 줄로 표시한다',()=>{
   assert.match(css,/\.parking-summary \.metric\{min-height:110px;padding:14px\}/);
 });
 
+test('모든 페이지 로딩 안내를 화면 중앙 아래에 고정한다',()=>{
+  assert.match(css,/\.loading \{ position:fixed; top:62%; left:50%; z-index:8;/);
+  assert.match(css,/transform:translate\(-50%,-50%\)/);
+});
+
 test('모바일에서 6층과 지하 3층 도면을 다시 그릴 때마다 오른쪽 끝에 맞춘다',()=>{
   assert.match(main,/if\(state\.loading\|\|!matchMedia/);
   assert.match(main,/\['pillar11','b3'\]\.forEach\(zoneId=>/);
