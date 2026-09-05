@@ -11,7 +11,7 @@ body { overflow-x:hidden; }
 .toast.error { background:#943c32; }.toast button{margin-left:12px;border:1px solid #fff;color:#fff;background:transparent;cursor:pointer}
 button,input,select,textarea { font:inherit; }
 button,a { -webkit-tap-highlight-color:transparent; }
-.topbar { position:sticky; top:0; z-index:3; height:76px; padding:0 max(24px,calc((100vw - 1280px)/2)); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,.14); color:#fff; background:var(--ink); }
+.topbar { position:sticky; top:0; z-index:9; height:76px; padding:0 max(24px,calc((100vw - 1280px)/2)); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,.14); color:#fff; background:var(--ink); }
 .brand { display:flex; gap:12px; align-items:center; color:#fff; text-decoration:none; font-weight:700; letter-spacing:.08em; }
 .brand b { color:var(--lime); }
 .brand-mark { display:block; width:34px; height:34px; border-radius:8px; object-fit:contain; }
