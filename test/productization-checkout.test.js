@@ -71,6 +71,11 @@ test('현황판 판금·광택·수리 열에서 작업 항목을 바로 추가�
   assert.match(main,/state\.mode='service-entry'/);
   assert.match(main,/state\.mode==='service-entry'\?'수리내용입력'/);
   assert.match(main,/function serviceEntryForm\(s\)/);
+  assert.match(main,/service-entry-actions/);
+  assert.match(css,/\.modal-actions\.service-entry-actions\s*\{\s*justify-content:flex-end/);
+  assert.match(main,/function bindServiceEntryShortcut\(form\)/);
+  assert.match(main,/event\.key!=='Enter'/);
+  assert.match(main,/form\.requestSubmit\(\)/);
   assert.match(main,/service-note/);
   assert.match(api,/parts\[2\]==='service-note'/);
   assert.match(api,/add_service_note/);
