@@ -40,7 +40,9 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(css,/\.board-labels>span:nth-child\(9\)\{padding:6px 8px\}/);
   assert.doesNotMatch(css,/\.board-labels>span:nth-child\(9\)\{[^}]*position:sticky/);
   assert.match(css,/\.board-row>strong,\.board-labels>span:nth-child\(3\)\{position:sticky;left:0/);
-  assert.match(css,/\.board-row\.is-checked-out>strong\{background:transparent\}/);
+  assert.match(css,/\.board-row\.is-checked-out>strong\{background:#fff8f8\}/);
+  assert.match(css,/\.board-row\.is-checked-out>strong::after\{/);
+  assert.match(css,/border-right:1px solid #d9ded9;background:#fff/);
 });
 
 test('현황판 체크 상태와 주행거리를 D1에 보존한다',()=>{
