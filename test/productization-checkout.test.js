@@ -61,3 +61,13 @@ test('차량현황판 상세 수정은 차량 행이 아닌 연필 버튼으로�
   assert.match(main,/querySelectorAll\('\[data-edit-vehicle\]'\)/);
   assert.doesNotMatch(main,/role="button" tabindex="0" data-queue/);
 });
+
+test('현황판 판금·광택·수리 열에서 작업 항목을 바로 추가한다',()=>{
+  assert.match(main,/data-service-add="\$\{type\}"/);
+  assert.match(main,/serviceAddButton\(s,'body','판금'\)/);
+  assert.match(main,/serviceAddButton\(s,'polish','광택'\)/);
+  assert.match(main,/serviceAddButton\(s,'car-center','수리'\)/);
+  assert.match(main,/state\.productizationType=serviceButton\.dataset\.serviceAdd/);
+  assert.match(main,/bindDashboardProductization\(\)/);
+  assert.match(css,/\.board-service-cell:hover \.board-service-add/);
+});
