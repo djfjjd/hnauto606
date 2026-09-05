@@ -72,4 +72,5 @@ test('현황판 판금·광택·수리 열에서 작업 항목을 바로 추가�
   assert.match(css,/\.board-service-cell:hover \.board-service-add/);
   assert.match(css,/\.board-service-add\{position:absolute;z-index:5;top:50%;left:50%/);
   assert.match(css,/transform:translate\(-50%,-50%\)/);
+  assert.match(css,/\.board-repair-cell\{display:grid;align-items:center\}/);
 });
