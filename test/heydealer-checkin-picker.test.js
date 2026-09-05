@@ -35,7 +35,7 @@ test('신규 입고 양식은 차량 불러오기 선택 전까지 나머지 항
 });
 
 test('신규 입고 팝업은 차량현황판 위치 문구를 표시하지 않는다',()=>{
-  assert.match(main,/const hideLocation=state\.mode==='checkout'\|\|state\.mode==='productization'\|\|s\.id==='draft'/);
+  assert.match(main,/const hideLocation=state\.mode==='checkout'\|\|state\.mode==='productization'\|\|state\.mode==='reperformance'\|\|s\.id==='draft'/);
   assert.match(main,/\$\{hideLocation\?'':`<p class="eyebrow">\$\{s\.zone\} · \$\{s\.label\}<\/p>`\}/);
 });
 

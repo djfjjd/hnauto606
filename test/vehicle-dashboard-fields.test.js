@@ -8,13 +8,14 @@ const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.ur
 const migration=readFileSync(new URL('../migrations/0015_add_vehicle_dashboard_fields.sql',import.meta.url),'utf8');
 
 test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수리 순서로 표시한다',()=>{
-  assert.match(main,/\['performance','성능','date'\],\['performanceDate','재성능','check'\],\['underbody','하부','check'\],\['dent','덴트','check'\],\['bodywork','판금','count'\],\['polishing','광택','vendor'\],\['repair','수리','note'\]/);
+  assert.match(main,/\['performance','성능','date'\],\['performanceDate','재성능','reperformance'\],\['underbody','하부','check'\],\['dent','덴트','check'\],\['bodywork','판금','count'\],\['polishing','광택','vendor'\],\['repair','수리','note'\]/);
   assert.match(main,/<span>연식<\/span><span>총 주행거리<\/span><span>색상<\/span><span>입고일<\/span><span>옵션<\/span>/);
   assert.match(main,/type="checkbox" data-board-check=/);
   assert.match(main,/class="board-service-date /);
   assert.match(main,/const isPerformanceOverdue=/);
   assert.match(main,/\(today-service\)\/86400000>120/);
-  assert.match(main,/board-service-date \$\{isPerformanceOverdue\(date\)\?'is-overdue':''\}/);
+  assert.match(main,/reference=String\(s\.reperformanceDate\|\|date\)/);
+  assert.match(main,/board-service-date \$\{isPerformanceOverdue\(reference\)\?'is-overdue':''\}/);
   assert.match(css,/\.board-service-date\.is-overdue\{color:#cf2525\}/);
   assert.match(main,/class="board-polishing-vendor"/);
   assert.match(main,/class="board-bodywork-count"/);
@@ -29,6 +30,11 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(handler,/polishing_note/);
   assert.match(handler,/bodywork_note/);
   assert.match(handler,/repair_note/);
+  assert.match(handler,/reperformance_service_date/);
+  assert.match(handler,/parts\[2\]==='reperformance'/);
+  assert.match(handler,/note,started_at,completed_at,actor_user_id/);
+  assert.match(main,/id="reperformance-form"/);
+  assert.match(main,/serviceAddButton\(s,'reperformance','재성능',true\)/);
   assert.match(main,/const formatMileage=value=>/);
   assert.match(main,/<span>\$\{formatMileage\(s\.mileage\)\}<\/span>/);
   assert.match(css,/\.board-row\{width:100%;min-width:1620px/);
