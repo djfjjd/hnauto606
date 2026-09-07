@@ -21,6 +21,7 @@ test('경고등은 요청한 명칭을 가나다순으로 파비콘과 함께 �
   assert.match(main,/warning-status-list.*<img src="\/\$\{esc\(x\.icon\.normalize\('NFD'\)\)\}" alt="">\$\{x\.label\}/s);
   for(const icon of ['냉각수부족경고등.png','라이트경고등.png','배터리경고등.png','엔진경고등.png','엔진오일부족경고등.png','엔진오일압력경고등.png','요소수경고등.png','주유경고등.png','타이어공기압.png','통합경고등.png','ABS경고등.png'])assert.match(data,new RegExp(`icon:'${icon}'`));
   assert.match(css,/\.warning-status-list\s*\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+  assert.match(css,/\.warning-status-list label:has\(input:checked\)\s*\{[^}]*background:#1769d2/);
 });
 
 test('경고등 저장은 상품화출차 없이 상태 목록만 교체한다',()=>{
@@ -35,4 +36,11 @@ test('확인 필요 재성능 차량은 한 줄에 세 대씩 줄바꿈 없이 �
   assert.match(main,/details\.split\(\/\\s\+\/\).*<span>\$\{detail\}<\/span>/);
   assert.match(css,/\.metric\.amber \.metric-details\s*\{[^}]*grid-template-columns:repeat\(3,max-content\)/);
   assert.match(css,/\.metric\.amber \.metric-details span\s*\{[^}]*white-space:nowrap/);
+});
+
+test('확인 필요 차량이 9대 이상이면 8대와 더보기를 표시하고 전체 목록을 연다',()=>{
+  assert.match(main,/vehicles\.slice\(0,8\)/);
+  assert.match(main,/vehicles\.length>=9\?'<button type="button" data-attention-more>더보기&gt;<\/button>'/);
+  assert.match(main,/function showAttentionList\(\).*attentionVehicles\(\).*확인 필요 차량.*attention-vehicle-list/s);
+  assert.match(main,/\[data-attention-more\].*showAttentionList/);
 });

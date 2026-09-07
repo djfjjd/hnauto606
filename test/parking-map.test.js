@@ -81,6 +81,18 @@ test('주차 차량 Cell에는 차량 색상 클래스가 적용된다',()=>{
   assert.match(white,/draggable="true"/);
 });
 
+test('확인 필요 차량은 강조 배경 없이 왼쪽 아래에 경고등 이미지를 표시한다',()=>{
+  const html=renderParkingMap(parkingLayouts.b3,[{id:'alert-car',label:'E16',plate:'11가1234',model:'차량',color:'검정',alerts:['battery','engine']}],undefined,{expanded:true});
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+  assert.doesNotMatch(html,/has-alert/);
+  assert.match(html,/class="parking-alert-icons"/);
+  assert.match(html,/alt="배터리경고등"/);
+  assert.match(html,/alt="엔진경고등"/);
+  assert.equal((html.match(/parking-alert-icons[\s\S]*?<\/span>/)?.[0].match(/<img /g)||[]).length,2);
+  assert.match(css,/\.parking-cell \.parking-alert-icons\{position:absolute;left:3px;bottom:2px/);
+  assert.doesNotMatch(css,/\.parking-cell\.has-alert\{/);
+});
+
 test('출고 후 주차 중인 차량은 빨간 글씨와 출고됨 표시를 사용한다',()=>{
   const html=renderParkingMap(parkingLayouts.b3,[{id:'checked-out-car',label:'E16',plate:'335모6853',model:'A6',color:'검정',isCheckedOut:true,alerts:[]}],undefined,{expanded:true});
   assert.match(html,/is-checked-out/);
