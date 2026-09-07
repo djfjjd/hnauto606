@@ -55,3 +55,10 @@ test('출고됐어도 주차구역에 남아 있고 경고등이 있으면 확�
   assert.match(main,/alertVehicles=new Set\(attentionVehicles\(\)\.map\(s=>s\.vehicleId\|\|s\.id\)\)/);
   assert.match(main,/if\(!s\.isCheckedOut&&isPerformanceOverdue/);
 });
+
+test('확인 필요 전체 목록 오른쪽에 차량별 경고등 이미지를 표시한다',()=>{
+  assert.match(main,/const warningIcons=vehicle\.alerts\.map\(id=>STATUS\.find\(status=>status\.id===id\)\)\.filter\(Boolean\)/);
+  assert.match(main,/class="attention-list-icons".*status\.icon\.normalize\('NFD'\).*status\.label/s);
+  assert.match(css,/\.attention-list-icons\{grid-column:3;grid-row:1\/3;[^}]*justify-content:flex-end/);
+  assert.match(css,/\.attention-list-icons img\{width:30px;height:30px/);
+});
