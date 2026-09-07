@@ -31,7 +31,7 @@ test('L열 성능일자는 조건부 수식이 계산할 수 있는 Sheets 숫�
   assert.equal(august25-august24,1);
   assert.equal(normalizeSheetDate('2026-8-4 10:30:00'),normalizeSheetDate('2026-08-04'));
   assert.equal(normalizeSheetDate(''),'');
-  assert.match(sheets,/normalizeSheetDate\(record\.performance_service_date\),normalizePolishingVendor\(record\.polishing_note\)\|\|Boolean\(record\.polishing_checked\),Boolean\(record\.advertising_checked\)/);
+  assert.match(sheets,/normalizeSheetDate\(record\.reperformance_service_date\|\|record\.performance_service_date\),normalizePolishingVendor\(record\.polishing_note\)\|\|Boolean\(record\.polishing_checked\),Boolean\(record\.advertising_checked\)/);
   assert.match(handler,/performance_service_date,\(SELECT started_at.*reperformance_service_date/);
   assert.match(handler,/performance_service_date FROM heydealer_records/);
   assert.match(handler,/COALESCE\(\(SELECT sr\.started_at/);
@@ -50,11 +50,11 @@ test('신규 행은 직전 행 서식과 validation을 복사하고 현황판 �
   assert.match(sheets,/'PASTE_FORMAT','PASTE_DATA_VALIDATION'/);
   assert.match(sheets,/sheetSequence\(record,lastSequence\+1\)/);
   assert.match(sheets,/\[sequence,\.\.\.values\]/);
-  assert.match(sheets,/normalizeSheetDate\(record\.performance_service_date\),normalizePolishingVendor\(record\.polishing_note\)\|\|Boolean\(record\.polishing_checked\)/);
+  assert.match(sheets,/normalizeSheetDate\(record\.reperformance_service_date\|\|record\.performance_service_date\),normalizePolishingVendor\(record\.polishing_note\)\|\|Boolean\(record\.polishing_checked\)/);
   assert.match(sheets,/normalizeSheetMileage\(record\.mileage\)/);
   assert.match(sheets,/normalizeSheetMileage\(record\.mileage\),String\(record\.manager\|\|''\),String\(record\.options\|\|''\)/);
   assert.doesNotMatch(sheets,/String\(record\.memo\|\|''\)/);
-  assert.match(sheets,/sheetRange\(tab\.title,'A:Z'\)/);
+  assert.match(sheets,/sheetRange\(tab\.title,'A:Y'\)/);
   assert.match(sheets,/startColumnIndex:0,endColumnIndex:26/);
 });
 
@@ -81,11 +81,10 @@ test('차량현황판 수리내용을 스프레드시트 R열에 동기화한다
   assert.match(handler,/sync-vehicle.*repair_note/);
 });
 
-test('차량현황 작업 항목과 상태 변경을 Sheets L:S열에 동기화한다',()=>{
+test('차량현황 작업 항목을 Sheets L:R열에 지정 순서로 동기화한다',()=>{
   assert.equal(normalizeServiceDescription('[판금] 운전석 도어','판금'),'운전석 도어');
   assert.equal(normalizeServiceDescription('[덴트] 조수석 펜더','덴트'),'조수석 펜더');
-  assert.match(sheets,/const boardHeaders=\['성능','광택','광고','재성능','하부','판금','수리','덴트'\]/);
-  assert.match(sheets,/normalizeSheetDate\(record\.reperformance_service_date\)\|\|Boolean\(record\.performance_date_checked\)/);
+  assert.match(sheets,/operationalHeaders=\['입,출고일','성능일','광택','광고','하부','판금','덴트','수리','탁송출발지','탁송출발시간','Calendar Event ID'\]/);
   assert.match(sheets,/Boolean\(record\.underbody_checked\)/);
   assert.match(sheets,/normalizeServiceDescription\(record\.bodywork_note,'판금'\)\|\|Boolean\(record\.bodywork_checked\)/);
   assert.match(sheets,/normalizeServiceDescription\(record\.dent_note,'덴트'\)\|\|Boolean\(record\.dent_checked\)/);
@@ -96,36 +95,37 @@ test('차량현황 작업 항목과 상태 변경을 Sheets L:S열에 동기화�
   assert.doesNotMatch(handler,/records\.length\)return;applyDashboardSheetSequences\(records\)/);
 });
 
-test('스프레드시트 U열에 탁송 출발 날짜와 시간을 24시간제로 기록한다',()=>{
+test('스프레드시트 S:T열에 탁송 정보를 기록하고 U열은 Calendar Event ID로 보존한다',()=>{
   assert.equal(normalizeSheetDepartureDate('2026-09-04 (금) 오전 10시 출발예정'),'2026-09-04 10:00');
   assert.equal(normalizeSheetDepartureDate('2026. 9. 4. 오후 2시'),'2026-09-04 14:00');
   assert.equal(normalizeSheetDepartureDate('2026-09-04 (금) 18:30 출발예정'),'2026-09-04 18:30');
   assert.equal(normalizeSheetDepartureDate('오전 10시 출발예정'),'');
   assert.match(sheets,/normalizeSheetDepartureDate\(record\.departure_time\)/);
-  assert.match(sheets,/`A\$\{row\}:U\$\{row\}`/);
+  assert.match(sheets,/`A\$\{row\}:T\$\{row\}`/);
   assert.match(sheets,/ensureSyncHeaders\(env,sheetId,tab\.title,rows\[0\]\|\|\[\]\)/);
-  assert.match(sheets,/values:\[\['탁송출발지','탁송출발시간'\]\]/);
+  assert.match(sheets,/sheetRange\(tab,'K1:U1'\)/);
+  assert.match(sheets,/record\.calendar_event_id!==undefined/);
   assert.match(sheets,/String\(record\.origin\|\|''\),normalizeSheetDepartureDate\(record\.departure_time\)/);
 });
 
-test('X열 차대금, Y열 입금계좌, Z열 판매 여부를 쓰되 V/W열은 덮어쓰지 않는다',()=>{
-  assert.match(sheets,/sheetRange\(tab,`X\$\{row\}:Z\$\{row\}`\)/);
+test('W열 차대금, X열 입금계좌, Y열 판매 여부를 쓰되 V열은 덮어쓰지 않는다',()=>{
+  assert.match(sheets,/sheetRange\(tab,`W\$\{row\}:Y\$\{row\}`\)/);
   assert.match(sheets,/String\(record\.price\|\|''\),String\(record\.account\|\|''\),Boolean\(record\.checked_out_at\)/);
-  assert.match(sheets,/sheetRange\(tab,'X1:Z1'\)/);
+  assert.match(sheets,/sheetRange\(tab,'W1:Y1'\)/);
   assert.match(sheets,/values:\[\['차대금','입금계좌','판매됨'\]\]/);
   assert.match(sheets,/writeRecordBatch\(env,sheetId,tab\.title,batch\)/);
   assert.doesNotMatch(sheets,/`\$\{startColumn\}\$\{row\}:X\$\{row\}`/);
 });
 
-test('개별 및 전체 동기화가 출고일을 조회해 Z열 판매됨을 boolean으로 기록한다',()=>{
+test('개별 및 전체 동기화가 출고일을 조회해 Y열 판매됨을 boolean으로 기록한다',()=>{
   assert.match(handler,/\) checked_out_at,\(SELECT sr\.note/);
   assert.match(handler,/repair_checked,checked_in_at,checked_out_at,updated_at/);
 });
 
 test('K열 입출고일은 출고일을 우선하고 판매 중 차량은 입고일을 사용한다',()=>{
   assert.match(sheets,/normalizeSheetDate\(record\.checked_out_at\|\|record\.checked_in_at\|\|record\.record_date\)/);
-  assert.match(sheets,/sheetRange\(tab,'K1'\)/);
-  assert.match(sheets,/values:\[\['입,출고일'\]\]/);
+  assert.match(sheets,/sheetRange\(tab,'K1:U1'\)/);
+  assert.match(sheets,/operationalHeaders=\['입,출고일'/);
 });
 
 test('전체 동기화는 차량별 요청 대신 50대 단위 Sheets batchUpdate를 사용한다',()=>{
