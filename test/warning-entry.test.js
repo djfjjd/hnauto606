@@ -42,7 +42,7 @@ test('확인 필요 차량이 9대 이상이면 8대와 더보기를 표시하�
   assert.match(main,/vehicles\.slice\(0,8\)/);
   assert.match(main,/vehicles\.length>=9\?'<button type="button" data-attention-more>더보기&gt;<\/button>'/);
   assert.match(main,/function showAttentionList\(\).*attentionVehicles\(\).*확인 필요 차량.*attention-vehicle-list/s);
-  assert.match(main,/\[data-attention-more\].*showAttentionList/);
+  assert.match(main,/querySelectorAll\('\[data-attention-more\]'\)\.forEach\(button=>button\.addEventListener\('click',showAttentionList\)\)/);
 });
 
 test('모바일 확인 필요 카드는 차량 3대와 더보기를 2열 2행으로 표시한다',()=>{
