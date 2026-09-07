@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {normalizePolishingVendor,normalizeRepairDescription,normalizeServiceDescription,normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetMileage,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
+import {normalizePolishingVendor,normalizeRepairDescription,normalizeServiceDescription,normalizeSheetCheck,normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetMileage,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
 
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const sheets=readFileSync(new URL('../functions/_lib/google-sheets.js',import.meta.url),'utf8');
@@ -31,7 +31,7 @@ test('L열 성능일자는 조건부 수식이 계산할 수 있는 Sheets 숫�
   assert.equal(august25-august24,1);
   assert.equal(normalizeSheetDate('2026-8-4 10:30:00'),normalizeSheetDate('2026-08-04'));
   assert.equal(normalizeSheetDate(''),'');
-  assert.match(sheets,/normalizeSheetDate\(record\.reperformance_service_date\|\|record\.performance_service_date\),normalizePolishingVendor\(record\.polishing_note\)\|\|Boolean\(record\.polishing_checked\),Boolean\(record\.advertising_checked\)/);
+  assert.match(sheets,/normalizeSheetDate\(record\.reperformance_service_date\|\|record\.performance_service_date\),normalizePolishingVendor\(record\.polishing_note\)\|\|normalizeSheetCheck\(record\.polishing_checked\),normalizeSheetCheck\(record\.advertising_checked\)/);
   assert.match(handler,/performance_service_date,\(SELECT started_at.*reperformance_service_date/);
   assert.match(handler,/performance_service_date FROM heydealer_records/);
   assert.match(handler,/COALESCE\(\(SELECT sr\.started_at/);
@@ -50,7 +50,7 @@ test('신규 행은 직전 행 서식과 validation을 복사하고 현황판 �
   assert.match(sheets,/'PASTE_FORMAT','PASTE_DATA_VALIDATION'/);
   assert.match(sheets,/sheetSequence\(record,lastSequence\+1\)/);
   assert.match(sheets,/\[sequence,\.\.\.values\]/);
-  assert.match(sheets,/normalizeSheetDate\(record\.reperformance_service_date\|\|record\.performance_service_date\),normalizePolishingVendor\(record\.polishing_note\)\|\|Boolean\(record\.polishing_checked\)/);
+  assert.match(sheets,/normalizeSheetDate\(record\.reperformance_service_date\|\|record\.performance_service_date\),normalizePolishingVendor\(record\.polishing_note\)\|\|normalizeSheetCheck\(record\.polishing_checked\)/);
   assert.match(sheets,/normalizeSheetMileage\(record\.mileage\)/);
   assert.match(sheets,/normalizeSheetMileage\(record\.mileage\),String\(record\.manager\|\|''\),String\(record\.options\|\|''\)/);
   assert.doesNotMatch(sheets,/String\(record\.memo\|\|''\)/);
@@ -85,14 +85,23 @@ test('차량현황 작업 항목을 Sheets L:R열에 지정 순서로 동기화�
   assert.equal(normalizeServiceDescription('[판금] 운전석 도어','판금'),'운전석 도어');
   assert.equal(normalizeServiceDescription('[덴트] 조수석 펜더','덴트'),'조수석 펜더');
   assert.match(sheets,/operationalHeaders=\['입,출고일','성능일','광택','광고','하부','판금','덴트','수리','탁송출발지','탁송출발시간','Calendar Event ID'\]/);
-  assert.match(sheets,/Boolean\(record\.underbody_checked\)/);
-  assert.match(sheets,/normalizeServiceDescription\(record\.bodywork_note,'판금'\)\|\|Boolean\(record\.bodywork_checked\)/);
-  assert.match(sheets,/normalizeServiceDescription\(record\.dent_note,'덴트'\)\|\|Boolean\(record\.dent_checked\)/);
+  assert.match(sheets,/normalizeSheetCheck\(record\.underbody_checked\)/);
+  assert.match(sheets,/normalizeServiceDescription\(record\.bodywork_note,'판금'\)\|\|normalizeSheetCheck\(record\.bodywork_checked\)/);
+  assert.match(sheets,/normalizeServiceDescription\(record\.dent_note,'덴트'\)\|\|normalizeSheetCheck\(record\.dent_checked\)/);
   assert.match(handler,/queueVehicleSheetSync\(context,user,\[vehicle\.id\],`board-check:\$\{input\.field\}`\)/);
   assert.match(handler,/queueVehicleSheetSync\(context,user,\[vehicle\.id\],'check-out'\)/);
   assert.match(handler,/SELECT \$\{vehicleSheetFields\} FROM vehicles ORDER BY updated_at DESC/);
   assert.match(handler,/if\(!ids\.length\)return/);
   assert.doesNotMatch(handler,/records\.length\)return;applyDashboardSheetSequences\(records\)/);
+});
+
+test('M:R열의 미입력 체크값은 false 문구 대신 빈칸으로 동기화한다',()=>{
+  assert.equal(normalizeSheetCheck(false),'');
+  assert.equal(normalizeSheetCheck(0),'');
+  assert.equal(normalizeSheetCheck(true),true);
+  assert.match(sheets,/normalizePolishingVendor\(record\.polishing_note\)\|\|normalizeSheetCheck\(record\.polishing_checked\)/);
+  assert.match(sheets,/normalizeSheetCheck\(record\.advertising_checked\),normalizeSheetCheck\(record\.underbody_checked\)/);
+  assert.doesNotMatch(sheets,/Boolean\(record\.(?:polishing|advertising|underbody|bodywork|dent|repair)_checked\)/);
 });
 
 test('스프레드시트 S:T열에 탁송 정보를 기록하고 U열은 Calendar Event ID로 보존한다',()=>{
