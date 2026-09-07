@@ -79,7 +79,8 @@ test('현황판 판금·광택·수리 열에서 작업 항목을 바로 추가�
   assert.match(main,/service-note/);
   assert.match(api,/parts\[2\]==='service-note'/);
   assert.match(api,/add_service_note/);
-  assert.match(api,/queueVehicleSheetSync\(context,user,\[vehicle\.id\],`service-note:/);
+  assert.match(api,/const sheet=await autoSyncVehicles\(context,user,\[vehicle\.id\],`service-note:/);
+  assert.match(api,/수리내용을 저장하고 스프레드시트에 동기화했습니다/);
   const serviceNote=api.slice(api.indexOf("parts[2]==='service-note'"));
   assert.doesNotMatch(serviceNote,/notifyVehicleAction/);
   assert.doesNotMatch(serviceNote,/UPDATE vehicles SET current_spot_id=NULL/);
