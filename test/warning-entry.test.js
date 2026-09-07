@@ -49,3 +49,9 @@ test('확인 필요 카드에 차량번호 네 자리와 실제 경고등 종류
   assert.match(main,/const shortAttentionReason=reason=>reason==='재성능'\?reason:String\(reason\)\.replace\(\/\\s\*경고등\$\/,''\)/);
   assert.match(main,/String\(vehicle\.plate\)\.slice\(-4\).*vehicle\.reasons\.map\(shortAttentionReason\)\.join\('·'\)/);
 });
+
+test('출고됐어도 주차구역에 남아 있고 경고등이 있으면 확인 필요에 포함한다',()=>{
+  assert.match(main,/s\.isCheckedOut&&!s\.isUnassigned&&s\.alerts\.length/);
+  assert.match(main,/alertVehicles=new Set\(attentionVehicles\(\)\.map\(s=>s\.vehicleId\|\|s\.id\)\)/);
+  assert.match(main,/if\(!s\.isCheckedOut&&isPerformanceOverdue/);
+});

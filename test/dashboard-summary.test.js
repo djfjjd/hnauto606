@@ -29,7 +29,7 @@ test('주차 차량과 상품화 차량을 분리해 다섯 개 통계 카드로
 
 test('확인 필요에 성능일 120일 초과 차량을 재성능 표시와 함께 집계한다',()=>{
   assert.match(main,/performanceAlerts=activeVehicles\.filter\(s=>isPerformanceOverdue\(s\.reperformanceDate\|\|s\.performanceDate\)\)/);
-  assert.match(main,/alertVehicles=new Set\(\[\.\.\.activeVehicles\.filter/);
+  assert.match(main,/alertVehicles=new Set\(attentionVehicles\(\)\.map\(s=>s\.vehicleId\|\|s\.id\)\)/);
   assert.match(main,/performanceAlertLabels=c\.performanceAlerts\.map\(s=>`\$\{esc\(String\(s\.plate\)\.slice\(-4\)\)\}\(재성능\)`\)/);
   assert.match(main,/metric\('확인 필요',c\.alerts,'CHECK','amber',performanceAlertLabels\)/);
   assert.match(main,/state\.filter==='alert'&&needsCheck/);
