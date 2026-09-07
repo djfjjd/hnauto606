@@ -18,7 +18,8 @@ test('경고등은 요청한 명칭을 가나다순으로 파비콘과 함께 �
   const expected=['냉각수부족경고등','라이트경고등','배터리경고등','엔진경고등','엔진오일부족경고등','엔진오일압력경고등','요소수경고등','주유경고등','타이어공기압 경고등','통합경고등','ABS경고등'];
   let previous=-1;
   for(const label of expected){const position=data.indexOf(`label:'${label}'`);assert.ok(position>previous,`${label} 순서를 확인해 주세요.`);previous=position;}
-  assert.match(main,/warning-status-list.*<img src="\/favicon-32\.png" alt="">\$\{x\.label\}/s);
+  assert.match(main,/warning-status-list.*<img src="\/\$\{esc\(x\.icon\.normalize\('NFD'\)\)\}" alt="">\$\{x\.label\}/s);
+  for(const icon of ['냉각수부족경고등.png','라이트경고등.png','배터리경고등.png','엔진경고등.png','엔진오일부족경고등.png','엔진오일압력경고등.png','요소수경고등.png','주유경고등.png','타이어공기압.png','통합경고등.png','ABS경고등.png'])assert.match(data,new RegExp(`icon:'${icon}'`));
   assert.match(css,/\.warning-status-list\s*\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
 });
 
