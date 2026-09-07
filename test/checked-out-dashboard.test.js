@@ -86,3 +86,14 @@ test('출고취소 API는 중복 활성 차량을 막고 출고일을 되돌린�
   assert.match(handler,/cancel_check_out/);
   assert.match(handler,/출고 취소/);
 });
+
+test('출고 차량도 연필 수정 후 출고 상태를 유지한 채 저장하고 동기화한다',()=>{
+  const start=api.indexOf("if(method==='PATCH'&&parts[0]==='vehicles'&&parts[1]&&!parts[2])");
+  const end=api.indexOf("parts[2]==='move'",start);
+  const handler=api.slice(start,end);
+  assert.match(main,/s=boardVehicles\(\)\.find\(x=>x\.id===state\.selected\|\|x\.vehicleId===state\.selected\)/);
+  assert.match(handler,/SELECT version,checked_out_at FROM vehicles WHERE id=\?/);
+  assert.doesNotMatch(handler,/WHERE id=\? AND checked_out_at IS NULL/);
+  assert.match(handler,/queueVehicleSheetSync\(context,user,\[parts\[1\]\],'vehicle-update'\)/);
+  assert.doesNotMatch(handler,/SET checked_out_at=|SET current_spot_id=/);
+});
