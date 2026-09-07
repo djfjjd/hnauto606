@@ -89,7 +89,8 @@ h1 em { color:var(--lime); font-style:normal; }
 .metric.amber small { color:#aebbb3; }
 .metric.amber strong { color:var(--amber); }
 .metric.amber .metric-details { display:grid; grid-template-columns:repeat(3,max-content); gap:4px 7px; margin:7px 0 0; color:#ff8179; font-size:12px; font-weight:800; line-height:1.4; }
-.metric.amber .metric-details span { white-space:nowrap; }
+.metric.amber .metric-details span { color:#fff; white-space:nowrap; }
+.board-checkout-state{display:flex;align-items:center;overflow:visible!important}.board-checkout-state .board-checkout-cancel{position:relative;z-index:2;margin-right:-6px}.board-checkout-state .board-checkout-label{z-index:1;padding-left:10px}
 .metric.amber .metric-details button { padding:0; border:0; color:#ff8179; background:transparent; font:inherit; text-align:left; white-space:nowrap; cursor:pointer; }
 .workspace { width:min(1280px,calc(100% - 48px)); margin:0 auto 100px; }
 .vehicle-board { width:min(1280px,calc(100% - 48px)); margin:0 auto 48px; padding:28px; border:1px solid var(--line); background:#fff; }

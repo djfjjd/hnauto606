@@ -35,6 +35,8 @@ test('확인 필요에 성능일 120일 초과 차량을 재성능 표시와 함
   assert.match(main,/state\.filter==='alert'&&needsCheck/);
   assert.match(css,/\.metric\.amber \{[^}]*background:var\(--ink\);[^}]*border-color:var\(--ink\)/);
   assert.match(css,/\.metric\.amber \.metric-details \{[^}]*color:#ff8179;[^}]*font-size:12px/);
+  assert.match(css,/\.metric\.amber \.metric-details span \{ color:#fff;/);
+  assert.match(css,/\.metric\.amber \.metric-details button \{[^}]*color:#ff8179/);
 });
 
 test('검색 결과가 많아도 다섯 행 높이 안에서 스크롤한다',()=>{

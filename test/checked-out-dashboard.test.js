@@ -65,6 +65,9 @@ test('출고 차량 행의 휴지통 왼쪽에 출고취소 버튼을 표시한�
   assert.match(main,/>출고취소<\/button>/);
   assert.ok(main.indexOf('board-checkout-cancel')<main.indexOf('board-delete-icon'));
   assert.match(css,/\.board-checkout-cancel\{/);
+  assert.match(main,/class="board-checkout-state"><button[^>]*class="board-checkout-cancel"[^>]*>출고취소<\/button><i class="board-checkout-label">출고<\/i><\/span>\$\{editButton\}/);
+  assert.match(main,/const checkedOut=s\.isCheckedOut.*editButton=`<button[^>]*class="board-edit-icon"[^>]*data-edit-vehicle=/);
+  assert.match(css,/\.board-checkout-state \.board-checkout-cancel\{[^}]*margin-right:-6px/);
 });
 
 test('출고취소 확인 후 판매 중 상태로 복원하는 API를 호출한다',()=>{
