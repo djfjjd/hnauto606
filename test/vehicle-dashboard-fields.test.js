@@ -14,9 +14,11 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(main,/class="board-service-date /);
   assert.match(main,/const isPerformanceOverdue=/);
   assert.match(main,/\(today-service\)\/86400000>120/);
-  assert.match(main,/reference=String\(s\.reperformanceDate\|\|date\)/);
+  assert.match(main,/reperformanceDate=String\(s\.reperformanceDate\|\|''\)\.slice\(0,10\),reference=reperformanceDate\|\|date/);
   assert.match(main,/board-service-date \$\{isPerformanceOverdue\(reference\)\?'is-overdue':''\}/);
   assert.match(css,/\.board-service-date\.is-overdue\{color:#cf2525\}/);
+  assert.match(main,/class="board-performance-dates".*class="board-service-date .*\$\{reperformanceDate\?`<time class="board-reperformance-date"/);
+  assert.match(css,/\.board-performance-dates\{display:grid;place-items:center;gap:2px/);
   assert.match(main,/class="board-polishing-vendor"/);
   assert.match(main,/class="board-bodywork-count"/);
   assert.match(main,/class="board-repair-note /);
