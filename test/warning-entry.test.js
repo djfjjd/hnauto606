@@ -44,3 +44,8 @@ test('확인 필요 차량이 9대 이상이면 8대와 더보기를 표시하�
   assert.match(main,/function showAttentionList\(\).*attentionVehicles\(\).*확인 필요 차량.*attention-vehicle-list/s);
   assert.match(main,/\[data-attention-more\].*showAttentionList/);
 });
+
+test('확인 필요 카드에 차량번호 네 자리와 실제 경고등 종류를 표시한다',()=>{
+  assert.match(main,/const shortAttentionReason=reason=>reason==='재성능'\?reason:String\(reason\)\.replace\(\/\\s\*경고등\$\/,''\)/);
+  assert.match(main,/String\(vehicle\.plate\)\.slice\(-4\).*vehicle\.reasons\.map\(shortAttentionReason\)\.join\('·'\)/);
+});
