@@ -90,6 +90,9 @@ test('확인 필요 차량은 강조 배경 없이 왼쪽 아래에 경고등 �
   assert.match(html,/alt="엔진경고등"/);
   assert.equal((html.match(/parking-alert-icons[\s\S]*?<\/span>/)?.[0].match(/<img /g)||[]).length,2);
   assert.match(css,/\.parking-cell \.parking-alert-icons\{position:absolute;left:3px;bottom:2px/);
+  assert.match(css,/\.parking-cell>strong,\.parking-cell>span:not\(\.parking-alert-icons\)\{position:relative;z-index:2\}/);
+  assert.match(css,/\.parking-alert-icons[^}]*z-index:0;pointer-events:none/);
+  assert.match(css,/\.parking-alert-icons img\{width:22px;height:22px/);
   assert.doesNotMatch(css,/\.parking-cell\.has-alert\{/);
 });
 
