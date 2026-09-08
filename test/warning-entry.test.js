@@ -8,10 +8,11 @@ const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'
 const data=readFileSync(new URL('../src/data.js',import.meta.url),'utf8');
 
 test('상품화출차 팝업 오른쪽 위에서 차량별 경고등 입력을 연다',()=>{
-  assert.match(main,/warning-entry-button[^>]*data-warning-entry>경고등입력/);
+  assert.match(main,/warning-entry-button[^>]*data-warning-entry>\+경고등 <img src="\/통합경고등\.png" alt="통합경고등">/);
   assert.match(main,/state\.mode='warning-entry';render\(\)/);
   assert.match(main,/function warningForm\(s\).*STATUS\.map.*s\.alerts\.includes\(x\.id\)/s);
   assert.match(css,/\.warning-entry-button\s*\{[^}]*position:absolute;[^}]*right:64px;[^}]*top:20px;/);
+  assert.match(css,/\.warning-entry-button\s*\{[^}]*background:#ffd84a/);
 });
 
 test('경고등은 요청한 명칭을 가나다순으로 파비콘과 함께 표시한다',()=>{

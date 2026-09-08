@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {normalizePolishingVendor,normalizeRepairDescription,normalizeServiceDescription,normalizeSheetCheck,normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetMileage,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
+import {normalizePolishingVendor,normalizeRepairDescription,normalizeServiceDescription,normalizeSheetCheck,normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetMileage,normalizeSheetModelYear,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
 
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const sheets=readFileSync(new URL('../functions/_lib/google-sheets.js',import.meta.url),'utf8');
@@ -11,6 +11,16 @@ test('차량번호는 공백을 제거해 Google Sheet B열 key로 비교한다'
   assert.equal(normalizeSheetPlate(' 219 더 4124 '),'219더4124');
   assert.match(sheets,/plateRows\.get\(plate\)/);
   assert.match(sheets,/pending\.push\(\{action:'updated',row:existing\.row,sequence,values,record\}\)/);
+});
+
+test('E열 연식의 yy/mm 값을 yyyy-mm 문자열로 동기화한다',()=>{
+  assert.equal(normalizeSheetModelYear('22/5'),'2022-05');
+  assert.equal(normalizeSheetModelYear('22/05'),'2022-05');
+  assert.equal(normalizeSheetModelYear('2022/5'),'2022-05');
+  assert.equal(normalizeSheetModelYear('2022-05'),'2022-05');
+  assert.equal(normalizeSheetModelYear('2022'),'2022');
+  assert.match(sheets,/normalizeSheetModelYear\(record\.model_year\)/);
+  assert.match(sheets,/sheetRange\(tab,`E\$\{row\}`\).*valueInputOption:'RAW'/s);
 });
 
 test('기존 차량도 현황판 board_order를 스프레드시트 A열 순번으로 동기화한다',()=>{

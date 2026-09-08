@@ -96,6 +96,11 @@ test('확인 필요 차량은 강조 배경 없이 왼쪽 아래에 경고등 �
   assert.doesNotMatch(css,/\.parking-cell\.has-alert\{/);
 });
 
+test('녹색 차량은 주차구역에서 차종을 흰색으로 표시한다',()=>{
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+  assert.match(css,/\.vehicle-color-green span\{color:#fff!important\}/);
+});
+
 test('출고 후 주차 중인 차량은 빨간 글씨와 출고됨 표시를 사용한다',()=>{
   const html=renderParkingMap(parkingLayouts.b3,[{id:'checked-out-car',label:'E16',plate:'335모6853',model:'A6',color:'검정',isCheckedOut:true,alerts:[]}],undefined,{expanded:true});
   assert.match(html,/is-checked-out/);
