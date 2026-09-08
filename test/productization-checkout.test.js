@@ -29,6 +29,13 @@ test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입�
   assert.match(css,/#productization-form \.productization-detail\[hidden\]\{display:none!important\}/);
 });
 
+test('상품화출차 차량 정보 오른쪽에 저장된 경고등 파비콘을 표시한다',()=>{
+  assert.match(main,/warningIcons=\(s\.alerts\|\|\[\]\)\.map\(id=>STATUS\.find\(status=>status\.id===id\)\)\.filter\(Boolean\)/);
+  assert.match(main,/class="productization-warning-icons".*status\.icon\.normalize\('NFD'\).*status\.label/s);
+  assert.match(css,/\.productization-warning-icons\{grid-column:2;grid-row:1\/3;[^}]*justify-content:flex-end/);
+  assert.match(css,/\.productization-warning-icons img\{width:32px;height:32px/);
+});
+
 test('상품화출차 팝업은 위치 문구와 취소를 숨기고 기존 주차 삭제를 제공한다',()=>{
   assert.match(main,/state\.mode==='productization'/);
   assert.match(main,/class="ghost danger" data-unassign>삭제<\/button>/);
