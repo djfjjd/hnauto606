@@ -51,6 +51,7 @@ test('L열 성능일자는 조건부 수식이 계산할 수 있는 Sheets 숫�
 test('M열 광택은 체크값 대신 최신 작업 업체명 스타 또는 신화로 동기화한다',()=>{
   assert.equal(normalizePolishingVendor('[광택] 스타'),'스타');
   assert.equal(normalizePolishingVendor('[광택] 신화'),'신화');
+  assert.equal(normalizePolishingVendor('[광택] 주유소세차'),'주유소세차');
   assert.equal(normalizePolishingVendor('[광택] 기타'),'');
   assert.match(handler,/LIKE '\[광택\]%'/);
   assert.match(handler,/\) polishing_note,\(SELECT note.*bodywork_note/);
