@@ -170,6 +170,16 @@ test('탭·테스트·개별·전체 동기화 API와 탭 선택 UI를 제공한
   assert.match(main,/>저장<\/button>/);
   assert.match(main,/>전체 동기화<\/button>/);
   assert.match(handler,/SELECT \$\{vehicleSheetFields\} FROM vehicles ORDER BY updated_at DESC/);
+  assert.match(handler,/SELECT \* FROM heydealer_records ORDER BY updated_at DESC,created_at DESC/);
+  assert.match(handler,/mergeHeydealerSheetRecords\(latestVehicles,heydealerRows\.results\)/);
+});
+
+test('선택차량 수정 저장과 전체 동기화가 헤이딜러 최신 수정값을 우선 반영한다',()=>{
+  assert.match(handler,/function mergeHeydealerSheetRecords\(vehicleRecords,heydealerRecords\)/);
+  assert.match(handler,/merged\.set\(plate,\{\.\.\.vehicle,\.\.\.record,board_order:vehicle\.board_order\}\)/);
+  assert.match(handler,/autoSyncHeydealerRecord\(context,heydealerUser,existing\.id,safeText\(input\?\.tab,200\)\)/);
+  assert.match(handler,/선택 차량 정보를 수정하고 스프레드시트에 동기화했습니다/);
+  assert.match(handler,/heydealerRecords:heydealerRows\.results\.length/);
 });
 
 test('차량현황판 전체 탭 왼쪽에서 Sheets 전체 동기화를 실행한다',()=>{
