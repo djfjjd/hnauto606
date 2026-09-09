@@ -13,7 +13,7 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(main,/type="checkbox" data-board-check=/);
   assert.match(main,/class="board-service-date /);
   assert.match(main,/const isPerformanceOverdue=/);
-  assert.match(main,/\(today-service\)\/86400000>120/);
+  assert.match(main,/\(today-service\)\/86400000>=120/);
   assert.match(main,/reperformanceDate=String\(s\.reperformanceDate\|\|''\)\.slice\(0,10\),reference=reperformanceDate\|\|date/);
   assert.match(main,/board-service-date \$\{isPerformanceOverdue\(reference\)\?'is-overdue':''\}/);
   assert.match(css,/\.board-service-date\.is-overdue\{color:#cf2525\}/);
