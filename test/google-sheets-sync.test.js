@@ -120,12 +120,15 @@ test('스프레드시트 S:T열에 탁송 정보를 기록하고 U열은 Calenda
   assert.equal(normalizeSheetDepartureDate('2026. 9. 4. 오후 2시'),'2026-09-04 14:00');
   assert.equal(normalizeSheetDepartureDate('2026-09-04 (금) 18:30 출발예정'),'2026-09-04 18:30');
   assert.equal(normalizeSheetDepartureDate('오전 10시 출발예정'),'');
-  assert.match(sheets,/normalizeSheetDepartureDate\(record\.departure_time\)/);
+  assert.equal(normalizeSheetDepartureDate('탁송일정 확인 중','2026-09-09'),'2026-09-09');
+  assert.equal(normalizeSheetDepartureDate('탁송 일정 확인 중','2026. 9. 9'),'2026-09-09');
+  assert.equal(normalizeSheetDepartureDate('탁송일정 확인 중',''),'');
+  assert.match(sheets,/normalizeSheetDepartureDate\(record\.departure_time,record\.record_date\)/);
   assert.match(sheets,/`A\$\{row\}:T\$\{row\}`/);
   assert.match(sheets,/ensureSyncHeaders\(env,sheetId,tab\.title,rows\[0\]\|\|\[\]\)/);
   assert.match(sheets,/sheetRange\(tab,'K1:U1'\)/);
   assert.match(sheets,/record\.calendar_event_id!==undefined/);
-  assert.match(sheets,/String\(record\.origin\|\|''\),normalizeSheetDepartureDate\(record\.departure_time\)/);
+  assert.match(sheets,/String\(record\.origin\|\|''\),normalizeSheetDepartureDate\(record\.departure_time,record\.record_date\)/);
 });
 
 test('W열 차대금, X열 입금계좌, Y열 판매 여부를 쓰되 V열은 덮어쓰지 않는다',()=>{
