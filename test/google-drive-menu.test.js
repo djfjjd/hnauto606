@@ -47,6 +47,10 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/data-calendar-record=/);
   assert.match(main,/function openCalendarRecord\(record\)/);
   assert.match(main,/class="calendar-record-fields"/);
+  assert.match(main,/\['옵션',record\.options\],\['입금계좌',record\.account\],\['차대금',record\.price\],\['특이사항',record\.customer_type\]/);
+  assert.match(main,/class="calendar-option-output"/);
+  assert.match(main,/class="calendar-option-info" tabindex="0"/);
+  assert.match(main,/role="tooltip">\$\{esc\(value\)\}/);
   assert.match(main,/String\(file\.mime_type\|\|''\)\.startsWith\('image\/'\)/);
   assert.match(main,/inlineUrl=`\$\{url\}\?inline=1`/);
   assert.match(main,/<img src="\$\{inlineUrl\}" alt="\$\{esc\(file\.filename\)\}">/);
@@ -67,6 +71,8 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(css,/\.calendar-image-actions button,.calendar-image-actions a\{/);
   assert.match(css,/\.calendar-record-files-head\{display:flex/);
   assert.match(css,/\.calendar-print-frame\{position:fixed;left:-10000px/);
+  assert.match(css,/\.calendar-option-output>output\{[^}]*text-overflow:ellipsis;white-space:nowrap/);
+  assert.match(css,/\.calendar-option-info:hover>\[role=tooltip\],\.calendar-option-info:focus>\[role=tooltip\]\{display:block\}/);
   assert.match(css,/\.calendar-vehicle-number\{width:100%;min-width:0/);
   assert.match(css,/\.calendar-vehicle \[data-calendar-files\]\{[^}]*width:27px/);
   assert.doesNotMatch(css,/\.calendar-vehicle button\{[^}]*width:27px/);
