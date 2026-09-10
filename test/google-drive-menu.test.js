@@ -44,8 +44,15 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/record\.customer_type==='법인'&&record\.files\?\.length/);
   assert.match(main,/data-calendar-files=/);
   assert.match(main,/openHeydealerFiles\(record\)/);
+  assert.match(main,/data-calendar-record=/);
+  assert.match(main,/function openCalendarRecord\(record\)/);
+  assert.match(main,/class="calendar-record-fields"/);
+  assert.match(main,/String\(file\.mime_type\|\|''\)\.startsWith\('image\/'\)/);
+  assert.match(main,/<img src="\$\{url\}" alt="\$\{esc\(file\.filename\)\}">/);
+  assert.match(main,/openCalendarRecord\(record\)/);
   assert.match(main,/location\.pathname==='\/calendar'/);
   assert.match(css,/\.calendar-grid\{display:grid;grid-template-columns:repeat\(7/);
+  assert.match(css,/\.calendar-file-gallery\{display:grid/);
   assert.match(css,/\.calendar-topline>h1\{[^}]*text-align:center/);
   assert.match(css,/\.calendar-vehicle>b\{color:#c82020/);
   assert.match(main,/renderCalendarPage\(\).*addExternalTools\(\)/);
