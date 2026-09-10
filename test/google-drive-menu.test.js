@@ -78,7 +78,7 @@ test('헤이딜러 입력은 초기화와 저장을 지원하고 목록 페이�
   assert.match(main,/drive-saving-label/);
   assert.match(main,/status\.textContent='저장 중'/);
   assert.match(main,/await api\('heydealer'/);
-  assert.match(main,/uploadHeydealerFile\(savedRecordId,corporateFile\)/);
+  assert.match(main,/for\(const file of corporateFiles\)await uploadHeydealerFile\(savedRecordId,file\)/);
   assert.match(main,/location\.href='\/drive\/heydealer'/);
   assert.match(main,/function renderHeydealerRecordsPage\(\)/);
   assert.match(main,/location\.pathname==='\/drive\/heydealer'/);
@@ -99,7 +99,7 @@ test('특이사항은 필수 개인·법인 선택이며 법인만 파일 첨부
   assert.match(main,/driveField\('notes','특이사항'\)/);
   assert.match(main,/required-mark">\(필수\)<\/small>/);
   assert.match(main,/<option value="개인">개인<\/option><option value="법인">법인<\/option>/);
-  assert.match(main,/name="corporateFile"[^>]*disabled/);
+  assert.match(main,/name="corporateFile"[^>]*multiple disabled/);
   assert.match(main,/const enabled=customerSelect\.value==='법인'/);
   assert.match(main,/fileInput\.disabled=!enabled/);
   assert.match(main,/>📎<\/span><b>파일 업로드<\/b>/);
@@ -145,9 +145,9 @@ test('선택차량목록 연필 버튼은 항목을 펼쳐 D1 정보를 수정�
 
 test('선택차량 수정 중 법인 선택 시 클립 버튼으로 파일을 업로드한다',()=>{
   assert.match(main,/class="heydealer-edit-file-button \$\{corporate\?'':'is-disabled'\}"/);
-  assert.match(main,/name="corporateFile"[^>]*\$\{corporate\?'':'disabled'\}/);
-  assert.match(main,/HEYDEALER_EDIT_FILES\.set\(form\.dataset\.heydealerEditForm,file\)/);
-  assert.match(main,/await uploadHeydealerFile\(editedRecordId,pendingFile\)/);
+  assert.match(main,/name="corporateFile"[^>]*multiple \$\{corporate\?'':'disabled'\}/);
+  assert.match(main,/HEYDEALER_EDIT_FILES\.set\(form\.dataset\.heydealerEditForm,files\)/);
+  assert.match(main,/for\(const file of pendingFiles\)await uploadHeydealerFile\(editedRecordId,file\)/);
   assert.match(css,/\.heydealer-edit-file-button\{/);
 });
 
