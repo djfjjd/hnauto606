@@ -28,15 +28,28 @@ test('상단 헤이딜러 메뉴와 첫 화면 Sheets·캘린더 바로가기를
 
 test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 날짜별로 표시한다',()=>{
   assert.match(main,/async function renderCalendarPage\(\)/);
+  assert.match(main,/<h1>하나오토 일정표<\/h1>/);
+  assert.doesNotMatch(main,/HEYDEALER CALENDAR/);
+  assert.doesNotMatch(main,/헤이딜러 프롬프트양식에 저장한 차량을 날짜별로 확인합니다\./);
   assert.match(main,/type="month"[^>]*data-calendar-month/);
   assert.match(main,/data-calendar-shift="-1" aria-label="이전 달">&lt;/);
   assert.match(main,/data-calendar-shift="1" aria-label="다음 달">&gt;/);
   assert.match(main,/calendarMonthGrid\(monthInput\.value,records\)/);
+  assert.match(main,/function heydealerScheduleDate\(record\)/);
+  assert.match(main,/String\(record\.departure_time\|\|''\)\.match/);
+  assert.match(main,/탁송\\s\*일정\\s\*확인\\s\*중/);
+  assert.match(main,/class="calendar-pending"><strong>탁송일정확인중<\/strong>/);
+  assert.match(main,/records\.filter\(heydealerSchedulePending\)/);
+  assert.match(main,/record\.customer_type==='법인'\?'<b>\(법인\)<\/b>'/);
   assert.match(main,/record\.customer_type==='법인'&&record\.files\?\.length/);
   assert.match(main,/data-calendar-files=/);
   assert.match(main,/openHeydealerFiles\(record\)/);
   assert.match(main,/location\.pathname==='\/calendar'/);
   assert.match(css,/\.calendar-grid\{display:grid;grid-template-columns:repeat\(7/);
+  assert.match(css,/\.calendar-topline>h1\{[^}]*text-align:center/);
+  assert.match(css,/\.calendar-vehicle>b\{color:#c82020/);
+  assert.match(main,/renderCalendarPage\(\).*addExternalTools\(\)/);
+  assert.match(main,/renderCalendarPage\(\).*class="header-sheet-link".*class="header-dashboard-link"/);
 });
 
 test('새싹 입·출고 후 정기권 수정 안내와 무시·바로가기를 표시한다',()=>{
