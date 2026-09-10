@@ -35,6 +35,8 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/data-calendar-month-menu hidden/);
   assert.match(main,/const calendarMonthChoices=month=>/);
   assert.match(main,/data-calendar-month-choice="\$\{value\}"/);
+  assert.match(main,/let selectedMonth=initial;const draw=/);
+  assert.match(main,/document\.addEventListener\('click',event=>\{if\(!monthPicker\.contains\(event\.target\)\)/);
   assert.match(main,/data-calendar-shift="-1" aria-label="이전 달">&lt;/);
   assert.match(main,/data-calendar-shift="1" aria-label="다음 달">&gt;/);
   assert.match(main,/calendarMonthGrid\(selectedMonth,records\)/);
@@ -54,6 +56,11 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/class="calendar-option-output"/);
   assert.match(main,/class="calendar-option-info" tabindex="0"/);
   assert.match(main,/role="tooltip">\$\{esc\(value\)\}/);
+  assert.match(main,/function calendarAccountParts\(value\)/);
+  assert.match(main,/summary\.replace\(\/\\D\/g,''\)/);
+  assert.match(main,/class="calendar-account-output"/);
+  assert.match(main,/data-calendar-account-copy="\$\{account\.digits\}"/);
+  assert.match(main,/navigator\.clipboard\.writeText\(event\.currentTarget\.dataset\.calendarAccountCopy\)/);
   assert.match(main,/String\(file\.mime_type\|\|''\)\.startsWith\('image\/'\)/);
   assert.match(main,/inlineUrl=`\$\{url\}\?inline=1`/);
   assert.match(main,/<img src="\$\{inlineUrl\}" alt="\$\{esc\(file\.filename\)\}">/);
@@ -79,7 +86,10 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(css,/\.calendar-option-info>\[role=tooltip\]\{[^}]*width:260px;max-width:calc\(100vw - 80px\)/);
   assert.match(css,/\.calendar-controls>button\{border:0;border-radius:50%\}/);
   assert.match(css,/\.calendar-month-picker>button\{[^}]*border:0;border-radius:999px/);
+  assert.match(css,/\.calendar-month-menu\{[^}]*grid-template-columns:repeat\(12,44px\)/);
   assert.match(css,/\.calendar-month-menu button\{[^}]*border:0;border-radius:50%/);
+  assert.match(css,/\.calendar-account-output\{display:grid;grid-template-columns:minmax\(0,1fr\) 34px/);
+  assert.match(css,/\.calendar-account-output>button\{[^}]*border:0;background:transparent/);
   assert.match(css,/\.calendar-vehicle-number\{width:100%;min-width:0/);
   assert.match(css,/\.calendar-vehicle \[data-calendar-files\]\{[^}]*width:27px/);
   assert.doesNotMatch(css,/\.calendar-vehicle button\{[^}]*width:27px/);
