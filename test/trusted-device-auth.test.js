@@ -28,3 +28,10 @@ test('익명 쓰기를 끄고 삭제된 기기의 이메일 재인증을 요구�
   assert.match(api,/recentAccessAuthentication/);
   assert.match(ui,/device_reauth=1/);
 });
+
+test('운영 적용 전에는 기기 인증을 설정으로 우회한다',()=>{
+  assert.match(config,/DEVICE_AUTH_ENABLED = "false"/);
+  assert.match(api,/deviceAuthEnabled=env=>env\.DEVICE_AUTH_ENABLED==='true'/);
+  assert.match(api,/if\(!user&&!deviceAuthEnabled\(env\)\)user=await sharedActor\(env\)/);
+  assert.match(api,/authenticated:true,bypass:true/);
+});

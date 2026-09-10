@@ -63,7 +63,7 @@ b3: {
 
 운영 인증은 **Cloudflare Access** 이메일 OTP를 사용합니다. Access가 전달한 이메일을 서버에서 `users` 테이블과 대조하며 모든 API가 역할과 인증 기기 세션을 다시 확인합니다.
 
-`ALLOW_ANONYMOUS_WRITES=false`로 설정되어 인증되지 않은 조회·변경 요청을 차단합니다. Cloudflare Access 이메일 OTP를 통과한 첫 기기는 D1의 `trusted_devices`에 등록되고, 180일짜리 HttpOnly·Secure 기기 쿠키로 자동 로그인됩니다. 기기 토큰 원문은 서버나 D1에 저장하지 않고 SHA-256 해시만 보관합니다. `/admin`에서 관리자는 전체 인증 기기를, 직원은 본인 기기를 확인하고 해제할 수 있습니다. 해제된 기기는 Cloudflare Access 이메일 재인증 후에만 다시 등록됩니다.
+현재는 `DEVICE_AUTH_ENABLED=false`로 설정되어 이메일·기기 인증을 우회하고 현장 공용 기기로 접속합니다. 인증 적용 준비가 끝나면 이 값을 `true`로 바꾸면 됩니다. 활성화 시 Cloudflare Access 이메일 OTP를 통과한 첫 기기는 D1의 `trusted_devices`에 등록되고, 180일짜리 HttpOnly·Secure 기기 쿠키로 자동 로그인됩니다. 기기 토큰 원문은 서버나 D1에 저장하지 않고 SHA-256 해시만 보관합니다. `/admin`에서 관리자는 전체 인증 기기를, 직원은 본인 기기를 확인하고 해제할 수 있습니다. 해제된 기기는 Cloudflare Access 이메일 재인증 후에만 다시 등록됩니다.
 
 하단 톱니바퀴는 `/admin`으로 연결됩니다. Cloudflare Zero Trust에서 `hnauto606.pages.dev`를 Self-hosted 애플리케이션으로 보호하고 One-time PIN을 로그인 방식으로 지정합니다. 첫 번째로 인증된 실제 이메일은 D1 `users`에 관리자로 자동 등록되며, 초기 데이터 가져오기용 `.invalid` 시스템 사용자는 이 계산에서 제외됩니다. OTP 정책은 임의 이메일 전체가 아니라 허용할 이메일 주소 또는 회사 이메일 도메인으로 제한해야 합니다.
 
