@@ -158,6 +158,9 @@ test('선택차량목록의 법인 차량만 R2 첨부파일 다운로드 기능
   assert.match(main,/openHeydealerFiles\(record\)/);
   assert.match(main,/async function openHeydealerFiles\(record\).*await api\('heydealer'\)/);
   assert.match(main,/record\.files=files/);
+  assert.match(main,/data-files-download-all>전체다운로드/);
+  assert.match(main,/querySelectorAll\('li a\[download\]'\)\.forEach\(link=>link\.click\(\)\)/);
+  assert.match(css,/\.heydealer-download-all\{[^}]*position:absolute;top:66px;right:22px/);
   assert.match(main,/업로드된 파일이 없습니다\./);
   assert.match(main,/\/api\/heydealer\/\$\{esc\(record\.id\)\}\/files\/\$\{esc\(file\.id\)\}/);
 });
