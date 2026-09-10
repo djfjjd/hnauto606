@@ -143,6 +143,14 @@ test('선택차량목록 연필 버튼은 항목을 펼쳐 D1 정보를 수정�
   assert.match(handler,/'update','heydealer_record'/);
 });
 
+test('선택차량 수정 중 법인 선택 시 클립 버튼으로 파일을 업로드한다',()=>{
+  assert.match(main,/class="heydealer-edit-file-button \$\{corporate\?'':'is-disabled'\}"/);
+  assert.match(main,/name="corporateFile"[^>]*\$\{corporate\?'':'disabled'\}/);
+  assert.match(main,/HEYDEALER_EDIT_FILES\.set\(form\.dataset\.heydealerEditForm,file\)/);
+  assert.match(main,/await uploadHeydealerFile\(editedRecordId,pendingFile\)/);
+  assert.match(css,/\.heydealer-edit-file-button\{/);
+});
+
 test('선택차량목록의 법인 차량만 R2 첨부파일 다운로드 기능을 제공한다',()=>{
   assert.match(main,/record\.customer_type==='법인'/);
   assert.match(main,/class="corporate-label">\(법인차량\)<\/span><button type="button" class="heydealer-download"/);
