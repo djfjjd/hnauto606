@@ -31,10 +31,13 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/<h1>하나오토 일정표<\/h1>/);
   assert.doesNotMatch(main,/HEYDEALER CALENDAR/);
   assert.doesNotMatch(main,/헤이딜러 프롬프트양식에 저장한 차량을 날짜별로 확인합니다\./);
-  assert.match(main,/type="month"[^>]*data-calendar-month/);
+  assert.match(main,/class="calendar-month-picker"><button type="button" data-calendar-month/);
+  assert.match(main,/data-calendar-month-menu hidden/);
+  assert.match(main,/const calendarMonthChoices=month=>/);
+  assert.match(main,/data-calendar-month-choice="\$\{value\}"/);
   assert.match(main,/data-calendar-shift="-1" aria-label="이전 달">&lt;/);
   assert.match(main,/data-calendar-shift="1" aria-label="다음 달">&gt;/);
-  assert.match(main,/calendarMonthGrid\(monthInput\.value,records\)/);
+  assert.match(main,/calendarMonthGrid\(selectedMonth,records\)/);
   assert.match(main,/function heydealerScheduleDate\(record\)/);
   assert.match(main,/String\(record\.departure_time\|\|''\)\.match/);
   assert.match(main,/탁송\\s\*일정\\s\*확인\\s\*중/);
@@ -73,6 +76,10 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(css,/\.calendar-print-frame\{position:fixed;left:-10000px/);
   assert.match(css,/\.calendar-option-output>output\{[^}]*text-overflow:ellipsis;white-space:nowrap/);
   assert.match(css,/\.calendar-option-info:hover>\[role=tooltip\],\.calendar-option-info:focus>\[role=tooltip\]\{display:block\}/);
+  assert.match(css,/\.calendar-option-info>\[role=tooltip\]\{[^}]*width:260px;max-width:calc\(100vw - 80px\)/);
+  assert.match(css,/\.calendar-controls>button\{border:0;border-radius:50%\}/);
+  assert.match(css,/\.calendar-month-picker>button\{[^}]*border:0;border-radius:999px/);
+  assert.match(css,/\.calendar-month-menu button\{[^}]*border:0;border-radius:50%/);
   assert.match(css,/\.calendar-vehicle-number\{width:100%;min-width:0/);
   assert.match(css,/\.calendar-vehicle \[data-calendar-files\]\{[^}]*width:27px/);
   assert.doesNotMatch(css,/\.calendar-vehicle button\{[^}]*width:27px/);
