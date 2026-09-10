@@ -52,6 +52,9 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/<img src="\$\{inlineUrl\}" alt="\$\{esc\(file\.filename\)\}">/);
   assert.match(main,/data-calendar-print="\$\{inlineUrl\}"/);
   assert.match(main,/function printCalendarImage\(url\)/);
+  assert.match(main,/document\.createElement\('iframe'\)/);
+  assert.match(main,/frame\.contentWindow\.print\(\)/);
+  assert.doesNotMatch(main,/window\.open\(url,'_blank'\)/);
   assert.match(main,/data-calendar-file-list/);
   assert.match(main,/data-calendar-download-all/);
   assert.match(main,/data-calendar-file-download/);
@@ -63,6 +66,7 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(css,/\.calendar-image-thumb:hover \.calendar-image-actions/);
   assert.match(css,/\.calendar-image-actions button,.calendar-image-actions a\{/);
   assert.match(css,/\.calendar-record-files-head\{display:flex/);
+  assert.match(css,/\.calendar-print-frame\{position:fixed;left:-10000px/);
   assert.match(css,/\.calendar-vehicle-number\{width:100%;min-width:0/);
   assert.match(css,/\.calendar-vehicle \[data-calendar-files\]\{[^}]*width:27px/);
   assert.doesNotMatch(css,/\.calendar-vehicle button\{[^}]*width:27px/);
