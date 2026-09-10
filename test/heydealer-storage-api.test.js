@@ -26,6 +26,11 @@ test('법인 파일만 비공개 R2에 저장하고 실패 시 객체를 정리�
   assert.match(handler,/filename\*=UTF-8''\$\{encodeURIComponent\(file\.filename\)\}/);
 });
 
+test('이미지 첨부파일은 캘린더 미리보기에서 inline으로 연다',()=>{
+  assert.match(handler,/url\.searchParams\.get\('inline'\)==='1'/);
+  assert.match(handler,/\$\{inline\?'inline':'attachment'\}; filename\*=UTF-8/);
+});
+
 test('헤이딜러 API는 옵션 외 모든 거래 항목을 필수로 검증한다',()=>{
   assert.match(mileageMigration,/ALTER TABLE heydealer_records ADD COLUMN mileage TEXT NOT NULL DEFAULT ''/);
   assert.match(handler,/requiredValues=\[input\?\.manager,input\?\.modelYear,input\?\.plate,input\?\.model,input\?\.color,input\?\.mileage,input\?\.customerType\|\|input\?\.notes,input\?\.price,input\?\.account,input\?\.origin,input\?\.departureTime\]/);
