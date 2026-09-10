@@ -20,10 +20,23 @@ test('상단 헤이딜러 메뉴와 첫 화면 Sheets·캘린더 바로가기를
   assert.match(css,/\.external-menu:focus-within \.external-submenu/);
   assert.match(main,/function todayCalendarLabel\(now=new Date\(\)\)/);
   assert.match(main,/timeZone:'Asia\/Seoul'/);
-  assert.match(main,/class="parking-title"><a class="parking-calendar" href="https:\/\/calendar\.google\.com\/"[^>]*>\$\{todayCalendarLabel\(\)\}<\/a>/);
+  assert.match(main,/class="parking-title"><a class="parking-calendar" href="\/calendar" aria-label="차량 일정 캘린더로 이동">\$\{todayCalendarLabel\(\)\}<\/a>/);
   assert.ok(main.indexOf('>새싹타워정기권</a>')<main.indexOf('>엔카진단예약</a>'));
   assert.match(css,/\.parking-calendar\{position:absolute;left:50%;top:10px;min-height:44px;[^}]*font-size:17px/);
   assert.match(css,/\.parking-title h1 \{ margin-top:12px;/);
+});
+
+test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 날짜별로 표시한다',()=>{
+  assert.match(main,/async function renderCalendarPage\(\)/);
+  assert.match(main,/type="month"[^>]*data-calendar-month/);
+  assert.match(main,/data-calendar-shift="-1" aria-label="이전 달">&lt;/);
+  assert.match(main,/data-calendar-shift="1" aria-label="다음 달">&gt;/);
+  assert.match(main,/calendarMonthGrid\(monthInput\.value,records\)/);
+  assert.match(main,/record\.customer_type==='법인'&&record\.files\?\.length/);
+  assert.match(main,/data-calendar-files=/);
+  assert.match(main,/openHeydealerFiles\(record\)/);
+  assert.match(main,/location\.pathname==='\/calendar'/);
+  assert.match(css,/\.calendar-grid\{display:grid;grid-template-columns:repeat\(7/);
 });
 
 test('새싹 입·출고 후 정기권 수정 안내와 무시·바로가기를 표시한다',()=>{
