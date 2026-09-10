@@ -55,11 +55,12 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(css,/grid-template-columns:30px 22px 120px/);
   assert.match(css,/\.board-sequence\{width:22px\}/);
   assert.match(css,/\.sequence-edit-button\{width:28px;min-width:28px;padding-inline:0\}/);
-  assert.match(css,/\.board-row>strong\{display:flex;align-self:stretch;align-items:center;padding-block:8px;line-height:1\.2\}/);
-  assert.match(css,/\.board-row\.is-checked-out>strong\{background:#fff8f8\}/);
+  assert.match(css,/\.board-row>strong\{display:flex;align-self:stretch;align-items:center;padding-block:8px;line-height:1\.2;background:transparent\}/);
+  assert.match(css,/\.board-row>strong\{[^}]*background:transparent\}/);
+  assert.match(css,/\.board-row:not\(\.board-labels\):hover>strong,[^{]*\.board-row\.is-checked-out>strong\{background:transparent\}/);
   assert.match(css,/\.topbar \{ position:sticky; top:0; z-index:9;/);
   assert.match(css,/\.board-row\.is-checked-out::after\{[^}]*z-index:6/);
-  assert.match(css,/border-right:1px solid #d9ded9;background:#fff/);
+  assert.match(css,/border-right:1px solid #d9ded9/);
 });
 
 test('현황판 체크 상태와 주행거리를 D1에 보존한다',()=>{

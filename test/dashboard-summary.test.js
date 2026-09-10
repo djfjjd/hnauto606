@@ -17,6 +17,16 @@ test('상단 브랜드를 간결하게 표시하고 구글 스프레드시트 �
   assert.match(main,/<a href="\/drive">프롬프트양식<\/a>/);
 });
 
+test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표시한다',()=>{
+  assert.match(main,/function parkingMiniCalendar\(\)/);
+  assert.match(main,/state\.calendarRecords\.map\(heydealerScheduleDate\)/);
+  assert.match(main,/class="parking-mini-calendar"/);
+  assert.match(main,/scheduled\?'<i aria-label="일정 있음"><\/i>'/);
+  assert.match(main,/Promise\.all\(\[api\('dashboard'\),api\('heydealer'\)\.catch/);
+  assert.match(css,/\.parking-mini-calendar\{position:absolute;right:28px;top:18px;[^}]*background:transparent/);
+  assert.match(css,/\.parking-mini-day>i\{[^}]*border-radius:50%;background:#9aa29d/);
+});
+
 test('차량 현황판의 주차위치현황 링크는 투명 배경과 테마 글자색을 사용한다',()=>{
   assert.match(css,/body:has\(\.board-page\) \.topbar \.board-nav a\[href="\/"\]\{color:var\(--lime\);background:transparent\}/);
 });
