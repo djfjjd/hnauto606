@@ -53,6 +53,9 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/location\.pathname==='\/calendar'/);
   assert.match(css,/\.calendar-grid\{display:grid;grid-template-columns:repeat\(7/);
   assert.match(css,/\.calendar-file-gallery\{display:grid/);
+  assert.match(css,/\.calendar-vehicle-number\{width:100%;min-width:0/);
+  assert.match(css,/\.calendar-vehicle \[data-calendar-files\]\{[^}]*width:27px/);
+  assert.doesNotMatch(css,/\.calendar-vehicle button\{[^}]*width:27px/);
   assert.match(css,/\.calendar-topline>h1\{[^}]*text-align:center/);
   assert.match(css,/\.calendar-vehicle>b\{color:#c82020/);
   assert.match(main,/renderCalendarPage\(\).*addExternalTools\(\)/);
