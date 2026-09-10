@@ -156,6 +156,8 @@ test('선택차량목록의 법인 차량만 R2 첨부파일 다운로드 기능
   assert.match(main,/class="corporate-label">\(법인차량\)<\/span><button type="button" class="heydealer-download"/);
   assert.match(main,/data-heydealer-files/);
   assert.match(main,/openHeydealerFiles\(record\)/);
+  assert.match(main,/async function openHeydealerFiles\(record\).*await api\('heydealer'\)/);
+  assert.match(main,/record\.files=files/);
   assert.match(main,/업로드된 파일이 없습니다\./);
   assert.match(main,/\/api\/heydealer\/\$\{esc\(record\.id\)\}\/files\/\$\{esc\(file\.id\)\}/);
 });
