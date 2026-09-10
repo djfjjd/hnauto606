@@ -36,6 +36,8 @@ R2는 헤이딜러 법인 거래 서류 업로드에 활성화되어 있습니�
 
 `users`, `vehicles`, `parking_zones`, `parking_spots`, `parking_movements`, `vehicle_status`, `service_records`, `vehicle_files`, `push_subscriptions`, `notification_preferences`, `audit_logs`, `notification_events`, `heydealer_records`, `heydealer_files`
 
+`0016_add_trusted_devices.sql`은 자동 로그인 토큰의 해시, 기기 이름, 최근 사용 시각과 해제 상태를 저장하는 `trusted_devices` 테이블을 추가합니다.
+
 초기 구역과 주차면도 같은 마이그레이션에 포함됩니다. `0005_expand_parking_grid.sql`은 기존 주차면 ID와 차량 연결을 유지하면서 일반 주차층의 위치 라벨을 `A01~I20` 형식으로 정규화하고 누락된 기본 Grid 주차면만 추가합니다.
 
 ## 주차장 도면 설정
@@ -59,9 +61,9 @@ b3: {
 
 ## 로그인과 권한
 
-기존 인증 시스템이 없어 취약한 자체 로그인을 만들지 않았습니다. 운영 방식은 **Cloudflare Access**를 권장합니다. Access가 전달한 이메일을 서버에서 `users` 테이블과 대조하며 모든 API가 역할을 다시 확인합니다.
+운영 인증은 **Cloudflare Access** 이메일 OTP를 사용합니다. Access가 전달한 이메일을 서버에서 `users` 테이블과 대조하며 모든 API가 역할과 인증 기기 세션을 다시 확인합니다.
 
-현재 현장 요청에 따라 `ALLOW_ANONYMOUS_WRITES=true`로 설정되어 로그인 없이 입차·수정·이동·출차가 가능하며 모든 변경자는 `현장 공용 기기`로 기록됩니다. 이 설정은 공개 주소를 아는 사람에게도 쓰기 권한을 허용하므로 Cloudflare Access 구성이 완료되면 반드시 `false`로 되돌려야 합니다.
+`ALLOW_ANONYMOUS_WRITES=false`로 설정되어 인증되지 않은 조회·변경 요청을 차단합니다. Cloudflare Access 이메일 OTP를 통과한 첫 기기는 D1의 `trusted_devices`에 등록되고, 180일짜리 HttpOnly·Secure 기기 쿠키로 자동 로그인됩니다. 기기 토큰 원문은 서버나 D1에 저장하지 않고 SHA-256 해시만 보관합니다. `/admin`에서 관리자는 전체 인증 기기를, 직원은 본인 기기를 확인하고 해제할 수 있습니다. 해제된 기기는 Cloudflare Access 이메일 재인증 후에만 다시 등록됩니다.
 
 하단 톱니바퀴는 `/admin`으로 연결됩니다. Cloudflare Zero Trust에서 `hnauto606.pages.dev`를 Self-hosted 애플리케이션으로 보호하고 One-time PIN을 로그인 방식으로 지정합니다. 첫 번째로 인증된 실제 이메일은 D1 `users`에 관리자로 자동 등록되며, 초기 데이터 가져오기용 `.invalid` 시스템 사용자는 이 계산에서 제외됩니다. OTP 정책은 임의 이메일 전체가 아니라 허용할 이메일 주소 또는 회사 이메일 도메인으로 제한해야 합니다.
 
