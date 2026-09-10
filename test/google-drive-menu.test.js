@@ -52,12 +52,17 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/<img src="\$\{inlineUrl\}" alt="\$\{esc\(file\.filename\)\}">/);
   assert.match(main,/data-calendar-print="\$\{inlineUrl\}"/);
   assert.match(main,/function printCalendarImage\(url\)/);
+  assert.match(main,/data-calendar-file-list/);
+  assert.match(main,/data-calendar-download-all/);
+  assert.match(main,/data-calendar-file-download/);
+  assert.match(main,/querySelectorAll\('\[data-calendar-file-download\]'\)\.forEach\(link=>link\.click\(\)\)/);
   assert.match(main,/openCalendarRecord\(record\)/);
   assert.match(main,/location\.pathname==='\/calendar'/);
   assert.match(css,/\.calendar-grid\{display:grid;grid-template-columns:repeat\(7/);
   assert.match(css,/\.calendar-file-gallery\{display:grid/);
   assert.match(css,/\.calendar-image-thumb:hover \.calendar-image-actions/);
   assert.match(css,/\.calendar-image-actions button,.calendar-image-actions a\{/);
+  assert.match(css,/\.calendar-record-files-head\{display:flex/);
   assert.match(css,/\.calendar-vehicle-number\{width:100%;min-width:0/);
   assert.match(css,/\.calendar-vehicle \[data-calendar-files\]\{[^}]*width:27px/);
   assert.doesNotMatch(css,/\.calendar-vehicle button\{[^}]*width:27px/);
