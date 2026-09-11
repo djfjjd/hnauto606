@@ -15,6 +15,7 @@ test('상단 브랜드를 간결하게 표시하고 구글 스프레드시트 �
   assert.match(main,/https:\/\/docs\.google\.com\/spreadsheets\/d\/1N3cAmPeS7eOZoqW-k9r1bx_xI0XI-4e0aGo9B04wGbA\/edit\?gid=1361663048#gid=1361663048/);
   assert.match(main,/<img src="\/sheets\.png" alt="">/);
   assert.match(main,/<a href="\/drive">프롬프트양식<\/a>/);
+  assert.match(css,/\.brand::after \{ content:'ver\.Beta';[^}]*color:#a8b0ab;[^}]*font-size:10px/);
 });
 
 test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표시한다',()=>{
