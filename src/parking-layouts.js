@@ -22,7 +22,7 @@ export const parkingLayouts={
   }),
   b3:baseLayout('서서울모터리움 B3층',{
     rows:21,
-    collapsedVisibleRows:[16,17,21],
+    collapsedVisibleRows:[17,21],
     toggleBeforeRow:16,
     defaultCellType:'blocked',
     parkingRanges:[{from:'E17',to:'I17'}],

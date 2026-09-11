@@ -30,12 +30,13 @@ test('B3층 확장 도면은 9×21 Grid Cell을 자동 생성한다',()=>{
   assert.match(html,/E\/V · 화장실/);
 });
 
-test('B3층은 접으면 16행 회색칸·17행 주차면과 21행 시설만 표시한다',()=>{
+test('B3층은 접으면 17행 주차면과 21행 시설만 표시한다',()=>{
   const collapsed=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:false});
   assert.match(collapsed,/class="map-head-toggle" data-toggle-map="b3"/);
   assert.equal((collapsed.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,5);
-  assert.match(collapsed,/aria-label="E16 비주차 구역"/);
-  assert.doesNotMatch(collapsed,/>15<\/b>|>18<\/b>|>20<\/b>/);
+  assert.doesNotMatch(collapsed,/aria-label="E16 비주차 구역"/);
+  assert.doesNotMatch(collapsed,/>15<\/b>|>16<\/b>|>18<\/b>|>20<\/b>/);
+  assert.match(collapsed,/aria-label="E17 빈 자리"/);
   assert.match(collapsed,/E\/V · 화장실/);
   const expanded=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
   assert.match(expanded,/aria-label="A01 비주차 구역"/);
