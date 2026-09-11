@@ -27,6 +27,10 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
   assert.match(main,/차량번호 \$\{records\.length\}대/);
   assert.match(main,/openParkingDaySchedule\(button\.dataset\.parkingScheduleDate\)/);
   assert.match(main,/class="parking-schedule-detail" href="\/calendar\?month=\$\{esc\(date\.slice\(0,7\)\)\}">일정상세보기 →<\/a>/);
+  assert.match(main,/class="parking-schedule-vehicle"><strong>\$\{esc\(record\.plate\)\|\|'차량번호 미입력'\}<\/strong>/);
+  assert.match(main,/<\/strong>\$\{record\.customer_type==='법인'\?'<b>\(법인\)<\/b>':''\}<\/span><button/);
+  assert.match(main,/class="parking-schedule-info" data-parking-schedule-record="\$\{esc\(record\.id\)\}"/);
+  assert.match(main,/openCalendarRecord\(record\)/);
   assert.match(main,/Promise\.all\(\[api\('dashboard'\),api\('heydealer'\)\.catch/);
   assert.match(css,/\.parking-mini-calendar\{position:absolute;right:max\(24px,calc\(\(100vw - 1280px\)\/2\)\);top:18px;width:340px;[^}]*background:transparent/);
   assert.match(css,/@media\(max-width:800px\)\{\.parking-mini-calendar\{right:0;width:205px/);
@@ -34,6 +38,8 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
   assert.match(css,/\.parking-mini-day:is\(button\)\{[^}]*background:transparent;cursor:pointer/);
   assert.match(css,/\.parking-schedule-modal ul\{[^}]*overflow-y:auto/);
   assert.match(css,/\.parking-schedule-detail\{position:absolute;top:70px;right:24px/);
+  assert.match(css,/\.parking-schedule-vehicle\{display:flex;align-items:center;gap:6px/);
+  assert.match(css,/\.parking-schedule-info\{[^}]*border-radius:50%/);
 });
 
 test('차량 현황판의 주차위치현황 링크는 투명 배경과 테마 글자색을 사용한다',()=>{
