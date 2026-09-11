@@ -46,6 +46,7 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/class="calendar-pending"><strong>탁송일정확인중<\/strong>/);
   assert.match(main,/records\.filter\(heydealerSchedulePending\)/);
   assert.match(main,/customerBadge\(record\.customer_type\)/);
+  assert.match(main,/class="calendar-vehicle"><span class="calendar-vehicle-text"><button/);
   assert.match(main,/isCorporateCustomer\(record\.customer_type\)&&record\.files\?\.length/);
   assert.match(main,/data-calendar-files=/);
   assert.match(main,/openHeydealerFiles\(record\)/);
@@ -100,7 +101,8 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(css,/\.calendar-vehicle \[data-calendar-files\]\{[^}]*width:27px/);
   assert.doesNotMatch(css,/\.calendar-vehicle button\{[^}]*width:27px/);
   assert.match(css,/\.calendar-topline>h1\{[^}]*text-align:center/);
-  assert.match(css,/\.calendar-vehicle>b\{color:#c82020/);
+  assert.match(css,/\.calendar-vehicle-text>b\{[^}]*color:#c82020/);
+  assert.match(css,/\.calendar-vehicle\{grid-template-columns:minmax\(0,1fr\) 27px\}/);
   assert.match(main,/renderCalendarPage\(\).*addExternalTools\(\)/);
   assert.match(main,/renderCalendarPage\(\).*class="header-sheet-link".*class="header-dashboard-link"/);
 });
