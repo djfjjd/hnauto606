@@ -63,7 +63,11 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/navigator\.clipboard\.writeText\(event\.currentTarget\.dataset\.calendarAccountCopy\)/);
   assert.match(main,/String\(file\.mime_type\|\|''\)\.startsWith\('image\/'\)/);
   assert.match(main,/inlineUrl=`\$\{url\}\?inline=1`/);
-  assert.match(main,/<img src="\$\{inlineUrl\}" alt="\$\{esc\(file\.filename\)\}">/);
+  assert.match(main,/data-calendar-image="\$\{inlineUrl\}"/);
+  assert.match(main,/function openCalendarImage\(url,filename\)/);
+  assert.match(main,/data-calendar-image-close aria-label="이미지 닫기"/);
+  assert.match(main,/openCalendarImage\(button\.dataset\.calendarImage,button\.dataset\.calendarImageName\)/);
+  assert.doesNotMatch(main,/href="\$\{inlineUrl\}" target="_blank"/);
   assert.match(main,/data-calendar-print="\$\{inlineUrl\}"/);
   assert.match(main,/function printCalendarImage\(url\)/);
   assert.match(main,/document\.createElement\('iframe'\)/);
@@ -79,6 +83,8 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(css,/\.calendar-file-gallery\{display:grid/);
   assert.match(css,/\.calendar-image-thumb:hover \.calendar-image-actions/);
   assert.match(css,/\.calendar-image-actions button,.calendar-image-actions a\{/);
+  assert.match(css,/\.calendar-image-backdrop\{z-index:40/);
+  assert.match(css,/\.calendar-image-close\{position:absolute/);
   assert.match(css,/\.calendar-record-files-head\{display:flex/);
   assert.match(css,/\.calendar-print-frame\{position:fixed;left:-10000px/);
   assert.match(css,/\.calendar-option-output>output\{[^}]*text-overflow:ellipsis;white-space:nowrap/);
