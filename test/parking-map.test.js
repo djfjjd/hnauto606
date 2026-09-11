@@ -14,12 +14,12 @@ test('기존 위치 라벨을 두 자리 행 좌표로 정규화한다',()=>{
 
 test('전체 주차면은 실제 parking Cell만 합산한다',()=>{
   assert.equal(parkingCapacity(parkingLayouts.pillar11),30);
-  assert.equal(parkingCapacity(parkingLayouts.b3),10);
+  assert.equal(parkingCapacity(parkingLayouts.b3),5);
   assert.equal(parkingCapacity(parkingLayouts.b5),12);
   assert.equal(parkingCapacity(parkingLayouts.roof),20);
   assert.equal(parkingCapacity(parkingLayouts.tower),20);
   assert.equal(parkingCapacity(parkingLayouts.auto13),12);
-  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),104);
+  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),99);
 });
 
 test('B3층 확장 도면은 9×21 Grid Cell을 자동 생성한다',()=>{
@@ -30,15 +30,17 @@ test('B3층 확장 도면은 9×21 Grid Cell을 자동 생성한다',()=>{
   assert.match(html,/E\/V · 화장실/);
 });
 
-test('B3층은 접으면 16~17행 주차면과 21행 시설만 표시한다',()=>{
+test('B3층은 접으면 16행 회색칸·17행 주차면과 21행 시설만 표시한다',()=>{
   const collapsed=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:false});
   assert.match(collapsed,/class="map-head-toggle" data-toggle-map="b3"/);
-  assert.equal((collapsed.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,10);
+  assert.equal((collapsed.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,5);
+  assert.match(collapsed,/aria-label="E16 비주차 구역"/);
   assert.doesNotMatch(collapsed,/>15<\/b>|>18<\/b>|>20<\/b>/);
   assert.match(collapsed,/E\/V · 화장실/);
   const expanded=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
   assert.match(expanded,/aria-label="A01 비주차 구역"/);
-  assert.match(expanded,/aria-label="E16 빈 자리"/);
+  assert.match(expanded,/aria-label="E16 비주차 구역"/);
+  assert.match(expanded,/aria-label="E17 빈 자리"/);
 });
 
 test('새싹타워는 A~J열의 B5·B6층 20면으로 표시한다',()=>{
@@ -69,21 +71,21 @@ test('빈 주차면은 문구 대신 검정 그림자가 있는 빨간 소문자
 });
 
 test('차량 Cell에는 차량번호 뒤 4자리만 크게 표시한다',()=>{
-  const html=renderParkingMap(parkingLayouts.b3,[{id:'spot-1',label:'E16',plate:'186저9439',model:'쏘나타',alerts:[]}],undefined,{expanded:true});
+  const html=renderParkingMap(parkingLayouts.b3,[{id:'spot-1',label:'E17',plate:'186저9439',model:'쏘나타',alerts:[]}],undefined,{expanded:true});
   assert.match(html,/<strong>9439<\/strong>/);
   assert.match(html,/data-spot="spot-1"/);
 });
 
 test('주차 차량 Cell에는 차량 색상 클래스가 적용된다',()=>{
-  const white=renderParkingMap(parkingLayouts.b3,[{id:'white-car',label:'E16',plate:'11가1234',model:'차량',color:'흰색',alerts:[]}],undefined,{expanded:true});
-  const gray=renderParkingMap(parkingLayouts.b3,[{id:'gray-car',label:'E16',plate:'11가5678',model:'차량',color:'은색',alerts:[]}],undefined,{expanded:true});
+  const white=renderParkingMap(parkingLayouts.b3,[{id:'white-car',label:'E17',plate:'11가1234',model:'차량',color:'흰색',alerts:[]}],undefined,{expanded:true});
+  const gray=renderParkingMap(parkingLayouts.b3,[{id:'gray-car',label:'E17',plate:'11가5678',model:'차량',color:'은색',alerts:[]}],undefined,{expanded:true});
   assert.match(white,/vehicle-color-white/);
   assert.match(gray,/vehicle-color-gray/);
   assert.match(white,/draggable="true"/);
 });
 
 test('확인 필요 차량은 강조 배경 없이 왼쪽 아래에 경고등 이미지를 표시한다',()=>{
-  const html=renderParkingMap(parkingLayouts.b3,[{id:'alert-car',label:'E16',plate:'11가1234',model:'차량',color:'검정',alerts:['battery','engine']}],undefined,{expanded:true});
+  const html=renderParkingMap(parkingLayouts.b3,[{id:'alert-car',label:'E17',plate:'11가1234',model:'차량',color:'검정',alerts:['battery','engine']}],undefined,{expanded:true});
   const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
   assert.doesNotMatch(html,/has-alert/);
   assert.match(html,/class="parking-alert-icons"/);
@@ -110,7 +112,7 @@ test('녹색 차량은 주차구역에서 차종을 흰색으로 표시한다',(
 });
 
 test('출고 후 주차 중인 차량은 빨간 글씨와 출고됨 표시를 사용한다',()=>{
-  const html=renderParkingMap(parkingLayouts.b3,[{id:'checked-out-car',label:'E16',plate:'335모6853',model:'A6',color:'검정',isCheckedOut:true,alerts:[]}],undefined,{expanded:true});
+  const html=renderParkingMap(parkingLayouts.b3,[{id:'checked-out-car',label:'E17',plate:'335모6853',model:'A6',color:'검정',isCheckedOut:true,alerts:[]}],undefined,{expanded:true});
   assert.match(html,/is-checked-out/);
   assert.match(html,/<strong>6853<\/strong><span>\(출고됨\) A6<\/span>/);
   assert.match(html,/335모6853 출고됨/);

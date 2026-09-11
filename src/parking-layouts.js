@@ -25,7 +25,7 @@ export const parkingLayouts={
     collapsedVisibleRows:[16,17,21],
     toggleBeforeRow:16,
     defaultCellType:'blocked',
-    parkingRanges:[{from:'E16',to:'I17'}],
+    parkingRanges:[{from:'E17',to:'I17'}],
     specialAreas:[
       {from:'A21',to:'C21',type:'blocked',label:''},
       {from:'D21',to:'E21',type:'facility',label:'E/V · 화장실'},
