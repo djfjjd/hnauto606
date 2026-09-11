@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {normalizePosition,parkingCapacity,parkingLayouts} from '../src/parking-layouts.js';
 import {renderParkingMap} from '../src/parking-map.js';
+import {STATUS} from '../src/data.js';
 
 test('기존 위치 라벨을 두 자리 행 좌표로 정규화한다',()=>{
   assert.equal(normalizePosition('A1'),'A01');
@@ -94,6 +95,13 @@ test('확인 필요 차량은 강조 배경 없이 왼쪽 아래에 경고등 �
   assert.match(css,/\.parking-alert-icons[^}]*z-index:0;pointer-events:none/);
   assert.match(css,/\.parking-alert-icons img\{width:26px;height:26px/);
   assert.doesNotMatch(css,/\.parking-cell\.has-alert\{/);
+});
+
+test('차량 구역 경고등 PNG는 흰 배경 대신 투명 알파 채널을 사용한다',()=>{
+  for(const status of STATUS){
+    const image=readFileSync(new URL(`../public/${status.icon.normalize('NFD')}`,import.meta.url));
+    assert.ok(image.includes(Buffer.from('tRNS')),`${status.label} 아이콘에 투명도 정보가 필요합니다.`);
+  }
 });
 
 test('녹색 차량은 주차구역에서 차종을 흰색으로 표시한다',()=>{
