@@ -45,8 +45,8 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/탁송\\s\*일정\\s\*확인\\s\*중/);
   assert.match(main,/class="calendar-pending"><strong>탁송일정확인중<\/strong>/);
   assert.match(main,/records\.filter\(heydealerSchedulePending\)/);
-  assert.match(main,/record\.customer_type==='법인'\?'<b>\(법인\)<\/b>'/);
-  assert.match(main,/record\.customer_type==='법인'&&record\.files\?\.length/);
+  assert.match(main,/customerBadge\(record\.customer_type\)/);
+  assert.match(main,/isCorporateCustomer\(record\.customer_type\)&&record\.files\?\.length/);
   assert.match(main,/data-calendar-files=/);
   assert.match(main,/openHeydealerFiles\(record\)/);
   assert.match(main,/data-calendar-record=/);
@@ -177,9 +177,9 @@ test('프롬프트양식 저장 완료 요청에 캘린더 푸시 알림 표시�
 test('특이사항은 필수 개인·법인 선택이며 법인만 파일 첨부를 활성화한다',()=>{
   assert.match(main,/driveField\('notes','특이사항'\)/);
   assert.match(main,/required-mark">\(필수\)<\/small>/);
-  assert.match(main,/<option value="개인">개인<\/option><option value="법인">법인<\/option>/);
+  assert.match(main,/CUSTOMER_TYPES=\['개인','법인','법인\(비사업용\)'\]/);
   assert.match(main,/name="corporateFile"[^>]*multiple disabled/);
-  assert.match(main,/const enabled=customerSelect\.value==='법인'/);
+  assert.match(main,/const enabled=isCorporateCustomer\(customerSelect\.value\)/);
   assert.match(main,/fileInput\.disabled=!enabled/);
   assert.match(main,/>📎<\/span><b>파일 업로드<\/b>/);
   assert.match(css,/\.drive-file-button\.is-disabled/);
@@ -231,8 +231,8 @@ test('선택차량 수정 중 법인 선택 시 클립 버튼으로 파일을 �
 });
 
 test('선택차량목록의 법인 차량만 R2 첨부파일 다운로드 기능을 제공한다',()=>{
-  assert.match(main,/record\.customer_type==='법인'/);
-  assert.match(main,/class="corporate-label">\(법인차량\)<\/span><button type="button" class="heydealer-download"/);
+  assert.match(main,/corporate=isCorporateCustomer\(record\.customer_type\)/);
+  assert.match(main,/class="corporate-label">\$\{customerBadge\(record\.customer_type\)\}<\/span><button type="button" class="heydealer-download"/);
   assert.match(main,/data-heydealer-files/);
   assert.match(main,/openHeydealerFiles\(record\)/);
   assert.match(main,/async function openHeydealerFiles\(record\).*await api\('heydealer'\)/);
