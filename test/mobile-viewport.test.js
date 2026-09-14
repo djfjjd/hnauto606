@@ -67,6 +67,7 @@ test('모바일에서 팝업이 열리면 메인 화면 스크롤을 잠근다',
 
 test('주차·차량현황판·구글드라이브·캘린더 화면의 상단 브랜드에 public 파비콘을 사용한다',()=>{
   assert.equal((main.match(/<img class="brand-mark" src="\/favicon-32\.png" alt="">/g)||[]).length,5);
+  assert.match(css,/\.brand-mark \{ content:url\('\/\(주\)하나오토\.png'\)/);
 });
 
 test('통계 카드의 영문 라벨을 숨기고 빈 자리 숫자를 빨간색으로 표시한다',()=>{
