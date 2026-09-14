@@ -27,7 +27,8 @@ test('익명 쓰기를 끄고 삭제된 기기의 이메일 재인증을 요구�
   assert.match(config,/ALLOW_ANONYMOUS_WRITES = "false"/);
   assert.match(api,/DEVICE_REAUTH_REQUIRED/);
   assert.match(api,/recentAccessAuthentication/);
-  assert.match(ui,/device_reauth=1/);
+  assert.match(ui,/function accessLogoutUrl\(\)\{return'\/cdn-cgi\/access\/logout';\}/);
+  assert.doesNotMatch(ui,/\/cdn-cgi\/access\/logout\?returnTo=/);
 });
 
 test('운영 적용 전에는 기기 인증을 설정으로 우회한다',()=>{
