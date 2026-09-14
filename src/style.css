@@ -224,7 +224,8 @@ fieldset { margin:0; padding:0; border:0; }
 @media(max-width:640px){.topbar{height:94px;align-items:flex-start;padding-top:10px}.external-tools{top:auto;bottom:9px;gap:18px}.external-tools a{font-size:11px}.board-nav>a{display:none}}
 @media(max-width:640px){.external-menu>button{font-size:11px}.external-submenu{top:calc(100% + 10px);min-width:130px}.drive-page{padding:36px 14px 64px}.drive-prompt-panel{padding:26px 18px}.drive-prompt-panel textarea{min-height:260px}.drive-prompt-footer{align-items:stretch;flex-direction:column}.drive-prompt-footer a{text-align:center}}
 @media(max-width:640px){.parking-summary{margin-bottom:18px}}
-@media(max-width:640px){footer{display:grid;grid-template-columns:1fr auto;gap:14px;padding:28px 14px}.company-info{grid-column:1/-1;display:grid;gap:5px;font-size:12px}.company-info span+span{padding-left:0;border-left:0}.footer-tools{grid-column:2;grid-row:1;margin-left:0}.brand::after{display:none}.footer-version{display:inline-flex;align-items:center;margin-left:2px}}
+@media(max-width:640px){footer{display:grid;grid-template-columns:1fr auto;gap:14px;padding:28px 14px}.company-info{grid-column:1/-1;display:grid;gap:5px;font-size:12px}.company-info span+span{padding-left:0;border-left:0}.footer-tools{grid-column:2;grid-row:1;margin-left:0}}
+@media(max-width:800px){.brand::after{display:none}.footer-version{display:inline-flex;align-items:center;margin-left:2px}}
 @media(max-width:640px){.parking-map-head{align-items:start;padding:16px}.parking-map-head h2{font-size:21px}.parking-map-scroll{padding:10px}}
 @media(max-width:640px){.parking-map-actions{display:grid;justify-items:end}.map-row-toggle{font-size:11px}}
 @media(max-width:640px){.manager-tabs{grid-template-columns:repeat(3,1fr)!important;padding:0!important;gap:0!important}}
