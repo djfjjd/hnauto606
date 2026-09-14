@@ -38,6 +38,8 @@ R2는 헤이딜러 법인 거래 서류 업로드에 활성화되어 있습니�
 
 `0016_add_trusted_devices.sql`은 자동 로그인 토큰의 해시, 기기 이름, 최근 사용 시각과 해제 상태를 저장하는 `trusted_devices` 테이블을 추가합니다.
 
+`0018_add_calendar_completion.sql`은 첫 화면 일정 체크박스의 완료 상태를 저장합니다. 기존 운영 D1처럼 마이그레이션 이력이 실제 스키마보다 늦은 환경에서는 전체 마이그레이션을 재실행하지 말고 이 파일만 `wrangler d1 execute hnauto606-production --remote --file migrations/0018_add_calendar_completion.sql`로 적용합니다.
+
 초기 구역과 주차면도 같은 마이그레이션에 포함됩니다. `0005_expand_parking_grid.sql`은 기존 주차면 ID와 차량 연결을 유지하면서 일반 주차층의 위치 라벨을 `A01~I20` 형식으로 정규화하고 누락된 기본 Grid 주차면만 추가합니다.
 
 ## 주차장 도면 설정
