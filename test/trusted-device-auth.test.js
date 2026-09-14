@@ -28,11 +28,13 @@ test('익명 쓰기를 끄고 삭제된 기기의 이메일 재인증을 요구�
   assert.match(api,/DEVICE_REAUTH_REQUIRED/);
   assert.match(api,/recentAccessAuthentication/);
   assert.match(ui,/function accessLogoutUrl\(\)\{return'\/cdn-cgi\/access\/logout';\}/);
-  assert.doesNotMatch(ui,/\/cdn-cgi\/access\/logout\?returnTo=/);
+  assert.match(ui,/enrollUrl=revoked\?'\/device-enroll\?device_reauth=1':'\/device-enroll'/);
+  assert.match(ui,/async function completeDeviceEnrollment\(\)/);
+  assert.match(ui,/if\(enrollPage\)\{await completeDeviceEnrollment\(\);return;\}/);
 });
 
-test('운영에서 기기 인증과 관리자 승인 절차를 적용한다',()=>{
-  assert.match(config,/DEVICE_AUTH_ENABLED = "true"/);
+test('첫 화면 기기 인증은 설정으로 잠시 우회한다',()=>{
+  assert.match(config,/DEVICE_AUTH_ENABLED = "false"/);
   assert.match(api,/deviceAuthEnabled=env=>env\.DEVICE_AUTH_ENABLED==='true'/);
   assert.match(api,/if\(!user&&!deviceAuthEnabled\(env\)\)user=await sharedActor\(env\)/);
   assert.match(api,/revoked_at='PENDING'/);
