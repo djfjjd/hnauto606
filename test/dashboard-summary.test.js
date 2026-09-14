@@ -37,8 +37,8 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
   assert.match(main,/class="parking-schedule-info" data-parking-schedule-record="\$\{esc\(record\.id\)\}"/);
   assert.match(main,/openCalendarRecord\(record\)/);
   assert.match(main,/Promise\.all\(\[api\('dashboard'\),api\('heydealer'\)\.catch/);
-  assert.match(css,/\.parking-mini-calendar\{position:absolute;right:max\(24px,calc\(\(100vw - 1280px\)\/2\)\);top:22px;width:340px;[^}]*background:transparent/);
-  assert.match(css,/@media\(max-width:800px\)\{\.parking-mini-calendar\{right:0;top:22px;width:205px/);
+  assert.match(css,/\.parking-mini-calendar\{position:absolute;right:max\(24px,calc\(\(100vw - 1280px\)\/2\)\);top:40px;width:340px;[^}]*background:transparent/);
+  assert.match(css,/@media\(max-width:800px\)\{\.parking-mini-calendar\{right:0;top:40px;width:205px/);
   assert.match(css,/\.parking-mini-calendar>strong\{[^}]*font-size:16px/);
   assert.match(css,/\.parking-mini-weekdays span\{[^}]*font-size:12px/);
   assert.match(css,/\.parking-mini-day\{[^}]*font-size:13px/);
@@ -52,9 +52,10 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
 
 test('첫 화면 헤드라인과 좌우 일정 도구의 세로 비율을 함께 늘린다',()=>{
   assert.match(css,/\.parking-title \{[^}]*min-height:280px[^}]*padding:63px 24px 107px/);
-  assert.match(css,/\.parking-mini-calendar\{[^}]*top:22px.*?\.parking-mini-day,\.parking-mini-empty\{height:33px/s);
-  assert.match(css,/\.parking-schedule-checklist\{[^}]*top:22px[^}]*height:236px/);
-  assert.match(css,/\.parking-title \.hero-buttons \{ margin-top:34px; \}/);
+  assert.match(css,/\.parking-mini-calendar\{[^}]*top:40px.*?\.parking-mini-day,\.parking-mini-empty\{height:33px/s);
+  assert.match(css,/\.parking-schedule-checklist\{[^}]*top:40px[^}]*height:236px/);
+  assert.match(css,/\.parking-title h1 \{[^}]*transform:translateY\(18px\)/);
+  assert.match(css,/\.parking-title \.hero-buttons \{ margin-top:34px; transform:translateY\(18px\); \}/);
 });
 
 test('차량 현황판의 주차위치현황 링크는 투명 배경과 테마 글자색을 사용한다',()=>{
