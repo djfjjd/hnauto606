@@ -21,6 +21,16 @@ test('개인과 법인 일정 표시는 구분되고 체크 상태를 되돌릴 
   assert.match(main,/body:JSON\.stringify\(\{completed\}\)/);
 });
 
+test('왼쪽 일정 차량번호는 기존 캘린더 차량 상세 팝업을 연다',()=>{
+  assert.match(main,/data-parking-schedule-record/);
+  assert.match(main,/if\(record\)openCalendarRecord\(record\)/);
+  assert.match(css,/parking-schedule-check-plate:hover/);
+});
+
+test('미니 캘린더 오늘 날짜에는 테두리를 표시한다',()=>{
+  assert.match(css,/parking-mini-day\.is-today\{border:1px solid var\(--lime\);border-radius:7px\}/);
+});
+
 test('일정 완료 상태를 DB에 저장하고 API로 변경한다',()=>{
   assert.match(migration,/ADD COLUMN calendar_completed_at TEXT/);
   assert.match(api,/calendar-completion/);
