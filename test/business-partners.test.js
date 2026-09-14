@@ -16,6 +16,8 @@ test('거래처 주소 페이지에서 상호명을 검색하고 거래처를 �
   assert.match(main,/placeholder="거래처 상호명 검색"/);
   assert.match(main,/\+ 거래처 추가/);
   assert.doesNotMatch(main,/BUSINESS PARTNERS/);
+  assert.doesNotMatch(main,/name="memo"/);
+  assert.doesNotMatch(main,/partner\.memo/);
   assert.match(main,/api\('business-partners',\{method:'POST'/);
   assert.match(main,/location\.pathname==='\/map'/);
 });
