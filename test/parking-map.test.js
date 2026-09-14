@@ -112,11 +112,17 @@ test('녹색 차량은 주차구역에서 차종을 흰색으로 표시한다',(
   assert.match(css,/\.vehicle-color-green span\{color:#fff!important\}/);
 });
 
-test('계약 후 주차 중인 차량은 빨간 글씨와 계약됨 표시를 사용한다',()=>{
+test('출고 후 주차 중인 차량은 빨간 글씨와 출고됨 표시를 사용한다',()=>{
   const html=renderParkingMap(parkingLayouts.b3,[{id:'checked-out-car',label:'E17',plate:'335모6853',model:'A6',color:'검정',isCheckedOut:true,alerts:[]}],undefined,{expanded:true});
   assert.match(html,/is-checked-out/);
-  assert.match(html,/<strong>6853<\/strong><span>\(계약됨\) A6<\/span>/);
-  assert.match(html,/335모6853 계약됨/);
+  assert.match(html,/<strong>6853<\/strong><span>\(출고됨\) A6<\/span>/);
+  assert.match(html,/335모6853 출고됨/);
+});
+
+test('계약 차량은 출고 차량과 구분해 계약됨으로 표시한다',()=>{
+  const html=renderParkingMap(parkingLayouts.b3,[{id:'a6',label:'E17',plate:'123가5827',model:'GV80',color:'검정',alerts:[],isContracted:true}],undefined,{expanded:true});
+  assert.match(html,/<strong>5827<\/strong><span>\(계약됨\) GV80<\/span>/);
+  assert.match(html,/123가5827 계약됨/);
 });
 
 test('출고 차량의 빨간 글씨에는 그림자를 표시하지 않는다',()=>{
