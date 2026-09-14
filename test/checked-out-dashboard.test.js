@@ -43,7 +43,7 @@ test('출고 차량을 임시 주차면에 배정하고 출고 번호 요약을 
   assert.match(api,/parts\[2\]==='assign-checked-out'/);
   assert.match(api,/출고 후 임시 주차/);
   assert.match(main,/function renderCheckedOutSummary\(\)/);
-  assert.match(main,/<strong>출고됨 :<\/strong>/);
+  assert.match(main,/<strong>계약됨 :<\/strong>/);
   assert.match(css,/\.checked-out-summary\{/);
 });
 
@@ -56,16 +56,16 @@ test('출고됨 요약에는 실제 주차면에 남아 있는 출고 차량만 
 test('첫 화면 검색은 주차면이 없는 출고 차량도 포함하고 위치를 출고됨으로 표시한다',()=>{
   assert.match(main,/searchPool=\[\.\.\.state\.spots,\.\.\.state\.checkedOut\.filter\(vehicle=>!vehicle\.currentSpotId\)\]/);
   assert.match(main,/matches=searchPool\.filter/);
-  assert.match(main,/spot\.isCheckedOut&&!spot\.currentSpotId\)return'출고됨'/);
+  assert.match(main,/spot\.isCheckedOut&&!spot\.currentSpotId\)return'계약됨'/);
   assert.match(main,/const vehicle=searchPool\.find\(item=>item\.id===button\.dataset\.searchSpot\)/);
 });
 
 test('출고 차량 행의 휴지통 왼쪽에 출고취소 버튼을 표시한다',()=>{
   assert.match(main,/class="board-checkout-cancel" data-cancel-checkout=/);
-  assert.match(main,/>출고취소<\/button>/);
+  assert.match(main,/button\.textContent='계약취소'/);
   assert.ok(main.indexOf('board-checkout-cancel')<main.indexOf('board-delete-icon'));
   assert.match(css,/\.board-checkout-cancel\{/);
-  assert.match(main,/class="board-checkout-state"><button[^>]*class="board-checkout-cancel"[^>]*>출고취소<\/button><i class="board-checkout-label">출고<\/i><\/span>\$\{editButton\}/);
+  assert.match(main,/document\.querySelectorAll\('\.board-checkout-label'\).*label\.textContent='계약됨'/);
   assert.match(main,/const checkedOut=s\.isCheckedOut.*editButton=`<button[^>]*class="board-edit-icon"[^>]*data-edit-vehicle=/);
   assert.match(css,/\.board-checkout-state \.board-checkout-cancel\{[^}]*margin-right:-6px/);
 });

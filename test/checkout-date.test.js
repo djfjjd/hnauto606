@@ -8,6 +8,8 @@ const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'
 test('출고 팝업은 오늘 날짜를 기본값으로 하는 수정 가능한 출고일을 제공한다',()=>{
   assert.match(main,/function checkoutForm\(\)\{const today=new Date\(\)\.toLocaleDateString\('en-CA'\)/);
   assert.match(main,/type="date" name="checkedOutDate" value="\$\{today\}" required/);
+  assert.match(main,/data-contract-submit disabled>계약<\/button><button class="primary" data-checkout-submit disabled>출고/);
+  assert.match(main,/contractOutButton\.textContent='계약\/출고'/);
   assert.match(main,/JSON\.stringify\(\{checkedOutDate\}\)/);
 });
 
