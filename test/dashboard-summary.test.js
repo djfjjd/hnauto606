@@ -17,7 +17,9 @@ test('상단 브랜드를 간결하게 표시하고 구글 스프레드시트 �
   assert.match(main,/<a href="\/drive">프롬프트양식<\/a>/);
   assert.match(css,/\.brand::after \{ content:'Ver\.1\.0\.1\.';[^}]*font-size:12px/);
   assert.match(css,/\.brand-mark \{ content:url\('\/\(주\)하나오토\.png'\)/);
-  assert.match(css,/background:url\('\/하나오토헤드라인\.png'\)/);
+  assert.match(css,/\.brand span \{[^}]*mask:url\('\/하나오토헤드라인\.png'\)/);
+  assert.match(main,/class="footer-brand"/);
+  assert.match(css,/\.footer-brand\{[^}]*mask:url\('\/하나오토헤드라인\.png'\)/);
 });
 
 test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표시한다',()=>{
