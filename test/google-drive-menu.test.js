@@ -176,10 +176,10 @@ test('프롬프트양식 저장 완료 요청에 캘린더 푸시 알림 표시�
   assert.match(main,/recordId:savedRecordId,tab:sheetSelect\.value,notifyCalendar:true/);
 });
 
-test('특이사항은 필수 개인·법인 선택이며 법인만 파일 첨부를 활성화한다',()=>{
+test('특이사항은 네 가지 필수 선택이며 개인 외 유형은 파일 첨부를 활성화한다',()=>{
   assert.match(main,/driveField\('notes','특이사항'\)/);
   assert.match(main,/required-mark">\(필수\)<\/small>/);
-  assert.match(main,/CUSTOMER_TYPES=\['개인','법인','법인\(비사업용\)'\]/);
+  assert.match(main,/CUSTOMER_TYPES=\['개인','비사업용','간이과세자','법인'\]/);
   assert.match(main,/name="corporateFile"[^>]*multiple disabled/);
   assert.match(main,/const enabled=isCorporateCustomer\(customerSelect\.value\)/);
   assert.match(main,/fileInput\.disabled=!enabled/);

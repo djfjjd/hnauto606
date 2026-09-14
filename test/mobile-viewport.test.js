@@ -18,7 +18,7 @@ test('모바일 입력 자동 확대는 막고 두 손가락 확대·축소는 �
 
 test('모바일 통계 카드 다섯 개를 한 줄로 표시한다',()=>{
   assert.match(css,/@media\(max-width:800px\)\{\.summary\.parking-summary\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)\}/);
-  assert.match(css,/\.parking-summary \.metric\{min-height:110px;padding:14px\}/);
+  assert.match(css,/\.parking-summary \.metric\{min-height:96px;padding:14px 14px 6px\}/);
 });
 
 test('모든 페이지 로딩 안내를 화면 중앙 아래에 고정한다',()=>{

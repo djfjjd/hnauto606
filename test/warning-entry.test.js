@@ -40,18 +40,15 @@ test('확인 필요 재성능 차량은 한 줄에 세 대씩 줄바꿈 없이 �
   assert.match(css,/\.metric\.amber \.metric-details span\s*\{[^}]*white-space:nowrap/);
 });
 
-test('확인 필요 차량이 9대 이상이면 8대와 더보기를 표시하고 전체 목록을 연다',()=>{
-  assert.match(main,/vehicles\.slice\(0,8\)/);
-  assert.match(main,/vehicles\.length>=9\?'<button type="button" data-attention-more>더보기&gt;<\/button>'/);
+test('확인 필요 차량이 6대 이상이면 5대와 더보기를 표시하고 전체 목록을 연다',()=>{
+  assert.match(main,/vehicles\.slice\(0,5\)/);
+  assert.match(main,/vehicles\.length>=6\?'<button type="button" data-attention-more>더보기&gt;<\/button>'/);
   assert.match(main,/function showAttentionList\(\).*attentionVehicles\(\).*확인 필요 차량.*attention-vehicle-list/s);
   assert.match(main,/querySelectorAll\('\[data-attention-more\]'\)\.forEach\(button=>button\.addEventListener\('click',showAttentionList\)\)/);
 });
 
-test('모바일 확인 필요 카드는 차량 3대와 더보기를 2열 2행으로 표시한다',()=>{
-  assert.match(main,/vehicles\.length>=4\?'<button type="button" class="attention-more-mobile" data-attention-more>더보기&gt;<\/button>'/);
-  assert.match(css,/@media\(max-width:800px\)\{\.metric\.amber \.metric-details\{grid-template-columns:repeat\(2,max-content\)\}/);
-  assert.match(css,/\.metric\.amber \.metric-details span:nth-of-type\(n\+4\)\{display:none\}/);
-  assert.match(css,/\.metric\.amber \.metric-details \.attention-more-mobile\{display:block\}/);
+test('모바일 확인 필요 카드도 5대와 더보기를 2열로 표시한다',()=>{
+  assert.match(css,/@media\(max-width:800px\)\{\.metric\.amber \.metric-details\{grid-template-columns:repeat\(2,max-content\)\}\}/);
 });
 
 test('확인 필요 카드에 차량번호 네 자리와 실제 경고등 종류를 표시한다',()=>{
