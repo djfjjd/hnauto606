@@ -42,8 +42,9 @@ test('운영에서 기기 인증과 관리자 승인 절차를 적용한다',()=
   assert.match(api,/approve_device/);
   assert.match(ui,/관리자 승인 대기/);
   assert.match(ui,/data-device-approve/);
-  assert.match(ui,/Login Methods · One-time PIN/);
-  assert.match(ui,/noreply@notify\.cloudflare\.com/);
+  assert.match(ui,/DEVICE_LABEL_STORAGE='hana-auto-device-label'/);
+  assert.match(ui,/data-device-label/);
+  assert.match(ui,/요청 기기명/);
 });
 
 test('관리자 페이지는 ADMIN_EMAIL과 Cloudflare Access 인증을 모두 요구한다',()=>{
