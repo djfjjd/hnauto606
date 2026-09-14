@@ -19,7 +19,7 @@ test('인증 기기 목록 조회와 해제 API를 제공한다',()=>{
   assert.match(api,/parts\[1\]==='devices'/);
   assert.match(api,/method==='DELETE'.*parts\[1\]==='devices'/);
   assert.match(api,/revoked_at=CURRENT_TIMESTAMP/);
-  assert.match(ui,/인증 기기 관리/);
+  assert.match(ui,/로그인 기기 관리/);
   assert.match(ui,/data-device-delete/);
 });
 
@@ -45,6 +45,8 @@ test('관리자 페이지는 ADMIN_EMAIL과 Cloudflare Access 인증을 모두 �
   assert.match(api,/CF-Access-Jwt-Assertion/);
   assert.match(api,/email!==configured/);
   assert.match(api,/parts\[1\]==='admin-access'/);
+  assert.match(api,/parts\[1\]==='audit-logs'/);
+  assert.match(api,/ORDER BY a\.created_at DESC LIMIT \?/);
   assert.match(api,/requireAdminEmail\(request,env\)/);
   assert.match(ui,/function renderAdminGate/);
   assert.match(ui,/관리자 이메일/);
@@ -57,5 +59,6 @@ test('관리자 페이지는 ADMIN_EMAIL과 Cloudflare Access 인증을 모두 �
 test('인증 기기 관리 API도 관리자 이메일로만 접근한다',()=>{
   assert.match(api,/const adminRoute=parts\[1\]==='devices'/);
   assert.match(api,/if\(adminRoute\)\{const admin=requireAdminEmail\(request,env\)/);
-  assert.match(api,/if\(adminRoute\)user\.role='admin'/);
+  assert.match(api,/user\.role='admin'/);
+  assert.match(api,/user=await accessActor\(request,env,true\)/);
 });
