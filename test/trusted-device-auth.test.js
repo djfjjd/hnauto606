@@ -23,13 +23,14 @@ test('인증 기기 목록 조회와 해제 API를 제공한다',()=>{
   assert.match(ui,/data-device-delete/);
 });
 
-test('익명 쓰기를 끄고 삭제된 기기의 이메일 재인증을 요구한다',()=>{
+test('익명 쓰기를 끄고 삭제된 기기를 신규 승인 요청으로 처리한다',()=>{
   assert.match(config,/ALLOW_ANONYMOUS_WRITES = "false"/);
-  assert.match(api,/DEVICE_REAUTH_REQUIRED/);
-  assert.match(api,/existing\.revoked_at!=='PENDING'&&!reauthenticate/);
+  assert.doesNotMatch(api,/DEVICE_REAUTH_REQUIRED/);
+  assert.match(api,/request_device_authorization_again/);
+  assert.match(api,/revoked:false,pending/);
   assert.match(ui,/function accessLogoutUrl\(\)\{return'\/cdn-cgi\/access\/logout';\}/);
-  assert.match(ui,/data-device-reauth/);
-  assert.match(ui,/completeDeviceEnrollment\(true\)/);
+  assert.doesNotMatch(ui,/삭제된 인증 기기입니다/);
+  assert.match(ui,/처음 인증하는 기기입니다/);
   assert.match(ui,/async function completeDeviceEnrollment\(forceReauthenticate=false\)/);
   assert.match(ui,/if\(enrollPage\)\{await completeDeviceEnrollment\(\);return;\}/);
 });
