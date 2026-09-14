@@ -28,8 +28,9 @@ test('익명 쓰기를 끄고 삭제된 기기의 이메일 재인증을 요구�
   assert.match(api,/DEVICE_REAUTH_REQUIRED/);
   assert.match(api,/existing\.revoked_at!=='PENDING'&&!reauthenticate/);
   assert.match(ui,/function accessLogoutUrl\(\)\{return'\/cdn-cgi\/access\/logout';\}/);
-  assert.match(ui,/enrollUrl=revoked\?'\/device-enroll\?device_reauth=1':'\/device-enroll'/);
-  assert.match(ui,/async function completeDeviceEnrollment\(\)/);
+  assert.match(ui,/data-device-reauth/);
+  assert.match(ui,/completeDeviceEnrollment\(true\)/);
+  assert.match(ui,/async function completeDeviceEnrollment\(forceReauthenticate=false\)/);
   assert.match(ui,/if\(enrollPage\)\{await completeDeviceEnrollment\(\);return;\}/);
 });
 
