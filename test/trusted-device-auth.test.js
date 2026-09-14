@@ -64,7 +64,11 @@ test('관리자 페이지는 ADMIN_EMAIL과 Cloudflare Access 인증을 모두 �
   assert.match(ui,/이메일 인증번호/);
   assert.match(ui,/관리자 이메일 인증 시작/);
   assert.match(ui,/async function ensureAdminAccess\(\)/);
-  assert.match(ui,/if\(adminPage\)\{if\(await ensureAdminAccess\(\)\)renderDeviceAdmin\(\);return;\}/);
+  assert.match(ui,/adminLogsPage=location\.pathname==='\/admin\/logs'/);
+  assert.match(ui,/if\(adminDevicesPage\|\|adminLogsPage\)\{if\(await ensureAdminAccess\(\)\)/);
+  assert.match(ui,/function renderAdminDevicesPage\(\)/);
+  assert.match(ui,/function renderAdminLogsPage\(\)/);
+  assert.match(ui,/기기 로그인 권한<\/a><a href="\/admin\/logs"/);
 });
 
 test('인증 기기 관리 API도 관리자 이메일로만 접근한다',()=>{
