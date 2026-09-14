@@ -70,6 +70,15 @@ test('출고 차량 행의 휴지통 왼쪽에 출고취소 버튼을 표시한�
   assert.match(css,/\.board-checkout-state \.board-checkout-cancel\{[^}]*margin-right:-6px/);
 });
 
+test('계약 차량은 계약과 계약취소 및 점선 취소선으로 구분한다',()=>{
+  assert.match(main,/function installDashboardContractRows\(\)/);
+  assert.match(main,/data-cancel-contract/);
+  assert.match(main,/>계약취소<\/button><i class="board-checkout-label">계약<\/i>/);
+  assert.match(main,/vehicles\/\$\{id\}\/cancel-contract/);
+  assert.match(api,/parts\[2\]==='cancel-contract'/);
+  assert.match(css,/\.board-row\.is-contracted::after\{[^}]*repeating-linear-gradient/);
+});
+
 test('출고취소 확인 후 판매 중 상태로 복원하는 API를 호출한다',()=>{
   assert.match(main,/function cancelVehicleCheckout\(button\)/);
   assert.match(main,/판매 중 상태로 되돌릴까요/);
