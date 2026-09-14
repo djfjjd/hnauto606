@@ -60,5 +60,6 @@ test('잘못 입력한 선택 차량은 R2 파일과 D1 기록을 안전하게 �
 
 test('입고완료 선택 차량은 계약 상태에는 유지되고 실제 출고 후 목록에서 제외된다',()=>{
   assert.match(handler,/checkedOut="EXISTS\(SELECT 1 FROM vehicles v WHERE replace\(v\.plate,' ',''\)=replace\(h\.plate,' ',''\) AND v\.checked_out_at IS NOT NULL\)"/);
-  assert.match(handler,/FROM heydealer_records h WHERE NOT \$\{checkedOut\} AND \(\?='all'/);
+  assert.match(handler,/\['transit','completed','index'\]/);
+  assert.match(handler,/WHERE \(\?='index' AND \$\{checkedOut\}\) OR \(\?<>'index' AND NOT \$\{checkedOut\}/);
 });
