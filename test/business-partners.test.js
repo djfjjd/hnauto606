@@ -20,6 +20,10 @@ test('거래처 주소 페이지에서 상호명을 검색하고 거래처를 �
   assert.doesNotMatch(main,/partner\.memo/);
   assert.match(main,/api\('business-partners',\{method:'POST'/);
   assert.match(main,/location\.pathname==='\/map'/);
+  assert.match(main,/function installPartnerMapIcons\(\)/);
+  assert.match(main,/src="\/kmap\.png"/);
+  assert.match(main,/src="\/nmap\.jpeg"/);
+  assert.match(main,/https:\/\/map\.naver\.com\/p\/search/);
 });
 
 test('거래처 상호와 주소를 D1에 저장하고 조회한다',()=>{
