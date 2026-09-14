@@ -26,7 +26,7 @@ test('인증 기기 목록 조회와 해제 API를 제공한다',()=>{
 test('익명 쓰기를 끄고 삭제된 기기의 이메일 재인증을 요구한다',()=>{
   assert.match(config,/ALLOW_ANONYMOUS_WRITES = "false"/);
   assert.match(api,/DEVICE_REAUTH_REQUIRED/);
-  assert.match(api,/recentAccessAuthentication/);
+  assert.match(api,/existing\.revoked_at!=='PENDING'&&!reauthenticate/);
   assert.match(ui,/function accessLogoutUrl\(\)\{return'\/cdn-cgi\/access\/logout';\}/);
   assert.match(ui,/enrollUrl=revoked\?'\/device-enroll\?device_reauth=1':'\/device-enroll'/);
   assert.match(ui,/async function completeDeviceEnrollment\(\)/);
