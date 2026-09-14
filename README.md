@@ -103,7 +103,7 @@ sqlite3 /tmp/hnauto-test.sqlite < migrations/0001_initial.sql
 5. `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`를 Pages 환경 변수/Secret에 설정합니다. 비밀키는 저장소에 넣지 않습니다.
 6. 비공개 R2 버킷 `hnauto606-private-files`와 `FILES` 바인딩을 유지합니다. 버킷을 공개로 전환하지 않습니다.
 7. `GOOGLE_CLIENT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_SHEET_ID`를 Pages의 서버 환경 변수/Secret으로 설정하고 서비스계정 이메일에 대상 Spreadsheet 편집 권한을 부여합니다. `GOOGLE_PRIVATE_KEY`는 프론트엔드나 Git에 넣지 않으며 `\\n` 형식도 서버에서 처리됩니다.
-8. Cloudflare Secret `ADMIN_EMAIL`에 관리자 이메일을 소문자 기준으로 저장합니다. `/admin` 문서와 관리자 API는 Cloudflare Access JWT가 존재하고 인증 이메일이 이 값과 일치할 때만 접근할 수 있습니다.
+8. Cloudflare Secret `ADMIN_EMAIL`에 관리자 이메일을 소문자 기준으로 저장합니다. `/admin` 로그인 화면에서 Cloudflare Access 이메일 OTP 인증을 시작하며, 관리자 화면 데이터와 API는 Access JWT가 존재하고 인증 이메일이 이 값과 일치할 때만 접근할 수 있습니다.
 
 Pages 설정은 운영 브랜치 `main`, 빌드 명령 `npm run build`, 출력 폴더 `dist`입니다. `public/_redirects`가 SPA 경로 새로고침을 지원합니다.
 
