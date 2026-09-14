@@ -23,6 +23,10 @@ test('거래처 주소 페이지에서 상호명을 검색하고 거래처를 �
   assert.match(main,/function installPartnerMapIcons\(\)/);
   assert.match(main,/src="\/kmap\.png"/);
   assert.match(main,/src="\/nmap\.jpeg"/);
+  assert.match(main,/src="\/call\.jpeg"/);
+  assert.match(main,/href="tel:/);
+  assert.match(main,/className='partner-edit-button'/);
+  assert.match(main,/method:'PATCH'/);
   assert.match(main,/https:\/\/map\.naver\.com\/p\/search/);
 });
 
@@ -32,4 +36,6 @@ test('거래처 상호와 주소를 D1에 저장하고 조회한다',()=>{
   assert.match(migration,/address TEXT NOT NULL/);
   assert.match(api,/parts\[0\]==='business-partners'/);
   assert.match(api,/create_business_partner/);
+  assert.match(api,/update_business_partner/);
+  assert.match(api,/UPDATE business_partners SET name=\?,address=\?,phone=\?/);
 });
