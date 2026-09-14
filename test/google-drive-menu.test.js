@@ -22,7 +22,7 @@ test('상단 헤이딜러 메뉴와 첫 화면 Sheets·캘린더 바로가기를
   assert.match(main,/timeZone:'Asia\/Seoul'/);
   assert.match(main,/class="parking-title"><a class="parking-calendar" href="\/calendar" aria-label="차량 일정 캘린더로 이동">\$\{todayCalendarLabel\(\)\}<\/a>/);
   assert.ok(main.indexOf('>새싹타워정기권</a>')<main.indexOf('>엔카진단예약</a>'));
-  assert.match(css,/\.parking-calendar\{position:absolute;left:50%;top:10px;min-height:44px;[^}]*font-size:17px/);
+  assert.match(css,/\.parking-calendar\{position:absolute;left:50%;top:12px;min-height:54px;[^}]*font-size:17px/);
   assert.match(css,/\.parking-title h1 \{ margin-top:12px;/);
 });
 
