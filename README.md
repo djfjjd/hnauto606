@@ -69,6 +69,8 @@ b3: {
 
 하단 톱니바퀴는 `/admin`으로 연결됩니다. Cloudflare Zero Trust에서 `hnauto606.pages.dev`를 Self-hosted 애플리케이션으로 보호하고 One-time PIN을 로그인 방식으로 지정합니다. 직원이 임의의 정상 이메일로 최초 인증을 요청할 수 있도록 직원 정책의 Include 조건은 `Login Methods → One-time PIN`으로 설정해야 합니다. Cloudflare 정책에서 허용되지 않은 이메일은 발송 완료 화면이 표시되어도 OTP가 실제 발송되지 않습니다. `/admin` API는 Access 인증에 더해 Cloudflare Secret `ADMIN_EMAIL`과 이메일이 정확히 일치하는지 별도로 검사하므로 개발자 이메일만 접근할 수 있습니다.
 
+OTP가 특정 이메일에만 도착한다면 Zero Trust → Access → Applications → `hnauto606.pages.dev` → Policies에서 기존 `Emails = 특정 주소` Include 조건을 제거하고 `Login Methods = One-time PIN`으로 교체합니다. 정책 Action은 `Allow`로 유지합니다. 메일 서비스가 차단하는 경우 `noreply@notify.cloudflare.com`과 `notify.cloudflare.com`을 수신 허용 목록에 추가합니다. 이 Access 정책 변경에는 `Access: Apps and Policies Write` 권한이 필요합니다.
+
 - `admin`: 모든 데이터와 사용자 관리
 - `staff`: 입차·수정·이동·상태·출차
 - `viewer`: 조회 전용

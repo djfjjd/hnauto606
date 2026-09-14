@@ -42,6 +42,8 @@ test('운영에서 기기 인증과 관리자 승인 절차를 적용한다',()=
   assert.match(api,/approve_device/);
   assert.match(ui,/관리자 승인 대기/);
   assert.match(ui,/data-device-approve/);
+  assert.match(ui,/Login Methods · One-time PIN/);
+  assert.match(ui,/noreply@notify\.cloudflare\.com/);
 });
 
 test('관리자 페이지는 ADMIN_EMAIL과 Cloudflare Access 인증을 모두 요구한다',()=>{
