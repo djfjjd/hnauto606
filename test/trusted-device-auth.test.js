@@ -31,11 +31,15 @@ test('익명 쓰기를 끄고 삭제된 기기의 이메일 재인증을 요구�
   assert.doesNotMatch(ui,/\/cdn-cgi\/access\/logout\?returnTo=/);
 });
 
-test('운영 적용 전에는 기기 인증을 설정으로 우회한다',()=>{
-  assert.match(config,/DEVICE_AUTH_ENABLED = "false"/);
+test('운영에서 기기 인증과 관리자 승인 절차를 적용한다',()=>{
+  assert.match(config,/DEVICE_AUTH_ENABLED = "true"/);
   assert.match(api,/deviceAuthEnabled=env=>env\.DEVICE_AUTH_ENABLED==='true'/);
   assert.match(api,/if\(!user&&!deviceAuthEnabled\(env\)\)user=await sharedActor\(env\)/);
-  assert.match(api,/authenticated:true,bypass:true/);
+  assert.match(api,/revoked_at='PENDING'/);
+  assert.match(api,/parts\[3\]==='approve'/);
+  assert.match(api,/approve_device/);
+  assert.match(ui,/관리자 승인 대기/);
+  assert.match(ui,/data-device-approve/);
 });
 
 test('관리자 페이지는 ADMIN_EMAIL과 Cloudflare Access 인증을 모두 요구한다',()=>{
@@ -53,7 +57,7 @@ test('관리자 페이지는 ADMIN_EMAIL과 Cloudflare Access 인증을 모두 �
   assert.match(ui,/이메일 인증번호/);
   assert.match(ui,/관리자 이메일 인증 시작/);
   assert.match(ui,/async function ensureAdminAccess\(\)/);
-  assert.match(ui,/if\(adminPage\)\{if\(await ensureAdminAccess\(\)\)renderAdmin\(\);return;\}/);
+  assert.match(ui,/if\(adminPage\)\{if\(await ensureAdminAccess\(\)\)renderDeviceAdmin\(\);return;\}/);
 });
 
 test('인증 기기 관리 API도 관리자 이메일로만 접근한다',()=>{
