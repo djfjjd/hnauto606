@@ -37,5 +37,6 @@ test('거래처 상호와 주소를 D1에 저장하고 조회한다',()=>{
   assert.match(api,/parts\[0\]==='business-partners'/);
   assert.match(api,/create_business_partner/);
   assert.match(api,/update_business_partner/);
-  assert.match(api,/UPDATE business_partners SET name=\?,address=\?,phone=\?/);
+  assert.match(api,/UPDATE business_partners SET name=\?,address=\?,phone=\?,updated_at=CURRENT_TIMESTAMP/);
+  assert.match(api,/Business partner audit failed/);
 });
