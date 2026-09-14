@@ -35,6 +35,9 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
   assert.match(main,/Promise\.all\(\[api\('dashboard'\),api\('heydealer'\)\.catch/);
   assert.match(css,/\.parking-mini-calendar\{position:absolute;right:max\(24px,calc\(\(100vw - 1280px\)\/2\)\);top:22px;width:340px;[^}]*background:transparent/);
   assert.match(css,/@media\(max-width:800px\)\{\.parking-mini-calendar\{right:0;top:22px;width:205px/);
+  assert.match(css,/\.parking-mini-calendar>strong\{[^}]*font-size:16px/);
+  assert.match(css,/\.parking-mini-weekdays span\{[^}]*font-size:12px/);
+  assert.match(css,/\.parking-mini-day\{[^}]*font-size:13px/);
   assert.match(css,/\.parking-mini-day>i\{[^}]*border-radius:50%;background:#9aa29d/);
   assert.match(css,/\.parking-mini-day:is\(button\)\{[^}]*background:transparent;cursor:pointer/);
   assert.match(css,/\.parking-schedule-modal ul\{[^}]*overflow-y:auto/);

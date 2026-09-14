@@ -12,6 +12,9 @@ test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 �
   assert.match(main,/>추가된 일정</);
   assert.match(main,/>완료일정</);
   assert.match(css,/grid-template-rows:1fr 1fr/);
+  assert.match(css,/parking-schedule-checklist section>strong\{[^}]*font-size:15px/);
+  assert.match(css,/parking-schedule-check-plate\{[^}]*font-size:16px/);
+  assert.match(css,/parking-schedule-check-item small\{font-size:14px/);
 });
 
 test('개인과 법인 일정 표시는 구분되고 체크 상태를 되돌릴 수 있다',()=>{
