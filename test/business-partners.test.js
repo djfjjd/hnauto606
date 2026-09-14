@@ -26,6 +26,8 @@ test('거래처 주소 페이지에서 상호명을 검색하고 거래처를 �
   assert.match(main,/src="\/call\.jpeg"/);
   assert.match(main,/href="tel:/);
   assert.match(main,/className='partner-edit-button'/);
+  assert.match(main,/card\.dataset\.partnerId/);
+  assert.doesNotMatch(main,/business-partners\?q=.*currentName/);
   assert.match(main,/method:'PATCH'/);
   assert.match(main,/https:\/\/map\.naver\.com\/p\/search/);
 });
