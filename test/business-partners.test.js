@@ -26,6 +26,9 @@ test('거래처 주소 페이지에서 상호명을 검색하고 거래처를 �
   assert.match(main,/src="\/call\.jpeg"/);
   assert.match(main,/href="tel:/);
   assert.match(main,/className='partner-edit-button'/);
+  assert.match(main,/className='partner-delete-button'/);
+  assert.match(main,/data-partner-delete-cancel>취소<\/button><button[^>]*data-partner-delete-confirm>삭제<\/button>/);
+  assert.match(main,/business-partners\/\$\{id\}`,\{method:'DELETE'/);
   assert.match(main,/card\.dataset\.partnerId/);
   assert.doesNotMatch(main,/business-partners\?q=.*currentName/);
   assert.match(main,/method:'PATCH'/);
@@ -39,6 +42,8 @@ test('거래처 상호와 주소를 D1에 저장하고 조회한다',()=>{
   assert.match(api,/parts\[0\]==='business-partners'/);
   assert.match(api,/create_business_partner/);
   assert.match(api,/update_business_partner/);
+  assert.match(api,/delete_business_partner/);
+  assert.match(api,/DELETE FROM business_partners WHERE id=\?/);
   assert.match(api,/UPDATE business_partners SET name=\?,address=\?,phone=\?,updated_at=CURRENT_TIMESTAMP/);
   assert.match(api,/Business partner audit failed/);
 });
