@@ -39,6 +39,11 @@ test('신규 입고 팝업은 차량현황판 위치 문구를 표시하지 않�
   assert.match(main,/\$\{hideLocation\?'':`<p class="eyebrow">\$\{s\.zone\} · \$\{s\.label\}<\/p>`\}/);
 });
 
+test('신규 입고 팝업에서는 확인 필요 상태와 경고등 선택을 숨긴다',()=>{
+  assert.match(main,/warningFields=fresh\?'':`<fieldset><legend>확인이 필요한 상태<\/legend>/);
+  assert.match(main,/옵션 <small>\(선택\)<\/small>[^`]+\$\{warningFields\}<div class="modal-actions">/);
+});
+
 test('입고에 사용한 선택차량은 기록을 유지하고 다음 입고 목록에서 제외한다',()=>{
   assert.match(main,/const heydealerVehicleOptions=\(\)=>\{const importedPlates=new Set\(boardVehicles\(\)\.map/);
   assert.match(main,/records=state\.heydealerRecords\.filter\(record=>!importedPlates\.has/);
