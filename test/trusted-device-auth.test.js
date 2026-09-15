@@ -69,6 +69,7 @@ test('관리자 페이지는 ADMIN_EMAIL과 Cloudflare Access 인증을 모두 �
   assert.match(ui,/function renderAdminDevicesPage\(\)/);
   assert.match(ui,/function renderAdminLogsPage\(\)/);
   assert.match(ui,/기기 로그인 권한<\/a><a href="\/admin\/logs"/);
+  assert.match(readFileSync(new URL('../src/style.css',import.meta.url),'utf8'),/\.admin-tabs\{display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\);gap:0/);
 });
 
 test('인증 기기 관리 API도 관리자 이메일로만 접근한다',()=>{
