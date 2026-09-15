@@ -228,6 +228,11 @@ test('선택차량목록 연필 버튼은 항목을 펼쳐 D1 정보를 수정�
   assert.match(handler,/if\(method==='PATCH'&&parts\[1\]&&!parts\[2\]\)/);
   assert.match(handler,/UPDATE heydealer_records SET manager=\?,record_date=\?/);
   assert.match(handler,/'update','heydealer_record'/);
+  assert.match(main,/name="rawPickupText">\$\{esc\(record\.raw_pickup_text\)\}<\/textarea>/);
+  assert.match(main,/name="rawPaymentText">\$\{esc\(record\.raw_payment_text\)\}<\/textarea>/);
+  assert.match(handler,/raw_pickup_text=\?,raw_payment_text=\?/);
+  assert.match(main,/function animateHeydealerEditSave\(button\)/);
+  assert.match(css,/\.heydealer-edit-actions \.drive-saving-label\{grid-template-columns:4em 3ch/);
 });
 
 test('선택차량 수정 중 법인 선택 시 클립 버튼으로 파일을 업로드한다',()=>{
