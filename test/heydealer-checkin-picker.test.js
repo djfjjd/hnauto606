@@ -26,6 +26,10 @@ test('저장 차량 선택 시 현재 입고 양식의 일치 필드를 자동 �
   assert.match(main,/if\(select\.value==='manual'\)form\.elements\.namedItem\('plate'\)\?\.focus\(\)/);
 });
 
+test('나이트 검정색 차량은 신규 입고 시 검정으로 분류한다',()=>{
+  assert.match(main,/if\(color==='나이트 검정색'\)return'검정'/);
+});
+
 test('신규 입고 양식은 차량 불러오기 선택 전까지 나머지 항목을 비활성화한다',()=>{
   const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
   assert.match(main,/<fieldset class="checkin-fields" \$\{fresh\?'disabled':''\}>/);

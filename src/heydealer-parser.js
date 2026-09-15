@@ -1,5 +1,5 @@
 const clean=value=>String(value||'').replace(/\u00a0/g,' ').trim();
-const normalizeColor=value=>{const color=clean(value);if(/화이트/i.test(color))return'흰색';if(/블루/i.test(color))return'블루';if(/은색|실버|그레이/i.test(color))return'쥐색';if(/블랙/i.test(color))return'검정';return color;};
+const normalizeColor=value=>{const color=clean(value);if(/화이트/i.test(color))return'흰색';if(/블루/i.test(color))return'블루';if(/은색|실버|그레이/i.test(color))return'쥐색';if(/블랙|나이트\s*검정색/i.test(color))return'검정';return color;};
 const normalizeManager=value=>{const manager=clean(value).replace(/\s+/g,'');if(/하성은|대표/.test(manager))return'대표님';if(/황정웅|황대리/.test(manager))return'황정웅대리';if(/김지민|김대리/.test(manager))return'김지민대리';if(/권용민|권주임/.test(manager))return'권용민주임';return'';};
 const managerPattern=/^(?:하성은\s*(?:대표|대표님)?|대표님|황정웅\s*대리|황대리|김지민\s*대리|김대리|권용민\s*주임|권주임)$/;
 
