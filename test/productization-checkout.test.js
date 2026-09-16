@@ -37,6 +37,12 @@ test('상품화출차 차량 정보 오른쪽에 저장된 경고등 파비콘�
   assert.match(css,/\.productization-warning-icons img\{width:40px;height:40px/);
 });
 
+test('상품화출차 차량 정보 오른쪽 연필로 차량 상세정보 수정을 연다',()=>{
+  assert.match(main,/class="productization-edit-vehicle" data-productization-edit/);
+  assert.match(main,/querySelector\('\[data-productization-edit\]'\)\?\.addEventListener\('click',\(\)=>\{state\.mode='detail';render\(\);\}\)/);
+  assert.match(css,/\.productization-edit-vehicle\{grid-column:3;grid-row:1\/3/);
+});
+
 test('상품화출차 팝업은 위치 문구와 취소를 숨기고 기존 주차 삭제를 제공한다',()=>{
   assert.match(main,/state\.mode==='productization'/);
   assert.match(main,/class="ghost danger" data-unassign>삭제<\/button>/);
