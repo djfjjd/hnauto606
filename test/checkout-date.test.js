@@ -3,12 +3,15 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
+const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 
 test('출고 팝업은 오늘 날짜를 기본값으로 하는 수정 가능한 출고일을 제공한다',()=>{
   assert.match(main,/function checkoutForm\(\)\{const today=new Date\(\)\.toLocaleDateString\('en-CA'\)/);
   assert.match(main,/type="date" name="checkedOutDate" value="\$\{today\}" required/);
-  assert.match(main,/data-contract-submit disabled>계약<\/button><button class="primary" data-checkout-submit disabled>출고/);
+  assert.match(main,/class="primary" data-contract-submit disabled>계약<\/button><button class="checkout-danger" data-checkout-submit disabled>출고/);
+  assert.match(css,/#checkout-form \.modal-actions \[data-contract-submit\]\{background:var\(--lime\);color:var\(--ink\)\}/);
+  assert.match(css,/#checkout-form \.modal-actions \[data-checkout-submit\]\{border:1px solid #c82020;background:#fff;color:#c82020\}/);
   assert.match(main,/contractOutButton\.textContent='계약\/출고'/);
   assert.match(main,/\$\{contract\?'contract':'check-out'\}/);
   assert.match(api,/parts\[2\]==='contract'/);
