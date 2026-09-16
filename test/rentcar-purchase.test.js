@@ -8,8 +8,8 @@ const migration=readFileSync(new URL('../migrations/0021_add_rentcar_records.sql
 
 test('상단에 렌터카 매입 입력과 목록 하위 메뉴를 제공한다',()=>{
   assert.match(main,/렌터카매입정보/);
-  assert.match(main,/href="\/rentcar">차량정보입력/);
-  assert.match(main,/href="\/rentcar\/vehicles">렌터카매입차량목록/);
+  assert.match(main,/href="\/rentcar">렌터카매입정보/);
+  assert.match(main,/href="\/rentcar\/vehicles">렌터카매입목록/);
   assert.match(main,/location\.pathname\.startsWith\('\/rentcar'\)/);
 });
 
