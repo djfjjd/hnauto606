@@ -204,7 +204,8 @@ test('헤이딜러 거래는 옵션만 선택이고 나머지 입력값을 필�
 });
 
 test('선택차량목록은 기본 접힘·10개 페이지·삭제 기능을 제공한다',()=>{
-  assert.match(main,/\[\['all','전체'\],\['transit','탁송중'\],\['completed','입고완료'\],\['index','INDEX'\]\]/);
+  assert.match(main,/\[\['transit','탁송중'\],\['completed','입고완료'\],\['index','INDEX'\]\]/);
+  assert.doesNotMatch(main,/\[\['all','전체'\],\['transit','탁송중'\]/);
   assert.match(main,/className='heydealer-status-filters'/);
   assert.match(css,/\.heydealer-status-filters a:last-child\{margin-left:auto\}/);
   assert.match(main,/path\+=`\?status=\$\{status\}`/);
