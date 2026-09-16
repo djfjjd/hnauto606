@@ -85,6 +85,16 @@ test('주차 차량 Cell에는 차량 색상 클래스가 적용된다',()=>{
   assert.match(white,/draggable="true"/);
 });
 
+test('렌터카 번호는 빨간 글씨 클래스를, 노란색 차량은 노란 배경 클래스를 사용한다',()=>{
+  const rental=renderParkingMap(parkingLayouts.b3,[{id:'rental',label:'E17',plate:'123하4567',model:'렌터카',color:'검정',alerts:[]}],undefined,{expanded:true});
+  const yellow=renderParkingMap(parkingLayouts.b3,[{id:'yellow',label:'E17',plate:'123가4567',model:'차량',color:'노랑',alerts:[]}],undefined,{expanded:true});
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+  assert.match(rental,/is-rental/);
+  assert.match(yellow,/vehicle-color-yellow/);
+  assert.match(css,/\.parking-cell\.is-occupied\.is-rental strong\{color:#ef3d35!important/);
+  assert.match(css,/vehicle-color-yellow strong,[^{]+\{color:#111!important/);
+});
+
 test('확인 필요 차량은 강조 배경 없이 왼쪽 아래에 경고등 이미지를 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.b3,[{id:'alert-car',label:'E17',plate:'11가1234',model:'차량',color:'검정',alerts:['battery','engine']}],undefined,{expanded:true});
   const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
