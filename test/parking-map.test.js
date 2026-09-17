@@ -44,6 +44,13 @@ test('B3층은 접으면 17행 주차면과 21행 시설만 표시한다',()=>{
   assert.match(expanded,/aria-label="E17 빈 자리"/);
 });
 
+test('B3층 E16~I16과 E17~I17 사이에 19번기둥 노란 실선을 표시한다',()=>{
+  const collapsed=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:false});
+  const expanded=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
+  assert.match(collapsed,/class="parking-pillar-divider" style="grid-column:6\/span 5;grid-row:2"[^>]*><span>19번기둥<\/span>/);
+  assert.match(expanded,/class="parking-pillar-divider" style="grid-column:6\/span 5;grid-row:18"[^>]*><span>19번기둥<\/span>/);
+});
+
 test('새싹타워는 A~J열의 B5·B6층 20면으로 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower'});
   assert.equal((html.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,20);
