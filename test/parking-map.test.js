@@ -157,6 +157,15 @@ test('6층은 기본적으로 01~14행을 숨기고 30개 자리를 표시한다
   assert.match(expanded,/>▲<\/span> 접기/);
 });
 
+test('6층 E17~I17과 E18~I18 사이에 11번기둥 노란 실선을 표시한다',()=>{
+  const collapsed=renderParkingMap(parkingLayouts.pillar11,[],new Set(),{zoneId:'pillar11',expanded:false});
+  const expanded=renderParkingMap(parkingLayouts.pillar11,[],new Set(),{zoneId:'pillar11',expanded:true});
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+  assert.match(collapsed,/class="parking-pillar-divider" style="grid-column:6\/span 5;grid-row:5"[^>]*><span>11번기둥<\/span>/);
+  assert.match(expanded,/class="parking-pillar-divider" style="grid-column:6\/span 5;grid-row:19"[^>]*><span>11번기둥<\/span>/);
+  assert.match(css,/\.parking-pillar-divider\{[^}]*border-top:3px solid #facc15/);
+});
+
 test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.roof,[{id:'roof-a17',label:'A17',plate:'',alerts:[]}]);
   assert.match(html,/data-spot="roof-a17"[^>]+grid-column:2\/span 3/);
