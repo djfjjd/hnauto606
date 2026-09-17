@@ -54,6 +54,15 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
   assert.match(css,/\.parking-schedule-info\{[^}]*border-radius:50%/);
 });
 
+test('첫 화면 스프레드시트 아이콘은 바로가기를 유지하고 전체동기화 메뉴를 제공한다',()=>{
+  assert.match(main,/function installParkingSheetMenu\(\)/);
+  assert.match(main,/menu\.append\(link\)/);
+  assert.match(main,/class="header-sheet-submenu"><a href="\$\{link\.href\}"[^`]+>바로가기<\/a><button[^`]+data-parking-sheet-sync>전체동기화<\/button>/);
+  assert.match(main,/api\('google-sheets\/sync-all',\{method:'POST',body:JSON\.stringify\(\{tab:tab\.title\}\)\}\)/);
+  assert.match(main,/installParkingSheetMenu\(\);/);
+  assert.match(css,/\.header-sheet-menu:hover \.header-sheet-submenu,\.header-sheet-menu:focus-within \.header-sheet-submenu/);
+});
+
 test('첫 화면 헤드라인과 좌우 일정 도구의 세로 비율을 함께 늘린다',()=>{
   assert.match(css,/\.parking-title \{[^}]*min-height:280px[^}]*padding:63px 24px 107px/);
   assert.match(css,/\.parking-mini-calendar\{[^}]*top:40px.*?\.parking-mini-day,\.parking-mini-empty\{height:33px/s);
