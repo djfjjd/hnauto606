@@ -43,9 +43,9 @@ test('상품화출차 차량 정보 오른쪽 연필로 차량 상세정보 수�
   assert.match(css,/\.productization-edit-vehicle\{grid-column:3;grid-row:1\/3/);
 });
 
-test('상품화출차 팝업은 위치 문구와 취소를 숨기고 기존 주차 삭제를 제공한다',()=>{
+test('상품화출차 팝업은 위치 문구와 취소를 숨기고 그냥출차를 제공한다',()=>{
   assert.match(main,/state\.mode==='productization'/);
-  assert.match(main,/class="ghost danger" data-unassign>삭제<\/button>/);
+  assert.match(main,/class="ghost danger" data-unassign>그냥출차<\/button>/);
   assert.doesNotMatch(main,/data-unassign>취소<\/button>/);
   assert.match(main,/>상품화출차<\/button>/);
 });
