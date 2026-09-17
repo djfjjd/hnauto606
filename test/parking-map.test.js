@@ -164,6 +164,7 @@ test('6층 E17~I17과 E18~I18 사이에 11번기둥 노란 실선을 표시한�
   assert.match(collapsed,/class="parking-pillar-divider" style="grid-column:6\/span 5;grid-row:5"[^>]*><span>11번기둥<\/span>/);
   assert.match(expanded,/class="parking-pillar-divider" style="grid-column:6\/span 5;grid-row:19"[^>]*><span>11번기둥<\/span>/);
   assert.match(css,/\.parking-pillar-divider\{[^}]*border-top:3px solid #facc15/);
+  assert.match(css,/\.parking-pillar-divider span\{position:absolute;right:calc\(100% \+ 5px\);top:0;transform:translateY\(-50%\);padding:2px 6px;color:#111;background:#facc15;font-size:13px/);
 });
 
 test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
