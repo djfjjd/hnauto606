@@ -72,6 +72,9 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.doesNotMatch(main,/href="\$\{inlineUrl\}" target="_blank"/);
   assert.match(main,/data-calendar-print="\$\{inlineUrl\}"/);
   assert.match(main,/function printCalendarImage\(url\)/);
+  assert.match(main,/@page\{size:A4;margin:0\}/);
+  assert.match(main,/max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain/);
+  assert.match(main,/frame\.srcdoc=`<!doctype html>/);
   assert.match(main,/document\.createElement\('iframe'\)/);
   assert.match(main,/frame\.contentWindow\.print\(\)/);
   assert.doesNotMatch(main,/window\.open\(url,'_blank'\)/);
