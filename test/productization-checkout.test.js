@@ -32,7 +32,7 @@ test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입�
 
 test('상품화출차 상단에 출차일을 놓고 기존 날짜 자리에 차량 옵션을 보여준다',()=>{
   assert.match(main,/class="productization-modal-header"[\s\S]*?<h2 id="modal-title">상품화출차<\/h2>[\s\S]*?출차일[\s\S]*?name="serviceDate" form="productization-form"[\s\S]*?class="warning-entry-button"/);
-  assert.match(main,/class="productization-options"[\s\S]*?\$\{esc\(s\.options\|\|'옵션 정보 없음'\)\}/);
+  assert.match(main,/class="productization-options"[\s\S]*?\$\{esc\(s\.options\|\|'X'\)\}/);
   assert.match(css,/\.productization-modal-header\{display:flex/);
 });
 
