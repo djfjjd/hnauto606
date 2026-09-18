@@ -32,9 +32,22 @@ test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입�
 
 test('상품화출차 상단에 출차일을 놓고 기존 날짜 자리에 차량 옵션을 보여준다',()=>{
   assert.match(main,/class="productization-modal-header"[\s\S]*?<h2 id="modal-title">상품화출차<\/h2>[\s\S]*?class="productization-date-field"><span>출차일<\/span><input type="date" name="serviceDate" form="productization-form" lang="ko-KR" placeholder="yyyy\. mm\. dd\." required[\s\S]*?class="warning-entry-button"/);
-  assert.match(main,/class="productization-options"[\s\S]*?\$\{esc\(s\.options\|\|'X'\)\}/);
+  assert.match(main,/class="productization-options"[\s\S]*?<p data-option-value>\$\{esc\(s\.options\|\|'X'\)\}/);
   assert.match(css,/\.productization-modal-header\{display:flex/);
   assert.match(css,/\.productization-modal-header \.productization-date-field\{display:flex/);
+});
+
+test('상품화출차 옵션 상자는 수정·취소·저장 버튼으로 옵션만 변경한다',()=>{
+  assert.match(main,/class="productization-options-display"><p data-option-value>[\s\S]*?<button type="button" data-option-edit>수정<\/button>/);
+  assert.match(main,/data-option-edit>수정<\/button>/);
+  assert.match(main,/data-option-input[^>]*maxlength="500"/);
+  assert.match(main,/data-option-cancel>취소<\/button>/);
+  assert.match(main,/data-option-save>저장<\/button>/);
+  assert.match(main,/vehicles\/\$\{spot\.vehicleId\}\/options/);
+  assert.match(main,/method:'PATCH',body:JSON\.stringify\(\{options:input\.value,version:spot\.vehicleVersion\}\)/);
+  assert.match(api,/parts\[2\]==='options'/);
+  assert.match(api,/UPDATE vehicles SET options=\?,version=version\+1/);
+  assert.match(css,/\.productization-options-editor\[hidden\],\.productization-options \[hidden\]\{display:none!important\}/);
 });
 
 test('상품화출차 차량 정보 오른쪽에 저장된 경고등 파비콘을 표시한다',()=>{

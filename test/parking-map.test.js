@@ -110,7 +110,7 @@ test('확인 필요 차량은 강조 배경 없이 왼쪽 아래에 경고등 �
   assert.match(html,/alt="배터리경고등"/);
   assert.match(html,/alt="엔진경고등"/);
   assert.equal((html.match(/parking-alert-icons[\s\S]*?<\/span>/)?.[0].match(/<img /g)||[]).length,2);
-  assert.match(css,/\.parking-cell \.parking-alert-icons\{position:absolute;left:3px;bottom:2px/);
+  assert.match(css,/\.parking-cell \.parking-alert-icons\{position:absolute;left:1px;bottom:2px/);
   assert.match(css,/\.parking-cell>strong,\.parking-cell>span:not\(\.parking-alert-icons\)\{position:relative;z-index:2\}/);
   assert.match(css,/\.parking-alert-icons[^}]*z-index:0;pointer-events:none/);
   assert.match(css,/\.parking-alert-icons img\{width:26px;height:26px/);
@@ -126,7 +126,7 @@ test('옵션이 X가 아닌 주차 차량은 경고등과 같은 높이의 오�
   assert.match(withOptions,/class="parking-alert-icons"[\s\S]*?class="parking-option-indicator" aria-label="옵션 있음" title="선루프">!<\/i>/);
   assert.doesNotMatch(withoutOptions,/parking-option-indicator/);
   assert.doesNotMatch(emptyOptions,/parking-option-indicator/);
-  assert.match(css,/\.parking-cell \.parking-option-indicator\{position:absolute;right:3px;bottom:2px;top:auto/);
+  assert.match(css,/\.parking-cell \.parking-option-indicator\{position:absolute;right:1px;bottom:2px;top:auto/);
   assert.match(css,/color:#e33e3e/);
 });
 
