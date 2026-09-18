@@ -15,6 +15,15 @@ test('출고 저장 후 Web Push를 발송한다',()=>{
   assert.match(api,/bind\(eventId,'check_out',vehicle\.id/);
 });
 
+test('계약 상태로 처음 변경할 때 Web Push를 발송한다',()=>{
+  const start=api.indexOf("parts[2]==='contract'");
+  const end=api.indexOf("parts[2]==='cancel-contract'",start);
+  const handler=api.slice(start,end);
+  assert.match(handler,/eventId=existing\?null:id\(\)/);
+  assert.match(handler,/bind\(eventId,'contract',vehicle\.id/);
+  assert.match(handler,/if\(eventId\)notifyVehicleAction\(context,vehicle,'차량 계약','계약',eventId\)/);
+});
+
 test('프롬프트양식 저장 완료 후 전체 차량번호로 캘린더 추가 알림을 발송한다',()=>{
   assert.match(api,/function notifyCalendarAdd/);
   assert.match(api,/body:`\$\{record\.plate\}, 캘린더 추가`/);
