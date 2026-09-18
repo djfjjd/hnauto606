@@ -44,6 +44,10 @@ test('상품화출차 차량 정보 오른쪽에 저장된 경고등 파비콘�
   assert.match(css,/\.productization-warning-icons img\{width:40px;height:40px/);
 });
 
+test('상품화출차 차량 정보에 차종과 담당자를 함께 표시한다',()=>{
+  assert.match(main,/<span>\$\{esc\(s\.model\)\} · 담당자 \$\{esc\(s\.manager\|\|'미지정'\)\} · \$\{esc\(normalizeVehicleColor\(s\.color\)\)\}<\/span>/);
+});
+
 test('상품화출차 차량 정보 오른쪽 연필로 차량 상세정보 수정을 연다',()=>{
   assert.match(main,/class="productization-edit-vehicle" data-productization-edit/);
   assert.match(main,/querySelector\('\[data-productization-edit\]'\)\?\.addEventListener\('click',\(\)=>\{state\.mode='detail';render\(\);\}\)/);
