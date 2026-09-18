@@ -45,7 +45,7 @@ test('상품화출차 차량 정보 오른쪽에 저장된 경고등 파비콘�
 });
 
 test('상품화출차 차량 정보에 차종과 담당자를 함께 표시한다',()=>{
-  assert.match(main,/<span>\$\{esc\(s\.model\)\} · 담당자 \$\{esc\(s\.manager\|\|'미지정'\)\} · \$\{esc\(normalizeVehicleColor\(s\.color\)\)\}<\/span>/);
+  assert.match(main,/<span>\$\{esc\(s\.model\)\} · \$\{esc\(s\.manager\|\|'미지정'\)\} · \$\{esc\(normalizeVehicleColor\(s\.color\)\)\}<\/span>/);
 });
 
 test('상품화출차 차량 정보 오른쪽 연필로 차량 상세정보 수정을 연다',()=>{
