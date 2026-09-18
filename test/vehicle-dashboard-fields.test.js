@@ -10,7 +10,7 @@ const migration=readFileSync(new URL('../migrations/0015_add_vehicle_dashboard_f
 test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수리 순서로 표시한다',()=>{
   assert.match(main,/\['performance','성능','date'\],\['performanceDate','재성능','reperformance'\],\['underbody','하부','check'\],\['dent','덴트','check'\],\['bodywork','판금','count'\],\['polishing','광택','vendor'\],\['repair','수리','note'\]/);
   assert.match(main,/<span>연식<\/span><span>총 주행거리<\/span><span>색상<\/span><span>입고일<\/span><span>특이사항<\/span>/);
-  assert.match(main,/<label>특이사항 <small>\(선택\)<\/small><input name="options"/);
+  assert.match(main,/<label>특이사항<input name="options"/);
   assert.match(main,/type="checkbox" data-board-check=/);
   assert.match(main,/class="board-service-date /);
   assert.match(main,/const isPerformanceOverdue=/);
