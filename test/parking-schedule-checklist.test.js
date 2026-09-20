@@ -18,7 +18,9 @@ test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 �
 });
 
 test('개인과 법인 일정 표시는 구분되고 체크 상태를 되돌릴 수 있다',()=>{
-  assert.match(main,/\?customerBadge\(record\.customer_type\):'\(개인\)'/);
+  assert.match(main,/record\.customer_type==='확인중'\?'\(확인중\)'/);
+  assert.match(main,/record\.customer_type==='확인중'\?'is-pending'/);
+  assert.match(css,/\.parking-schedule-check-item small\.is-pending\{color:#5ca9ff\}/);
   assert.match(css,/small\.is-corporate\{color:#ff6666\}/);
   assert.match(css,/small\.is-personal\{color:#aeb7b1\}/);
   assert.match(main,/body:JSON\.stringify\(\{completed\}\)/);
