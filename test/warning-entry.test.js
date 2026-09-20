@@ -44,6 +44,7 @@ test('확인 필요 차량이 6대 이상이면 5대와 더보기를 표시하�
   assert.match(main,/vehicles\.slice\(0,5\)/);
   assert.match(main,/vehicles\.length>=6\?'<button type="button" data-attention-more>더보기&gt;<\/button>'/);
   assert.match(main,/function showAttentionList\(\).*attentionVehicles\(\).*확인 필요 차량.*attention-vehicle-list/s);
+  assert.match(main,/attentionVehicles\(\)\.sort\(\(a,b\)=>a\.reasons\.join\(' · '\)\.localeCompare\(b\.reasons\.join\(' · '\),'ko'\)/);
   assert.match(main,/querySelectorAll\('\[data-attention-more\]'\)\.forEach\(button=>button\.addEventListener\('click',showAttentionList\)\)/);
 });
 

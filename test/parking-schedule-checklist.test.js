@@ -9,7 +9,7 @@ const migration=fs.readFileSync(new URL('../migrations/0018_add_calendar_complet
 
 test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 나눈다',()=>{
   assert.match(main,/parking-schedule-checklist/);
-  assert.match(main,/>추가된 일정</);
+  assert.match(main,/<strong>추가된 일정 \(\$\{pending\.length\}대\)<\/strong>/);
   assert.match(main,/>완료일정</);
   assert.match(css,/grid-template-rows:1fr 1fr/);
   assert.match(css,/parking-schedule-checklist section>strong\{[^}]*font-size:15px/);

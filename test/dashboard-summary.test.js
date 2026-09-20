@@ -7,7 +7,7 @@ const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 
 test('차량 현황판에 총 주행거리·색상·입고일·특이사항을 순서대로 표시한다',()=>{
   assert.match(main,/<span>연식<\/span><span>총 주행거리<\/span><span>색상<\/span><span>입고일<\/span><span>특이사항<\/span>/);
-  assert.match(main,/String\(s\.checkedInAt\|\|''\)\.slice\(0,10\)/);
+  assert.match(main,/String\(\(s\.isCheckedOut\?s\.checkedOutAt:s\.checkedInAt\)\|\|''\)\.slice\(0,10\)/);
 });
 
 test('상단 브랜드를 간결하게 표시하고 구글 스프레드시트 업무 링크를 제공한다',()=>{

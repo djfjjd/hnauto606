@@ -6,7 +6,7 @@ const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 
 test('신규 입고 모달은 저장된 헤이딜러 차량과 직접입력을 선택할 수 있다',()=>{
   assert.match(main,/class="heydealer-vehicle-picker"/);
-  assert.match(main,/<option value="">차량 불러오기<\/option>/);
+  assert.match(main,/<option value="" disabled selected hidden>차량 불러오기<\/option>/);
   assert.match(main,/<option value="manual">직접입력<\/option>/);
   assert.match(main,/const data=await api\('heydealer'\)/);
   assert.match(main,/state\.heydealerRecords=data\.records\|\|\[\]/);
