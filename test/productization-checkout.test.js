@@ -31,10 +31,12 @@ test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입�
 });
 
 test('상품화출차 상단에 출차일을 놓고 기존 날짜 자리에 차량 특이사항을 보여준다',()=>{
-  assert.match(main,/class="productization-modal-header"[\s\S]*?<h2 id="modal-title">상품화출차<\/h2>[\s\S]*?class="productization-date-field"><span>출차일<\/span><input type="date" name="serviceDate" form="productization-form" lang="ko-KR" placeholder="yyyy\. mm\. dd\." required[\s\S]*?class="warning-entry-button"/);
+  assert.match(main,/class="productization-modal-header"[\s\S]*?<h2 id="modal-title">상품화출차<\/h2>[\s\S]*?class="productization-date-field"><span>출차일<\/span><input type="date" name="serviceDate" form="productization-form" value="\$\{today\}" lang="ko-KR" placeholder="yyyy\. mm\. dd\." required[\s\S]*?class="warning-entry-button"/);
   assert.match(main,/class="productization-options"><span class="field-title">특이사항<\/span>[\s\S]*?<p data-option-value>\$\{esc\(s\.options\|\|'X'\)\}/);
   assert.match(css,/\.productization-modal-header\{display:flex/);
   assert.match(css,/\.productization-modal-header \.productization-date-field\{display:flex/);
+  assert.match(css,/@media\(max-width:640px\)\{[\s\S]*?\.productization-modal-header \.productization-date-field\{flex:none;width:100%;min-width:0;min-height:52px/);
+  assert.match(css,/\.modal \.productization-date-field input\[type=date\]\{min-width:150px;font-size:16px!important;line-height:1\.4\}/);
 });
 
 test('상품화출차 옵션 상자는 수정·취소·저장 버튼으로 옵션만 변경한다',()=>{
