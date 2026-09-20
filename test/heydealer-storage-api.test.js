@@ -6,6 +6,7 @@ const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.ur
 const migration=readFileSync(new URL('../migrations/0013_add_heydealer_records.sql',import.meta.url),'utf8');
 const mileageMigration=readFileSync(new URL('../migrations/0014_add_heydealer_mileage.sql',import.meta.url),'utf8');
 const customerTypeMigration=readFileSync(new URL('../migrations/0017_add_non_business_corporate_type.sql',import.meta.url),'utf8');
+const pendingTypeMigration=readFileSync(new URL('../migrations/0022_add_pending_customer_type.sql',import.meta.url),'utf8');
 const wrangler=readFileSync(new URL('../wrangler.toml',import.meta.url),'utf8');
 
 test('헤이딜러 거래와 파일 메타데이터를 별도 D1 테이블에 보관한다',()=>{
@@ -29,14 +30,18 @@ test('개인 외 거래 파일만 비공개 R2에 저장하고 실패 시 객체
 
 test('기존 법인 비사업용 마이그레이션 이력을 보존한다',()=>{
   assert.match(customerTypeMigration,/customer_type TEXT NOT NULL CHECK\(customer_type IN \('개인','법인','법인\(비사업용\)'\)\)/);
-  assert.match(handler,/\['개인','비사업용','간이과세자','법인'\]\.includes\(customerType\)/);
+  assert.match(handler,/\['개인','비사업용','간이과세자','법인','확인중'\]\.includes\(customerType\)/);
 });
 
 test('거래유형을 네 종류로 저장하고 기존 법인 비사업용을 변환한다',()=>{
   const migration=readFileSync(new URL('../migrations/0019_update_customer_types.sql',import.meta.url),'utf8');
-  assert.match(handler,/\['개인','비사업용','간이과세자','법인'\]\.includes\(customerType\)/);
+  assert.match(handler,/\['개인','비사업용','간이과세자','법인','확인중'\]\.includes\(customerType\)/);
   assert.match(migration,/customer_type IN \('개인','비사업용','간이과세자','법인'\)/);
   assert.match(migration,/WHEN customer_type='법인\(비사업용\)' THEN '비사업용'/);
+});
+
+test('특이사항 확인중 값을 저장할 수 있도록 스키마를 확장한다',()=>{
+  assert.match(pendingTypeMigration,/customer_type IN \('개인','비사업용','간이과세자','법인','확인중'\)/);
 });
 
 test('이미지 첨부파일은 캘린더 미리보기에서 inline으로 연다',()=>{

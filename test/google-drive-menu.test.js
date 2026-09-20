@@ -155,7 +155,7 @@ test('/drive 경로에 Google API 연결 전 안전한 프롬프트 화면을 �
   assert.match(main,/location\.pathname==='\/drive'/);
   assert.match(css,/\.drive-prompt-panel\{/);
   assert.match(css,/\.drive-prompt-grid\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
-  assert.match(css,/\.drive-prompt-title\{color:#111/);
+  assert.match(css,/\.drive-prompt-title\{margin:0;color:#111/);
 });
 
 test('헤이딜러 입력은 초기화와 저장을 지원하고 목록 페이지에서 확인한다',()=>{
@@ -177,11 +177,11 @@ test('헤이딜러 입력은 초기화와 저장을 지원하고 목록 페이�
   assert.match(css,/\.heydealer-record-list\{/);
 });
 
-test('헤이딜러 원문 입력은 담당자 행 위에 빨간 테두리로 두고 저장 버튼은 오른쪽 상단에 표시한다',()=>{
-  assert.match(main,/class="drive-record-actions drive-record-actions-top"[\s\S]*?class="drive-prompt-grid"[\s\S]*?class="drive-vehicle-form"/);
+test('헤이딜러 원문 입력은 안내문 옆에 작업 버튼을 두고 빨간 테두리로 표시한다',()=>{
+  assert.match(main,/class="drive-prompt-heading"[\s\S]*?class="drive-prompt-title"[\s\S]*?class="drive-record-actions drive-record-actions-top"[\s\S]*?class="drive-prompt-grid"/);
   assert.match(main,/붙여넣으면 아래 입력칸에 자동으로 반영됩니다\./);
-  assert.match(css,/\.drive-prompt-grid textarea\{min-height:240px;border-color:#d32828;background:#fffafa\}/);
-  assert.match(css,/\.drive-record-actions-top\{margin:-20px 0 18px\}/);
+  assert.match(css,/\.drive-prompt-grid textarea\{min-height:180px;border-color:#d32828;background:#fbfcf9\}/);
+  assert.match(css,/\.drive-record-actions-top\{flex:none;margin:0\}/);
 });
 
 test('선택차량 신규 입고 시 해당 일정을 자동으로 완료 처리한다',()=>{
@@ -193,10 +193,10 @@ test('프롬프트양식 저장 완료 요청에 캘린더 푸시 알림 표시�
   assert.match(main,/recordId:savedRecordId,tab:sheetSelect\.value,notifyCalendar:true/);
 });
 
-test('특이사항은 네 가지 필수 선택이며 개인 외 유형은 파일 첨부를 활성화한다',()=>{
+test('특이사항은 확인중을 포함한 다섯 가지 필수 선택이다',()=>{
   assert.match(main,/driveField\('notes','특이사항'\)/);
   assert.match(main,/required-mark">\(필수\)<\/small>/);
-  assert.match(main,/CUSTOMER_TYPES=\['개인','비사업용','간이과세자','법인'\]/);
+  assert.match(main,/CUSTOMER_TYPES=\['개인','비사업용','간이과세자','법인','확인중'\]/);
   assert.match(main,/name="corporateFile"[^>]*multiple disabled/);
   assert.match(main,/const enabled=isCorporateCustomer\(customerSelect\.value\)/);
   assert.match(main,/fileInput\.disabled=!enabled/);

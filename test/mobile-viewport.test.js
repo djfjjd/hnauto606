@@ -47,7 +47,7 @@ test('모바일 상단 업무 메뉴를 표시하고 통계와 검색 사이 간
 });
 
 test('모바일 버전 문구를 상단에서 숨기고 하단 아이콘 오른쪽에 표시한다',()=>{
-  assert.match(main,/<a class="footer-icon admin-link"[^>]*>⚙<\/a><span class="footer-version">Ver\.1\.0\.1\.<\/span>/);
+  assert.match(main,/<a class="footer-icon admin-link"[^>]*>⚙<\/a><span class="footer-version">ver\. 1\.0\.2<\/span>/);
   assert.match(css,/\.footer-version\{display:none/);
   assert.match(css,/@media\(max-width:800px\)\{\.brand::after\{display:none\}\.footer-version\{display:inline-flex/);
 });
@@ -77,7 +77,7 @@ test('주차·차량현황판·구글드라이브·캘린더 화면의 상단 �
 });
 
 test('통계 카드의 영문 라벨을 숨기고 빈 자리 숫자를 빨간색으로 표시한다',()=>{
-  assert.match(main,/class="metric \$\{t\}"><div><strong>\$\{v\}<\/strong><small>\$\{l\}<\/small><\/div>/);
+  assert.match(main,/class="metric \$\{t\}\$\{capacityValue\?' capacity':''\}"><div><strong>\$\{value\}<\/strong><small>\$\{l\}<\/small><\/div>/);
   assert.match(css,/\.metric \{[^}]*justify-content:flex-start/);
   assert.match(css,/\.metric\.green strong \{ color:#c43d35; \}/);
 });

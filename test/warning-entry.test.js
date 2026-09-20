@@ -35,7 +35,7 @@ test('경고등 저장은 상품화출차 없이 상태 목록만 교체한다',
 });
 
 test('확인 필요 재성능 차량은 한 줄에 세 대씩 줄바꿈 없이 표시한다',()=>{
-  assert.match(main,/details\.split\(\/\\s\+\/\).*<span>\$\{detail\}<\/span>/);
+  assert.match(main,/metricDetails\.split\(\/\\s\+\/\).*<span>\$\{detail\}<\/span>/);
   assert.match(css,/\.metric\.amber \.metric-details\s*\{[^}]*grid-template-columns:repeat\(3,max-content\)/);
   assert.match(css,/\.metric\.amber \.metric-details span\s*\{[^}]*white-space:nowrap/);
 });
