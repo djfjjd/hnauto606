@@ -52,6 +52,10 @@ test('모바일 버전 문구를 상단에서 숨기고 하단 아이콘 오른�
   assert.match(css,/@media\(max-width:800px\)\{\.brand::after\{display:none\}\.footer-version\{display:inline-flex/);
 });
 
+test('모바일 하단은 로고를 숨기고 사업자 정보를 한 행에 표시한다',()=>{
+  assert.match(css,/@media\(max-width:640px\)\{footer\{[^}]*grid-template-columns:1fr[^}]*\}\.footer-brand\{display:none\}\.company-info\{[^}]*display:flex;flex-wrap:nowrap[^}]*white-space:nowrap\}/);
+});
+
 test('넓은 차량 현황판 표는 상단 화면 폭을 밀어내지 않고 내부에서만 스크롤한다',()=>{
   assert.match(css,/\.manager-groups,\.manager-group,\.board-table\{min-width:0;max-width:100%\}/);
   assert.match(css,/\.manager-group\{overflow:hidden\}/);
