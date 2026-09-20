@@ -87,7 +87,7 @@ test('전체 주차면과 빈 자리 카드는 합계 오른쪽에 층별 자리
   assert.match(main,/parkingCapacityLabel=\(details,spaces\)=>\(\{details,spaces\}\)/);
   assert.match(main,/metric\('전체 주차면',parkingCapacityLabel\(c\.totalFloors,c\.total\)/);
   assert.match(main,/metric\('빈 자리',parkingCapacityLabel\(c\.emptyFloors,c\.empty\)/);
-  assert.match(css,/\.metric\.capacity\{[^}]*grid-template-columns:auto minmax\(0,1fr\)/);
+  assert.match(css,/\.metric\.capacity\{[^}]*grid-template-columns:auto minmax\(0,1fr\);align-items:start/);
   assert.match(css,/\.metric\.capacity \.metric-details\{[^}]*white-space:pre-line/);
 });
 
