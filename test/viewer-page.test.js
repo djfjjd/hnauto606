@@ -15,3 +15,9 @@ test('/view는 검색을 제외한 주차 조작과 이동을 비활성화한다
   assert.match(main,/clone\.querySelectorAll\('button,\[data-spot\]'\)/);
   assert.match(main,/if\(VIEWER_MODE\)return;panel\.querySelectorAll/);
 });
+
+test('/view 헤드라인은 숨긴 입출고 버튼 공간을 유지해 캘린더 높이를 보존한다',()=>{
+  assert.match(main,/heroButtons\?\.classList\.add\('viewer-headline-spacer'\)/);
+  assert.match(main,/heroButtons\?\.setAttribute\('aria-hidden','true'\)/);
+  assert.match(main,/button\.disabled=true;button\.tabIndex=-1/);
+});
