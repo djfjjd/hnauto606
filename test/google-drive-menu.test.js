@@ -177,6 +177,18 @@ test('헤이딜러 입력은 초기화와 저장을 지원하고 목록 페이�
   assert.match(css,/\.heydealer-record-list\{/);
 });
 
+test('헤이딜러 원문 입력은 담당자 행 위에 빨간 테두리로 두고 저장 버튼은 오른쪽 상단에 표시한다',()=>{
+  assert.match(main,/class="drive-record-actions drive-record-actions-top"[\s\S]*?class="drive-prompt-grid"[\s\S]*?class="drive-vehicle-form"/);
+  assert.match(main,/붙여넣으면 아래 입력칸에 자동으로 반영됩니다\./);
+  assert.match(css,/\.drive-prompt-grid textarea\{min-height:240px;border-color:#d32828;background:#fffafa\}/);
+  assert.match(css,/\.drive-record-actions-top\{margin:-20px 0 18px\}/);
+});
+
+test('선택차량 신규 입고 시 해당 일정을 자동으로 완료 처리한다',()=>{
+  assert.match(main,/heydealerRecordId:selectedRecord\?\.source==='heydealer'\?selectedRecord\.id:null/);
+  assert.match(handler,/UPDATE heydealer_records SET calendar_completed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=\? AND replace\(plate/);
+});
+
 test('프롬프트양식 저장 완료 요청에 캘린더 푸시 알림 표시를 전달한다',()=>{
   assert.match(main,/recordId:savedRecordId,tab:sheetSelect\.value,notifyCalendar:true/);
 });

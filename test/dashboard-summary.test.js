@@ -81,6 +81,15 @@ test('주차 차량과 상품화 차량을 분리해 다섯 개 통계 카드로
   assert.match(css,/\.summary\s*\{[^}]*grid-template-columns:repeat\(5,1fr\)/);
 });
 
+test('전체 주차면과 빈 자리 카드는 층과 자리를 두 자리로 표시한다',()=>{
+  assert.match(main,/parkingCapacityLabel=\(floors,spaces\)=>`\$\{String\(floors\)\.padStart\(2,'0'\)\}층 \$\{String\(spaces\)\.padStart\(2,'0'\)\}자리`/);
+  assert.match(main,/totalFloors:parkingZones\.length/);
+  assert.match(main,/emptyFloors=parkingZones\.filter/);
+  assert.match(main,/metric\('전체 주차면',parkingCapacityLabel\(c\.totalFloors,c\.total\)/);
+  assert.match(main,/metric\('빈 자리',parkingCapacityLabel\(c\.emptyFloors,c\.empty\)/);
+  assert.match(css,/\.parking-summary \.metric:first-child strong,\.parking-summary \.metric\.green strong \{ font-size:30px; white-space:nowrap; \}/);
+});
+
 test('확인 필요에 성능일 120일 경과 차량부터 재성능 표시와 함께 집계한다',()=>{
   assert.match(main,/\(today-service\)\/86400000>=120/);
   assert.match(main,/performanceAlerts=activeVehicles\.filter\(s=>isPerformanceOverdue\(s\.reperformanceDate\|\|s\.performanceDate\)\)/);

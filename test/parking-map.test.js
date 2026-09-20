@@ -18,8 +18,7 @@ test('전체 주차면은 실제 parking Cell만 합산한다',()=>{
   assert.equal(parkingCapacity(parkingLayouts.b5),12);
   assert.equal(parkingCapacity(parkingLayouts.roof),20);
   assert.equal(parkingCapacity(parkingLayouts.tower),20);
-  assert.equal(parkingCapacity(parkingLayouts.auto13),12);
-  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),99);
+  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),87);
 });
 
 test('B3층 확장 도면은 9×21 Grid Cell을 자동 생성한다',()=>{
@@ -197,24 +196,6 @@ test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
   assert.match(html,/>▼<\/span> 펼치기/);
 });
 
-test('오토플렉스 13층은 지정 행과 12개 주차면만 기본 표시한다',()=>{
-  const html=renderParkingMap(parkingLayouts.auto13,[],new Set(),{zoneId:'auto13',expanded:false});
-  assert.equal((html.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,12);
-  assert.doesNotMatch(html,/>09<\/b>/);
-  assert.doesNotMatch(html,/>08<\/b>/);
-  assert.match(html,/grid-column:2\/span 2;grid-row:5\/span 1[^>]+><strong>화장실<\/strong>/);
-  assert.match(html,/grid-column:2\/span 2;grid-row:6\/span 1[^>]+><strong>E\/V<\/strong>/);
-  assert.doesNotMatch(html,/GRID|차량번호 뒤 4자리 표시/);
-  assert.doesNotMatch(html,/>E<\/b>/);
-  assert.doesNotMatch(html,/E09/);
-  const expanded=renderParkingMap(parkingLayouts.auto13,[],new Set(),{zoneId:'auto13',expanded:true});
-  assert.doesNotMatch(expanded,/GRID|차량번호 뒤 4자리 표시/);
-  assert.match(expanded,/>I<\/b>/);
-  assert.match(expanded,/>09<\/b>/);
-  assert.match(expanded,/I18/);
-  assert.match(expanded,/class="map-head-toggle" data-toggle-map="auto13"/);
-});
-
 test('B5층은 접으면 17~20행도 숨긴다',()=>{
   const html=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:false});
   assert.match(html,/aria-label="F15 빈 자리"/);
@@ -231,7 +212,7 @@ test('B5층은 접으면 17~20행도 숨긴다',()=>{
 });
 
 test('모든 접이식 층은 토글을 제목 행 오른쪽에 표시하고 Grid 토글 행을 만들지 않는다',()=>{
-  for(const zoneId of ['pillar11','b3','b5','roof','auto13']){
+  for(const zoneId of ['pillar11','b3','b5','roof']){
     const collapsed=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:false});
     const expanded=renderParkingMap(parkingLayouts[zoneId],[],new Set(),{zoneId,expanded:true});
     for(const html of [collapsed,expanded]){

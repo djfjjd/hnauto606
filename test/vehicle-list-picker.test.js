@@ -20,9 +20,16 @@ test('빈 자리 배정 목록에서 미배정 차량과 아직 주차되지 않
   assert.match(main,/vehicle\.isCheckedOut\?'assign-checked-out':'move'/);
 });
 
+test('빈 자리 검색에서 이미 주차된 차량의 차량번호와 주차구역을 안내한다',()=>{
+  assert.match(main,/parkedVehicles=state\.spots\.filter\(vehicle=>used\(vehicle\)&&!vehicle\.isUnassigned&&!vehicle\.isCheckedOut\)/);
+  assert.match(main,/unavailableMessage:`\(\$\{vehicle\.plate\}\) \(\$\{vehicle\.zoneShort\|\|vehicle\.zone\} \$\{vehicle\.label\}\) 주차되어있는 차량입니다\.`/);
+  assert.match(main,/class="vehicle-list-unavailable">\$\{esc\(vehicle\.unavailableMessage\)\}/);
+  assert.match(main,/currentMatches\[0\]\.unavailableMessage/);
+});
+
 test('빈 자리 차량 검색 결과가 한 대면 Enter로 선택하고 즉시 저장한다',()=>{
   assert.match(main,/submitSingleOnEnter=false/);
-  assert.match(main,/if\(currentMatches\.length!==1\)return/);
+  assert.match(main,/if\(currentMatches\.length!==1\|\|currentMatches\[0\]\.unavailableMessage\)return/);
   assert.match(main,/selectVehicle\(currentMatches\[0\]\)/);
   assert.match(main,/submitSingleOnEnter\)queueMicrotask\(\(\)=>root\.closest\('form'\)\?\.requestSubmit\(\)\)/);
   assert.match(main,/autoOpen:true,submitSingleOnEnter:true/);

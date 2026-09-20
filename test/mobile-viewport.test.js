@@ -96,5 +96,5 @@ test('전체 보기에서 6층·B3 옆에 옥상을 두고 B5·새싹을 같은 
   assert.match(css,/data-map-zone="b3"\]\{grid-column:1\/span 3;grid-row:2\}/);
   assert.match(css,/data-map-zone="b5"\]\{grid-column:1\/span 3;grid-row:3\}/);
   assert.match(css,/data-map-zone="tower"\]\{grid-column:4\/span 3;grid-row:3\}/);
-  assert.match(css,/data-map-zone="auto13"\]\{grid-column:1\/span 3;grid-row:4\}/);
+  assert.doesNotMatch(css,/data-map-zone="auto13"/);
 });
