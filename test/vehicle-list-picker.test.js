@@ -25,6 +25,8 @@ test('빈 자리 검색에서 이미 주차된 차량의 차량번호와 주차�
   assert.match(main,/unavailableMessage:`\(\$\{vehicle\.plate\}\) \(\$\{vehicle\.zoneShort\|\|vehicle\.zone\} \$\{vehicle\.label\}\) 주차되어있는 차량입니다\.`/);
   assert.match(main,/class="vehicle-list-unavailable">\$\{esc\(vehicle\.unavailableMessage\)\}/);
   assert.match(main,/currentMatches\[0\]\.unavailableMessage/);
+  assert.match(main,/completeLastFour=\/\^\\d\{4\}\$\/\.test\(query\)/);
+  assert.match(main,/filter\(vehicle=>!vehicle\.unavailableMessage\|\|completeLastFour\)/);
 });
 
 test('빈 자리 차량 검색 결과가 한 대면 Enter로 선택하고 즉시 저장한다',()=>{
