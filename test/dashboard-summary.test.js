@@ -127,6 +127,13 @@ test('주차 검색 목록은 네 자리 완전 일치가 아닌 부분검색을
   assert.doesNotMatch(main,/renderParkingSearchResults\(\)[^}]*endsWith\(query\)/);
 });
 
+test('주차 검색 결과가 3대 이하면 클릭 없이 차량 칸을 노란색으로 강조한다',()=>{
+  assert.match(main,/if\(matches\.length>0&&matches\.length<=3\)/);
+  assert.match(main,/const matchIds=new Set\(matches\.map\(vehicle=>String\(vehicle\.id\)\)\)/);
+  assert.match(main,/cell\.classList\.toggle\('search-target',matchIds\.has\(cell\.dataset\.spot\)\)/);
+  assert.match(css,/\.parking-cell\.search-target\{[^}]*border:3px solid #ffd21c!important/);
+});
+
 test('검색 결과의 상품화 차량은 작업 항목까지 위치에 표시한다',()=>{
   assert.match(main,/if\(spot\.isUnassigned\)return String\(spot\.label\)\.startsWith\('상품화\('\)\?spot\.label:'상품화'/);
 });
