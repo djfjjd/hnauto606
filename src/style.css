@@ -92,7 +92,7 @@ h1 em { color:var(--lime); font-style:normal; }
 .metric>span { color:#899089; font-size:10px; letter-spacing:.14em; }
 .metric div { display:flex; align-items:baseline; gap:12px; }
 .metric strong { font-family:inherit; font-size:46px; font-weight:800; letter-spacing:-.04em; }
-.metric.capacity .metric-details{margin:7px 0 0;color:#536158;font-size:11px;font-weight:700;line-height:1.45;overflow-wrap:anywhere}.metric.green.capacity .metric-details{color:#8f2929}
+.metric.capacity{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:14px}.metric.capacity .metric-details{justify-self:end;margin:0;color:#536158;font-size:11px;font-weight:700;line-height:1.45;white-space:pre-line}.metric.green.capacity .metric-details{color:#8f2929}
 .metric small { color:#6d746e; }
 .metric.dark { color:#fff; background:var(--ink); border-color:var(--ink); }
 .metric.dark small,.metric.dark>span { color:#aebbb3; }

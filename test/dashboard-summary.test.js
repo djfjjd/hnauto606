@@ -81,13 +81,14 @@ test('주차 차량과 상품화 차량을 분리해 다섯 개 통계 카드로
   assert.match(css,/\.summary\s*\{[^}]*grid-template-columns:repeat\(5,1fr\)/);
 });
 
-test('전체 주차면과 빈 자리 카드는 전체 합계 아래에 층별 자리 수를 표시한다',()=>{
-  assert.match(main,/totalDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{String\(floor\.capacity\)\.padStart\(2,'0'\)\}자리`\)\.join\(' \/ '\)/);
-  assert.match(main,/emptyDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{String\(floor\.empty\)\.padStart\(2,'0'\)\}자리`\)\.join\(' \/ '\)/);
+test('전체 주차면과 빈 자리 카드는 합계 오른쪽에 층별 자리 수를 줄바꿈해 표시한다',()=>{
+  assert.match(main,/totalDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{String\(floor\.capacity\)\.padStart\(2,'0'\)\}자리`\)\.join\('\\n'\)/);
+  assert.match(main,/emptyDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{String\(floor\.empty\)\.padStart\(2,'0'\)\}자리`\)\.join\('\\n'\)/);
   assert.match(main,/parkingCapacityLabel=\(details,spaces\)=>\(\{details,spaces\}\)/);
   assert.match(main,/metric\('전체 주차면',parkingCapacityLabel\(c\.totalFloors,c\.total\)/);
   assert.match(main,/metric\('빈 자리',parkingCapacityLabel\(c\.emptyFloors,c\.empty\)/);
-  assert.match(css,/\.metric\.capacity \.metric-details\{[^}]*font-size:11px/);
+  assert.match(css,/\.metric\.capacity\{[^}]*grid-template-columns:auto minmax\(0,1fr\)/);
+  assert.match(css,/\.metric\.capacity \.metric-details\{[^}]*white-space:pre-line/);
 });
 
 test('확인 필요에 성능일 120일 경과 차량부터 재성능 표시와 함께 집계한다',()=>{
