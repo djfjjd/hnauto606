@@ -89,6 +89,9 @@ test('전체 주차면과 빈 자리 카드는 합계 오른쪽에 층별 자리
   assert.match(main,/metric\('빈 자리',parkingCapacityLabel\(c\.emptyFloors,c\.empty\)/);
   assert.match(css,/\.metric\.capacity\{[^}]*grid-template-columns:auto minmax\(0,1fr\);align-items:start/);
   assert.match(css,/\.metric\.capacity \.metric-details\{[^}]*white-space:pre-line/);
+  assert.match(main,/data-capacity-title="\$\{esc\(l\)\}" data-capacity-details="\$\{esc\(metricDetails\)\}" role="button" tabindex="0"/);
+  assert.match(main,/matchMedia\('\(max-width: 800px\)'\)\.matches\)showCapacityDetails/);
+  assert.match(css,/@media\(max-width:800px\)\{\.metric\.capacity\{display:flex;cursor:pointer\}\.metric\.capacity \.metric-details\{display:none\}\}/);
 });
 
 test('확인 필요에 성능일 120일 경과 차량부터 재성능 표시와 함께 집계한다',()=>{

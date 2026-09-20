@@ -93,6 +93,7 @@ h1 em { color:var(--lime); font-style:normal; }
 .metric div { display:flex; align-items:baseline; gap:12px; }
 .metric strong { font-family:inherit; font-size:46px; font-weight:800; letter-spacing:-.04em; }
 .metric.capacity{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;column-gap:14px}.metric.capacity .metric-details{justify-self:end;margin:0;color:#536158;font-size:11px;font-weight:700;line-height:1.45;white-space:pre-line}.metric.green.capacity .metric-details{color:#8f2929}
+.capacity-details-modal{width:min(360px,calc(100vw - 40px))}.capacity-details-modal h2{margin-bottom:20px}.capacity-details-list{display:grid;gap:0;border-top:1px solid var(--line)}.capacity-details-list p{display:flex;align-items:center;min-height:44px;margin:0;border-bottom:1px solid var(--line);font-size:16px;font-weight:800}
 .metric small { color:#6d746e; }
 .metric.dark { color:#fff; background:var(--ink); border-color:var(--ink); }
 .metric.dark small,.metric.dark>span { color:#aebbb3; }
@@ -255,7 +256,7 @@ body:has(.viewer-page) .brand,body:has(.viewer-page) .viewer-page button:not(.se
 @media(max-width:800px){.parking-mini-calendar{right:0;top:40px;width:205px;padding:5px}.parking-mini-calendar>strong{margin-bottom:4px;font-size:13px}.parking-mini-weekdays span{font-size:10px}.parking-mini-grid{margin-top:2px;row-gap:1px}.parking-mini-day,.parking-mini-empty{height:22px}.parking-mini-day{padding-top:2px;font-size:11px}.parking-mini-day>i{bottom:2px;width:3px;height:3px}}
 @media(max-width:800px){.parking-schedule-checklist{left:0;top:40px;width:205px;height:213px}.parking-schedule-checklist section{padding:5px 7px}.parking-schedule-checklist section>strong{font-size:14px}.parking-schedule-checklist section>div{max-height:74px}.parking-schedule-check-item{grid-template-columns:15px minmax(0,1fr) auto;gap:4px;min-height:27px}.parking-schedule-check-item input{width:13px;height:13px}.parking-schedule-check-plate{font-size:14px}.parking-schedule-check-item small{font-size:12px}}
 @media(max-width:800px){.summary.parking-summary{grid-template-columns:repeat(5,minmax(0,1fr))}.parking-summary .metric{min-height:96px;padding:14px 14px 6px}.parking-summary .metric strong{font-size:34px}}
-@media(max-width:800px){.metric.capacity .metric-details{font-size:9px;line-height:1.35}}
+@media(max-width:800px){.metric.capacity{display:flex;cursor:pointer}.metric.capacity .metric-details{display:none}}
 @media(max-width:800px){html:has(.modal-backdrop),body:has(.modal-backdrop){overflow:hidden;overscroll-behavior:none}}
 @media(max-width:800px){.metric.amber .metric-details{grid-template-columns:repeat(2,max-content)}}
 @media(max-width:800px){body:has(.board-page){min-width:780px;overflow-x:auto}body:has(.board-page) .topbar,body:has(.board-page) .demo-banner,body:has(.board-page) .board-hero,body:has(.board-page) .manager-tabs,body:has(.board-page) .board-tools,body:has(.board-page) .manager-groups{width:780px;max-width:none;margin-left:0;margin-right:0}.board-table{overflow:hidden}.board-row{min-width:0}}
