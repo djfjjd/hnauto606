@@ -74,6 +74,12 @@ test('상품화출차 팝업은 위치 문구와 취소를 숨기고 그냥출�
   assert.match(main,/>상품화출차<\/button>/);
 });
 
+test('계약 차량은 그냥출차 대신 출고 버튼으로 출고일을 저장한다',()=>{
+  assert.match(main,/departureButton=s\.isContracted\?'<button type="button" class="ghost danger" data-contract-checkout>출고<\/button>'/);
+  assert.match(main,/querySelector\('\[data-contract-checkout\]'\)[\s\S]*?vehicles\/\$\{s\.vehicleId\}\/check-out[\s\S]*?JSON\.stringify\(\{checkedOutDate\}\)/);
+  assert.match(api,/SELECT c\.vehicle_id,c\.contracted_at FROM vehicle_contracts c JOIN vehicles v ON v\.id=c\.vehicle_id WHERE v\.checked_out_at IS NULL/);
+});
+
 test('상품화출차는 주차면 해제와 서비스·이동·감사·알림 이력을 함께 저장한다',()=>{
   assert.match(api,/parts\[2\]==='productization'/);
   assert.match(api,/INSERT INTO service_records/);
