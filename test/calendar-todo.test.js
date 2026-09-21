@@ -22,6 +22,12 @@ test('캘린더 우측에 일정 입력 패널과 저장된 일정을 표시한�
   assert.match(main,/초기화<\/button>/);
   assert.match(main,/api\('calendar-todos'/);
   assert.match(main,/renderCalendarTodos/);
+  assert.match(main,/TO DO LIST 상세보기/);
+  assert.match(main,/calendar-todos\/\$\{id\}`,.method:'PATCH'/);
+  assert.match(main,/calendar-todos\/\$\{id\}`,.method:'DELETE'/);
+  assert.match(main,/contentButton\.textContent=todo\.content/);
+  assert.match(main,/contentButton\.scrollWidth<=contentButton\.clientWidth/);
+  assert.match(main,/TO DO LIST 더보기/);
   assert.match(main,/`\$\{match\[1\]\}년 \$\{match\[2\]\}월`/);
 });
 
@@ -31,4 +37,6 @@ test('일정을 D1에 저장하고 날짜순으로 조회한다',()=>{
   assert.match(api,/ORDER BY scheduled_date,created_at/);
   assert.match(api,/INSERT INTO calendar_todos/);
   assert.match(api,/create_calendar_todo/);
+  assert.match(api,/UPDATE calendar_todos SET scheduled_date=\?,content=\?/);
+  assert.match(api,/DELETE FROM calendar_todos WHERE id=\?/);
 });
