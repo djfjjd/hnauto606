@@ -85,6 +85,9 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/openCalendarRecord\(record\)/);
   assert.match(main,/location\.pathname==='\/calendar'/);
   assert.match(css,/\.calendar-grid\{display:grid;grid-template-columns:repeat\(7/);
+  assert.match(main,/isKoreanPublicHoliday\(date\)/);
+  assert.match(css,/\.calendar-day\.is-holiday>time\{color:#c82020\}/);
+  assert.match(css,/\.calendar-day\.is-saturday>time\{color:#2362a3\}/);
   assert.match(css,/\.calendar-file-gallery\{display:grid/);
   assert.match(css,/\.calendar-image-thumb:hover \.calendar-image-actions/);
   assert.match(css,/\.calendar-image-actions button,.calendar-image-actions a\{/);
