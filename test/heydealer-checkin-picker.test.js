@@ -8,6 +8,7 @@ test('신규 입고 모달은 저장된 헤이딜러 차량과 직접입력을 �
   assert.match(main,/class="heydealer-vehicle-picker"/);
   assert.match(main,/<option value="" disabled selected hidden>차량 불러오기<\/option>/);
   assert.match(main,/<option value="manual">직접입력<\/option>/);
+  assert.match(main,/차량 불러오기<\/option><option value="manual">직접입력<\/option>\$\{records\.map/);
   assert.match(main,/heydealerScheduleDate\(record\)===today/);
   assert.match(main,/sort\(\(a,b\)=>Number\(b\.arrivesToday\)-Number\(a\.arrivesToday\)\)/);
   assert.match(main,/option\.classList\.contains\('is-today'\)\?`<b>\(오늘\)<\/b>/);
