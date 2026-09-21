@@ -37,8 +37,8 @@ test('상품화출차 상단에 출차일을 놓고 기존 날짜 자리에 차�
   assert.match(css,/\.productization-modal-header \.productization-date-field\{display:flex/);
   assert.match(css,/@media\(max-width:640px\)\{[\s\S]*?\.productization-modal-header \.productization-date-field\{flex:none;width:100%;min-width:0;min-height:52px/);
   assert.match(css,/\.modal \.productization-date-field input\[type=date\]\{min-width:150px;font-size:16px!important;line-height:1\.4\}/);
-  assert.match(css,/@media\(max-width:800px\)\{\.modal \.productization-date-field input\[type=date\]\{font-size:9px!important;zoom:\.8\}/);
-  assert.match(css,/::-webkit-date-and-time-value,\.modal \.productization-date-field input\[type=date\]::-webkit-datetime-edit\{font-size:9px!important\}/);
+  assert.match(css,/@media\(max-width:800px\)\{\.modal \.productization-date-field input\[type=date\]\{font-size:11px!important;zoom:\.9\}/);
+  assert.match(css,/::-webkit-date-and-time-value,\.modal \.productization-date-field input\[type=date\]::-webkit-datetime-edit\{font-size:11px!important\}/);
 });
 
 test('상품화출차 옵션 상자는 수정·취소·저장 버튼으로 옵션만 변경한다',()=>{
