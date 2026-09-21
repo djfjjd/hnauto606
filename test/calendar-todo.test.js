@@ -22,6 +22,7 @@ test('캘린더 우측에 일정 입력 패널과 저장된 일정을 표시한�
   assert.match(main,/초기화<\/button>/);
   assert.match(main,/api\('calendar-todos'/);
   assert.match(main,/renderCalendarTodos/);
+  assert.match(main,/`\$\{match\[1\]\}년 \$\{match\[2\]\}월`/);
 });
 
 test('일정을 D1에 저장하고 날짜순으로 조회한다',()=>{
