@@ -106,10 +106,11 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.doesNotMatch(css,/\.calendar-vehicle button\{[^}]*width:27px/);
   assert.match(css,/\.calendar-topline>h1\{[^}]*text-align:center/);
   assert.match(css,/\.calendar-vehicle-text>b\{[^}]*color:#c82020/);
-  assert.match(css,/\.calendar-vehicle-text\{display:flex;align-items:center;min-width:0\}/);
-  assert.match(css,/\.calendar-vehicle-text \.calendar-vehicle-number\{width:auto;min-width:0;flex:0 1 auto\}/);
-  assert.match(css,/\.calendar-vehicle-text>b\{flex:none;padding:0 6px 0 0/);
-  assert.match(css,/\.calendar-vehicle\{grid-template-columns:minmax\(0,1fr\) 27px\}/);
+  assert.match(css,/\.calendar-vehicle-text\{display:flex;align-items:center;min-width:0;overflow:visible;white-space:nowrap\}/);
+  assert.match(css,/\.calendar-vehicle-text \.calendar-vehicle-number\{width:auto;min-width:0;flex:none\}/);
+  assert.match(css,/\.calendar-vehicle-text>b\{[^}]*flex:none;margin-left:7px/);
+  assert.match(css,/\.calendar-vehicle \[data-calendar-files\]\{position:relative;z-index:2\}/);
+  assert.match(css,/\.calendar-vehicle\{position:relative;grid-template-columns:minmax\(0,1fr\) 27px\}/);
   assert.match(main,/renderCalendarPage\(\).*addExternalTools\(\)/);
   assert.match(main,/renderCalendarPage\(\).*class="header-sheet-link".*class="header-dashboard-link"/);
 });
