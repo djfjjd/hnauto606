@@ -34,7 +34,10 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
   assert.match(main,/class="parking-schedule-detail" href="\/calendar\?month=\$\{esc\(date\.slice\(0,7\)\)\}">일정상세보기 →<\/a>/);
   assert.match(main,/class="parking-schedule-vehicle"><strong>\$\{esc\(record\.plate\)\|\|'차량번호 미입력'\}<\/strong>/);
   assert.match(main,/<\/strong><span class="parking-schedule-manager">\$\{esc\(record\.manager\)\|\|'담당자 미지정'\}<\/span>/);
-  assert.match(main,/class="parking-schedule-manager">\$\{esc\(record\.manager\)\|\|'담당자 미지정'\}<\/span><\/span><button/);
+  assert.match(main,/class="parking-schedule-model">\$\{esc\(record\.model\)\|\|'차종 미입력'\}<\/span>/);
+  assert.match(main,/class="parking-schedule-origin">\$\{esc\(record\.origin\)\|\|'탁송출발지역 미입력'\}<\/span>/);
+  assert.match(main,/parkingScheduleDeparture\(record\.departure_time\)/);
+  assert.match(main,/시 출발예정/);
   const daySchedule=main.slice(main.indexOf('function openParkingDaySchedule('),main.indexOf('function renderParking('));
   assert.doesNotMatch(daySchedule,/customerBadge/);
   assert.match(main,/class="parking-schedule-info" data-parking-schedule-record="\$\{esc\(record\.id\)\}"/);
