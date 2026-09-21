@@ -106,6 +106,8 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.doesNotMatch(css,/\.calendar-vehicle button\{[^}]*width:27px/);
   assert.match(css,/\.calendar-topline>h1\{[^}]*text-align:center/);
   assert.match(css,/\.calendar-vehicle-text>b\{[^}]*color:#c82020/);
+  assert.match(main,/record\.customer_type==='확인중'\?'is-pending':''/);
+  assert.match(css,/\.calendar-vehicle-text>b\.is-pending\{color:#247ba0\}/);
   assert.match(css,/\.calendar-vehicle-text\{display:flex;align-items:center;min-width:0;overflow:visible;white-space:nowrap\}/);
   assert.match(css,/\.calendar-vehicle-text \.calendar-vehicle-number\{width:auto;min-width:0;flex:none\}/);
   assert.match(css,/\.calendar-vehicle-text>b\{[^}]*flex:none;margin-left:7px/);
