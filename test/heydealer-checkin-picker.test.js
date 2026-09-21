@@ -8,6 +8,8 @@ test('신규 입고 모달은 저장된 헤이딜러 차량과 직접입력을 �
   assert.match(main,/class="heydealer-vehicle-picker"/);
   assert.match(main,/<option value="" disabled selected hidden>차량 불러오기<\/option>/);
   assert.match(main,/<option value="manual">직접입력<\/option>/);
+  assert.match(main,/heydealerScheduleDate\(record\)===today/);
+  assert.match(main,/\$\{arrivesToday\?'\(오늘\) ':''\}/);
   assert.match(main,/const data=await api\('heydealer'\)/);
   assert.match(main,/state\.heydealerRecords=data\.records\|\|\[\]/);
   assert.match(main,/document\.querySelectorAll\('\[data-new\]'\)\.forEach\(el=>el\.onclick=openNewVehicle\)/);
