@@ -25,6 +25,8 @@ test('캘린더 우측에 일정 입력 패널과 저장된 일정을 표시한�
   assert.match(main,/TO DO LIST 상세보기/);
   assert.match(main,/calendar-todos\/\$\{id\}`,.method:'PATCH'/);
   assert.match(main,/calendar-todos\/\$\{id\}`,.method:'DELETE'/);
+  assert.match(main,/event\.key!=='Delete'\|\|event\.repeat/);
+  assert.match(main,/deleteButton\.click\(\)/);
   assert.match(main,/contentButton\.textContent=todo\.content/);
   assert.match(main,/contentButton\.scrollWidth<=contentButton\.clientWidth/);
   assert.match(main,/TO DO LIST 더보기/);
