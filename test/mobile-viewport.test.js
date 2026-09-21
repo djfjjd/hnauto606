@@ -47,7 +47,7 @@ test('모바일 상단 업무 메뉴를 표시하고 통계와 검색 사이 간
 });
 
 test('모바일 버전 문구를 상단에서 숨기고 하단 아이콘 오른쪽에 표시한다',()=>{
-  assert.match(main,/<a class="footer-icon admin-link"[^>]*>⚙<\/a><span class="footer-version">ver\. 1\.0\.2<\/span>/);
+  assert.match(main,/<a class="footer-icon admin-link"[^>]*>⚙<\/a><span class="footer-version">ver\. 1\.0\.4<\/span>/);
   assert.match(css,/\.footer-version\{display:none/);
   assert.match(css,/@media\(max-width:800px\)\{\.brand::after\{display:none\}\.footer-version\{display:inline-flex/);
 });
