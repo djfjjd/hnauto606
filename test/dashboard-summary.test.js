@@ -55,7 +55,7 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
   assert.match(css,/\.parking-schedule-vehicle\{display:flex;align-items:center;gap:6px/);
   assert.match(css,/\.parking-schedule-manager\{[^}]*text-overflow:ellipsis/);
   assert.match(css,/\.parking-schedule-model\{flex:0 0 5\.5em;width:5\.5em;max-width:5\.5em/);
-  assert.match(css,/grid-template-columns:120px 90px 5\.5em minmax\(120px,1fr\) 125px/);
+  assert.match(css,/grid-template-columns:105px 72px 5\.5em 145px 120px/);
   assert.match(css,/\.parking-schedule-info\{[^}]*border-radius:50%/);
   assert.match(css,/\.parking-schedule-modal li\{gap:4px\}/);
 });
