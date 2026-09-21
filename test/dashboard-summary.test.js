@@ -56,6 +56,7 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
   assert.match(css,/\.parking-schedule-manager\{[^}]*text-overflow:ellipsis/);
   assert.match(css,/\.parking-schedule-model\{flex:0 0 5\.5em;width:5\.5em;max-width:5\.5em/);
   assert.match(css,/\.parking-schedule-info\{[^}]*border-radius:50%/);
+  assert.match(css,/\.parking-schedule-modal li\{gap:4px\}/);
 });
 
 test('첫 화면 스프레드시트 아이콘은 바로가기를 유지하고 전체동기화 메뉴를 제공한다',()=>{
