@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS calendar_recurring (
+  id TEXT PRIMARY KEY,
+  kind TEXT NOT NULL,
+  day INTEGER,
+  content TEXT NOT NULL,
+  created_by TEXT NOT NULL REFERENCES users(id),
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

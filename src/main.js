@@ -6,6 +6,7 @@ import {renderParkingMap} from './parking-map.js';
 import {parseHeydealerText} from './heydealer-parser.js';
 import {parseCalendarTodoPrompt} from './calendar-todo.js';
 import {isKoreanPublicHoliday} from './korean-holidays.js';
+import {installRecurringCalendarUI} from './calendar-recurring.js';
 
 const app=document.querySelector('#app');
 const VIEWER_MODE=location.pathname==='/view'||location.pathname==='/view/';
@@ -314,6 +315,6 @@ disableMobileHistorySwipe();
 window.visualViewport?.addEventListener('resize',syncMobileControlScale);
 document.addEventListener('click',event=>{const more=event.target.closest?.('[data-calendar-todo-more]');if(more){openCalendarTodoMore(more);return;}const todo=event.target.closest?.('[data-calendar-todo-id]');if(todo)openCalendarTodoDetails(todo);});
 document.addEventListener('keydown',event=>{if(event.key!=='Delete'||event.repeat)return;const deleteButton=document.querySelector('.calendar-todo-modal [data-calendar-todo-delete]');if(!deleteButton||deleteButton.disabled)return;event.preventDefault();deleteButton.click();});
-new MutationObserver(()=>{if(location.pathname==='/calendar'||location.pathname==='/calendar/'){formatCalendarMonthButton();installCalendarTodoFeature();}}).observe(app,{childList:true,subtree:true});
+new MutationObserver(()=>{if(location.pathname==='/calendar'||location.pathname==='/calendar/'){formatCalendarMonthButton();installCalendarTodoFeature();installRecurringCalendarUI({api,esc});}}).observe(app,{childList:true,subtree:true});
 async function start(){const adminDevicesPage=location.pathname==='/admin'||location.pathname==='/admin/',adminLogsPage=location.pathname==='/admin/logs'||location.pathname==='/admin/logs/',enrollPage=location.pathname==='/device-enroll'||location.pathname==='/device-enroll/';if(VIEWER_MODE){await loadViewer();return;}if(adminDevicesPage||adminLogsPage){if(await ensureAdminAccess()){if(adminLogsPage)renderAdminLogsPage();else renderAdminDevicesPage();}return;}if(enrollPage){await completeDeviceEnrollment();return;}if(!await ensureDeviceAccess())return;if(location.pathname==='/calendar'||location.pathname==='/calendar/')renderCalendarPage();else if(location.pathname==='/map'||location.pathname==='/map/'){await renderMapPage();await installPartnerMapIcons();installPartnerDeleteButtons();}else if(location.pathname.startsWith('/drive')||location.pathname.startsWith('/rentcar'))render();else load();}
 start();
