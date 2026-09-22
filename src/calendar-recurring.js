@@ -22,6 +22,13 @@ export function recurringDate(month,rule){
   return date;
 }
 
+export function recurringOccurrences(month,rule){
+  const originalDate=recurringDate(month,{...rule,exclude_holidays:0});
+  if(!originalDate)return[];
+  const adjustedDate=rule.exclude_holidays?recurringDate(month,rule):originalDate;
+  return adjustedDate===originalDate?[{date:adjustedDate,original:false}]:[{date:adjustedDate,original:false},{date:originalDate,original:true}];
+}
+
 export function installRecurringCalendarUI({api,esc}){
   const panel=document.querySelector('.calendar-todo'),grid=document.querySelector('[data-calendar-grid]'),controls=document.querySelector('.calendar-controls');
   if(!panel||!grid||!controls||panel.querySelector('[data-recurring-open]'))return;
@@ -30,7 +37,7 @@ export function installRecurringCalendarUI({api,esc}){
   const filters=document.createElement('div');filters.className='calendar-filters';filters.setAttribute('role','group');filters.setAttribute('aria-label','일정 분류');filters.innerHTML=[['all','전체'],['vehicles','입고예정차량'],['todos','To do list'],['recurring','반복일정']].map(([value,label])=>`<button type="button" data-calendar-filter="${value}" class="${value==='all'?'active':''}" aria-pressed="${value==='all'}">${label}</button>`).join('');controls.insertAdjacentElement('afterend',filters);
   let rules=[],filter='all';
   const applyFilter=()=>{grid.querySelectorAll('.calendar-vehicles,.calendar-day-todos,.calendar-day-recurring').forEach(node=>{node.hidden=filter!=='all'&&!node.classList.contains(filter==='vehicles'?'calendar-vehicles':filter==='todos'?'calendar-day-todos':'calendar-day-recurring');});};
-  const render=()=>{grid.querySelectorAll('.calendar-day-recurring').forEach(node=>node.remove());const month=document.querySelector('[data-calendar-month]')?.textContent.match(/(\d{4}).*?(\d{2})/)?.slice(1).join('-');if(!month)return;for(const rule of rules){for(const sourceMonth of [month,nextCalendarMonth(month)]){const date=recurringDate(sourceMonth,rule);if(!date.startsWith(month))continue;const day=grid.querySelector(`.calendar-day time[datetime="${date}"]`)?.closest('.calendar-day');if(!day)continue;let list=day.querySelector('.calendar-day-recurring');if(!list){list=document.createElement('div');list.className='calendar-day-recurring';day.append(list);}const button=document.createElement('button');button.type='button';button.className='calendar-recurring-item';button.textContent=rule.content;button.title=rule.kind==='monthly-day'?`매월 ${rule.day}일 · ${rule.content}`:`매월 ${rule.week_ordinal?`${rule.week_ordinal}번째 주`:'마지막 주'} ${['일','월','화','수','목','금','토'][rule.weekday??5]}요일 · ${rule.content}`;button.onclick=()=>openDialog(rule);list.append(button);}}applyFilter();};
+  const render=()=>{grid.querySelectorAll('.calendar-day-recurring').forEach(node=>node.remove());const month=document.querySelector('[data-calendar-month]')?.textContent.match(/(\d{4}).*?(\d{2})/)?.slice(1).join('-');if(!month)return;for(const rule of rules){for(const sourceMonth of [month,nextCalendarMonth(month)]){for(const occurrence of recurringOccurrences(sourceMonth,rule)){const date=occurrence.date;if(!date.startsWith(month))continue;const day=grid.querySelector(`.calendar-day time[datetime="${date}"]`)?.closest('.calendar-day');if(!day)continue;let list=day.querySelector('.calendar-day-recurring');if(!list){list=document.createElement('div');list.className='calendar-day-recurring';day.append(list);}const button=document.createElement('button');button.type='button';button.className=`calendar-recurring-item${occurrence.original?' is-original':''}`;button.textContent=rule.content;button.title=`${occurrence.original?'원래 날짜':'실제 일정'} · ${rule.content}`;button.onclick=()=>openDialog(rule);list.append(button);}}}applyFilter();};
   new MutationObserver(render).observe(grid,{childList:true});
   filters.querySelectorAll('button').forEach(button=>button.onclick=()=>{filter=button.dataset.calendarFilter;filters.querySelectorAll('button').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-pressed',String(active));});applyFilter();});
   new MutationObserver(applyFilter).observe(grid,{childList:true,subtree:true});
