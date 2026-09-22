@@ -33,8 +33,14 @@ test('반복일정을 저장하고 캘린더 분류 필터와 빨간색 스타�
   assert.match(main,/installRecurringCalendarUI\(\{api,esc\}\)/);
   assert.match(ui,/\+ 반복일정추가/);
   assert.match(ui,/class="recurring-segments"/);
+  assert.match(ui,/name="weekOrdinal" aria-label="주차 선택"/);
+  assert.match(ui,/name="weekday" aria-label="요일 선택"/);
+  assert.match(ui,/name="day" aria-label="날짜 선택" required/);
+  assert.match(ui,/>\$\{day\}일<\/option>/);
+  assert.doesNotMatch(ui,/data-recurring-week>주차|data-recurring-weekday>요일/);
   assert.match(ui,/name="excludeHolidays"/);
   assert.match(ui,/\['all','전체'\],\['vehicles','입고예정차량'\],\['todos','To do list'\],\['recurring','반복일정'\]/);
   assert.match(css,/\.calendar-recurring-item\{[^}]*border:1px solid #b52b25/);
   assert.match(css,/\.calendar-filters\{top:212px\}/);
+  assert.match(css,/\.calendar-recurring-modal \.recurring-rule-fields select\{height:54px;padding:10px 12px;font-size:17px/);
 });
