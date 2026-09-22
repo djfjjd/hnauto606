@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {recurringDate,recurringOccurrences,nextCalendarMonth} from '../src/calendar-recurring.js';
+import {recurringDate,recurringOccurrences,recurringMoveLabel,nextCalendarMonth} from '../src/calendar-recurring.js';
 
 const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
@@ -27,6 +27,8 @@ test('주말과 공휴일 일정은 직전 영업일로 당기고 월 경계를 
   assert.deepEqual(recurringOccurrences('2026-10',{kind:'monthly-day',day:3,exclude_holidays:1}),[{date:'2026-10-02',original:false},{date:'2026-10-03',original:true}]);
   assert.deepEqual(recurringOccurrences('2026-10',{kind:'monthly-day',day:2,exclude_holidays:1}),[{date:'2026-10-02',original:false}]);
   assert.deepEqual(recurringOccurrences('2026-08',{kind:'monthly-day',day:1,exclude_holidays:1}),[{date:'2026-07-31',original:false},{date:'2026-08-01',original:true}]);
+  assert.equal(recurringMoveLabel('2026-10',{kind:'monthly-day',day:3,exclude_holidays:1}),'(02일로 이동)');
+  assert.equal(recurringMoveLabel('2026-10',{kind:'monthly-day',day:2,exclude_holidays:1}),'');
 });
 
 test('반복일정을 저장하고 캘린더 분류 필터와 빨간색 스타일로 표시한다',()=>{
@@ -51,6 +53,8 @@ test('반복일정을 저장하고 캘린더 분류 필터와 빨간색 스타�
   assert.match(ui,/\['all','전체'\],\['vehicles','입고예정차량'\],\['todos','To do list'\],\['recurring','반복일정'\]/);
   assert.match(css,/\.calendar-recurring-item\{[^}]*border:1px solid #b52b25/);
   assert.match(css,/\.calendar-recurring-item\.is-original\{[^}]*background:#f0f1f1;color:#c82020/);
+  assert.match(ui,/move\.textContent=recurringMoveLabel\(sourceMonth,rule\)/);
+  assert.match(css,/\.calendar-recurring-item\.is-original>small\{[^}]*color:#c82020/);
   assert.match(css,/\.calendar-filters\{top:212px\}/);
   assert.match(css,/\.calendar-recurring-modal \.recurring-rule-fields select\{height:54px;padding:10px 12px;font-size:17px/);
   assert.match(css,/\.calendar-recurring-modal \.recurring-day-input>span\{padding-right:12px/);
