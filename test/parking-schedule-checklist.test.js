@@ -11,6 +11,13 @@ test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 �
   assert.match(main,/parking-schedule-checklist/);
   assert.match(main,/<strong>추가된 일정 \(\$\{pending\.length\}대\)<\/strong>/);
   assert.match(main,/>완료일정</);
+  assert.match(main,/data-parking-schedule-review>\$\{reviewCount\}대 확인필요 →<\/button>/);
+  assert.match(main,/parkingScheduleNeedsReview=record=>record\.customer_type==='확인중'\|\|\/탁송/);
+  assert.match(main,/function openParkingScheduleReview\(\)/);
+  assert.match(main,/법인유무 확인중/);
+  assert.match(main,/탁송일정 확인중/);
+  assert.match(main,/addEventListener\('click',openParkingScheduleReview\)/);
+  assert.match(css,/\.parking-schedule-review-modal\{/);
   assert.match(css,/grid-template-rows:1fr 1fr/);
   assert.match(css,/parking-schedule-checklist section>strong\{[^}]*font-size:15px/);
   assert.match(css,/parking-schedule-check-plate\{[^}]*font-size:16px/);
