@@ -29,7 +29,7 @@ test('개인과 법인 일정 표시는 구분되고 체크 상태를 되돌릴 
 test('왼쪽 일정 차량번호는 기존 캘린더 차량 상세 팝업을 연다',()=>{
   assert.match(main,/data-parking-schedule-record/);
   assert.match(main,/<b>\$\{esc\(record\.plate\)\|\|'차량번호 미입력'\}<\/b><span>\$\{esc\(record\.manager\)\|\|'미지정'\}<\/span>/);
-  assert.match(main,/record\.model\|\|'차종 미입력'\)\.trim\(\)\.split\(\/\\s\+\/\)\[0\]/);
+  assert.match(main,/record\.model\|\|'차종 미입력'\)\.trim\(\)\.split\(\/\\s\+\/\)\.slice\(0,2\)\.join\(' '\)/);
   assert.match(css,/parking-schedule-check-plate\{[^}]*display:flex[^}]*gap:6px/);
   assert.match(main,/if\(record\)openCalendarRecord\(record\)/);
   assert.match(css,/parking-schedule-check-plate:hover/);
