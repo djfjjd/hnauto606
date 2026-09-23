@@ -210,7 +210,10 @@ test('특이사항은 확인중을 포함한 다섯 가지 필수 선택이다',
   assert.match(main,/CUSTOMER_TYPES=\['개인','비사업용','업무용으로 비용처리함','간이사업자','법인','확인중'\]/);
   assert.match(main,/value==='확인중'\?'---확인중---':value/);
   assert.match(main,/<option value="" selected disabled hidden>선택해 주세요<\/option>/);
-  assert.match(css,/\.drive-customer-field select option\.is-pending,\.drive-customer-field select:has\(option\[value="확인중"\]:checked\)\{color:#247ba0/);
+  assert.match(main,/value==='확인중'\?'is-pending':value==='개인'\?'is-personal':'is-business'/);
+  assert.match(css,/option\.is-personal,[^}]*color:#111/);
+  assert.match(css,/option\.is-business,[^}]*color:#c82020/);
+  assert.match(css,/option\.is-pending,[^}]*color:#247ba0/);
   assert.match(main,/name="corporateFile"[^>]*multiple disabled/);
   assert.match(main,/const enabled=isCorporateCustomer\(customerSelect\.value\)/);
   assert.match(main,/fileInput\.disabled=!enabled/);
