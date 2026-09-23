@@ -86,8 +86,10 @@ test('차량 Cell에는 차량번호 뒤 4자리만 크게 표시한다',()=>{
 test('주차 차량 Cell에는 차량 색상 클래스가 적용된다',()=>{
   const white=renderParkingMap(parkingLayouts.b3,[{id:'white-car',label:'E17',plate:'11가1234',model:'차량',color:'흰색',alerts:[]}],undefined,{expanded:true});
   const gray=renderParkingMap(parkingLayouts.b3,[{id:'gray-car',label:'E17',plate:'11가5678',model:'차량',color:'은색',alerts:[]}],undefined,{expanded:true});
+  const blue=renderParkingMap(parkingLayouts.b3,[{id:'blue-car',label:'E17',plate:'11가9012',model:'차량',color:'블루',alerts:[]}],undefined,{expanded:true});
   assert.match(white,/vehicle-color-white/);
   assert.match(gray,/vehicle-color-gray/);
+  assert.match(blue,/vehicle-color-blue/);
   assert.match(white,/draggable="true"/);
 });
 
