@@ -228,7 +228,7 @@ test('특이사항은 확인중을 포함한 다섯 가지 필수 선택이다',
 
 test('프롬프트 입력은 특이사항 개인·법인 선택값을 자동 변경하지 않는다',()=>{
   assert.match(main,/if\(name==='notes'\)return;const field=form\.elements\.namedItem\(name\)/);
-  assert.match(main,/const reset=\(\)=>\{savedRecordId='';fileUploaded=false;fillDriveFields\(form,empty\)/);
+  assert.match(main,/const reset=\(\)=>\{savedRecordId='';fileUploaded=false;selectedCorporateFiles=\[\];fillDriveFields\(form,empty\)/);
 });
 
 test('헤이딜러 거래는 옵션만 선택이고 나머지 입력값을 필수로 검증한다',()=>{
@@ -278,8 +278,12 @@ test('선택차량목록 연필 버튼은 항목을 펼쳐 D1 정보를 수정�
 test('선택차량 수정 중 법인 선택 시 클립 버튼으로 파일을 업로드한다',()=>{
   assert.match(main,/class="heydealer-edit-file-button \$\{corporate\?'':'is-disabled'\}"/);
   assert.match(main,/name="corporateFile"[^>]*multiple \$\{corporate\?'':'disabled'\}/);
-  assert.match(main,/HEYDEALER_EDIT_FILES\.set\(form\.dataset\.heydealerEditForm,files\)/);
-  assert.match(main,/for\(const file of pendingFiles\)await uploadHeydealerFile\(editedRecordId,file\)/);
+  assert.match(main,/HEYDEALER_EDIT_FILES\.set\(form\.dataset\.heydealerEditForm,pending\)/);
+  assert.match(main,/for\(const file of pendingFiles\)uploadedFiles\.push\(await uploadHeydealerFile\(editedRecordId,file\)\)/);
+  assert.match(main,/customerFileGuide=value=>\(\{'업무용으로 비용처리함':'사업자 세금계산서 서류','비사업용':'비업무용사실확인서 관련 서류','간이사업자':'법인 서류를 선택하세요','법인':'법인 서류를 선택하세요'\}/);
+  assert.match(main,/selectedCorporateFiles\.push\(\.\.\.fileInput\.files\)/);
+  assert.match(main,/selectedCorporateFiles\.map\(file=>file\.name\)\.join\(', '\)/);
+  assert.match(main,/names\.length\?names\.join\(', '\):customerFileGuide/);
   assert.match(css,/\.heydealer-edit-file-button\{/);
 });
 
