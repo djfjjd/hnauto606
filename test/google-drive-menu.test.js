@@ -214,6 +214,11 @@ test('특이사항은 확인중을 포함한 다섯 가지 필수 선택이다',
   assert.match(css,/option\.is-personal,[^}]*color:#111/);
   assert.match(css,/option\.is-business,[^}]*color:#c82020/);
   assert.match(css,/option\.is-pending,[^}]*color:#247ba0/);
+  assert.match(main,/function enhanceCustomerTypePicker\(select\)/);
+  assert.match(main,/list\.className='customer-type-options'/);
+  assert.match(css,/\.customer-type-options \.is-personal\{color:#111\}/);
+  assert.match(css,/\.customer-type-options \.is-business\{color:#c82020\}/);
+  assert.match(css,/\.customer-type-options \.is-pending\{color:#247ba0\}/);
   assert.match(main,/name="corporateFile"[^>]*multiple disabled/);
   assert.match(main,/const enabled=isCorporateCustomer\(customerSelect\.value\)/);
   assert.match(main,/fileInput\.disabled=!enabled/);
