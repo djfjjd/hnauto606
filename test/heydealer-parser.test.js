@@ -48,6 +48,7 @@ test('헤이딜러 색상명을 현장 표준 색상으로 정규화한다',()=>
   assert.equal(parseColor('메탈릭 실버'),'쥐색');
   assert.equal(parseColor('스페이스 그레이'),'쥐색');
   assert.equal(parseColor('사파이어 블랙'),'검정');
+  assert.equal(parseColor('오르카블랙'),'검정');
   assert.equal(parseColor('나이트 검정색'),'검정');
 });
 
