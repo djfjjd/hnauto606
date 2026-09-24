@@ -91,6 +91,8 @@ test('전체 주차면과 빈 자리 카드는 합계 오른쪽에 층별 자리
   assert.match(main,/totalDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{String\(floor\.capacity\)\.padStart\(2,'0'\)\}자리`\)\.join\('\\n'\)/);
   assert.match(main,/extraEmpty=zone\.id==='pillar11'\?Math\.min\(5,empty\):0/);
   assert.match(main,/baseEmpty:Math\.max\(0,empty-extraEmpty\),extraEmpty/);
+  assert.match(main,/emptyLabel=empty>9\?`\$\{empty-5\}\+5`:empty/);
+  assert.match(main,/empty:emptyLabel,emptyFloors:emptyDetails/);
   assert.match(main,/emptyDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{floor\.id==='pillar11'\?`\$\{floor\.baseEmpty\}\+\$\{floor\.extraEmpty\}`:floor\.empty\}자리`\)\.join\('\\n'\)/);
   assert.match(main,/detail\.match\(\/\^\(\.\*\?\)\\s\+\(\[\\d\+\]\+자리\)\$\//);
   assert.match(main,/parkingCapacityLabel=\(details,spaces\)=>\(\{details,spaces\}\)/);
