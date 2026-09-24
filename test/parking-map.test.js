@@ -59,6 +59,7 @@ test('새싹타워는 A~J열의 B5·B6층 20면으로 표시한다',()=>{
   assert.match(html,/>B6층<\/b>/);
   assert.doesNotMatch(html,/class="map-column"/);
   assert.match(html,/--map-header-rows:0;--cell-width:58px;--row-label-width:42px/);
+  assert.match(html,/class="parking-map-grid has-no-column-header"/);
   assert.match(html,/class="map-row" style="grid-column:1;grid-row:1"[^>]*>B5층<\/b>/);
   assert.doesNotMatch(html,/data-toggle-map="tower"/);
 });
@@ -72,6 +73,7 @@ test('빈 자리에는 주차 가능 보조 문구를 표시하지 않는다',()
 test('빈 주차면은 문구 대신 검정 그림자가 있는 빨간 소문자 o로 표시한다',()=>{
   const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
   assert.match(css,/\.parking-cell\.is-vacant::before\{content:"o"/);
+  assert.match(css,/\.parking-map-grid\.has-no-column-header\{grid-template-rows:repeat\(var\(--map-rows\),39px\)\}/);
   assert.match(css,/color:#e33e3e/);
   assert.match(css,/text-shadow:1px 1px 0 #111/);
   assert.doesNotMatch(css,/\.parking-cell\.is-vacant::after/);
