@@ -98,10 +98,10 @@ test('전체 주차면과 빈 자리 카드는 합계 오른쪽에 층별 자리
   assert.match(main,/metric\('빈 자리',parkingCapacityLabel\(c\.emptyFloors,c\.empty\)/);
   assert.match(css,/\.metric\.capacity\{[^}]*grid-template-columns:auto minmax\(0,1fr\);align-items:start/);
   assert.match(main,/class="capacity-detail-row"/);
-  assert.match(css,/\.metric\.capacity \.metric-details\{[^}]*min-width:70px/);
-  assert.match(css,/\.capacity-detail-row\{[^}]*grid-template-columns:minmax\(0,1fr\) 4\.5ch;column-gap:3px/);
+  assert.match(css,/\.metric\.capacity \.metric-details\{[^}]*min-width:88px;width:max-content/);
+  assert.match(css,/\.capacity-detail-row\{[^}]*width:100%;grid-template-columns:minmax\(0,1fr\) 6\.5ch;column-gap:3px/);
   assert.match(css,/\.capacity-detail-row>span\{white-space:nowrap\}/);
-  assert.match(css,/\.capacity-detail-row>span:last-child\{text-align:right;font-variant-numeric:tabular-nums\}/);
+  assert.match(css,/\.capacity-detail-row>span:last-child\{justify-self:end;text-align:right;font-variant-numeric:tabular-nums\}/);
   assert.match(main,/data-capacity-title="\$\{esc\(l\)\}" data-capacity-details="\$\{esc\(metricDetails\)\}" role="button" tabindex="0"/);
   assert.match(main,/matchMedia\('\(max-width: 800px\)'\)\.matches\)showCapacityDetails/);
   assert.match(css,/@media\(max-width:800px\)\{\.metric\.capacity\{display:flex;cursor:pointer\}\.metric\.capacity \.metric-details\{display:none\}\}/);
