@@ -82,7 +82,7 @@ test('주차·차량현황판·구글드라이브·캘린더 화면의 상단 �
 });
 
 test('통계 카드의 영문 라벨을 숨기고 빈 자리 숫자를 빨간색으로 표시한다',()=>{
-  assert.match(main,/class="metric \$\{t\}\$\{capacityValue\?' capacity':''\}"[^>]*><div><strong>\$\{valueMarkup\}<\/strong><small>\$\{l\}<\/small><\/div>/);
+  assert.match(main,/class="metric \$\{t\}\$\{capacityValue\?' capacity':''\}"[^>]*><div><strong>\$\{valueMarkup\}<\/strong><small>\$\{displayLabel\}<\/small><\/div>/);
   assert.match(css,/\.metric \{[^}]*justify-content:flex-start/);
   assert.match(css,/\.metric\.green strong \{ color:#c43d35; \}/);
 });

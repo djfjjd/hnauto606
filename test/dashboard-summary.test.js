@@ -87,7 +87,7 @@ test('주차 차량과 상품화 차량을 분리해 다섯 개 통계 카드로
   assert.match(css,/\.summary\s*\{[^}]*grid-template-columns:repeat\(5,1fr\)/);
 });
 
-test('전체 주차면과 빈 자리 카드는 합계 오른쪽에 층별 자리 수를 줄바꿈해 표시한다',()=>{
+test('전체 자리와 빈 자리 카드는 합계 오른쪽에 층별 자리 수를 줄바꿈해 표시한다',()=>{
   assert.match(main,/totalDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{String\(floor\.capacity\)\.padStart\(2,'0'\)\}자리`\)\.join\('\\n'\)/);
   assert.match(main,/extraEmpty=zone\.id==='pillar11'\?Math\.min\(5,empty\):0/);
   assert.match(main,/baseEmpty:Math\.max\(0,empty-extraEmpty\),extraEmpty/);
@@ -108,9 +108,10 @@ test('전체 주차면과 빈 자리 카드는 합계 오른쪽에 층별 자리
   assert.match(css,/\.capacity-detail-row>span:first-child\{justify-self:end\}/);
   assert.match(css,/\.capacity-detail-row>span:last-child\{justify-self:end;text-align:right;font-variant-numeric:tabular-nums\}/);
   assert.match(main,/class="empty-capacity-extra"/);
-  assert.match(main,/\['전체 주차면','빈 자리'\]\.includes\(l\)/);
+  assert.match(main,/displayLabel=l==='전체 주차면'\?'전체 자리':l/);
+  assert.match(main,/\['전체 자리','빈 자리'\]\.includes\(displayLabel\)/);
   assert.match(css,/\.metric \.empty-capacity-extra\{display:inline;font-size:\.58em/);
-  assert.match(main,/data-capacity-title="\$\{esc\(l\)\}" data-capacity-details="\$\{esc\(metricDetails\)\}" role="button" tabindex="0"/);
+  assert.match(main,/data-capacity-title="\$\{esc\(displayLabel\)\}" data-capacity-details="\$\{esc\(metricDetails\)\}" role="button" tabindex="0"/);
   assert.match(main,/matchMedia\('\(max-width: 800px\)'\)\.matches\)showCapacityDetails/);
   assert.match(css,/@media\(max-width:800px\)\{\.metric\.capacity\{display:flex;cursor:pointer\}\.metric\.capacity \.metric-details\{display:none\}\}/);
 });
