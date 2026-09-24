@@ -4,9 +4,10 @@ import {readFileSync} from 'node:fs';
 
 const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 
-test('차종은 공백 기준 앞의 두 단어만 차량 푸시 알림에 표시한다',()=>{
+test('푸시 알림 차종은 기본 두 단어, 두 번째 단어가 한 글자면 세 단어로 표시한다',()=>{
   assert.match(api,/const pushVehicleLabel=vehicle=>/);
-  assert.match(api,/String\(vehicle\.model\|\|''\)\.trim\(\)\.split\(\/\\s\+\/\)\.filter\(Boolean\)\.slice\(0,2\)\.join\(' '\)/);
+  assert.match(api,/pushVehicleModel=model=>\{const words=String\(model\|\|''\)\.trim\(\)\.split\(\/\\s\+\/\)\.filter\(Boolean\);return words\.slice\(0,words\[1\]\?\.length===1\?3:2\)\.join\(' '\)\|\|'차종 미입력';\}/);
+  assert.match(api,/pushVehicleLabel=vehicle=>`\$\{String\(vehicle\.plate\|\|''\)\.slice\(-4\)\}\(\$\{pushVehicleModel\(vehicle\.model\)\}\)`/);
   assert.match(api,/const pushBody=vehicle=>`\$\{pushVehicleLabel\(vehicle\)\}, \$\{vehicle\.zone_name\|\|'차량현황판'\}`/);
 });
 
