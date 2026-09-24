@@ -6,6 +6,7 @@ const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const migration=readFileSync(new URL('../migrations/0015_add_vehicle_dashboard_fields.sql',import.meta.url),'utf8');
+const optionMigration=readFileSync(new URL('../migrations/0026_move_legacy_options_to_memo.sql',import.meta.url),'utf8');
 
 test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수리 순서로 표시한다',()=>{
   assert.match(main,/\['performance','성능','date'\],\['performanceDate','재성능','reperformance'\],\['underbody','하부','check'\],\['dent','덴트','check'\],\['bodywork','판금','count'\],\['polishing','광택','vendor'\],\['repair','수리','note'\]/);
@@ -73,4 +74,14 @@ test('현황판 체크 상태와 주행거리를 D1에 보존한다',()=>{
   assert.match(handler,/UPDATE vehicles SET \$\{column\}=\?,version=version\+1/);
   assert.match(main,/api\(`vehicles\/\$\{vehicle\.vehicleId\|\|vehicle\.id\}\/board-check`/);
   assert.match(main,/mileage:f\.get\('mileage'\)/);
+});
+
+test('기존 옵션값은 특이사항으로 한 번 이동하고 이후 옵션 입력과 분리한다',()=>{
+  assert.match(optionMigration,/UPDATE vehicles/);
+  assert.match(optionMigration,/SET memo = CASE/);
+  assert.match(optionMigration,/options = ''/);
+  assert.match(optionMigration,/WHERE trim\(COALESCE\(options, ''\)\) <> ''/);
+  assert.match(main,/data-board-options=/);
+  assert.match(main,/vehicles\/\$\{vehicle\.vehicleId\|\|vehicle\.id\}\/options/);
+  assert.match(main,/class="board-option-text">\$\{esc\(s\.memo\)\|\|'-'\}/);
 });
