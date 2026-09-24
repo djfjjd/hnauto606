@@ -92,6 +92,8 @@ test('전체 주차면과 빈 자리 카드는 합계 오른쪽에 층별 자리
   assert.match(main,/extraEmpty=zone\.id==='pillar11'\?Math\.min\(5,empty\):0/);
   assert.match(main,/baseEmpty:Math\.max\(0,empty-extraEmpty\),extraEmpty/);
   assert.match(main,/emptyLabel=empty>9\?`\$\{empty-5\}\+5`:empty/);
+  assert.match(main,/totalLabel=total>5\?`\$\{total-5\}\+5`:total/);
+  assert.match(main,/return\{total:totalLabel,totalFloors:totalDetails/);
   assert.match(main,/empty:emptyLabel,emptyFloors:emptyDetails/);
   assert.match(main,/emptyDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{floor\.id==='pillar11'\?`\$\{floor\.baseEmpty\}\+\$\{floor\.extraEmpty\}`:floor\.empty\}자리`\)\.join\('\\n'\)/);
   assert.match(main,/detail\.match\(\/\^\(\.\*\?\)\\s\+\(\[\\d\+\]\+자리\)\$\//);
@@ -106,6 +108,7 @@ test('전체 주차면과 빈 자리 카드는 합계 오른쪽에 층별 자리
   assert.match(css,/\.capacity-detail-row>span:first-child\{justify-self:end\}/);
   assert.match(css,/\.capacity-detail-row>span:last-child\{justify-self:end;text-align:right;font-variant-numeric:tabular-nums\}/);
   assert.match(main,/class="empty-capacity-extra"/);
+  assert.match(main,/\['전체 주차면','빈 자리'\]\.includes\(l\)/);
   assert.match(css,/\.metric \.empty-capacity-extra\{display:inline;font-size:\.58em/);
   assert.match(main,/data-capacity-title="\$\{esc\(l\)\}" data-capacity-details="\$\{esc\(metricDetails\)\}" role="button" tabindex="0"/);
   assert.match(main,/matchMedia\('\(max-width: 800px\)'\)\.matches\)showCapacityDetails/);
