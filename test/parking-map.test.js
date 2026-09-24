@@ -118,15 +118,15 @@ test('확인 필요 차량은 강조 배경 없이 왼쪽 아래에 경고등 �
   assert.doesNotMatch(css,/\.parking-cell\.has-alert\{/);
 });
 
-test('옵션이 X가 아닌 주차 차량은 경고등과 같은 높이의 오른쪽에 빨간 느낌표를 표시한다',()=>{
-  const spot={id:'option-car',label:'E17',plate:'11가1234',model:'차량',options:'선루프',alerts:['battery']};
-  const withOptions=renderParkingMap(parkingLayouts.b3,[spot],undefined,{expanded:true});
-  const withoutOptions=renderParkingMap(parkingLayouts.b3,[{...spot,options:'X'}],undefined,{expanded:true});
-  const emptyOptions=renderParkingMap(parkingLayouts.b3,[{...spot,options:''}],undefined,{expanded:true});
+test('특이사항이 있는 주차 차량은 경고등과 같은 높이의 오른쪽에 빨간 느낌표를 표시한다',()=>{
+  const spot={id:'memo-car',label:'E17',plate:'11가1234',model:'차량',memo:'외관 확인',options:'선루프',alerts:['battery']};
+  const withMemo=renderParkingMap(parkingLayouts.b3,[spot],undefined,{expanded:true});
+  const withoutMemo=renderParkingMap(parkingLayouts.b3,[{...spot,memo:'X'}],undefined,{expanded:true});
+  const emptyMemo=renderParkingMap(parkingLayouts.b3,[{...spot,memo:''}],undefined,{expanded:true});
   const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
-  assert.match(withOptions,/class="parking-alert-icons"[\s\S]*?class="parking-option-indicator" aria-label="옵션 있음" title="선루프">!<\/i>/);
-  assert.doesNotMatch(withoutOptions,/parking-option-indicator/);
-  assert.doesNotMatch(emptyOptions,/parking-option-indicator/);
+  assert.match(withMemo,/class="parking-alert-icons"[\s\S]*?class="parking-option-indicator" aria-label="특이사항 있음" title="외관 확인">!<\/i>/);
+  assert.doesNotMatch(withoutMemo,/parking-option-indicator/);
+  assert.doesNotMatch(emptyMemo,/parking-option-indicator/);
   assert.match(css,/\.parking-cell \.parking-option-indicator\{position:absolute;right:1px;bottom:2px;top:auto/);
   assert.match(css,/color:#e33e3e/);
 });
