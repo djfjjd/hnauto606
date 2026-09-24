@@ -7,7 +7,7 @@ const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 
 test('차량 현황판에 총 주행거리·색상·입고일·특이사항을 순서대로 표시한다',()=>{
   assert.match(main,/<span>연식<\/span><span>총 주행거리<\/span><span>색상<\/span><span>입고일<\/span><span>특이사항<\/span>/);
-  assert.match(main,/String\(\(s\.isCheckedOut\?s\.checkedOutAt:s\.checkedInAt\)\|\|''\)\.slice\(0,10\)/);
+  assert.match(main,/checkedInDate=String\(s\.checkedInAt\|\|''\)\.slice\(0,10\),checkedOutDate=String\(s\.checkedOutAt\|\|''\)\.slice\(0,10\)/);
 });
 
 test('상단 브랜드를 간결하게 표시하고 구글 스프레드시트 업무 링크를 제공한다',()=>{
@@ -136,6 +136,9 @@ test('새싹타워 검색 결과는 행에 따라 B5층과 B6층을 구분한다
   assert.match(main,/zoneLabel=parkingSearchZoneLabel\(s\)/);
   assert.match(main,/class="parking-search-location">\$\{esc\(zoneLabel\)\|\|'-'\}\$\{s\.isContracted\?'<b>\(계약중\)<\/b>':''\}/);
   assert.match(css,/\.parking-search-location b\{[^}]*color:#c82020/);
+  assert.match(main,/checkedInDate=String\(s\.checkedInAt\|\|''\)\.slice\(0,10\),checkedOutDate=String\(s\.checkedOutAt\|\|''\)\.slice\(0,10\)/);
+  assert.match(main,/class="parking-search-dates"><time title="입고일">\$\{esc\(checkedInDate\)\|\|'-'\}<\/time>\$\{s\.isCheckedOut\?`<time title="출고일">/);
+  assert.match(css,/\.parking-search-dates\{display:grid;gap:2px\}/);
 });
 
 test('주차 검색 목록은 네 자리 완전 일치가 아닌 부분검색을 유지한다',()=>{
