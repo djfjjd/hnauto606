@@ -13,7 +13,7 @@ test('대시보드 API가 기존 출고 차량을 별도 목록으로 반환한�
 });
 
 test('출고 차량 행은 빨간 취소선과 활성 드래그 핸들을 표시한다',()=>{
-  assert.match(main,/class=\"board-row \$\{checkedOut\?'is-checked-out':''\} \$\{pinned\?'is-board-pinned':''\}\"/);
+  assert.match(main,/class=\"board-row \$\{checkedOut\?'is-checked-out':''\} \$\{s\.isContracted\?'is-contracted':''\} \$\{pinned\?'is-board-pinned':''\}\"/);
   assert.match(main,/board-checkout-label\">출고/);
   assert.match(main,/class=\"board-drag-handle\" data-board-drag[^>]*>⠿<\/button>/);
   assert.match(main,/querySelectorAll\('\[data-board-search\]'\)/);

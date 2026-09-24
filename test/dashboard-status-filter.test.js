@@ -14,8 +14,12 @@ test('담당자별 전체·출고됨·판매중 필터를 펼치기 왼쪽에 �
 test('각 담당자의 상태 필터를 독립 저장하고 검색·페이지 처리와 함께 적용한다',()=>{
   assert.match(main,/managerStatusFilters:\{\}/);
   assert.match(main,/status=state\.managerStatusFilters\[manager\]\|\|'all'/);
-  assert.match(main,/status==='checked-out'&&row\.classList\.contains\('is-checked-out'\)/);
-  assert.match(main,/status==='active'&&!row\.classList\.contains\('is-checked-out'\)/);
+  assert.match(main,/const closed=row\.classList\.contains\('is-checked-out'\)\|\|row\.classList\.contains\('is-contracted'\)/);
+  assert.match(main,/status==='checked-out'&&closed/);
+  assert.match(main,/status==='active'&&!closed/);
+  assert.match(main,/s\.isContracted\?'is-contracted':''/);
+  assert.match(main,/data-board-sequence="\$\{sequence\}"/);
+  assert.match(main,/cell\.textContent=status==='all'\?row\.dataset\.boardSequence:String\(matches\.indexOf\(row\)\+1\)/);
   assert.match(main,/state\.managerPages\[manager\]=1;updateDashboardGroup\(group,state\.query\)/);
 });
 
