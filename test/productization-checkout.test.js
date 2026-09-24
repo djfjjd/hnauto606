@@ -32,7 +32,7 @@ test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입�
 
 test('상품화출차 상단에 출차일을 놓고 기존 날짜 자리에 차량 특이사항을 보여준다',()=>{
   assert.match(main,/class="productization-modal-header"[\s\S]*?<h2 id="modal-title">상품화출차<\/h2>[\s\S]*?class="productization-date-field"><span>출차일<\/span><input type="date" name="serviceDate" form="productization-form" value="\$\{today\}" lang="ko-KR" placeholder="yyyy\. mm\. dd\." required[\s\S]*?class="warning-entry-button"/);
-  assert.match(main,/class="productization-options"><span class="field-title">특이사항<\/span>[\s\S]*?<p data-option-value>\$\{esc\(s\.options\|\|'X'\)\}/);
+  assert.match(main,/class="productization-options"><span class="field-title">특이사항<\/span>[\s\S]*?<p data-option-value>\$\{esc\(s\.memo\|\|'X'\)\}/);
   assert.match(css,/\.productization-modal-header\{display:flex/);
   assert.match(css,/\.productization-modal-header \.productization-date-field\{display:flex/);
   assert.match(css,/@media\(max-width:640px\)\{[\s\S]*?\.productization-modal-header \.productization-date-field\{flex:none;width:100%;min-width:0;min-height:52px/);
@@ -41,16 +41,16 @@ test('상품화출차 상단에 출차일을 놓고 기존 날짜 자리에 차�
   assert.match(css,/::-webkit-date-and-time-value,\.modal \.productization-date-field input\[type=date\]::-webkit-datetime-edit\{font-size:11px!important\}/);
 });
 
-test('상품화출차 옵션 상자는 수정·취소·저장 버튼으로 옵션만 변경한다',()=>{
+test('상품화출차 특이사항 상자는 수정·취소·저장 버튼으로 메모만 변경한다',()=>{
   assert.match(main,/class="productization-options-display"><p data-option-value>[\s\S]*?<button type="button" data-option-edit>수정<\/button>/);
   assert.match(main,/data-option-edit>수정<\/button>/);
   assert.match(main,/data-option-input[^>]*maxlength="500"/);
   assert.match(main,/data-option-cancel>취소<\/button>/);
   assert.match(main,/data-option-save>저장<\/button>/);
-  assert.match(main,/vehicles\/\$\{spot\.vehicleId\}\/options/);
-  assert.match(main,/method:'PATCH',body:JSON\.stringify\(\{options:input\.value,version:spot\.vehicleVersion\}\)/);
-  assert.match(api,/parts\[2\]==='options'/);
-  assert.match(api,/UPDATE vehicles SET options=\?,version=version\+1/);
+  assert.match(main,/vehicles\/\$\{spot\.vehicleId\}\/memo/);
+  assert.match(main,/method:'PATCH',body:JSON\.stringify\(\{memo:input\.value,version:spot\.vehicleVersion\}\)/);
+  assert.match(api,/parts\[2\]==='memo'/);
+  assert.match(api,/UPDATE vehicles SET memo=\?,version=version\+1/);
   assert.match(css,/\.productization-options-editor\[hidden\],\.productization-options \[hidden\]\{display:none!important\}/);
 });
 
