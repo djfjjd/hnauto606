@@ -39,6 +39,7 @@ test('왼쪽 일정 차량번호는 기존 캘린더 차량 상세 팝업을 연
   assert.match(main,/parkingScheduleModelLabel=model=>\{const words=String\(model\|\|'차종 미입력'\)\.trim\(\)\.split\(\/\\s\+\/\);return words\.slice\(0,words\[1\]\?\.length===1\?3:2\)\.join\(' '\);\}/);
   assert.match(main,/esc\(parkingScheduleModelLabel\(record\.model\)\)/);
   assert.match(css,/parking-schedule-check-plate\{[^}]*display:flex[^}]*gap:6px/);
+  assert.match(css,/@media\(max-width:800px\)\{[^}]*parking-schedule-checklist[\s\S]*?\.parking-schedule-check-plate span:last-child\{display:none\}/);
   assert.match(main,/if\(record\)openCalendarRecord\(record\)/);
   assert.match(css,/parking-schedule-check-plate:hover/);
 });
