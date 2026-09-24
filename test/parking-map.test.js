@@ -153,9 +153,14 @@ test('출고 후 주차 중인 차량은 빨간 글씨와 출고됨 표시를 �
 });
 
 test('계약 차량은 출고 차량과 구분해 계약됨으로 표시한다',()=>{
-  const html=renderParkingMap(parkingLayouts.b3,[{id:'a6',label:'E17',plate:'123가5827',model:'GV80',color:'검정',alerts:[],isContracted:true}],undefined,{expanded:true});
+  const html=renderParkingMap(parkingLayouts.b3,[{id:'a6',label:'E17',plate:'123가5827',model:'GV80',color:'흰색',alerts:[],isContracted:true}],undefined,{expanded:true});
+  assert.match(html,/is-contracted vehicle-color-white|vehicle-color-white[^\"]*is-contracted/);
+  assert.doesNotMatch(html,/is-checked-out/);
   assert.match(html,/<strong>5827<\/strong><span>\(계약됨\) GV80<\/span>/);
   assert.match(html,/123가5827 계약됨/);
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+  assert.match(css,/\.parking-cell\.is-occupied\.is-contracted strong\{color:#ef3d35!important/);
+  assert.match(css,/\.parking-cell\.is-occupied\.is-contracted\.vehicle-color-white span\{color:#111!important\}/);
 });
 
 test('출고 차량의 빨간 글씨에는 그림자를 표시하지 않는다',()=>{
