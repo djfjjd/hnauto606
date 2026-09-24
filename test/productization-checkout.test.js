@@ -68,7 +68,15 @@ test('상품화출차 차량 정보에 차종과 담당자를 함께 표시한�
 test('상품화출차 차량 정보 오른쪽 연필로 차량 상세정보 수정을 연다',()=>{
   assert.match(main,/class="productization-edit-vehicle" data-productization-edit/);
   assert.match(main,/querySelector\('\[data-productization-edit\]'\)\?\.addEventListener\('click',\(\)=>\{state\.mode='detail';render\(\);\}\)/);
-  assert.match(css,/\.productization-edit-vehicle\{grid-column:3;grid-row:1\/3/);
+  assert.match(css,/\.productization-edit-vehicle\{grid-column:4;grid-row:1\/3/);
+});
+
+test('상품화출차 연필 왼쪽 i 아이콘에서 차량 옵션 팝업을 연다',()=>{
+  assert.match(main,/class="productization-options-info" data-productization-options/);
+  assert.match(main,/title="\$\{esc\(s\.options\|\|'등록된 옵션이 없습니다\.'\)\}">i<\/button>/);
+  assert.match(main,/function bindProductizationOptionsViewer\(\)/);
+  assert.match(main,/if\(vehicle\)openDashboardOptions\(vehicle\)/);
+  assert.match(css,/\.productization-options-info\{grid-column:3;grid-row:1\/3/);
 });
 
 test('상품화출차 팝업은 위치 문구와 취소를 숨기고 그냥출차를 제공한다',()=>{
