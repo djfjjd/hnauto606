@@ -44,6 +44,11 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(main,/<span>\$\{formatMileage\(s\.mileage\)\}<\/span>/);
   assert.match(css,/\.board-row\{width:100%;min-width:1670px/);
   assert.match(main,/class="board-options-info" data-board-options=/);
+  assert.match(main,/if\(vehicle\)openDashboardOptions\(vehicle\)/);
+  assert.match(main,/title="\$\{esc\(s\.options\|\|'등록된 옵션이 없습니다\.'\)\}">i<\/button>/);
+  assert.match(main,/onKeydown=event=>\{if\(event\.key==='Escape'\)\{event\.preventDefault\(\);close\(\);\}\}/);
+  assert.match(main,/document\.addEventListener\('keydown',onKeydown\)/);
+  assert.match(main,/document\.removeEventListener\('keydown',onKeydown\)/);
   assert.match(main,/class="board-option-cell"><span class="board-option-text">\$\{esc\(s\.memo\)\|\|'-'\}<\/span>\$\{actions\}<\/span>/);
   assert.match(css,/\.board-option-cell\{position:relative;[^}]*display:flex/);
   assert.match(css,/\.board-row\.is-checked-out \.board-option-cell\{position:sticky;right:0/);
