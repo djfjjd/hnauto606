@@ -89,7 +89,7 @@ test('주차 차량과 상품화 차량을 분리해 다섯 개 통계 카드로
 
 test('전체 주차면과 빈 자리 카드는 합계 오른쪽에 층별 자리 수를 줄바꿈해 표시한다',()=>{
   assert.match(main,/totalDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{String\(floor\.capacity\)\.padStart\(2,'0'\)\}자리`\)\.join\('\\n'\)/);
-  assert.match(main,/extraLabels=new Set\(\['E15','F15','G15','H15','I15'\]\)/);
+  assert.match(main,/extraEmpty=zone\.id==='pillar11'\?Math\.min\(5,empty\):0/);
   assert.match(main,/baseEmpty:Math\.max\(0,empty-extraEmpty\),extraEmpty/);
   assert.match(main,/emptyDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{floor\.id==='pillar11'\?`\$\{floor\.baseEmpty\}\+\$\{floor\.extraEmpty\}`:floor\.empty\}자리`\)\.join\('\\n'\)/);
   assert.match(main,/detail\.match\(\/\^\(\.\*\?\)\\s\+\(\[\\d\+\]\+자리\)\$\//);
