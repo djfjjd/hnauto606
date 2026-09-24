@@ -55,6 +55,8 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(css,/\.board-option-cell\{position:relative;[^}]*display:flex/);
   assert.match(css,/\.board-options-empty:hover \.board-options-minus,[^{]*\.board-options-empty:focus-visible \.board-options-minus\{opacity:0\}/);
   assert.match(css,/\.board-options-empty:hover \.board-options-plus,[^{]*\.board-options-empty:focus-visible \.board-options-plus\{opacity:1\}/);
+  assert.match(css,/\.board-options-empty:hover,\.board-options-empty:focus-visible\{border-color:var\(--green\);color:#fff;background:var\(--green\)\}/);
+  assert.match(css,/\.board-options-plus\{opacity:0;color:#fff;font-size:18px;line-height:1\}/);
   assert.match(css,/\.board-row\.is-checked-out \.board-option-cell\{position:sticky;right:0/);
   assert.match(css,/\.board-option-cell\{[^}]*background:transparent;box-shadow:none/);
   assert.match(css,/repeat\(6,58px\) minmax\(180px,1fr\)/);
