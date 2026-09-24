@@ -13,7 +13,7 @@ button,input,select,textarea { font:inherit; }
 button,a { -webkit-tap-highlight-color:transparent; }
 .topbar { position:sticky; top:0; z-index:9; height:76px; padding:0 max(24px,calc((100vw - 1280px)/2)); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,.14); color:#fff; background:var(--ink); }
 .brand { display:flex; gap:10px; align-items:center; color:#fff; text-decoration:none; font-weight:700; letter-spacing:.08em; }
-.brand::after { content:'ver. 1.0.4'; margin-left:-5px; color:#D4D9DF; font-size:12px; font-weight:600; letter-spacing:.02em; white-space:nowrap; }
+.brand::after { content:'ver. 1.0.5'; margin-left:-5px; color:#D4D9DF; font-size:12px; font-weight:600; letter-spacing:.02em; white-space:nowrap; }
 .brand-mark { display:block; width:42px; height:42px; padding:3px; border-radius:50%; background:#fff; object-fit:contain; }
 .brand-headline { display:block; width:116px; height:40px; object-fit:contain; }
 .brand-mark { content:url('/(주)하나오토.png'); }
