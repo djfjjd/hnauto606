@@ -100,6 +100,17 @@ test('새싹타워는 접으면 B5·B6를 7칸 기준으로 표시하고 펼치�
   assert.match(readFileSync(new URL('../src/style.css',import.meta.url),'utf8'),/\.parking-map\[data-map-zone="tower"\] \.parking-special\.type-entrance strong\{writing-mode:horizontal-tb/);
 });
 
+test('새싹타워 지정 셀 사이에 노란 경계선을 표시한다',()=>{
+  const expanded=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:true});
+  for(const label of ['A4와 A5 사이','A6과 A7 사이','A8과 A9 사이','A16과 A17 사이','A18과 A19 사이','A20과 A21 사이','M3과 M4 사이','M6과 M7 사이'])assert.match(expanded,new RegExp(`class="tower-boundary-line is-horizontal"[^>]+aria-label="${label}"`));
+  for(const label of ['1행 E와 F 사이','1행 H와 I 사이','13행 E와 F 사이'])assert.match(expanded,new RegExp(`class="tower-boundary-line is-vertical"[^>]+aria-label="${label}"`));
+  const collapsed=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:false});
+  assert.doesNotMatch(collapsed,/tower-boundary-line/);
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+  assert.match(css,/\.tower-boundary-line\.is-horizontal\{[^}]*border-top:3px solid #facc15/);
+  assert.match(css,/\.tower-boundary-line\.is-vertical\{[^}]*border-left:3px solid #facc15/);
+});
+
 test('새싹타워 접기 상태는 층별로 주차 차량을 빈자리보다 먼저 정렬한다',()=>{
   const spots=[
     {id:'b5-empty',label:'D07',plate:'',alerts:[]},
