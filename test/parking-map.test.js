@@ -21,13 +21,15 @@ test('전체 주차면은 실제 parking Cell만 합산한다',()=>{
   assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),87);
 });
 
-test('B3층은 A·B열을 제외하고 C~I열을 왼쪽부터 표시한다',()=>{
+test('B3층은 A·B열을 제외하고 C~I열을 도면 오른쪽 끝에 맞춘다',()=>{
   const html=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
   assert.equal((html.match(/class="parking-cell/g)||[]).length,140);
   assert.doesNotMatch(html,/A01|B01/);
   assert.match(html,/grid-column:2;grid-row:2[^>]+aria-label="C01 비주차 구역"/);
   assert.match(html,/I20/);
   assert.match(html,/--map-columns:7/);
+  assert.match(css,/\.parking-map\[data-map-zone="b3"\] \.parking-map-grid\{margin-left:auto\}/);
   assert.match(html,/E\/V · 화장실/);
 });
 
