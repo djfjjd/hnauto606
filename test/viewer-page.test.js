@@ -21,3 +21,10 @@ test('/view 헤드라인은 숨긴 입출고 버튼 공간을 유지해 캘린�
   assert.match(main,/heroButtons\?\.setAttribute\('aria-hidden','true'\)/);
   assert.match(main,/button\.disabled=true;button\.tabIndex=-1/);
 });
+
+test('/view는 통계와 상품화·계약 출고 목록 및 구역 펼치기를 숨긴다',()=>{
+  assert.match(main,/document\.querySelector\('\.parking-summary'\)\?\.remove\(\)/);
+  assert.match(main,/document\.querySelector\('\.legend'\)\?\.remove\(\)/);
+  assert.match(main,/clone\.querySelectorAll\('\.map-head-toggle'\)\.forEach\(element=>element\.remove\(\)\)/);
+  assert.doesNotMatch(main,/renderViewerWorkspace\(\);renderCheckedOutSummary\(\);renderParkingSearchResults\(\)/);
+});
