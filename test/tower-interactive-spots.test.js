@@ -22,9 +22,10 @@ test('B5 27~34번과 B6 05~10번을 실제 활성 주차면으로 보정한다',
 
 test('대상 주차면은 접기와 펼치기 화면에서 클릭 가능한 버튼으로 렌더링된다',()=>{
   const spots=targets.map((label,index)=>({id:`target-${label}`,label,plate:index===0?'12가3456':'',model:'그랜저',alerts:[]}));
-  for(const expanded of [false,true]){
-    const html=renderParkingMap(parkingLayouts.tower,spots,undefined,{zoneId:'tower',expanded});
-    for(const label of targets)assert.match(html,new RegExp(`<button[^>]+data-spot="target-${label}"`));
-    assert.match(html,/data-spot="target-K01" draggable="true"/);
-  }
+  const collapsed=renderParkingMap(parkingLayouts.tower,spots,undefined,{zoneId:'tower',expanded:false});
+  const expanded=renderParkingMap(parkingLayouts.tower,spots,undefined,{zoneId:'tower',expanded:true});
+  for(const label of targets)assert.match(expanded,new RegExp(`<button[^>]+data-spot="target-${label}"`));
+  assert.equal((collapsed.match(/class="parking-cell/g)||[]).length,20);
+  assert.match(collapsed,/data-spot="target-K01" draggable="true"/);
+  assert.doesNotMatch(collapsed,/data-spot="target-A24"/);
 });
