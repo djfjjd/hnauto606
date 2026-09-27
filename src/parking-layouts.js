@@ -1,6 +1,8 @@
 export const PARKING_COLUMNS=['A','B','C','D','E','F','G','H','I','J','K','L','M'];
 
 const baseLayout=(name,overrides={})=>({name,columns:9,rows:20,defaultCellType:'parking',parkingRanges:[],specialAreas:[],...overrides});
+const towerB5ParkingOrder=[...Array.from({length:5},(_,index)=>`D${String(index+4).padStart(2,'0')}`),...Array.from({length:11},(_,index)=>`A${String(12-index).padStart(2,'0')}`),...PARKING_COLUMNS.slice(1,12).map(column=>`${column}01`),...Array.from({length:7},(_,index)=>`M${String(index+2).padStart(2,'0')}`),...Array.from({length:5},(_,index)=>`J${String(8-index).padStart(2,'0')}`)];
+const towerB6ParkingOrder=[...Array.from({length:5},(_,index)=>`D${index+17}`),...Array.from({length:11},(_,index)=>`A${25-index}`),...PARKING_COLUMNS.slice(1,7).map(column=>`${column}14`)];
 
 // 실제 도면을 반영할 때 specialAreas만 수정합니다.
 // {from:'A01',to:'C04',type:'company-area',label:'제이카'}처럼 범위를 지정할 수 있습니다.
@@ -70,28 +72,20 @@ export const parkingLayouts={
     rows:25,
     hiddenRows:[13],
     collapsedVisibleRows:[1,2],
+    collapsedColumns:40,
+    collapsedGroups:{1:towerB5ParkingOrder,2:towerB6ParkingOrder},
     collapsedHideColumnHeaders:true,
     defaultCellType:'blocked',
     collapsedParkingRanges:[{from:'A01',to:'J02'}],
     parkingRanges:[
-      {from:'E01',to:'F01'},
-      {from:'I01',to:'L01'},
-      {from:'D07',to:'D08'},
-      {from:'M02',to:'M07'},
-      {from:'B14',to:'G14'},
-      {from:'A16',to:'A17'},
-      {from:'A19',to:'A25'},
-      {from:'D17',to:'D21'},
-    ],
-    unavailableRanges:[
+      {from:'D04',to:'D08'},
       {from:'A02',to:'A12'},
-      {from:'D04',to:'D06'},
-      {from:'B01',to:'D01'},
-      {from:'M08'},
-      {from:'A15'},
-      {from:'A18'},
+      {from:'B01',to:'L01'},
+      {from:'M02',to:'M08'},
       {from:'J04',to:'J08'},
-      {from:'G01',to:'H01'},
+      {from:'B14',to:'G14'},
+      {from:'A15',to:'A25'},
+      {from:'D17',to:'D21'},
     ],
     specialAreas:[
       {from:'E04',to:'I08',type:'facility',label:'E/V'},
@@ -110,6 +104,13 @@ export const parkingLayouts={
 export function normalizePosition(value){
   const match=String(value||'').trim().toUpperCase().match(/^([A-M])0?([1-9]|1\d|2[0-6])$/);
   return match?`${match[1]}${String(Number(match[2])).padStart(2,'0')}`:'';
+}
+
+export function towerParkingLabel(value){
+  const position=normalizePosition(value),b5Index=towerB5ParkingOrder.indexOf(position),b6Index=towerB6ParkingOrder.indexOf(position);
+  if(b5Index>=0)return`B5층 ${String(b5Index+(b5Index<5?1:2)).padStart(2,'0')}`;
+  if(b6Index>=0)return`B6층 ${String(b6Index+1).padStart(2,'0')}`;
+  return'';
 }
 
 export function positionParts(value){

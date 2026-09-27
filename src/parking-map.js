@@ -1,4 +1,4 @@
-import {PARKING_COLUMNS,normalizePosition,positionInRanges,positionParts} from './parking-layouts.js';
+import {PARKING_COLUMNS,normalizePosition,positionInRanges,positionParts,towerParkingLabel} from './parking-layouts.js';
 import {STATUS} from './data.js';
 
 const escapeHtml=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
@@ -14,12 +14,13 @@ function areaAt(layout,column,row){
   return layout.specialAreas.map(area=>({area,bounds:areaBounds(area)})).find(({bounds})=>bounds&&column>=bounds.column&&column<bounds.column+bounds.columnSpan&&row>=bounds.row&&row<bounds.row+bounds.rowSpan);
 }
 
-function parkingCell(code,spot,visible,column,gridRow,columnSpan=1,rowSpan=1,tinted=false){
+function parkingCell(code,spot,visible,column,gridRow,columnSpan=1,rowSpan=1,tinted=false,displayLabel=''){
   const position=`grid-column:${column+1}/span ${columnSpan};grid-row:${gridRow}/span ${rowSpan}`;
-  if(!spot)return`<div class="parking-cell is-vacant is-virtual${tinted?' is-company-tint':''}" style="${position}" role="gridcell" aria-label="${code} 빈 자리"></div>`;
+  const spaceNumber=displayLabel?`<small class="parking-space-number">${escapeHtml(displayLabel)}</small>`:'';
+  if(!spot)return`<div class="parking-cell is-vacant is-virtual${tinted?' is-company-tint':''}" style="${position}" role="gridcell" aria-label="${code} 빈 자리">${spaceNumber}</div>`;
   const occupied=Boolean(spot.plate),checkedOut=occupied&&spot.isCheckedOut,contracted=occupied&&spot.isContracted,rental=occupied&&/[하허호]/.test(String(spot.plate)),hasMemo=occupied&&Boolean(String(spot.memo||'').trim())&&String(spot.memo).trim().toUpperCase()!=='X',alerts=occupied?(spot.alerts||[]).map(id=>STATUS.find(status=>status.id===id)).filter(Boolean):[],classes=['parking-cell',occupied?'is-occupied':'is-vacant',occupied?`vehicle-color-${vehicleColorClass(spot.color)}`:'',rental?'is-rental':'',checkedOut?'is-checked-out':contracted?'is-contracted':'',hasMemo?'has-memo':'',visible?'':'is-filtered'].filter(Boolean).join(' '),alertIcons=alerts.length?`<span class="parking-alert-icons" aria-label="${escapeHtml(alerts.map(status=>status.label).join(', '))}">${alerts.map(status=>`<img src="/${escapeHtml(status.icon.normalize('NFD'))}" alt="${escapeHtml(status.label)}">`).join('')}</span>`:'',optionIndicator=hasMemo?`<i class="parking-option-indicator" aria-label="특이사항 있음" title="${escapeHtml(spot.memo)}">!</i>`:'';
   const stateLabel=contracted?'계약됨':checkedOut?'출고됨':'주차 중';
-  return`<button class="${classes}${tinted&&!occupied?' is-company-tint':''}" data-spot="${escapeHtml(spot.id)}" ${occupied?'draggable="true"':''} style="${position}" role="gridcell" aria-label="${code} ${occupied?`${spot.plate} ${stateLabel}`:'빈 자리'}">${occupied?`<strong>${escapeHtml(lastFour(spot.plate))}</strong><span>${contracted?'(계약됨) ':checkedOut?'(출고됨) ':''}${escapeHtml(spot.model||'차량')}</span>${alertIcons}${optionIndicator}`:''}</button>`;
+  return`<button class="${classes}${tinted&&!occupied?' is-company-tint':''}" data-spot="${escapeHtml(spot.id)}" ${occupied?'draggable="true"':''} style="${position}" role="gridcell" aria-label="${code} ${occupied?`${spot.plate} ${stateLabel}`:'빈 자리'}">${spaceNumber}${occupied?`<strong>${escapeHtml(lastFour(spot.plate))}</strong><span>${contracted?'(계약됨) ':checkedOut?'(출고됨) ':''}${escapeHtml(spot.model||'차량')}</span>${alertIcons}${optionIndicator}`:''}</button>`;
 }
 
 function blockedCell(code,column,gridRow){
@@ -32,12 +33,14 @@ function unavailableCell(code,column,gridRow){
 
 export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=>spot.id)),options={}){
   const byPosition=new Map(spots.map(spot=>[normalizePosition(spot.label),spot]));
-  const hiddenRows=new Set(layout.hiddenRows||[]),allRows=Array.from({length:layout.rows},(_,index)=>index+1).filter(row=>!hiddenRows.has(row)),hasToggle=Boolean(layout.collapseBeforeRow||layout.collapsedVisibleRows),collapsed=hasToggle&&!options.expanded,parkingRanges=collapsed&&layout.collapsedParkingRanges?layout.collapsedParkingRanges:layout.parkingRanges,showCoordinates=!collapsed,columnHeadersHidden=Boolean(layout.hideColumnHeaders||(collapsed&&layout.collapsedHideColumnHeaders)),showColumnHeaders=showCoordinates&&!columnHeadersHidden,showRowLabels=showCoordinates||Boolean(layout.rowLabels)||Boolean(collapsed&&layout.collapsedRowLabels),headerRows=columnHeadersHidden?0:1,collapsedRows=layout.collapsedVisibleRows||allRows.filter(row=>row>=layout.collapseBeforeRow),visibleRows=collapsed?collapsedRows:allRows,startColumn=layout.startColumn||1,columns=options.expanded&&layout.expandedColumns?layout.expandedColumns:layout.columns,endColumn=startColumn+columns-1,gridColumn=column=>column-startColumn+1,gridRowByActual=new Map(visibleRows.map((row,index)=>[row,index+1+headerRows])),cells=[];
+  const hiddenRows=new Set(layout.hiddenRows||[]),allRows=Array.from({length:layout.rows},(_,index)=>index+1).filter(row=>!hiddenRows.has(row)),hasToggle=Boolean(layout.collapseBeforeRow||layout.collapsedVisibleRows),collapsed=hasToggle&&!options.expanded,parkingRanges=collapsed&&layout.collapsedParkingRanges?layout.collapsedParkingRanges:layout.parkingRanges,showCoordinates=!collapsed,columnHeadersHidden=Boolean(layout.hideColumnHeaders||(collapsed&&layout.collapsedHideColumnHeaders)),showColumnHeaders=showCoordinates&&!columnHeadersHidden,showRowLabels=showCoordinates||Boolean(layout.rowLabels)||Boolean(collapsed&&layout.collapsedRowLabels),headerRows=columnHeadersHidden?0:1,collapsedRows=layout.collapsedVisibleRows||allRows.filter(row=>row>=layout.collapseBeforeRow),visibleRows=collapsed?collapsedRows:allRows,startColumn=layout.startColumn||1,columns=collapsed&&layout.collapsedColumns?layout.collapsedColumns:options.expanded&&layout.expandedColumns?layout.expandedColumns:layout.columns,endColumn=startColumn+columns-1,gridColumn=column=>column-startColumn+1,gridRowByActual=new Map(visibleRows.map((row,index)=>[row,index+1+headerRows])),cells=[];
   if(showColumnHeaders)cells.push('<span class="map-corner" style="grid-column:1;grid-row:1" aria-hidden="true"></span>',...PARKING_COLUMNS.slice(startColumn-1,endColumn).map((column,index)=>`<b class="map-column" style="grid-column:${index+2};grid-row:1" aria-hidden="true">${column}</b>`));
   for(const row of visibleRows){
     const gridRow=gridRowByActual.get(row);
     if(showRowLabels)cells.push(`<b class="map-row" style="grid-column:1;grid-row:${gridRow}" aria-hidden="true">${escapeHtml((collapsed?layout.collapsedRowLabels?.[row]:null)||layout.rowLabels?.[row]||String(row).padStart(2,'0'))}</b>`);
     for(let column=startColumn;column<=endColumn;column+=1){
+      const collapsedPosition=collapsed&&layout.collapsedGroups?.[row]?.[column-startColumn];
+      if(collapsed&&layout.collapsedGroups){if(!collapsedPosition)continue;const spot=byPosition.get(normalizePosition(collapsedPosition)),number=towerParkingLabel(collapsedPosition).split(' ').at(-1);cells.push(parkingCell(collapsedPosition,spot,!spot||visibleIds.has(spot.id),gridColumn(column),gridRow,1,1,false,number));continue;}
       const code=`${PARKING_COLUMNS[column-1]}${String(row).padStart(2,'0')}`,match=areaAt(layout,column,row);
       if(match){
         const visibleAreaStart=Math.max(match.bounds.column,startColumn),visibleAreaEnd=Math.min(match.bounds.column+match.bounds.columnSpan-1,endColumn);

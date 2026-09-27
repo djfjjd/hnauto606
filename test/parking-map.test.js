@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {normalizePosition,parkingCapacity,parkingLayouts} from '../src/parking-layouts.js';
+import {normalizePosition,parkingCapacity,parkingLayouts,towerParkingLabel} from '../src/parking-layouts.js';
 import {renderParkingMap} from '../src/parking-map.js';
 import {STATUS} from '../src/data.js';
 
@@ -12,13 +12,23 @@ test('기존 위치 라벨을 두 자리 행 좌표로 정규화한다',()=>{
   assert.equal(normalizePosition('A21'),'A21');
 });
 
+test('새싹타워 실제 좌표를 B5·B6 주차번호로 변환한다',()=>{
+  assert.equal(towerParkingLabel('D04'),'B5층 01');
+  assert.equal(towerParkingLabel('D08'),'B5층 05');
+  assert.equal(towerParkingLabel('A12'),'B5층 07');
+  assert.equal(towerParkingLabel('J04'),'B5층 40');
+  assert.equal(towerParkingLabel('D17'),'B6층 01');
+  assert.equal(towerParkingLabel('A25'),'B6층 06');
+  assert.equal(towerParkingLabel('G14'),'B6층 22');
+});
+
 test('전체 주차면은 실제 parking Cell만 합산한다',()=>{
   assert.equal(parkingCapacity(parkingLayouts.pillar11),30);
   assert.equal(parkingCapacity(parkingLayouts.b3),5);
   assert.equal(parkingCapacity(parkingLayouts.b5),12);
   assert.equal(parkingCapacity(parkingLayouts.roof),20);
-  assert.equal(parkingCapacity(parkingLayouts.tower),34);
-  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),101);
+  assert.equal(parkingCapacity(parkingLayouts.tower),61);
+  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),128);
 });
 
 test('B3층은 A·B열을 제외하고 C~I열을 도면 오른쪽 끝에 맞춘다',()=>{
@@ -57,13 +67,15 @@ test('B3층 E16~I16과 E17~I17 사이에 19번기둥 노란 실선을 표시한�
 test('새싹타워는 접으면 B5·B6층 20면, 펼치면 13·26행 없이 두 구역을 표시한다',()=>{
   const collapsed=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:false});
   const expanded=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:true});
-  assert.equal((collapsed.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,20);
-  assert.match(collapsed,/aria-label="A01 빈 자리"/);
-  assert.match(collapsed,/aria-label="J02 빈 자리"/);
+  assert.equal((collapsed.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,61);
+  assert.match(collapsed,/aria-label="D04 빈 자리"[^>]*><small class="parking-space-number">01<\/small>/);
+  assert.match(collapsed,/aria-label="J04 빈 자리"[^>]*><small class="parking-space-number">40<\/small>/);
+  assert.match(collapsed,/aria-label="D17 빈 자리"[^>]*><small class="parking-space-number">01<\/small>/);
+  assert.match(collapsed,/aria-label="G14 빈 자리"[^>]*><small class="parking-space-number">22<\/small>/);
   assert.match(collapsed,/>B5층<\/b>/);
   assert.match(collapsed,/>B6층<\/b>/);
   assert.doesNotMatch(collapsed,/class="map-column"/);
-  assert.match(collapsed,/--map-columns:10;--map-rows:2;--map-header-rows:0/);
+  assert.match(collapsed,/--map-columns:40;--map-rows:2;--map-header-rows:0/);
   assert.match(collapsed,/class="parking-map-grid has-no-column-header"/);
   assert.match(collapsed,/data-toggle-map="tower"[^>]*aria-expanded="false"/);
   assert.match(expanded,/class="map-column"[^>]*>M<\/b>/);
@@ -77,9 +89,8 @@ test('새싹타워는 접으면 B5·B6층 20면, 펼치면 13·26행 없이 두 
   assert.doesNotMatch(expanded,/aria-label="M13 비주차 구역"/);
   for(const code of ['B02','C02','D02','E02','F02','G02','H02','I02','J02'])assert.match(expanded,new RegExp(`aria-label="${code} 비주차 구역"`));
   for(const code of ['A01','M01','D03','J03'])assert.match(expanded,new RegExp(`aria-label="${code} 비주차 구역"`));
-  for(const code of ['A02','A12','D04','D06','B01','D01','G01','H01','M08','A15','A18','J04','J08'])assert.match(expanded,new RegExp(`class="parking-cell is-vacant is-unavailable"[^>]*aria-label="${code} 비활성 구역"[^>]*><strong class="parking-unavailable-mark" aria-hidden="true">X<\\/strong>`));
   for(const code of ['H14','I14'])assert.match(expanded,new RegExp(`class="parking-cell is-layout-blocked"[^>]*aria-label="${code} 비주차 구역"`));
-  for(const code of ['D07','D08','E01','L01','A25','D17','D21'])assert.match(expanded,new RegExp(`aria-label="${code} 빈 자리"`));
+  for(const code of ['D04','D08','A02','A12','B01','L01','M02','M08','J04','J08','A15','A25','D17','D21','B14','G14'])assert.match(expanded,new RegExp(`aria-label="${code} 빈 자리"`));
   assert.doesNotMatch(expanded,/>13<\/b>|>26<\/b>|aria-label="[A-M](?:13|26) /);
   assert.match(expanded,/class="parking-section-border" style="grid-column:2\/span 13;grid-row:2\/span 12"/);
   assert.match(expanded,/class="parking-section-border" style="grid-column:2\/span 13;grid-row:14\/span 12"/);

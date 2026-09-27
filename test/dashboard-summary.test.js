@@ -139,12 +139,11 @@ test('첫 화면 검색 결과는 보조 제목 없이 실제 값을 큰 글씨�
   assert.match(css,/\.parking-search-results span\{[^}]*font-size:15px[^}]*font-weight:600/);
 });
 
-test('새싹타워 검색 결과는 행에 따라 B5층과 B6층을 구분한다',()=>{
-  assert.match(main,/import \{normalizePosition,parkingCapacity,parkingLayouts\} from '\.\/parking-layouts\.js'/);
+test('새싹타워 검색 결과는 실제 좌표의 B5·B6 주차번호를 표시한다',()=>{
+  assert.match(main,/import \{normalizePosition,parkingCapacity,parkingLayouts,towerParkingLabel\} from '\.\/parking-layouts\.js'/);
   assert.match(main,/function parkingSearchZoneLabel\(spot\)/);
   assert.match(main,/spot\.zoneId==='tower'/);
-  assert.match(main,/row==='01'\)return'새싹 B5층'/);
-  assert.match(main,/row==='02'\)return'새싹 B6층'/);
+  assert.match(main,/spot\.zoneId==='tower'\)return`새싹 \$\{towerParkingLabel\(spot\.label\)\}`\.trim\(\)/);
   assert.match(main,/zoneLabel=parkingSearchZoneLabel\(s\)/);
   assert.match(main,/class="parking-search-location">\$\{esc\(zoneLabel\)\|\|'-'\}\$\{!VIEWER_MODE&&s\.isContracted\?'<b>\(계약중\)<\/b>':''\}/);
   assert.match(css,/\.parking-search-location b\{[^}]*color:#c82020/);
