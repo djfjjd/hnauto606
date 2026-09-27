@@ -20,6 +20,11 @@ test('빈 자리 배정 목록에서 미배정 차량과 아직 주차되지 않
   assert.match(main,/vehicle\.isCheckedOut\?'assign-checked-out':'move'/);
 });
 
+test('새싹 빈자리 팝업은 실제 셀 좌표 대신 B5·B6 주차구역 번호를 표시한다',()=>{
+  assert.match(main,/function modalLocationLabel\(s\)\{if\(state\.mode==='assign'&&s\.zoneId==='tower'\)return`주차구역 · \$\{towerParkingLabel\(s\.label\)\.replace\('층 ',''\)\}`/);
+  assert.match(main,/<p class="eyebrow">\$\{esc\(modalLocationLabel\(s\)\)\}<\/p>/);
+});
+
 test('빈 자리 검색에서 이미 주차된 차량의 차량번호와 주차구역을 안내한다',()=>{
   assert.match(main,/parkedVehicles=state\.spots\.filter\(vehicle=>used\(vehicle\)&&!vehicle\.isUnassigned&&!vehicle\.isCheckedOut\)/);
   assert.match(main,/unavailableMessage:`\(\$\{vehicle\.plate\}\) \(\$\{vehicle\.zoneShort\|\|vehicle\.zone\} \$\{vehicle\.label\}\) 주차되어있는 차량입니다\.`/);
