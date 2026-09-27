@@ -42,3 +42,8 @@ test('/view 검색은 출고 차량과 계약 상태 및 내부 관리 열을 �
   assert.match(main,/\$\{!VIEWER_MODE&&s\.isContracted\?'<b>\(계약중\)<\/b>':''\}/);
   assert.match(main,/\$\{VIEWER_MODE\?'':`<span>\$\{esc\(s\.manager\)\|\|'-'\}<\/span><span class="parking-search-dates">/);
 });
+
+test('/view 검색은 차량번호와 차종만 대상으로 한다',()=>{
+  assert.match(main,/searchValues=s=>VIEWER_MODE\?\[s\.plate,s\.model\]:\[s\.plate,s\.model,s\.color,s\.manager,s\.label,s\.zone\]/);
+  assert.match(main,/searchControl\(VIEWER_MODE\?'차량번호 · 차종 검색':'차량번호 · 차종 · 색상 · 담당자 검색'\)/);
+});
