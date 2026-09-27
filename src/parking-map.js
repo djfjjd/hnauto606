@@ -27,7 +27,7 @@ function blockedCell(code,column,gridRow){
 }
 
 function unavailableCell(code,column,gridRow){
-  return`<div class="parking-cell is-vacant is-unavailable" style="grid-column:${column+1};grid-row:${gridRow}" role="gridcell" aria-label="${code} 비활성 구역"></div>`;
+  return`<div class="parking-cell is-vacant is-unavailable" style="grid-column:${column+1};grid-row:${gridRow}" role="gridcell" aria-label="${code} 비활성 구역"><strong class="parking-unavailable-mark" aria-hidden="true">X</strong></div>`;
 }
 
 export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=>spot.id)),options={}){
