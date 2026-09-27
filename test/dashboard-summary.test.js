@@ -89,6 +89,7 @@ test('주차 차량과 상품화 차량을 분리해 다섯 개 통계 카드로
 
 test('전체 자리와 빈 자리 카드는 합계 오른쪽에 층별 자리 수를 줄바꿈해 표시한다',()=>{
   assert.match(main,/extraCapacity=zone\.id==='pillar11'\?5:zone\.id==='tower'\?10:0/);
+  assert.match(main,/baseCapacity=zone\.id==='tower'\?20:zone\.id==='pillar11'\?layoutCapacity-5:layoutCapacity/);
   assert.match(main,/capacity=baseCapacity\+extraCapacity/);
   assert.match(main,/extraEmpty=Math\.min\(extraCapacity,empty\)/);
   assert.match(main,/baseEmpty:Math\.max\(0,empty-extraEmpty\),extraEmpty/);
@@ -119,7 +120,8 @@ test('전체 자리와 빈 자리 카드는 합계 오른쪽에 층별 자리 �
 });
 
 test('새싹 통계는 기본 20자리와 추가 10자리를 분리해 계산한다',()=>{
-  assert.match(main,/baseCapacity=zone\.id==='tower'\?20:parkingCapacity\(parkingLayouts\[zone\.id\]\)/);
+  assert.match(main,/layoutCapacity=parkingCapacity\(parkingLayouts\[zone\.id\]\)/);
+  assert.match(main,/baseCapacity=zone\.id==='tower'\?20:zone\.id==='pillar11'\?layoutCapacity-5:layoutCapacity/);
   assert.match(main,/extraCapacity=zone\.id==='pillar11'\?5:zone\.id==='tower'\?10:0/);
   assert.match(main,/empty=Math\.max\(0,capacity-occupied\)/);
   assert.match(main,/empty=floorCounts\.reduce\(\(sum,floor\)=>sum\+floor\.empty,0\)/);
