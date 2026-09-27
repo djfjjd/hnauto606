@@ -12,7 +12,7 @@ test('지정 차량 12대를 B5 27번부터 B6 04번까지 고정 배치한다',
     assert.match(migration,new RegExp(`\\('${ending}','${label}'\\)`));
   }
   assert.match(api,/async function ensureTowerFixedPlacements\(db\)/);
-  assert.match(api,/viewer\/dashboard'\)\{await ensureTowerFixedPlacements\(env\.DB\)/);
-  assert.match(api,/parts\[0\]==='dashboard'\)\{await ensureTowerFixedPlacements\(env\.DB\)/);
+  assert.match(api,/viewer\/dashboard'\)\{await ensureTowerInteractiveSpots\(env\.DB\);await ensureTowerFixedPlacements\(env\.DB\)/);
+  assert.match(api,/parts\[0\]==='dashboard'\)\{await ensureTowerInteractiveSpots\(env\.DB\);await ensureTowerFixedPlacements\(env\.DB\)/);
   assert.match(api,/UPDATE parking_spots SET current_vehicle_id=\?,active=1/);
 });
