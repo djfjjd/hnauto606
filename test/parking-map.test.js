@@ -21,11 +21,13 @@ test('전체 주차면은 실제 parking Cell만 합산한다',()=>{
   assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),87);
 });
 
-test('B3층 확장 도면은 9×21 Grid Cell을 자동 생성한다',()=>{
+test('B3층은 A·B열을 제외하고 C~I열을 왼쪽부터 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
-  assert.equal((html.match(/class="parking-cell/g)||[]).length,180);
-  assert.match(html,/A01/);
+  assert.equal((html.match(/class="parking-cell/g)||[]).length,140);
+  assert.doesNotMatch(html,/A01|B01/);
+  assert.match(html,/grid-column:2;grid-row:2[^>]+aria-label="C01 비주차 구역"/);
   assert.match(html,/I20/);
+  assert.match(html,/--map-columns:7/);
   assert.match(html,/E\/V · 화장실/);
 });
 
@@ -38,7 +40,7 @@ test('B3층은 접으면 17행 주차면과 21행 시설만 표시한다',()=>{
   assert.match(collapsed,/aria-label="E17 빈 자리"/);
   assert.match(collapsed,/E\/V · 화장실/);
   const expanded=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
-  assert.match(expanded,/aria-label="A01 비주차 구역"/);
+  assert.doesNotMatch(expanded,/aria-label="A01 비주차 구역"|aria-label="B01 비주차 구역"/);
   assert.match(expanded,/aria-label="E16 비주차 구역"/);
   assert.match(expanded,/aria-label="E17 빈 자리"/);
 });
@@ -46,8 +48,8 @@ test('B3층은 접으면 17행 주차면과 21행 시설만 표시한다',()=>{
 test('B3층 E16~I16과 E17~I17 사이에 19번기둥 노란 실선을 표시한다',()=>{
   const collapsed=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:false});
   const expanded=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
-  assert.match(collapsed,/class="parking-pillar-divider" style="grid-column:6\/span 5;grid-row:2"[^>]*><span>19번기둥<\/span>/);
-  assert.match(expanded,/class="parking-pillar-divider" style="grid-column:6\/span 5;grid-row:18"[^>]*><span>19번기둥<\/span>/);
+  assert.match(collapsed,/class="parking-pillar-divider" style="grid-column:4\/span 5;grid-row:2"[^>]*><span>19번기둥<\/span>/);
+  assert.match(expanded,/class="parking-pillar-divider" style="grid-column:4\/span 5;grid-row:18"[^>]*><span>19번기둥<\/span>/);
 });
 
 test('새싹타워는 A~J열의 B5·B6층 20면으로 표시한다',()=>{
@@ -221,6 +223,8 @@ test('B5층은 접으면 14행부터 17행까지와 시설행을 표시한다',(
   assert.match(expanded,/>15<\/b>/);
   assert.match(expanded,/>21<\/b>/);
   assert.match(expanded,/grid-column:5\/span 2[^>]+><strong>E\/V · 화장실<\/strong>/);
+  assert.match(expanded,/--map-columns:7/);
+  assert.doesNotMatch(expanded,/aria-label="H01 비주차 구역"|aria-label="I01 비주차 구역"/);
 });
 
 test('B5층 A13~F13·A14~F14 사이와 A17~F17·A18~F18 사이에 오른쪽 기둥선을 표시한다',()=>{

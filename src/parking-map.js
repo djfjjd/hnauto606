@@ -28,31 +28,32 @@ function blockedCell(code,column,gridRow){
 
 export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=>spot.id)),options={}){
   const byPosition=new Map(spots.map(spot=>[normalizePosition(spot.label),spot]));
-  const allRows=Array.from({length:layout.rows},(_,index)=>index+1),hasToggle=Boolean(layout.collapseBeforeRow||layout.collapsedVisibleRows),collapsed=hasToggle&&!options.expanded,showCoordinates=!collapsed,showColumnHeaders=showCoordinates&&!layout.hideColumnHeaders,showRowLabels=showCoordinates||Boolean(layout.rowLabels),headerRows=layout.hideColumnHeaders?0:1,collapsedRows=layout.collapsedVisibleRows||allRows.filter(row=>row>=layout.collapseBeforeRow),visibleRows=collapsed?collapsedRows:allRows,columns=options.expanded&&layout.expandedColumns?layout.expandedColumns:layout.columns,gridRowByActual=new Map(visibleRows.map((row,index)=>[row,index+1+headerRows])),cells=[];
-  if(showColumnHeaders)cells.push('<span class="map-corner" style="grid-column:1;grid-row:1" aria-hidden="true"></span>',...PARKING_COLUMNS.slice(0,columns).map((column,index)=>`<b class="map-column" style="grid-column:${index+2};grid-row:1" aria-hidden="true">${column}</b>`));
+  const allRows=Array.from({length:layout.rows},(_,index)=>index+1),hasToggle=Boolean(layout.collapseBeforeRow||layout.collapsedVisibleRows),collapsed=hasToggle&&!options.expanded,showCoordinates=!collapsed,showColumnHeaders=showCoordinates&&!layout.hideColumnHeaders,showRowLabels=showCoordinates||Boolean(layout.rowLabels),headerRows=layout.hideColumnHeaders?0:1,collapsedRows=layout.collapsedVisibleRows||allRows.filter(row=>row>=layout.collapseBeforeRow),visibleRows=collapsed?collapsedRows:allRows,startColumn=layout.startColumn||1,columns=options.expanded&&layout.expandedColumns?layout.expandedColumns:layout.columns,endColumn=startColumn+columns-1,gridColumn=column=>column-startColumn+1,gridRowByActual=new Map(visibleRows.map((row,index)=>[row,index+1+headerRows])),cells=[];
+  if(showColumnHeaders)cells.push('<span class="map-corner" style="grid-column:1;grid-row:1" aria-hidden="true"></span>',...PARKING_COLUMNS.slice(startColumn-1,endColumn).map((column,index)=>`<b class="map-column" style="grid-column:${index+2};grid-row:1" aria-hidden="true">${column}</b>`));
   for(const row of visibleRows){
     const gridRow=gridRowByActual.get(row);
     if(showRowLabels)cells.push(`<b class="map-row" style="grid-column:1;grid-row:${gridRow}" aria-hidden="true">${escapeHtml(layout.rowLabels?.[row]||String(row).padStart(2,'0'))}</b>`);
-    for(let column=1;column<=columns;column+=1){
+    for(let column=startColumn;column<=endColumn;column+=1){
       const code=`${PARKING_COLUMNS[column-1]}${String(row).padStart(2,'0')}`,match=areaAt(layout,column,row);
       if(match){
-        if(column!==match.bounds.column||row!==match.bounds.row)continue;
+        const visibleAreaStart=Math.max(match.bounds.column,startColumn),visibleAreaEnd=Math.min(match.bounds.column+match.bounds.columnSpan-1,endColumn);
+        if(column!==visibleAreaStart||row!==match.bounds.row)continue;
         const areaGridRow=gridRowByActual.get(match.bounds.row);
         if(!areaGridRow)continue;
         if(match.area.type==='parking'){
           const spot=byPosition.get(normalizePosition(match.area.from));
-          cells.push(parkingCell(code,spot,!spot||visibleIds.has(spot.id),column,areaGridRow,match.bounds.columnSpan,match.bounds.rowSpan));
+          cells.push(parkingCell(code,spot,!spot||visibleIds.has(spot.id),gridColumn(column),areaGridRow,visibleAreaEnd-visibleAreaStart+1,match.bounds.rowSpan));
         }else{
-          cells.push(`<div class="parking-special type-${escapeHtml(match.area.type)}${match.area.borderless?' is-borderless':''}" style="grid-column:${column+1}/span ${match.bounds.columnSpan};grid-row:${areaGridRow}/span ${match.bounds.rowSpan}" role="gridcell"><strong>${escapeHtml(match.area.label)}</strong></div>`);
+          cells.push(`<div class="parking-special type-${escapeHtml(match.area.type)}${match.area.borderless?' is-borderless':''}" style="grid-column:${gridColumn(column)+1}/span ${visibleAreaEnd-visibleAreaStart+1};grid-row:${areaGridRow}/span ${match.bounds.rowSpan}" role="gridcell"><strong>${escapeHtml(match.area.label)}</strong></div>`);
         }
         continue;
       }
       const spot=byPosition.get(code),parking=layout.defaultCellType==='parking'||positionInRanges(code,layout.parkingRanges);
-      cells.push(parking?parkingCell(code,spot,!spot||visibleIds.has(spot.id),column,gridRow,1,1,positionInRanges(code,layout.tintedRanges)):blockedCell(code,column,gridRow));
+      cells.push(parking?parkingCell(code,spot,!spot||visibleIds.has(spot.id),gridColumn(column),gridRow,1,1,positionInRanges(code,layout.tintedRanges)):blockedCell(code,gridColumn(column),gridRow));
     }
   }
   if(options.zoneId==='pillar11'&&gridRowByActual.has(18))cells.push(`<div class="parking-pillar-divider" style="grid-column:6/span 5;grid-row:${gridRowByActual.get(18)}" aria-label="17행과 18행 사이 11번기둥"><span>11번기둥</span></div>`);
-  if(options.zoneId==='b3'&&gridRowByActual.has(17))cells.push(`<div class="parking-pillar-divider" style="grid-column:6/span 5;grid-row:${gridRowByActual.get(17)}" aria-label="16행과 17행 사이 19번기둥"><span>19번기둥</span></div>`);
+  if(options.zoneId==='b3'&&gridRowByActual.has(17))cells.push(`<div class="parking-pillar-divider" style="grid-column:4/span 5;grid-row:${gridRowByActual.get(17)}" aria-label="16행과 17행 사이 19번기둥"><span>19번기둥</span></div>`);
   if(options.zoneId==='b5'&&gridRowByActual.has(14))cells.push(`<div class="parking-pillar-divider is-label-right" style="grid-column:2/span 6;grid-row:${gridRowByActual.get(14)}" aria-label="13행 A~F와 14행 A~F 사이 9번기둥"><span>9번기둥</span></div>`);
   if(options.zoneId==='b5'&&(gridRowByActual.has(18)||gridRowByActual.has(17))){const afterVisibleRow=!gridRowByActual.has(18);cells.push(`<div class="parking-pillar-divider is-label-right${afterVisibleRow?' is-after-row':''}" style="grid-column:2/span 6;grid-row:${gridRowByActual.get(afterVisibleRow?17:18)}" aria-label="17행 A~F와 18행 A~F 사이 8번기둥"><span>8번기둥</span></div>`);}
   return`<section class="parking-map" data-map-zone="${escapeHtml(options.zoneId||'')}" aria-label="${escapeHtml(layout.name)} 주차장 배치"><div class="parking-map-head"><h2>${escapeHtml(layout.name)}</h2>${hasToggle?`<button class="map-head-toggle" data-toggle-map="${escapeHtml(options.zoneId||'')}" aria-expanded="${options.expanded?'true':'false'}"><span aria-hidden="true">${options.expanded?'▲':'▼'}</span> ${options.expanded?'접기':'펼치기'}</button>`:''}</div><div class="parking-map-scroll"><div class="parking-map-grid${headerRows?'':' has-no-column-header'}" role="grid" style="--map-columns:${columns};--map-rows:${visibleRows.length};--map-header-rows:${headerRows};--cell-width:${layout.cellWidth||62}px;--row-label-width:${layout.rowLabelWidth||20}px">${cells.join('')}</div></div></section>`;

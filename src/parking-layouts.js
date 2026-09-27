@@ -21,6 +21,8 @@ export const parkingLayouts={
     ],
   }),
   b3:baseLayout('서서울모터리움 B3층',{
+    startColumn:3,
+    columns:7,
     rows:21,
     collapsedVisibleRows:[17,21],
     toggleBeforeRow:16,
@@ -33,6 +35,7 @@ export const parkingLayouts={
     ],
   }),
   b5:baseLayout('서서울모터리움 B5층',{
+    columns:7,
     rows:21,
     collapsedVisibleRows:[14,15,16,17,21],
     toggleBeforeRow:15,
@@ -41,7 +44,7 @@ export const parkingLayouts={
     specialAreas:[
       {from:'A21',to:'C21',type:'blocked',label:''},
       {from:'D21',to:'E21',type:'facility',label:'E/V · 화장실'},
-      {from:'F21',to:'I21',type:'blocked',label:''},
+      {from:'F21',to:'G21',type:'blocked',label:''},
     ],
   }),
   roof:baseLayout('서서울모터리움 옥상층',{
@@ -88,8 +91,9 @@ export function positionInRanges(code,ranges=[]){
 
 export function parkingCapacity(layout){
   let total=0;
+  const startColumn=layout.startColumn||1;
   for(let row=1;row<=layout.rows;row+=1){
-    for(let column=1;column<=layout.columns;column+=1){
+    for(let column=startColumn;column<startColumn+layout.columns;column+=1){
       const code=`${PARKING_COLUMNS[column-1]}${String(row).padStart(2,'0')}`;
       const area=layout.specialAreas.find(item=>positionInRanges(code,[item]));
       if(area){
