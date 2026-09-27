@@ -39,6 +39,7 @@ test('/view 새싹타워는 B5 아래에서 12행씩 좌우로 나눠 표시한�
   assert.match(css,/\.viewer-page \.zones\.is-all>\.parking-map\[data-map-zone="tower"\]\{grid-column:1\/-1;grid-row:4\}/);
   assert.match(css,/\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-map-scroll\{overflow-x:hidden;padding-right:0;padding-left:0\}/);
   assert.match(css,/\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-map-grid\{width:100%;grid-template-columns:repeat\(var\(--map-columns\),minmax\(0,1fr\)\)\}/);
+  assert.match(css,/\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-special\.type-facility strong\{font-size:36px\}/);
 });
 
 test('/view 주차 칸은 계약·출고 강조와 상태 문구 및 경고 아이콘을 숨긴다',()=>{
