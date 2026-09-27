@@ -35,3 +35,9 @@ test('/view 주차 칸은 계약·출고 강조와 상태 문구 및 경고 아�
   assert.match(main,/model\.textContent\.replace\(\/\^\\\(\(\?:계약됨\|출고됨\)\\\)\\s\*\//);
   assert.match(main,/replace\(\/ \(\?:계약됨\|출고됨\)\$\/,' 주차 중'\)/);
 });
+
+test('/view 검색은 출고 차량과 계약 상태 및 내부 관리 열을 숨긴다',()=>{
+  assert.match(main,/const searchPool=VIEWER_MODE\?state\.spots\.filter\(vehicle=>!vehicle\.isCheckedOut\):/);
+  assert.match(main,/\$\{!VIEWER_MODE&&s\.isContracted\?'<b>\(계약중\)<\/b>':''\}/);
+  assert.match(main,/\$\{VIEWER_MODE\?'':`<span>\$\{esc\(s\.manager\)\|\|'-'\}<\/span><span class="parking-search-dates">/);
+});

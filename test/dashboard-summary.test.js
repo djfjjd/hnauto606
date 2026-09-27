@@ -146,7 +146,7 @@ test('새싹타워 검색 결과는 행에 따라 B5층과 B6층을 구분한다
   assert.match(main,/row==='01'\)return'새싹 B5층'/);
   assert.match(main,/row==='02'\)return'새싹 B6층'/);
   assert.match(main,/zoneLabel=parkingSearchZoneLabel\(s\)/);
-  assert.match(main,/class="parking-search-location">\$\{esc\(zoneLabel\)\|\|'-'\}\$\{s\.isContracted\?'<b>\(계약중\)<\/b>':''\}/);
+  assert.match(main,/class="parking-search-location">\$\{esc\(zoneLabel\)\|\|'-'\}\$\{!VIEWER_MODE&&s\.isContracted\?'<b>\(계약중\)<\/b>':''\}/);
   assert.match(css,/\.parking-search-location b\{[^}]*color:#c82020/);
   assert.match(main,/checkedInDate=String\(s\.checkedInAt\|\|''\)\.slice\(0,10\),checkedOutDate=String\(s\.checkedOutAt\|\|''\)\.slice\(0,10\)/);
   assert.match(main,/class="parking-search-dates"><time title="입고일">\$\{esc\(checkedInDate\)\|\|'-'\}<\/time>\$\{s\.isCheckedOut\?`<time title="출고일">/);
