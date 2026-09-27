@@ -3,6 +3,8 @@ export const PARKING_COLUMNS=['A','B','C','D','E','F','G','H','I','J','K','L','M
 const baseLayout=(name,overrides={})=>({name,columns:9,rows:20,defaultCellType:'parking',parkingRanges:[],specialAreas:[],...overrides});
 const towerB5ParkingOrder=[...Array.from({length:5},(_,index)=>`D${String(index+4).padStart(2,'0')}`),...Array.from({length:11},(_,index)=>`A${String(12-index).padStart(2,'0')}`),...PARKING_COLUMNS.slice(1,12).map(column=>`${column}01`),...Array.from({length:7},(_,index)=>`M${String(index+2).padStart(2,'0')}`),...Array.from({length:5},(_,index)=>`J${String(8-index).padStart(2,'0')}`)];
 const towerB6ParkingOrder=[...Array.from({length:5},(_,index)=>`D${index+17}`),...Array.from({length:11},(_,index)=>`A${25-index}`),...PARKING_COLUMNS.slice(1,7).map(column=>`${column}14`)];
+const towerUnavailablePositions=new Set([...Array.from({length:11},(_,index)=>`A${String(index+2).padStart(2,'0')}`),'D04','D05','D06','B01','C01','D01','G01','H01','M08','A15','A18','J04','J05','J06','J07','J08']);
+const towerCollapsedGroups={B5:towerB5ParkingOrder.filter(position=>!towerUnavailablePositions.has(position)),B6:towerB6ParkingOrder.filter(position=>!towerUnavailablePositions.has(position))};
 
 // 실제 도면을 반영할 때 specialAreas만 수정합니다.
 // {from:'A01',to:'C04',type:'company-area',label:'제이카'}처럼 범위를 지정할 수 있습니다.
@@ -72,20 +74,30 @@ export const parkingLayouts={
     rows:25,
     hiddenRows:[13],
     collapsedVisibleRows:[1,2],
-    collapsedColumns:40,
-    collapsedGroups:{1:towerB5ParkingOrder,2:towerB6ParkingOrder},
+    collapsedColumns:8,
+    collapsedGroups:towerCollapsedGroups,
     collapsedHideColumnHeaders:true,
     defaultCellType:'blocked',
     collapsedParkingRanges:[{from:'A01',to:'J02'}],
     parkingRanges:[
-      {from:'D04',to:'D08'},
-      {from:'A02',to:'A12'},
-      {from:'B01',to:'L01'},
-      {from:'M02',to:'M08'},
-      {from:'J04',to:'J08'},
+      {from:'D07',to:'D08'},
+      {from:'E01',to:'F01'},
+      {from:'I01',to:'L01'},
+      {from:'M02',to:'M07'},
       {from:'B14',to:'G14'},
-      {from:'A15',to:'A25'},
+      {from:'A16',to:'A17'},
+      {from:'A19',to:'A25'},
       {from:'D17',to:'D21'},
+    ],
+    unavailableRanges:[
+      {from:'A02',to:'A12'},
+      {from:'D04',to:'D06'},
+      {from:'B01',to:'D01'},
+      {from:'G01',to:'H01'},
+      {from:'M08'},
+      {from:'J04',to:'J08'},
+      {from:'A15'},
+      {from:'A18'},
     ],
     specialAreas:[
       {from:'E04',to:'I08',type:'facility',label:'E/V'},
@@ -97,7 +109,6 @@ export const parkingLayouts={
     sectionBorders:[{from:'A01',to:'M12'},{from:'A14',to:'M25'}],
     cellWidth:58,
     rowLabelWidth:42,
-    collapsedRowLabels:{1:'B5층',2:'B6층'},
   }),
 };
 
