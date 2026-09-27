@@ -64,7 +64,7 @@ test('B3층 E16~I16과 E17~I17 사이에 19번기둥 노란 실선을 표시한�
   assert.match(expanded,/class="parking-pillar-divider" style="grid-column:4\/span 5;grid-row:18"[^>]*><span>19번기둥<\/span>/);
 });
 
-test('새싹타워는 접으면 층별 8칸씩 표시하고 펼치면 X 구역을 유지한다',()=>{
+test('새싹타워는 접으면 B5 7칸·B6 5칸씩 표시하고 펼치면 X 구역을 유지한다',()=>{
   const collapsed=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:false});
   const expanded=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:true});
   assert.equal((collapsed.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,34);
@@ -72,10 +72,10 @@ test('새싹타워는 접으면 층별 8칸씩 표시하고 펼치면 X 구역�
   assert.match(collapsed,/aria-label="M07 빈 자리"[^>]*><small class="parking-space-number">34<\/small>/);
   assert.match(collapsed,/aria-label="D17 빈 자리"[^>]*><small class="parking-space-number">01<\/small>/);
   assert.match(collapsed,/aria-label="G14 빈 자리"[^>]*><small class="parking-space-number">22<\/small>/);
-  assert.match(collapsed,/>B5층<\/b>/);
-  assert.match(collapsed,/>B6층<\/b>/);
+  assert.equal((collapsed.match(/>B5층<\/b>/g)||[]).length,2);
+  assert.equal((collapsed.match(/>B6층<\/b>/g)||[]).length,4);
   assert.doesNotMatch(collapsed,/class="map-column"/);
-  assert.match(collapsed,/--map-columns:8;--map-rows:5;--map-header-rows:0/);
+  assert.match(collapsed,/--map-columns:7;--map-rows:6;--map-header-rows:0/);
   assert.match(collapsed,/class="parking-map-grid has-no-column-header"/);
   assert.match(collapsed,/data-toggle-map="tower"[^>]*aria-expanded="false"/);
   assert.match(expanded,/class="map-column"[^>]*>M<\/b>/);
