@@ -67,7 +67,7 @@ export const parkingLayouts={
   tower:baseLayout('좋은책신사고 새싹타워',{
     columns:10,
     expandedColumns:13,
-    rows:13,
+    rows:26,
     collapsedVisibleRows:[1,2],
     collapsedHideColumnHeaders:true,
     defaultCellType:'blocked',
@@ -78,11 +78,19 @@ export const parkingLayouts={
       {from:'D04',to:'D08'},
       {from:'J04',to:'J08'},
       {from:'M02',to:'M08'},
+      {from:'B14',to:'L14'},
+      {from:'A15',to:'A26'},
+      {from:'D17',to:'D21'},
+      {from:'J17',to:'J21'},
+      {from:'M15',to:'M21'},
     ],
     specialAreas:[
       {from:'E04',to:'I08',type:'facility',label:'E/V'},
       {from:'D09',to:'M13',type:'entrance',label:'주차장 출입구 램프'},
+      {from:'E17',to:'I21',type:'facility',label:'E/V'},
+      {from:'D22',to:'M26',type:'entrance',label:'주차장 출입구 램프'},
     ],
+    sectionBorders:[{from:'A01',to:'M13'},{from:'A14',to:'M26'}],
     cellWidth:58,
     rowLabelWidth:42,
     collapsedRowLabels:{1:'B5층',2:'B6층'},
@@ -90,7 +98,7 @@ export const parkingLayouts={
 };
 
 export function normalizePosition(value){
-  const match=String(value||'').trim().toUpperCase().match(/^([A-M])0?([1-9]|1\d|2[01])$/);
+  const match=String(value||'').trim().toUpperCase().match(/^([A-M])0?([1-9]|1\d|2[0-6])$/);
   return match?`${match[1]}${String(Number(match[2])).padStart(2,'0')}`:'';
 }
 
