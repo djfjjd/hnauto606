@@ -17,8 +17,8 @@ test('전체 주차면은 실제 parking Cell만 합산한다',()=>{
   assert.equal(parkingCapacity(parkingLayouts.b3),5);
   assert.equal(parkingCapacity(parkingLayouts.b5),12);
   assert.equal(parkingCapacity(parkingLayouts.roof),20);
-  assert.equal(parkingCapacity(parkingLayouts.tower),53);
-  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),120);
+  assert.equal(parkingCapacity(parkingLayouts.tower),44);
+  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),111);
 });
 
 test('B3층은 A·B열을 제외하고 C~I열을 도면 오른쪽 끝에 맞춘다',()=>{
@@ -72,6 +72,7 @@ test('새싹타워는 접으면 B5·B6층 20면, 펼치면 A1~M13 도면으로 �
   assert.match(expanded,/class="parking-special type-facility" style="grid-column:7\/span 5;grid-row:4\/span 6"[^>]*><strong>E\/V<\/strong>/);
   assert.match(expanded,/class="parking-special type-entrance" style="grid-column:6\/span 9;grid-row:10\/span 5"[^>]*><strong>주차장 출입구 램프<\/strong>/);
   assert.doesNotMatch(expanded,/aria-label="F03 비주차 구역"|aria-label="M13 비주차 구역"/);
+  for(const code of ['B02','C02','D02','E02','F02','G02','H02','I02','J02'])assert.match(expanded,new RegExp(`aria-label="${code} 비주차 구역"`));
   for(const code of ['E03','E08','K03','K08','A13','M08'])assert.match(expanded,new RegExp(`aria-label="${code} 빈 자리"`));
 });
 

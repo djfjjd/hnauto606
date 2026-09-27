@@ -71,8 +71,8 @@ export const parkingLayouts={
     collapsedVisibleRows:[1,2],
     collapsedHideColumnHeaders:true,
     defaultCellType:'blocked',
+    collapsedParkingRanges:[{from:'A01',to:'J02'}],
     parkingRanges:[
-      {from:'A01',to:'J02'},
       {from:'A01',to:'M01'},
       {from:'A02',to:'A13'},
       {from:'E03',to:'E08'},

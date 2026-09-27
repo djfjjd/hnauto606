@@ -28,7 +28,7 @@ function blockedCell(code,column,gridRow){
 
 export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=>spot.id)),options={}){
   const byPosition=new Map(spots.map(spot=>[normalizePosition(spot.label),spot]));
-  const allRows=Array.from({length:layout.rows},(_,index)=>index+1),hasToggle=Boolean(layout.collapseBeforeRow||layout.collapsedVisibleRows),collapsed=hasToggle&&!options.expanded,showCoordinates=!collapsed,columnHeadersHidden=Boolean(layout.hideColumnHeaders||(collapsed&&layout.collapsedHideColumnHeaders)),showColumnHeaders=showCoordinates&&!columnHeadersHidden,showRowLabels=showCoordinates||Boolean(layout.rowLabels)||Boolean(collapsed&&layout.collapsedRowLabels),headerRows=columnHeadersHidden?0:1,collapsedRows=layout.collapsedVisibleRows||allRows.filter(row=>row>=layout.collapseBeforeRow),visibleRows=collapsed?collapsedRows:allRows,startColumn=layout.startColumn||1,columns=options.expanded&&layout.expandedColumns?layout.expandedColumns:layout.columns,endColumn=startColumn+columns-1,gridColumn=column=>column-startColumn+1,gridRowByActual=new Map(visibleRows.map((row,index)=>[row,index+1+headerRows])),cells=[];
+  const allRows=Array.from({length:layout.rows},(_,index)=>index+1),hasToggle=Boolean(layout.collapseBeforeRow||layout.collapsedVisibleRows),collapsed=hasToggle&&!options.expanded,parkingRanges=collapsed&&layout.collapsedParkingRanges?layout.collapsedParkingRanges:layout.parkingRanges,showCoordinates=!collapsed,columnHeadersHidden=Boolean(layout.hideColumnHeaders||(collapsed&&layout.collapsedHideColumnHeaders)),showColumnHeaders=showCoordinates&&!columnHeadersHidden,showRowLabels=showCoordinates||Boolean(layout.rowLabels)||Boolean(collapsed&&layout.collapsedRowLabels),headerRows=columnHeadersHidden?0:1,collapsedRows=layout.collapsedVisibleRows||allRows.filter(row=>row>=layout.collapseBeforeRow),visibleRows=collapsed?collapsedRows:allRows,startColumn=layout.startColumn||1,columns=options.expanded&&layout.expandedColumns?layout.expandedColumns:layout.columns,endColumn=startColumn+columns-1,gridColumn=column=>column-startColumn+1,gridRowByActual=new Map(visibleRows.map((row,index)=>[row,index+1+headerRows])),cells=[];
   if(showColumnHeaders)cells.push('<span class="map-corner" style="grid-column:1;grid-row:1" aria-hidden="true"></span>',...PARKING_COLUMNS.slice(startColumn-1,endColumn).map((column,index)=>`<b class="map-column" style="grid-column:${index+2};grid-row:1" aria-hidden="true">${column}</b>`));
   for(const row of visibleRows){
     const gridRow=gridRowByActual.get(row);
@@ -48,7 +48,7 @@ export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=
         }
         continue;
       }
-      const spot=byPosition.get(code),parking=layout.defaultCellType==='parking'||positionInRanges(code,layout.parkingRanges);
+      const spot=byPosition.get(code),parking=layout.defaultCellType==='parking'||positionInRanges(code,parkingRanges);
       cells.push(parking?parkingCell(code,spot,!spot||visibleIds.has(spot.id),gridColumn(column),gridRow,1,1,positionInRanges(code,layout.tintedRanges)):blockedCell(code,gridColumn(column),gridRow));
     }
   }
