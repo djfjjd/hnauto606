@@ -205,19 +205,34 @@ test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
   assert.match(html,/>▼<\/span> 펼치기/);
 });
 
-test('B5층은 접으면 17~20행도 숨긴다',()=>{
+test('B5층은 접으면 14행부터 17행까지와 시설행을 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:false});
   assert.match(html,/aria-label="F15 빈 자리"/);
   assert.match(html,/aria-label="F16 빈 자리"/);
   assert.doesNotMatch(html,/>15<\/b>/);
   assert.doesNotMatch(html,/>16<\/b>/);
   assert.doesNotMatch(html,/>21<\/b>/);
-  assert.doesNotMatch(html,/>17<\/b>/);
+  assert.doesNotMatch(html,/aria-label="A13 비주차 구역"/);
+  assert.match(html,/aria-label="A14 비주차 구역"/);
+  assert.match(html,/aria-label="F17 비주차 구역"/);
+  assert.doesNotMatch(html,/aria-label="F18 비주차 구역"/);
   assert.doesNotMatch(html,/>20<\/b>/);
   const expanded=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:true});
   assert.match(expanded,/>15<\/b>/);
   assert.match(expanded,/>21<\/b>/);
   assert.match(expanded,/grid-column:5\/span 2[^>]+><strong>E\/V · 화장실<\/strong>/);
+});
+
+test('B5층 A13~F13·A14~F14 사이와 A17~F17·A18~F18 사이에 오른쪽 기둥선을 표시한다',()=>{
+  const collapsed=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:false});
+  const expanded=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:true});
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+  assert.match(collapsed,/class="parking-pillar-divider is-label-right" style="grid-column:2\/span 6;grid-row:2"[^>]*><span>9번기둥<\/span>/);
+  assert.match(collapsed,/class="parking-pillar-divider is-label-right is-after-row" style="grid-column:2\/span 6;grid-row:5"[^>]*><span>8번기둥<\/span>/);
+  assert.match(expanded,/class="parking-pillar-divider is-label-right" style="grid-column:2\/span 6;grid-row:15"[^>]*><span>9번기둥<\/span>/);
+  assert.match(expanded,/class="parking-pillar-divider is-label-right" style="grid-column:2\/span 6;grid-row:19"[^>]*><span>8번기둥<\/span>/);
+  assert.match(css,/\.parking-pillar-divider\.is-label-right span\{right:auto;left:calc\(100% \+ 5px\)\}/);
+  assert.match(css,/\.parking-pillar-divider\.is-after-row\{align-self:end;margin-top:0;margin-bottom:-2px\}/);
 });
 
 test('모든 접이식 층은 토글을 제목 행 오른쪽에 표시하고 Grid 토글 행을 만들지 않는다',()=>{

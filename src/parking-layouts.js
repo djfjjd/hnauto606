@@ -34,7 +34,7 @@ export const parkingLayouts={
   }),
   b5:baseLayout('서서울모터리움 B5층',{
     rows:21,
-    collapsedVisibleRows:[15,16,21],
+    collapsedVisibleRows:[14,15,16,17,21],
     toggleBeforeRow:15,
     defaultCellType:'blocked',
     parkingRanges:[{from:'A15',to:'F16'}],
