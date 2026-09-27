@@ -76,9 +76,10 @@ export const parkingLayouts={
     collapsedVisibleRows:[1,2],
     collapsedColumns:7,
     collapsedGroups:towerCollapsedGroups,
-    collapsedGroupColumns:{B5:7,B6:5},
+    collapsedGroupColumns:{B5:7,B6:7},
     collapsedVisibleLimit:20,
     collapsedHideColumnHeaders:true,
+    hideRowLabels:true,
     defaultCellType:'blocked',
     collapsedParkingRanges:[{from:'A01',to:'J02'}],
     parkingRanges:[
