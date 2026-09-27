@@ -123,6 +123,15 @@ test('새싹타워 B6 차량 20대는 접기 상태에서 7칸·7칸·6칸으로
   assert.equal((html.match(/grid-row:3\/span 1/g)||[]).length,6);
 });
 
+test('새싹타워 펼침 도면은 12행씩 M열 오른쪽에 나란히 배치할 수 있다',()=>{
+  const html=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:true,splitAfterRow:12});
+  assert.match(html,/class="parking-map-grid has-no-row-label is-side-by-side"/);
+  assert.match(html,/--map-columns:26;--map-rows:12;--map-header-rows:1/);
+  assert.match(html,/aria-label="A12 비활성 구역"/);
+  assert.match(html,/class="parking-cell is-vacant is-unavailable" style="grid-column:14;grid-row:3"[^>]*aria-label="A15 비활성 구역"/);
+  assert.match(html,/class="parking-section-border" style="grid-column:14\/span 13;grid-row:2\/span 12"/);
+});
+
 test('빈 자리에는 주차 가능 보조 문구를 표시하지 않는다',()=>{
   const html=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
   assert.doesNotMatch(html,/주차 가능/);

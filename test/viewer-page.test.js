@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
+const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 
 test('/view는 인증 전에 공개 조회 데이터를 불러온다',()=>{
@@ -29,6 +30,11 @@ test('/view는 통계와 상품화·계약 출고 목록을 숨기고 새싹타�
   assert.match(main,/\.map-head-toggle:not\(\[data-toggle-map="tower"\]\),\.parking-alert-icons,\.parking-option-indicator/);
   assert.match(main,/document\.querySelector\('\[data-toggle-map="tower"\]'\)\?\.addEventListener\('click'/);
   assert.doesNotMatch(main,/renderViewerWorkspace\(\);renderCheckedOutSummary\(\);renderParkingSearchResults\(\)/);
+});
+
+test('/view 새싹타워는 B5 아래에서 12행씩 좌우로 나눠 표시한다',()=>{
+  assert.match(main,/splitAfterRow:VIEWER_MODE&&zone\.id==='tower'\?12:0/);
+  assert.match(css,/\.viewer-page \.zones\.is-all>\.parking-map\[data-map-zone="tower"\]\{grid-column:1\/-1;grid-row:4\}/);
 });
 
 test('/view 주차 칸은 계약·출고 강조와 상태 문구 및 경고 아이콘을 숨긴다',()=>{
