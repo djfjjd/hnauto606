@@ -72,6 +72,10 @@ export const parkingLayouts={
     collapsedHideColumnHeaders:true,
     defaultCellType:'blocked',
     parkingRanges:[{from:'A01',to:'J02'}],
+    specialAreas:[
+      {from:'F03',to:'J08',type:'blocked',label:''},
+      {from:'F09',to:'M13',type:'blocked',label:''},
+    ],
     cellWidth:58,
     rowLabelWidth:42,
     collapsedRowLabels:{1:'B5층',2:'B6층'},
