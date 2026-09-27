@@ -96,6 +96,7 @@ test('새싹타워는 접으면 B5·B6를 7칸 기준으로 표시하고 펼치�
   assert.match(expanded,/class="parking-section-border" style="grid-column:1\/span 13;grid-row:2\/span 12"/);
   assert.match(expanded,/class="parking-section-border" style="grid-column:1\/span 13;grid-row:14\/span 12"/);
   assert.match(readFileSync(new URL('../src/style.css',import.meta.url),'utf8'),/\.parking-section-border\{z-index:4;border:3px solid #facc15;pointer-events:none\}/);
+  assert.match(readFileSync(new URL('../src/style.css',import.meta.url),'utf8'),/\.parking-map\[data-map-zone="tower"\] \.parking-section-border\{border-color:#247ba0\}/);
   assert.match(readFileSync(new URL('../src/style.css',import.meta.url),'utf8'),/\.parking-cell\.is-vacant\.is-unavailable::before\{content:none\}/);
   assert.match(readFileSync(new URL('../src/style.css',import.meta.url),'utf8'),/\.parking-map\[data-map-zone="tower"\] \.parking-special\.type-entrance strong\{writing-mode:horizontal-tb/);
 });
