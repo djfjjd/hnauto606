@@ -71,10 +71,17 @@ export const parkingLayouts={
     collapsedVisibleRows:[1,2],
     collapsedHideColumnHeaders:true,
     defaultCellType:'blocked',
-    parkingRanges:[{from:'A01',to:'J02'}],
+    parkingRanges:[
+      {from:'A01',to:'J02'},
+      {from:'A01',to:'M01'},
+      {from:'A02',to:'A13'},
+      {from:'E03',to:'E08'},
+      {from:'K03',to:'K08'},
+      {from:'M01',to:'M08'},
+    ],
     specialAreas:[
-      {from:'F03',to:'J08',type:'blocked',label:''},
-      {from:'E09',to:'M13',type:'blocked',label:''},
+      {from:'F03',to:'J08',type:'facility',label:'E/V'},
+      {from:'E09',to:'M13',type:'entrance',label:'주차장 출입구 램프'},
     ],
     cellWidth:58,
     rowLabelWidth:42,
@@ -99,9 +106,9 @@ export function positionInRanges(code,ranges=[]){
 
 export function parkingCapacity(layout){
   let total=0;
-  const startColumn=layout.startColumn||1;
+  const startColumn=layout.startColumn||1,columns=layout.expandedColumns||layout.columns;
   for(let row=1;row<=layout.rows;row+=1){
-    for(let column=startColumn;column<startColumn+layout.columns;column+=1){
+    for(let column=startColumn;column<startColumn+columns;column+=1){
       const code=`${PARKING_COLUMNS[column-1]}${String(row).padStart(2,'0')}`;
       const area=layout.specialAreas.find(item=>positionInRanges(code,[item]));
       if(area){
