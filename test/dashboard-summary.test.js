@@ -116,6 +116,12 @@ test('전체 자리와 빈 자리 카드는 합계 오른쪽에 층별 자리 �
   assert.match(css,/@media\(max-width:800px\)\{\.metric\.capacity\{display:flex;cursor:pointer\}\.metric\.capacity \.metric-details\{display:none\}\}/);
 });
 
+test('새싹 통계는 도면 활성 칸 수와 무관하게 20자리를 기준으로 계산한다',()=>{
+  assert.match(main,/capacity=zone\.id==='tower'\?20:parkingCapacity\(parkingLayouts\[zone\.id\]\)/);
+  assert.match(main,/empty=Math\.max\(0,capacity-occupied\)/);
+  assert.match(main,/empty=floorCounts\.reduce\(\(sum,floor\)=>sum\+floor\.empty,0\)/);
+});
+
 test('확인 필요에 성능일 120일 경과 차량부터 재성능 표시와 함께 집계한다',()=>{
   assert.match(main,/\(today-service\)\/86400000>=120/);
   assert.match(main,/performanceAlerts=activeVehicles\.filter\(s=>isPerformanceOverdue\(s\.reperformanceDate\|\|s\.performanceDate\)\)/);
