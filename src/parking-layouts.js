@@ -75,13 +75,13 @@ export const parkingLayouts={
     parkingRanges:[
       {from:'A01',to:'M01'},
       {from:'A02',to:'A13'},
-      {from:'E03',to:'E08'},
-      {from:'K03',to:'K08'},
+      {from:'D03',to:'D08'},
+      {from:'J03',to:'J08'},
       {from:'M01',to:'M08'},
     ],
     specialAreas:[
-      {from:'F03',to:'J08',type:'facility',label:'E/V'},
-      {from:'E09',to:'M13',type:'entrance',label:'주차장 출입구 램프'},
+      {from:'E03',to:'I08',type:'facility',label:'E/V'},
+      {from:'D09',to:'M13',type:'entrance',label:'주차장 출입구 램프'},
     ],
     cellWidth:58,
     rowLabelWidth:42,

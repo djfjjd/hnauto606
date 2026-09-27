@@ -69,11 +69,11 @@ test('새싹타워는 접으면 B5·B6층 20면, 펼치면 A1~M13 도면으로 �
   assert.match(expanded,/class="map-column"[^>]*>M<\/b>/);
   assert.match(expanded,/--map-columns:13;--map-rows:13;--map-header-rows:1/);
   assert.match(expanded,/data-toggle-map="tower"[^>]*aria-expanded="true"/);
-  assert.match(expanded,/class="parking-special type-facility" style="grid-column:7\/span 5;grid-row:4\/span 6"[^>]*><strong>E\/V<\/strong>/);
-  assert.match(expanded,/class="parking-special type-entrance" style="grid-column:6\/span 9;grid-row:10\/span 5"[^>]*><strong>주차장 출입구 램프<\/strong>/);
-  assert.doesNotMatch(expanded,/aria-label="F03 비주차 구역"|aria-label="M13 비주차 구역"/);
+  assert.match(expanded,/class="parking-special type-facility" style="grid-column:6\/span 5;grid-row:4\/span 6"[^>]*><strong>E\/V<\/strong>/);
+  assert.match(expanded,/class="parking-special type-entrance" style="grid-column:5\/span 10;grid-row:10\/span 5"[^>]*><strong>주차장 출입구 램프<\/strong>/);
+  assert.doesNotMatch(expanded,/aria-label="E03 비주차 구역"|aria-label="M13 비주차 구역"/);
   for(const code of ['B02','C02','D02','E02','F02','G02','H02','I02','J02'])assert.match(expanded,new RegExp(`aria-label="${code} 비주차 구역"`));
-  for(const code of ['E03','E08','K03','K08','A13','M08'])assert.match(expanded,new RegExp(`aria-label="${code} 빈 자리"`));
+  for(const code of ['D03','D08','J03','J08','A13','M08'])assert.match(expanded,new RegExp(`aria-label="${code} 빈 자리"`));
 });
 
 test('빈 자리에는 주차 가능 보조 문구를 표시하지 않는다',()=>{
