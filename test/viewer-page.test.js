@@ -34,7 +34,8 @@ test('/view는 통계와 상품화·계약 출고 목록 및 모든 펼치기 �
 
 test('/view 새싹타워는 B5 아래에서 12행씩 좌우로 나눠 표시한다',()=>{
   assert.match(main,/viewerTower=VIEWER_MODE&&zone\.id==='tower'/);
-  assert.match(main,/expanded:viewerTower\|\|state\.expandedLayouts\.has\(zone\.id\),splitAfterRow:viewerTower\?12:0/);
+  assert.match(main,/expanded:viewerTower\|\|state\.expandedLayouts\.has\(zone\.id\),splitAfterRow:viewerTower\?12:0,splitSecondColumns:viewerTower\?8:0/);
+  assert.match(main,/firstSideFacilityLabel:viewerTower\?'B5층':'',secondSideFacilityLabel:viewerTower\?'B6층':''/);
   assert.match(css,/\.viewer-page \.zones\.is-all>\.parking-map\[data-map-zone="tower"\]\{grid-column:1\/-1;grid-row:4\}/);
 });
 

@@ -132,6 +132,16 @@ test('새싹타워 펼침 도면은 12행씩 M열 오른쪽에 나란히 배치�
   assert.match(html,/class="parking-section-border" style="grid-column:14\/span 13;grid-row:2\/span 12"/);
 });
 
+test('뷰어 새싹타워는 B5·B6 층명을 표시하고 B6은 H열까지만 표시한다',()=>{
+  const html=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:true,splitAfterRow:12,splitSecondColumns:8,firstSideFacilityLabel:'B5층',secondSideFacilityLabel:'B6층'});
+  assert.match(html,/--map-columns:21;--map-rows:12;--map-header-rows:1/);
+  assert.match(html,/grid-column:5\/span 5;grid-row:5\/span 5"[^>]*><strong>B5층<\/strong>/);
+  assert.match(html,/grid-column:18\/span 4;grid-row:5\/span 5"[^>]*><strong>B6층<\/strong>/);
+  assert.match(html,/grid-column:21;grid-row:1"[^>]*>H<\/b>/);
+  assert.doesNotMatch(html,/grid-column:22;grid-row:1|aria-label="I(?:14|15|16|17|18|19|20|21|22|23|24|25) /);
+  assert.match(html,/class="parking-section-border" style="grid-column:14\/span 8;grid-row:2\/span 12"/);
+});
+
 test('빈 자리에는 주차 가능 보조 문구를 표시하지 않는다',()=>{
   const html=renderParkingMap(parkingLayouts.b3,[],new Set(),{zoneId:'b3',expanded:true});
   assert.doesNotMatch(html,/주차 가능/);
