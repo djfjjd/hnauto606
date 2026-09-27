@@ -158,6 +158,7 @@ h2 { margin:0; font-family:inherit; font-size:38px; font-weight:800; letter-spac
 .parking-cell.is-vacant strong{font-size:12px;letter-spacing:-.06em;white-space:nowrap}.parking-cell.is-occupied span{color:#111!important}
 .parking-cell.is-vacant::before{content:"o";position:absolute;inset:0;display:grid;place-items:center;color:#e33e3e;font-size:22px;font-weight:800;line-height:1;text-shadow:1px 1px 0 #111;pointer-events:none}
 .parking-cell.is-vacant.is-unavailable::before{content:none}.parking-cell.is-unavailable .parking-unavailable-mark{position:relative;z-index:1;color:#111;font-size:18px;line-height:1;text-shadow:none}
+.parking-map[data-map-zone="tower"] .parking-special.type-entrance strong{writing-mode:horizontal-tb;text-orientation:mixed;letter-spacing:.04em}
 .parking-cell[draggable=true],.spot[draggable=true]{cursor:grab}.parking-cell.is-dragging,.spot.is-dragging{opacity:.45;cursor:grabbing}.parking-cell.is-drag-target,.spot.is-drag-target{outline:4px solid var(--lime);outline-offset:-4px;box-shadow:0 0 0 2px var(--ink);transform:scale(.97)}
 .parking-special.type-office{border-color:#bdd8c7;color:#315c45;background:#e7f5eb}
 .parking-special.type-office{border:3px solid #315c45}
