@@ -81,9 +81,9 @@ test('새싹타워는 접으면 B5·B6를 7칸 기준으로 표시하고 펼치�
   assert.doesNotMatch(expanded,/class="map-row"/);
   assert.match(expanded,/--map-columns:13;--map-rows:24;--map-header-rows:1/);
   assert.match(expanded,/data-toggle-map="tower"[^>]*aria-expanded="true"/);
-  assert.match(expanded,/class="parking-special type-facility" style="grid-column:5\/span 5;grid-row:5\/span 5"[^>]*><strong>E\/V<\/strong>/);
+  assert.match(expanded,/class="parking-special type-facility" style="grid-column:5\/span 5;grid-row:5\/span 5"[^>]*><strong>B5층<\/strong>/);
   assert.match(expanded,/class="parking-special type-entrance" style="grid-column:4\/span 10;grid-row:10\/span 4"[^>]*><strong>주차장 출입구 램프<\/strong>/);
-  assert.match(expanded,/class="parking-special type-facility" style="grid-column:5\/span 5;grid-row:17\/span 5"[^>]*><strong>E\/V<\/strong>/);
+  assert.match(expanded,/class="parking-special type-facility" style="grid-column:5\/span 5;grid-row:17\/span 5"[^>]*><strong>B6층<\/strong>/);
   assert.match(expanded,/class="parking-special type-entrance" style="grid-column:4\/span 10;grid-row:22\/span 4"[^>]*><strong>주차장 출입구 램프<\/strong>/);
   assert.match(expanded,/class="parking-special type-blocked" style="grid-column:10\/span 4;grid-row:14\/span 8"/);
   assert.doesNotMatch(expanded,/aria-label="M13 비주차 구역"/);

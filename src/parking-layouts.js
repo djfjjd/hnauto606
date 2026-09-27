@@ -103,9 +103,9 @@ export const parkingLayouts={
       {from:'A18'},
     ],
     specialAreas:[
-      {from:'E04',to:'I08',type:'facility',label:'E/V'},
+      {from:'E04',to:'I08',type:'facility',label:'B5층'},
       {from:'D09',to:'M12',type:'entrance',label:'주차장 출입구 램프'},
-      {from:'E17',to:'I21',type:'facility',label:'E/V'},
+      {from:'E17',to:'I21',type:'facility',label:'B6층'},
       {from:'J14',to:'M21',type:'blocked',label:''},
       {from:'D22',to:'M25',type:'entrance',label:'주차장 출입구 램프'},
     ],
