@@ -88,14 +88,16 @@ test('주차 차량과 상품화 차량을 분리해 다섯 개 통계 카드로
 });
 
 test('전체 자리와 빈 자리 카드는 합계 오른쪽에 층별 자리 수를 줄바꿈해 표시한다',()=>{
-  assert.match(main,/totalDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{String\(floor\.capacity\)\.padStart\(2,'0'\)\}자리`\)\.join\('\\n'\)/);
-  assert.match(main,/extraEmpty=zone\.id==='pillar11'\?Math\.min\(5,empty\):0/);
+  assert.match(main,/extraCapacity=zone\.id==='pillar11'\?5:zone\.id==='tower'\?10:0/);
+  assert.match(main,/capacity=baseCapacity\+extraCapacity/);
+  assert.match(main,/extraEmpty=Math\.min\(extraCapacity,empty\)/);
   assert.match(main,/baseEmpty:Math\.max\(0,empty-extraEmpty\),extraEmpty/);
-  assert.match(main,/emptyLabel=empty>9\?`\$\{empty-5\}\+5`:empty/);
-  assert.match(main,/totalLabel=total>5\?`\$\{total-5\}\+5`:total/);
+  assert.match(main,/emptyLabel=empty>=15\?`\$\{empty-15\}\+15`:empty/);
+  assert.match(main,/totalLabel=total>15\?`\$\{total-15\}\+15`:total/);
   assert.match(main,/return\{total:totalLabel,totalFloors:totalDetails/);
   assert.match(main,/empty:emptyLabel,emptyFloors:emptyDetails/);
-  assert.match(main,/emptyDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{floor\.id==='pillar11'\?`\$\{floor\.baseEmpty\}\+\$\{floor\.extraEmpty\}`:floor\.empty\}자리`\)\.join\('\\n'\)/);
+  assert.match(main,/totalDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{floor\.extraCapacity\?`\$\{floor\.baseCapacity\}\+\$\{floor\.extraCapacity\}`:String\(floor\.capacity\)\.padStart\(2,'0'\)\}자리`\)\.join\('\\n'\)/);
+  assert.match(main,/emptyDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{floor\.extraCapacity\?`\$\{floor\.baseEmpty\}\+\$\{floor\.extraEmpty\}`:floor\.empty\}자리`\)\.join\('\\n'\)/);
   assert.match(main,/detail\.match\(\/\^\(\.\*\?\)\\s\+\(\[\\d\+\]\+자리\)\$\//);
   assert.match(main,/parkingCapacityLabel=\(details,spaces\)=>\(\{details,spaces\}\)/);
   assert.match(main,/metric\('전체 주차면',parkingCapacityLabel\(c\.totalFloors,c\.total\)/);
@@ -116,8 +118,9 @@ test('전체 자리와 빈 자리 카드는 합계 오른쪽에 층별 자리 �
   assert.match(css,/@media\(max-width:800px\)\{\.metric\.capacity\{display:flex;cursor:pointer\}\.metric\.capacity \.metric-details\{display:none\}\}/);
 });
 
-test('새싹 통계는 도면 활성 칸 수와 무관하게 20자리를 기준으로 계산한다',()=>{
-  assert.match(main,/capacity=zone\.id==='tower'\?20:parkingCapacity\(parkingLayouts\[zone\.id\]\)/);
+test('새싹 통계는 기본 20자리와 추가 10자리를 분리해 계산한다',()=>{
+  assert.match(main,/baseCapacity=zone\.id==='tower'\?20:parkingCapacity\(parkingLayouts\[zone\.id\]\)/);
+  assert.match(main,/extraCapacity=zone\.id==='pillar11'\?5:zone\.id==='tower'\?10:0/);
   assert.match(main,/empty=Math\.max\(0,capacity-occupied\)/);
   assert.match(main,/empty=floorCounts\.reduce\(\(sum,floor\)=>sum\+floor\.empty,0\)/);
 });
