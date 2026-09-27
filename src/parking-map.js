@@ -26,6 +26,10 @@ function blockedCell(code,column,gridRow){
   return`<div class="parking-cell is-layout-blocked" style="grid-column:${column+1};grid-row:${gridRow}" role="gridcell" aria-label="${code} 비주차 구역"></div>`;
 }
 
+function unavailableCell(code,column,gridRow){
+  return`<div class="parking-cell is-vacant is-unavailable" style="grid-column:${column+1};grid-row:${gridRow}" role="gridcell" aria-label="${code} 비활성 구역"></div>`;
+}
+
 export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=>spot.id)),options={}){
   const byPosition=new Map(spots.map(spot=>[normalizePosition(spot.label),spot]));
   const allRows=Array.from({length:layout.rows},(_,index)=>index+1),hasToggle=Boolean(layout.collapseBeforeRow||layout.collapsedVisibleRows),collapsed=hasToggle&&!options.expanded,parkingRanges=collapsed&&layout.collapsedParkingRanges?layout.collapsedParkingRanges:layout.parkingRanges,showCoordinates=!collapsed,columnHeadersHidden=Boolean(layout.hideColumnHeaders||(collapsed&&layout.collapsedHideColumnHeaders)),showColumnHeaders=showCoordinates&&!columnHeadersHidden,showRowLabels=showCoordinates||Boolean(layout.rowLabels)||Boolean(collapsed&&layout.collapsedRowLabels),headerRows=columnHeadersHidden?0:1,collapsedRows=layout.collapsedVisibleRows||allRows.filter(row=>row>=layout.collapseBeforeRow),visibleRows=collapsed?collapsedRows:allRows,startColumn=layout.startColumn||1,columns=options.expanded&&layout.expandedColumns?layout.expandedColumns:layout.columns,endColumn=startColumn+columns-1,gridColumn=column=>column-startColumn+1,gridRowByActual=new Map(visibleRows.map((row,index)=>[row,index+1+headerRows])),cells=[];
@@ -48,8 +52,8 @@ export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=
         }
         continue;
       }
-      const spot=byPosition.get(code),parking=layout.defaultCellType==='parking'||positionInRanges(code,parkingRanges);
-      cells.push(parking?parkingCell(code,spot,!spot||visibleIds.has(spot.id),gridColumn(column),gridRow,1,1,positionInRanges(code,layout.tintedRanges)):blockedCell(code,gridColumn(column),gridRow));
+      const spot=byPosition.get(code),unavailable=!collapsed&&positionInRanges(code,layout.unavailableRanges),parking=layout.defaultCellType==='parking'||positionInRanges(code,parkingRanges);
+      cells.push(unavailable?unavailableCell(code,gridColumn(column),gridRow):parking?parkingCell(code,spot,!spot||visibleIds.has(spot.id),gridColumn(column),gridRow,1,1,positionInRanges(code,layout.tintedRanges)):blockedCell(code,gridColumn(column),gridRow));
     }
   }
   if(options.zoneId==='pillar11'&&gridRowByActual.has(18))cells.push(`<div class="parking-pillar-divider" style="grid-column:6/span 5;grid-row:${gridRowByActual.get(18)}" aria-label="17행과 18행 사이 11번기둥"><span>11번기둥</span></div>`);

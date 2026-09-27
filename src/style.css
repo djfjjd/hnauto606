@@ -153,6 +153,7 @@ h2 { margin:0; font-family:inherit; font-size:38px; font-weight:800; letter-spac
 .parking-pillar-divider.is-label-right span{right:auto;left:calc(100% + 5px)}
 .parking-pillar-divider.is-after-row{align-self:end;margin-top:0;margin-bottom:-2px}
 .parking-section-border{z-index:4;border:3px solid #facc15;pointer-events:none}
+.parking-cell.is-unavailable{border:1px dashed #9da39e;color:#111;background:#fff}.parking-cell.is-unavailable::before{content:"X";color:#111;text-shadow:none;font-size:18px;font-weight:900}
 .parking-cell{padding:3px 4px;gap:2px}.parking-cell strong{font-size:15px}.parking-cell span{font-size:9px}.parking-cell i{right:3px;top:3px;width:12px;height:12px;font-size:9px}.parking-special{padding:6px;border-width:1px}.parking-special strong{font-size:12px;line-height:1.15}.map-corner,.map-column,.map-row{font-size:10px}
 .parking-cell.is-vacant strong{font-size:12px;letter-spacing:-.06em;white-space:nowrap}.parking-cell.is-occupied span{color:#111!important}
 .parking-cell.is-vacant::before{content:"o";position:absolute;inset:0;display:grid;place-items:center;color:#e33e3e;font-size:22px;font-weight:800;line-height:1;text-shadow:1px 1px 0 #111;pointer-events:none}
