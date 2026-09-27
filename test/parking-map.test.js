@@ -54,18 +54,22 @@ test('B3층 E16~I16과 E17~I17 사이에 19번기둥 노란 실선을 표시한�
   assert.match(expanded,/class="parking-pillar-divider" style="grid-column:4\/span 5;grid-row:18"[^>]*><span>19번기둥<\/span>/);
 });
 
-test('새싹타워는 A~J열의 B5·B6층 20면으로 표시한다',()=>{
-  const html=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower'});
-  assert.equal((html.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,20);
-  assert.match(html,/aria-label="A01 빈 자리"/);
-  assert.match(html,/aria-label="J02 빈 자리"/);
-  assert.match(html,/>B5층<\/b>/);
-  assert.match(html,/>B6층<\/b>/);
-  assert.doesNotMatch(html,/class="map-column"/);
-  assert.match(html,/--map-header-rows:0;--cell-width:58px;--row-label-width:42px/);
-  assert.match(html,/class="parking-map-grid has-no-column-header"/);
-  assert.match(html,/class="map-row" style="grid-column:1;grid-row:1"[^>]*>B5층<\/b>/);
-  assert.doesNotMatch(html,/data-toggle-map="tower"/);
+test('새싹타워는 접으면 B5·B6층 20면, 펼치면 A1~M13 도면으로 표시한다',()=>{
+  const collapsed=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:false});
+  const expanded=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:true});
+  assert.equal((collapsed.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,20);
+  assert.match(collapsed,/aria-label="A01 빈 자리"/);
+  assert.match(collapsed,/aria-label="J02 빈 자리"/);
+  assert.match(collapsed,/>B5층<\/b>/);
+  assert.match(collapsed,/>B6층<\/b>/);
+  assert.doesNotMatch(collapsed,/class="map-column"/);
+  assert.match(collapsed,/--map-columns:10;--map-rows:2;--map-header-rows:0/);
+  assert.match(collapsed,/class="parking-map-grid has-no-column-header"/);
+  assert.match(collapsed,/data-toggle-map="tower"[^>]*aria-expanded="false"/);
+  assert.match(expanded,/class="map-column"[^>]*>M<\/b>/);
+  assert.match(expanded,/aria-label="M13 비주차 구역"/);
+  assert.match(expanded,/--map-columns:13;--map-rows:13;--map-header-rows:1/);
+  assert.match(expanded,/data-toggle-map="tower"[^>]*aria-expanded="true"/);
 });
 
 test('빈 자리에는 주차 가능 보조 문구를 표시하지 않는다',()=>{

@@ -12,7 +12,7 @@ test('/view는 인증 전에 공개 조회 데이터를 불러온다',()=>{
 
 test('/view는 검색을 제외한 주차 조작과 이동을 비활성화한다',()=>{
   assert.match(main,/removeAttribute\('draggable'\)/);
-  assert.match(main,/clone\.querySelectorAll\('button,\[data-spot\]'\)/);
+  assert.match(main,/clone\.querySelectorAll\('button:not\(\[data-toggle-map="tower"\]\),\[data-spot\]'\)/);
   assert.match(main,/if\(VIEWER_MODE\)return;panel\.querySelectorAll/);
 });
 
@@ -23,10 +23,11 @@ test('/view는 큰 헤드라인과 사업자 푸터를 없애고 제목을 상�
   assert.doesNotMatch(main,/heroButtons\?\.classList\.add\('viewer-headline-spacer'\)/);
 });
 
-test('/view는 통계와 상품화·계약 출고 목록 및 구역 펼치기를 숨긴다',()=>{
+test('/view는 통계와 상품화·계약 출고 목록을 숨기고 새싹타워 펼치기만 제공한다',()=>{
   assert.match(main,/document\.querySelector\('\.parking-summary'\)\?\.remove\(\)/);
   assert.match(main,/document\.querySelector\('\.legend'\)\?\.remove\(\)/);
-  assert.match(main,/clone\.querySelectorAll\('\.map-head-toggle,\.parking-alert-icons,\.parking-option-indicator'\)\.forEach\(element=>element\.remove\(\)\)/);
+  assert.match(main,/\.map-head-toggle:not\(\[data-toggle-map="tower"\]\),\.parking-alert-icons,\.parking-option-indicator/);
+  assert.match(main,/document\.querySelector\('\[data-toggle-map="tower"\]'\)\?\.addEventListener\('click'/);
   assert.doesNotMatch(main,/renderViewerWorkspace\(\);renderCheckedOutSummary\(\);renderParkingSearchResults\(\)/);
 });
 
