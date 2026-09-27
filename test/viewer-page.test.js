@@ -25,6 +25,13 @@ test('/view 헤드라인은 숨긴 입출고 버튼 공간을 유지해 캘린�
 test('/view는 통계와 상품화·계약 출고 목록 및 구역 펼치기를 숨긴다',()=>{
   assert.match(main,/document\.querySelector\('\.parking-summary'\)\?\.remove\(\)/);
   assert.match(main,/document\.querySelector\('\.legend'\)\?\.remove\(\)/);
-  assert.match(main,/clone\.querySelectorAll\('\.map-head-toggle'\)\.forEach\(element=>element\.remove\(\)\)/);
+  assert.match(main,/clone\.querySelectorAll\('\.map-head-toggle,\.parking-alert-icons,\.parking-option-indicator'\)\.forEach\(element=>element\.remove\(\)\)/);
   assert.doesNotMatch(main,/renderViewerWorkspace\(\);renderCheckedOutSummary\(\);renderParkingSearchResults\(\)/);
+});
+
+test('/view 주차 칸은 계약·출고 강조와 상태 문구 및 경고 아이콘을 숨긴다',()=>{
+  assert.match(main,/clone\.querySelectorAll\('\.parking-cell\.is-checked-out,\.parking-cell\.is-contracted'\)/);
+  assert.match(main,/cell\.classList\.remove\('is-checked-out','is-contracted'\)/);
+  assert.match(main,/model\.textContent\.replace\(\/\^\\\(\(\?:계약됨\|출고됨\)\\\)\\s\*\//);
+  assert.match(main,/replace\(\/ \(\?:계약됨\|출고됨\)\$\/,' 주차 중'\)/);
 });
