@@ -89,7 +89,6 @@ export const parkingLayouts={
       {from:'A15'},
       {from:'A18'},
       {from:'J04',to:'J08'},
-      {from:'H14',to:'I14'},
     ],
     specialAreas:[
       {from:'E04',to:'I08',type:'facility',label:'E/V'},

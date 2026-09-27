@@ -77,7 +77,8 @@ test('새싹타워는 접으면 B5·B6층 20면, 펼치면 A1~M13 도면을 14~2
   assert.doesNotMatch(expanded,/aria-label="M13 비주차 구역"/);
   for(const code of ['B02','C02','D02','E02','F02','G02','H02','I02','J02'])assert.match(expanded,new RegExp(`aria-label="${code} 비주차 구역"`));
   for(const code of ['A01','M01','D03','J03'])assert.match(expanded,new RegExp(`aria-label="${code} 비주차 구역"`));
-  for(const code of ['A02','A13','D04','D06','B01','D01','M08','A15','A18','J04','J08','H14','I14'])assert.match(expanded,new RegExp(`class="parking-cell is-vacant is-unavailable"[^>]*aria-label="${code} 비활성 구역"[^>]*><strong class="parking-unavailable-mark" aria-hidden="true">X<\\/strong>`));
+  for(const code of ['A02','A13','D04','D06','B01','D01','M08','A15','A18','J04','J08'])assert.match(expanded,new RegExp(`class="parking-cell is-vacant is-unavailable"[^>]*aria-label="${code} 비활성 구역"[^>]*><strong class="parking-unavailable-mark" aria-hidden="true">X<\\/strong>`));
+  for(const code of ['H14','I14'])assert.match(expanded,new RegExp(`class="parking-cell is-layout-blocked"[^>]*aria-label="${code} 비주차 구역"`));
   for(const code of ['D07','D08','E01','L01','A26','D17','D21'])assert.match(expanded,new RegExp(`aria-label="${code} 빈 자리"`));
   assert.match(expanded,/class="parking-section-border" style="grid-column:2\/span 13;grid-row:2\/span 13"/);
   assert.match(expanded,/class="parking-section-border" style="grid-column:2\/span 13;grid-row:15\/span 13"/);
