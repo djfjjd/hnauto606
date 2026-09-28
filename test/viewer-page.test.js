@@ -90,7 +90,7 @@ test('/view는 공통 검색 실패 및 필터 초기화 레이아웃을 숨긴�
 });
 
 test('/view 모바일 새싹타워 차량번호는 좁은 칸에 맞게 작게 표시한다',()=>{
-  assert.match(css,/@media\(max-width:800px\)\{\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-cell\.is-occupied\{padding-inline:0\}\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-cell\.is-occupied strong\{font-size:11px!important;letter-spacing:-\.08em;white-space:nowrap\}\}/);
+  assert.match(css,/@media\(max-width:800px\)\{\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-cell\.is-occupied\{padding-inline:0\}\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-cell\.is-occupied strong\{font-size:12px!important;letter-spacing:-\.08em;white-space:nowrap\}\}/);
 });
 
 test('/view 새싹타워 B5 M열과 B6 A열 사이에 빨간 경계선을 표시한다',()=>{
