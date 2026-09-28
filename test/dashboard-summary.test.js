@@ -115,7 +115,10 @@ test('전체 자리와 빈 자리 카드는 합계 오른쪽에 층별 자리 �
   assert.match(main,/\['전체 자리','빈 자리'\]\.includes\(displayLabel\)/);
   assert.match(css,/\.metric \.empty-capacity-extra\{display:inline;font-size:\.58em/);
   assert.match(main,/data-capacity-title="\$\{esc\(displayLabel\)\}" data-capacity-details="\$\{esc\(metricDetails\)\}" role="button" tabindex="0"/);
-  assert.match(main,/matchMedia\('\(max-width: 800px\)'\)\.matches\)showCapacityDetails/);
+  assert.match(main,/totalCapacityCard=capacityCards\.find\(card=>card\.dataset\.capacityTitle==='전체 자리'\),emptyCapacityCard=capacityCards\.find\(card=>card\.dataset\.capacityTitle==='빈 자리'\)/);
+  assert.match(main,/showCapacityDetails\(totalCapacityCard\.dataset\.capacityDetails,emptyCapacityCard\.dataset\.capacityDetails\)/);
+  assert.match(main,/class="capacity-details-columns"><section><h3>전체 자리<\/h3>[\s\S]*?<section class="is-empty"><h3>빈 자리<\/h3>/);
+  assert.match(css,/\.capacity-details-columns\{display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\);gap:18px\}/);
   assert.match(css,/@media\(max-width:800px\)\{\.metric\.capacity\{display:flex;cursor:pointer\}\.metric\.capacity \.metric-details\{display:none\}\}/);
 });
 
