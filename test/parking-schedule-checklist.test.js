@@ -8,6 +8,8 @@ const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url
 const migration=fs.readFileSync(new URL('../migrations/0018_add_calendar_completion.sql',import.meta.url),'utf8');
 
 test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 나눈다',()=>{
+  assert.match(main,/state\.calendarRecords\.filter\(record=>heydealerScheduleDate\(record\)\|\|heydealerSchedulePending\(record\)\)/);
+  assert.match(main,/heydealerScheduleDate\(a\)\|\|'0000-00-00'/);
   assert.match(main,/parking-schedule-checklist/);
   assert.match(main,/<strong>추가된 일정 \(\$\{pending\.length\}대\)<\/strong>/);
   assert.match(main,/>완료일정</);
