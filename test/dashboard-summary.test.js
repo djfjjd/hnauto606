@@ -170,8 +170,14 @@ test('새싹타워 검색 결과는 실제 좌표의 B5·B6 주차번호를 표�
 
 test('주차 검색 목록은 네 자리 완전 일치가 아닌 부분검색을 유지한다',()=>{
   assert.match(main,/parkingSearchValues=s=>VIEWER_MODE\?\[s\.plate,s\.model\]:\[s\.plate,s\.model,s\.color,s\.manager,s\.label,s\.zone,s\.memo\]/);
-  assert.match(main,/matches=searchPool\.filter\(s=>used\(s\)&&parkingSearchValues\(s\)\.some\(value=>String\(value\)\.toLowerCase\(\)\.includes\(query\)\)\)/);
+  assert.match(main,/matches=searchPool\.filter\(s=>used\(s\)&&matchesSearchTerms\(parkingSearchValues\(s\),query\)\)/);
   assert.doesNotMatch(main,/renderParkingSearchResults\(\)[^}]*endsWith\(query\)/);
+});
+
+test('쉼표 검색은 문자 조건을 모두 만족시키고 숫자 차량번호는 여러 대를 함께 찾는다',()=>{
+  assert.match(main,/split\(','\)\.map\(term=>term\.trim\(\)\)\.filter\(Boolean\)/);
+  assert.match(main,/terms\.every\(term=>\/\^\\d\+\$\/\.test\(term\)\)\?terms\.some\(matches\):terms\.every\(matches\)/);
+  assert.match(main,/matchesSearchTerms\(\[row\.dataset\.boardSearch\],query\)/);
 });
 
 test('주차 검색 결과가 3대 이하면 클릭 없이 차량 칸을 노란색으로 강조한다',()=>{

@@ -57,7 +57,7 @@ test('/view 검색은 출고 차량과 계약 상태 및 내부 관리 열을 �
 
 test('/view 검색은 차량번호와 차종만 대상으로 한다',()=>{
   assert.match(main,/parkingSearchValues=s=>VIEWER_MODE\?\[s\.plate,s\.model\]:\[s\.plate,s\.model,s\.color,s\.manager,s\.label,s\.zone,s\.memo\]/);
-  assert.match(main,/!q\|\|parkingSearchValues\(s\)\.some\(v=>String\(v\)\.toLowerCase\(\)\.includes\(q\)\)/);
-  assert.match(main,/used\(s\)&&parkingSearchValues\(s\)\.some\(value=>String\(value\)\.toLowerCase\(\)\.includes\(query\)\)/);
+  assert.match(main,/matchesSearchTerms\(parkingSearchValues\(s\),state\.query\)/);
+  assert.match(main,/used\(s\)&&matchesSearchTerms\(parkingSearchValues\(s\),query\)/);
   assert.match(main,/searchControl\(VIEWER_MODE\?'차량번호 · 차종 검색':'차량번호 · 차종 · 색상 · 담당자 검색'\)/);
 });
