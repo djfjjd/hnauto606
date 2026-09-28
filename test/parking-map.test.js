@@ -116,7 +116,7 @@ test('새싹타워 지정 셀 사이에 노란 경계선을 표시한다',()=>{
   assert.match(css,/\.tower-boundary-line\.is-vertical\{[^}]*border-left:3px solid #facc15/);
 });
 
-test('새싹타워 접기 상태는 층별로 주차 차량을 빈자리보다 먼저 정렬한다',()=>{
+test('새싹타워 접기 상태는 층 구분 없이 모든 주차 차량을 빈자리보다 먼저 정렬한다',()=>{
   const spots=[
     {id:'b5-empty',label:'D07',plate:'',alerts:[]},
     {id:'b5-car',label:'L01',plate:'12가1234',model:'그랜저',alerts:[]},
@@ -127,6 +127,8 @@ test('새싹타워 접기 상태는 층별로 주차 차량을 빈자리보다 �
   assert.equal((html.match(/class="parking-cell/g)||[]).length,20);
   assert.ok(html.indexOf('aria-label="L01 12가1234 주차 중"')<html.indexOf('aria-label="D07 빈 자리"'));
   assert.ok(html.indexOf('aria-label="G14 34나5678 주차 중"')<html.indexOf('aria-label="D17 빈 자리"'));
+  assert.ok(html.indexOf('aria-label="G14 34나5678 주차 중"')<html.indexOf('aria-label="D07 빈 자리"'));
+  assert.match(html,/grid-row:1\/span 1[^>]*aria-label="L01 12가1234 주차 중"[\s\S]*grid-row:1\/span 1[^>]*aria-label="G14 34나5678 주차 중"/);
 });
 
 test('새싹타워 B6 차량 20대는 접기 상태에서 7칸·7칸·6칸으로 표시한다',()=>{

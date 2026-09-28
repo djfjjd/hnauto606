@@ -32,10 +32,11 @@ function unavailableCell(code,column,gridRow){
 }
 
 function makeCollapsedGroupRows(layout,byPosition){
-  const groups=Object.entries(layout.collapsedGroups).map(([label,positions])=>({label,items:positions.map((position,index)=>({position,index,spot:byPosition.get(normalizePosition(position))})).sort((a,b)=>Number(!a.spot?.plate)-Number(!b.spot?.plate)||a.index-b.index)}));
+  let groups=Object.entries(layout.collapsedGroups).map(([label,positions],groupIndex)=>({label,items:positions.map((position,index)=>({position,index:groupIndex*1000+index,spot:byPosition.get(normalizePosition(position))})).sort((a,b)=>Number(!a.spot?.plate)-Number(!b.spot?.plate)||a.index-b.index)}));
+  if(layout.collapsedCombineGroups)groups=[{label:'',items:groups.flatMap(group=>group.items).sort((a,b)=>Number(!a.spot?.plate)-Number(!b.spot?.plate)||a.index-b.index)}];
   let emptyToHide=Math.max(0,groups.reduce((sum,group)=>sum+group.items.length,0)-(layout.collapsedVisibleLimit||Infinity));
   for(let groupIndex=groups.length-1;groupIndex>=0&&emptyToHide>0;groupIndex-=1){const items=groups[groupIndex].items;for(let index=items.length-1;index>=0&&emptyToHide>0;index-=1){if(items[index].spot?.plate)continue;items.splice(index,1);emptyToHide-=1;}}
-  return groups.flatMap(({label,items})=>{const groupColumns=layout.collapsedGroupColumns?.[label]||layout.collapsedColumns||8;return Array.from({length:Math.ceil(items.length/groupColumns)},(_,index)=>({label:`${label}층`,items:items.slice(index*groupColumns,index*groupColumns+groupColumns)}));});
+  return groups.flatMap(({label,items})=>{const groupColumns=layout.collapsedGroupColumns?.[label]||layout.collapsedColumns||8;return Array.from({length:Math.ceil(items.length/groupColumns)},(_,index)=>({label:label?`${label}층`:'',items:items.slice(index*groupColumns,index*groupColumns+groupColumns)}));});
 }
 
 export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=>spot.id)),options={}){
