@@ -84,3 +84,7 @@ test('/view는 검색상자 아래 주차구역 필터 행을 숨긴다',()=>{
 test('/view는 공통 검색 실패 및 필터 초기화 레이아웃을 숨긴다',()=>{
   assert.match(css,/\.viewer-page \.workspace>\.no-result\{display:none\}/);
 });
+
+test('/view 모바일 새싹타워 차량번호는 좁은 칸에 맞게 작게 표시한다',()=>{
+  assert.match(css,/@media\(max-width:640px\)\{\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-cell\.is-occupied\{padding-inline:1px\}\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-cell\.is-occupied strong\{font-size:11px;letter-spacing:-\.06em\}\}/);
+});
