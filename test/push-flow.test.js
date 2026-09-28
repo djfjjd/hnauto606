@@ -6,7 +6,7 @@ const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'
 
 test('푸시 알림 차종은 기본 두 단어, 두 번째 단어가 한 글자면 세 단어로 표시한다',()=>{
   assert.match(api,/const pushVehicleLabel=vehicle=>/);
-  assert.match(api,/pushVehicleModel=model=>\{const words=String\(model\|\|''\)\.trim\(\)\.split\(\/\\s\+\/\)\.filter\(Boolean\);return words\.slice\(0,words\[1\]\?\.length===1\?3:2\)\.join\(' '\)\|\|'차종 미입력';\}/);
+  assert.match(api,/pushVehicleModel=model=>\{const words=String\(model\|\|''\)\.trim\(\)\.split\(\/\\s\+\/\)\.filter\(Boolean\),wordCount=words\[1\]\?\.length===1\?\(words\[2\]\?\.length===1\?4:3\):2;return words\.slice\(0,wordCount\)\.join\(' '\)\|\|'차종 미입력';\}/);
   assert.match(api,/pushVehicleLabel=vehicle=>`\$\{String\(vehicle\.plate\|\|''\)\.slice\(-4\)\}\(\$\{pushVehicleModel\(vehicle\.model\)\}\)`/);
   assert.match(api,/const pushBody=vehicle=>`\$\{pushVehicleLabel\(vehicle\)\}, \$\{vehicle\.zone_name\|\|'차량현황판'\}`/);
 });
