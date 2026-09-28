@@ -59,13 +59,24 @@ test('/view 검색은 차량번호만 대상으로 한다',()=>{
   assert.match(main,/parkingSearchValues=s=>VIEWER_MODE\?\[s\.plate\]:\[s\.plate,s\.model,s\.color,s\.manager,s\.label,s\.zone,s\.memo\]/);
   assert.match(main,/matchesSearchTerms\(parkingSearchValues\(s\),state\.query\)/);
   assert.match(main,/used\(s\)&&matchesSearchTerms\(parkingSearchValues\(s\),query\)/);
-  assert.match(main,/VIEWER_MODE\?'차량번호 뒤 4자리 검색':placeholder/);
+  assert.match(main,/VIEWER_MODE\?'차량번호 뒤 4자리 · 콤마로 여러 대 검색':placeholder/);
 });
 
 test('/view는 차량번호 뒤 4자리가 완성된 검색 결과의 주차구역만 표시한다',()=>{
-  assert.match(main,/if\(VIEWER_MODE\)\{const plateDigits=String\(query\|\|''\)\.trim\(\);return \/\^\\d\{4\}\$\/\.test\(plateDigits\)/);
+  assert.match(main,/if\(VIEWER_MODE\)return terms\.length>0&&terms\.every\(term=>\/\^\\d\{4\}\$\/\.test\(term\)\)&&terms\.some/);
   assert.match(main,/function restrictViewerParkingZones\(\)/);
   assert.match(main,/allTab\.disabled=true/);
   assert.match(main,/zoneIds\.has\(mapZone\)/);
   assert.match(main,/차량번호 뒤 4자리를 입력해 주세요/);
+});
+
+test('/view는 콤마로 여러 차량을 검색하고 결과 외 차량을 비활성 칸으로 감춘다',()=>{
+  assert.match(main,/matchIds=new Set\(matches\.map\(spot=>String\(spot\.id\)\)\)/);
+  assert.match(main,/parking-cell\.is-occupied\[data-spot\]/);
+  assert.match(main,/viewer-hidden-vehicle/);
+  assert.match(main,/cell\.removeAttribute\('data-spot'\)/);
+});
+
+test('/view는 검색상자 아래 주차구역 필터 행을 숨긴다',()=>{
+  assert.match(css,/\.viewer-page \.zone-tabs\{display:none\}/);
 });
