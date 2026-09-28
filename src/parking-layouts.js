@@ -42,6 +42,7 @@ export const parkingLayouts={
     columns:7,
     rows:21,
     collapsedVisibleRows:[14,15,16,17,21],
+    collapsedHideRowLabels:true,
     toggleBeforeRow:15,
     defaultCellType:'blocked',
     parkingRanges:[{from:'A15',to:'F16'}],

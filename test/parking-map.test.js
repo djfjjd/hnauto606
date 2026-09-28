@@ -301,6 +301,8 @@ test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
 
 test('B5층은 접으면 14행부터 17행까지와 시설행을 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:false});
+  assert.match(html,/class="parking-map-grid has-no-row-label"/);
+  assert.match(html,/aria-label="A14 비주차 구역"[^>]*style="grid-column:1;grid-row:2"|style="grid-column:1;grid-row:2"[^>]*aria-label="A14 비주차 구역"/);
   assert.match(html,/aria-label="F15 빈 자리"/);
   assert.match(html,/aria-label="F16 빈 자리"/);
   assert.doesNotMatch(html,/>15<\/b>/);
@@ -323,8 +325,8 @@ test('B5층 A13~F13·A14~F14 사이와 A17~F17·A18~F18 사이에 오른쪽 기�
   const collapsed=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:false});
   const expanded=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:true});
   const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
-  assert.match(collapsed,/class="parking-pillar-divider is-label-right" style="grid-column:2\/span 6;grid-row:2"[^>]*><span>9번기둥<\/span>/);
-  assert.match(collapsed,/class="parking-pillar-divider is-label-right is-after-row" style="grid-column:2\/span 6;grid-row:5"[^>]*><span>8번기둥<\/span>/);
+  assert.match(collapsed,/class="parking-pillar-divider is-label-right" style="grid-column:1\/span 6;grid-row:2"[^>]*><span>9번기둥<\/span>/);
+  assert.match(collapsed,/class="parking-pillar-divider is-label-right is-after-row" style="grid-column:1\/span 6;grid-row:5"[^>]*><span>8번기둥<\/span>/);
   assert.match(expanded,/class="parking-pillar-divider is-label-right" style="grid-column:2\/span 6;grid-row:15"[^>]*><span>9번기둥<\/span>/);
   assert.match(expanded,/class="parking-pillar-divider is-label-right" style="grid-column:2\/span 6;grid-row:19"[^>]*><span>8번기둥<\/span>/);
   assert.match(css,/\.parking-pillar-divider\.is-label-right span\{right:auto;left:calc\(100% \+ 5px\)\}/);
