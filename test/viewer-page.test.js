@@ -78,5 +78,9 @@ test('/view는 콤마로 여러 차량을 검색하고 결과 외 차량을 비�
 });
 
 test('/view는 검색상자 아래 주차구역 필터 행을 숨긴다',()=>{
-  assert.match(css,/\.viewer-page \.zone-tabs\{display:none\}/);
+  assert.match(css,/\.viewer-page \.zone-tabs,\.viewer-page \.workspace>\.no-result\{display:none\}/);
+});
+
+test('/view는 공통 검색 실패 및 필터 초기화 레이아웃을 숨긴다',()=>{
+  assert.match(css,/\.viewer-page \.workspace>\.no-result\{display:none\}/);
 });
