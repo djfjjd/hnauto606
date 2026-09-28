@@ -270,6 +270,7 @@ fieldset { margin:0; padding:0; border:0; }
 .zone-tabs button.search-match{color:#111;border:1px solid #111;background:#ffe36d}
 .parking-cell.search-target{z-index:3;border:3px solid #ffd21c!important;box-shadow:0 0 0 2px #111,0 8px 20px rgba(0,0,0,.24)}
 .viewer-page-title{position:absolute;left:50%;margin:0;color:#fff;font-size:24px;transform:translateX(-50%);white-space:nowrap}.viewer-badge{margin-left:auto;padding:9px 13px;border:1px solid rgba(255,255,255,.45);color:#fff;font-size:13px;font-weight:800}.viewer-page .zone-tabs,.viewer-page .workspace>.no-result{display:none}.viewer-page .parking-cell,.viewer-page .zone-tabs button,.viewer-page .map-head-toggle,.viewer-page .parking-search-results>button{cursor:default}.viewer-page .parking-search-results>button{grid-template-columns:1.05fr 1.35fr 1fr .7fr}.viewer-page .parking-search-results>button:disabled{color:inherit;opacity:1}.viewer-page .parking-search-results>button:disabled:hover{background:#fff}
+.viewer-page .parking-cell.viewer-hidden-vehicle{border-color:#aeb4af;background:#d8dbd8}
 .viewer-page .zones.is-all>.parking-map[data-map-zone="tower"]{grid-column:1/-1;grid-row:4}
 .viewer-page .parking-map[data-map-zone="tower"] .parking-map-scroll{overflow-x:hidden;padding-right:0;padding-left:0}.viewer-page .parking-map[data-map-zone="tower"] .parking-map-grid{width:100%;grid-template-columns:repeat(var(--map-columns),minmax(0,1fr))}
 .viewer-page .parking-map[data-map-zone="tower"] .parking-special.type-facility strong{font-size:36px}

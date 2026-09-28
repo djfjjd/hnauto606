@@ -78,6 +78,7 @@ test('/view는 콤마로 여러 차량을 검색하고 결과 외 차량을 빈�
   assert.match(main,/cell\.innerHTML=number/);
   assert.doesNotMatch(main,/viewer-hidden-vehicle';cell\.innerHTML=`\$\{number\}<strong/);
   assert.match(main,/cell\.removeAttribute\('data-spot'\)/);
+  assert.match(css,/\.viewer-page \.parking-cell\.viewer-hidden-vehicle\{border-color:#aeb4af;background:#d8dbd8\}/);
 });
 
 test('/view는 검색상자 아래 주차구역 필터 행을 숨긴다',()=>{
