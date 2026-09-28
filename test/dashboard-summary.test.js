@@ -169,7 +169,7 @@ test('새싹타워 검색 결과는 실제 좌표의 B5·B6 주차번호를 표�
 });
 
 test('주차 검색 목록은 네 자리 완전 일치가 아닌 부분검색을 유지한다',()=>{
-  assert.match(main,/parkingSearchValues=s=>VIEWER_MODE\?\[s\.plate,s\.model\]:\[s\.plate,s\.model,s\.color,s\.manager,s\.label,s\.zone,s\.memo\]/);
+  assert.match(main,/parkingSearchValues=s=>VIEWER_MODE\?\[s\.plate\]:\[s\.plate,s\.model,s\.color,s\.manager,s\.label,s\.zone,s\.memo\]/);
   assert.match(main,/matches=searchPool\.filter\(s=>used\(s\)&&matchesSearchTerms\(parkingSearchValues\(s\),query\)\)/);
   assert.doesNotMatch(main,/renderParkingSearchResults\(\)[^}]*endsWith\(query\)/);
 });

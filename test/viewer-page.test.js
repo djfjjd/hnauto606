@@ -55,9 +55,17 @@ test('/view 검색은 출고 차량과 계약 상태 및 내부 관리 열을 �
   assert.match(main,/\$\{VIEWER_MODE\?'':`<span>\$\{esc\(s\.manager\)\|\|'-'\}<\/span><span class="parking-search-dates">/);
 });
 
-test('/view 검색은 차량번호와 차종만 대상으로 한다',()=>{
-  assert.match(main,/parkingSearchValues=s=>VIEWER_MODE\?\[s\.plate,s\.model\]:\[s\.plate,s\.model,s\.color,s\.manager,s\.label,s\.zone,s\.memo\]/);
+test('/view 검색은 차량번호만 대상으로 한다',()=>{
+  assert.match(main,/parkingSearchValues=s=>VIEWER_MODE\?\[s\.plate\]:\[s\.plate,s\.model,s\.color,s\.manager,s\.label,s\.zone,s\.memo\]/);
   assert.match(main,/matchesSearchTerms\(parkingSearchValues\(s\),state\.query\)/);
   assert.match(main,/used\(s\)&&matchesSearchTerms\(parkingSearchValues\(s\),query\)/);
-  assert.match(main,/searchControl\(VIEWER_MODE\?'차량번호 · 차종 검색':'차량번호 · 차종 · 색상 · 담당자 검색'\)/);
+  assert.match(main,/VIEWER_MODE\?'차량번호 뒤 4자리 검색':placeholder/);
+});
+
+test('/view는 차량번호 뒤 4자리가 완성된 검색 결과의 주차구역만 표시한다',()=>{
+  assert.match(main,/if\(VIEWER_MODE\)\{const plateDigits=String\(query\|\|''\)\.trim\(\);return \/\^\\d\{4\}\$\/\.test\(plateDigits\)/);
+  assert.match(main,/function restrictViewerParkingZones\(\)/);
+  assert.match(main,/allTab\.disabled=true/);
+  assert.match(main,/zoneIds\.has\(mapZone\)/);
+  assert.match(main,/차량번호 뒤 4자리를 입력해 주세요/);
 });
