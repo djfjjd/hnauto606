@@ -303,7 +303,9 @@ test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
 
 test('B5층은 접으면 14행부터 17행까지와 시설행을 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.b5,[],new Set(),{zoneId:'b5',expanded:false});
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
   assert.match(html,/class="parking-map-grid has-no-row-label"/);
+  assert.match(css,/\.parking-map\[data-map-zone="b5"\] \.parking-map-scroll\{padding-left:4px\}/);
   assert.match(html,/aria-label="A14 비주차 구역"[^>]*style="grid-column:1;grid-row:2"|style="grid-column:1;grid-row:2"[^>]*aria-label="A14 비주차 구역"/);
   assert.match(html,/aria-label="F15 빈 자리"/);
   assert.match(html,/aria-label="F16 빈 자리"/);
