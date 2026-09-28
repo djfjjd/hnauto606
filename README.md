@@ -67,6 +67,8 @@ b3: {
 
 현재 `DEVICE_AUTH_ENABLED=true`로 설정되어 있습니다. Cloudflare Access 이메일 OTP를 통과한 첫 기기는 D1의 `trusted_devices`에 승인 대기로 등록되며, `ADMIN_EMAIL`과 일치하는 개발자 계정이 `/admin`에서 `로그인 허용`을 선택한 뒤에만 접속할 수 있습니다. 기기 토큰 원문은 서버나 D1에 저장하지 않고 SHA-256 해시만 보관합니다. 해제된 기기는 직원 이메일 재인증과 관리자 승인을 다시 받아야 합니다.
 
+기기 권한 요청이 등록되면 `DEVICE_ALERT_EMAIL`(운영 기본값 `djfjjd@gmail.com`)로 관리자 알림 메일을 보냅니다. Resend에서 API 키를 만든 뒤 Cloudflare Pages Secret `RESEND_API_KEY`로 등록해야 하며, 자체 발신 도메인을 사용할 때는 `DEVICE_ALERT_FROM`도 인증된 주소로 변경합니다. 메일 설정이 없거나 발송이 실패해도 기기 권한 요청 저장은 정상 처리됩니다.
+
 하단 톱니바퀴는 `/admin`으로 연결됩니다. Cloudflare Zero Trust에서 `hnauto606.pages.dev`를 Self-hosted 애플리케이션으로 보호하고 One-time PIN을 로그인 방식으로 지정합니다. 직원이 임의의 정상 이메일로 최초 인증을 요청할 수 있도록 직원 정책의 Include 조건은 `Login Methods → One-time PIN`으로 설정해야 합니다. Cloudflare 정책에서 허용되지 않은 이메일은 발송 완료 화면이 표시되어도 OTP가 실제 발송되지 않습니다. `/admin` API는 Access 인증에 더해 Cloudflare Secret `ADMIN_EMAIL`과 이메일이 정확히 일치하는지 별도로 검사하므로 개발자 이메일만 접근할 수 있습니다.
 
 OTP가 특정 이메일에만 도착한다면 Zero Trust → Access → Applications → `hnauto606.pages.dev` → Policies에서 기존 `Emails = 특정 주소` Include 조건을 제거하고 `Login Methods = One-time PIN`으로 교체합니다. 정책 Action은 `Allow`로 유지합니다. 메일 서비스가 차단하는 경우 `noreply@notify.cloudflare.com`과 `notify.cloudflare.com`을 수신 허용 목록에 추가합니다. 이 Access 정책 변경에는 `Access: Apps and Policies Write` 권한이 필요합니다.

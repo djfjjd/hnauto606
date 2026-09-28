@@ -78,3 +78,13 @@ test('인증 기기 관리 API도 관리자 이메일로만 접근한다',()=>{
   assert.match(api,/user\.role='admin'/);
   assert.match(api,/user=await accessActor\(request,env,true\)/);
 });
+
+test('기기 권한 요청을 개인 이메일로 비동기 알림한다',()=>{
+  assert.match(config,/DEVICE_ALERT_EMAIL = "djfjjd@gmail\.com"/);
+  assert.match(envExample,/RESEND_API_KEY=re_xxxxxxxxx/);
+  assert.match(api,/fetch\('https:\/\/api\.resend\.com\/emails'/);
+  assert.match(api,/subject:'\[하나오토\] 새 기기 권한 요청'/);
+  assert.match(api,/notifyDeviceAuthorization\(context,\{email:accessUser\.email,label,userAgent,adminUrl:`\$\{url\.origin\}\/admin\/devices`\}\)/);
+  assert.match(api,/context\.waitUntil\(sendDeviceAuthorizationEmail/);
+  assert.match(api,/if\(!context\.env\.RESEND_API_KEY\)return/);
+});
