@@ -74,11 +74,11 @@ test('/view는 차량번호 뒤 4자리가 완성된 검색 결과의 주차구�
 test('/view는 콤마로 여러 차량을 검색하고 결과 외 차량을 빈자리 칸으로 감춘다',()=>{
   assert.match(main,/matchIds=new Set\(matches\.map\(spot=>String\(spot\.id\)\)\)/);
   assert.match(main,/parking-cell\.is-occupied\[data-spot\]/);
-  assert.match(main,/cell\.className='parking-cell is-vacant viewer-hidden-vehicle'/);
+  assert.match(main,/cell\.className='parking-cell is-vacant is-filtered viewer-hidden-vehicle'/);
   assert.match(main,/cell\.innerHTML=number/);
   assert.doesNotMatch(main,/viewer-hidden-vehicle';cell\.innerHTML=`\$\{number\}<strong/);
   assert.match(main,/cell\.removeAttribute\('data-spot'\)/);
-  assert.match(css,/\.viewer-page \.parking-cell\.viewer-hidden-vehicle\{border-color:#aeb4af;background:#d8dbd8\}/);
+  assert.doesNotMatch(css,/\.viewer-page \.parking-cell\.viewer-hidden-vehicle\{[^}]*background:/);
 });
 
 test('/view는 검색상자 아래 주차구역 필터 행을 숨긴다',()=>{
