@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+const parkingMap=readFileSync(new URL('../src/parking-map.js',import.meta.url),'utf8');
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 
 test('/view는 인증 전에 공개 조회 데이터를 불러온다',()=>{
@@ -89,4 +90,10 @@ test('/view는 공통 검색 실패 및 필터 초기화 레이아웃을 숨긴�
 
 test('/view 모바일 새싹타워 차량번호는 좁은 칸에 맞게 작게 표시한다',()=>{
   assert.match(css,/@media\(max-width:800px\)\{\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-cell\.is-occupied\{padding-inline:0\}\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-cell\.is-occupied strong\{font-size:11px!important;letter-spacing:-\.08em;white-space:nowrap\}\}/);
+});
+
+test('/view 새싹타워 B5 M열과 B6 A열 사이에 빨간 경계선을 표시한다',()=>{
+  assert.match(main,/splitAfterRow:viewerTower\?12:0,splitSecondColumns:viewerTower\?8:0/);
+  assert.match(parkingMap,/options\.zoneId==='tower'&&sideBySide[^\n]*class="tower-floor-divider"/);
+  assert.match(css,/\.tower-floor-divider\{[^}]*border-left:3px solid #d92323/);
 });
