@@ -70,10 +70,12 @@ test('/view는 차량번호 뒤 4자리가 완성된 검색 결과의 주차구�
   assert.match(main,/차량번호 뒤 4자리를 입력해 주세요/);
 });
 
-test('/view는 콤마로 여러 차량을 검색하고 결과 외 차량을 비활성 칸으로 감춘다',()=>{
+test('/view는 콤마로 여러 차량을 검색하고 결과 외 차량을 빈자리 칸으로 감춘다',()=>{
   assert.match(main,/matchIds=new Set\(matches\.map\(spot=>String\(spot\.id\)\)\)/);
   assert.match(main,/parking-cell\.is-occupied\[data-spot\]/);
-  assert.match(main,/viewer-hidden-vehicle/);
+  assert.match(main,/cell\.className='parking-cell is-vacant viewer-hidden-vehicle'/);
+  assert.match(main,/cell\.innerHTML=number/);
+  assert.doesNotMatch(main,/viewer-hidden-vehicle';cell\.innerHTML=`\$\{number\}<strong/);
   assert.match(main,/cell\.removeAttribute\('data-spot'\)/);
 });
 
