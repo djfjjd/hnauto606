@@ -133,6 +133,7 @@ test('새싹 통계는 기본 20자리와 추가 10자리를 분리해 계산한
 });
 
 test('확인 필요에 성능일 120일 경과 차량부터 재성능 표시와 함께 집계한다',()=>{
+  assert.match(main,/l==='확인 필요'\?'점검 필요':l/);
   assert.match(main,/\(today-service\)\/86400000>=120/);
   assert.match(main,/performanceAlerts=activeVehicles\.filter\(s=>isPerformanceOverdue\(s\.reperformanceDate\|\|s\.performanceDate\)\)/);
   assert.match(main,/alertVehicles=new Set\(attentionVehicles\(\)\.map\(s=>s\.vehicleId\|\|s\.id\)\)/);
