@@ -6,6 +6,7 @@ const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const data=readFileSync(new URL('../src/data.js',import.meta.url),'utf8');
+const statusMigration=readFileSync(new URL('../migrations/0042_expand_vehicle_status_types.sql',import.meta.url),'utf8');
 
 test('상품화출차 팝업 오른쪽 위에서 차량별 경고등 입력을 연다',()=>{
   assert.match(main,/MASTER_WARNING_ICON=\(STATUS\.find\(status=>status\.id==='master-warning'\)\?\.icon\|\|'통합경고등\.png'\)\.normalize\('NFD'\)/);
@@ -32,6 +33,12 @@ test('경고등 저장은 상품화출차 없이 상태 목록만 교체한다',
   assert.match(route,/DELETE FROM vehicle_status WHERE vehicle_id=\?/);
   assert.match(route,/INSERT INTO vehicle_status/);
   assert.doesNotMatch(route,/parking_spots|current_spot_id|parking_movements|notification_events|productization|notifyVehicle/);
+});
+
+test('D1 경고등 제약조건은 화면에서 선택 가능한 모든 상태를 허용한다',()=>{
+  for(const status of ['coolant-low','light','battery','engine','engine-oil-low','oil-pressure','urea','fuel','tire','master-warning','abs'])assert.match(statusMigration,new RegExp(`'${status}'`));
+  assert.match(statusMigration,/INSERT INTO vehicle_status_new[\s\S]*FROM vehicle_status/);
+  assert.match(statusMigration,/CREATE INDEX idx_vehicle_status_active ON vehicle_status\(vehicle_id,active\)/);
 });
 
 test('확인 필요 재성능 차량은 한 줄에 세 대씩 줄바꿈 없이 표시한다',()=>{
