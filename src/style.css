@@ -287,7 +287,7 @@ body:has(.viewer-page) .brand,body:has(.viewer-page) .viewer-page button:not(.se
 @media(max-width:800px){.summary.parking-summary{grid-template-columns:repeat(5,minmax(0,1fr))}.parking-summary .metric{min-height:96px;padding:14px 14px 6px}.parking-summary .metric strong{font-size:34px}}
 @media(max-width:800px){.metric.capacity{display:flex;cursor:pointer}.metric.capacity .metric-details{display:none}}
 @media(max-width:800px){html:has(.modal-backdrop),body:has(.modal-backdrop){overflow:hidden;overscroll-behavior:none}}
-@media(max-width:800px){.metric.amber .metric-details{grid-template-columns:repeat(2,max-content)}}
+@media(max-width:800px){.metric.amber{cursor:pointer}.metric.amber .metric-details{display:none}}
 @media(max-width:800px){body:has(.board-page){min-width:780px;overflow-x:auto}body:has(.board-page) .topbar,body:has(.board-page) .demo-banner,body:has(.board-page) .board-hero,body:has(.board-page) .manager-tabs,body:has(.board-page) .board-tools,body:has(.board-page) .manager-groups{width:780px;max-width:none;margin-left:0;margin-right:0}.board-table{overflow:hidden}.board-row{min-width:0}}
 @media(max-width:640px){.board-labels{display:grid}.board-row{grid-template-columns:44px 34px 1.15fr .9fr .55fr .55fr .85fr 1.25fr 68px}.board-delete-icon{opacity:1}}
 @media(max-width:640px){.board-row{grid-template-columns:44px 34px 1.15fr .9fr .55fr .55fr .85fr 1.25fr 136px}.board-checkout-cancel{opacity:1}}

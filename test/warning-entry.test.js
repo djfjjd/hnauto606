@@ -55,8 +55,11 @@ test('확인 필요 차량이 6대 이상이면 5대와 더보기를 표시하�
   assert.match(main,/querySelectorAll\('\[data-attention-more\]'\)\.forEach\(button=>button\.addEventListener\('click',showAttentionList\)\)/);
 });
 
-test('모바일 확인 필요 카드도 5대와 더보기를 2열로 표시한다',()=>{
-  assert.match(css,/@media\(max-width:800px\)\{\.metric\.amber \.metric-details\{grid-template-columns:repeat\(2,max-content\)\}\}/);
+test('모바일은 확인 필요 카드의 차량 목록을 숨기고 카드 전체로 팝업을 연다',()=>{
+  assert.match(main,/t==='amber'\?' data-attention-card role="button" tabindex="0"'/);
+  assert.match(main,/const attentionCard=document\.querySelector\('\[data-attention-card\]'\),openAttentionCard=\(\)=>\{if\(matchMedia\('\(max-width: 800px\)'\)\.matches\)showAttentionList\(\);\}/);
+  assert.match(main,/attentionCard\.onkeydown=event=>\{if\(event\.key==='Enter'\|\|event\.key===' '\)/);
+  assert.match(css,/@media\(max-width:800px\)\{\.metric\.amber\{cursor:pointer\}\.metric\.amber \.metric-details\{display:none\}\}/);
 });
 
 test('확인 필요 카드에 차량번호 네 자리와 실제 경고등 종류를 표시한다',()=>{
