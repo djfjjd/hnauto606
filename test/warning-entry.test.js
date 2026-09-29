@@ -60,7 +60,7 @@ test('모바일 확인 필요 카드도 5대와 더보기를 2열로 표시한�
 });
 
 test('확인 필요 카드에 차량번호 네 자리와 실제 경고등 종류를 표시한다',()=>{
-  assert.match(main,/const shortAttentionReason=reason=>reason==='재성능'\?reason:String\(reason\)\.replace\(\/\\s\*경고등\$\/,''\)/);
+  assert.match(main,/const shortAttentionReason=reason=>reason==='재성능'\?reason:String\(reason\)\.replace\(\/\\s\*경고등\$\/,''\)\.replace\(\/\^냉각수부족\$\/,'냉각수'\)/);
   assert.match(main,/String\(vehicle\.plate\)\.slice\(-4\).*vehicle\.reasons\.map\(shortAttentionReason\)\.join\('·'\)/);
 });
 
