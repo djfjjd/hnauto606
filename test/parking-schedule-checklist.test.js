@@ -32,7 +32,13 @@ test('개인과 법인 일정 표시는 구분되고 체크 상태를 되돌릴 
   assert.match(css,/\.parking-schedule-check-item small\.is-pending\{color:#5ca9ff\}/);
   assert.match(css,/small\.is-corporate\{color:#ff6666\}/);
   assert.match(css,/small\.is-personal\{color:#aeb7b1\}/);
-  assert.match(main,/body:JSON\.stringify\(\{completed\}\)/);
+  assert.match(main,/body:JSON\.stringify\(\{completed:false\}\)/);
+});
+
+test('추가된 일정을 체크하면 해당 차량을 신규 입고 등록하고 완료일정으로 이동한다',()=>{
+  assert.match(main,/const parkingScheduleCheckInPayload=record=>\(\{heydealerRecordId:record\.id,plate:record\.plate,model:record\.model,modelYear:record\.model_year/);
+  assert.match(main,/if\(completed\)\{if\(!record\)throw new Error\('신규 입고로 등록할 일정을 찾을 수 없습니다\.'\);const result=await api\('vehicles\/check-in',\{method:'POST',body:JSON\.stringify\(parkingScheduleCheckInPayload\(record\)\)\}\)/);
+  assert.match(main,/record\.calendar_completed_at=new Date\(\)\.toISOString\(\);await refresh\(result\.message\)/);
 });
 
 test('왼쪽 일정 차량번호는 기존 캘린더 차량 상세 팝업을 연다',()=>{
