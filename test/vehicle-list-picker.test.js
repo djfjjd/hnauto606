@@ -26,6 +26,7 @@ test('빈 자리 배정에서 추가된 일정의 미입고 차량을 검색하�
   assert.match(main,/upcomingLabel:expectedDate\?`\$\{expectedDate\.slice\(5\)\.replace\('-','\/'\)\} 입고예정`:'일정 확인중'/);
   assert.match(main,/class="vehicle-list-upcoming">\(\$\{esc\(vehicle\.upcomingLabel\)\}\)<\/em>/);
   assert.match(main,/if\(vehicle\.scheduleRecordId\).*api\('vehicles\/check-in'.*api\(`vehicles\/\$\{vehicleId\}\/move`/s);
+  assert.match(main,/if\(vehicle\.scheduleRecordId&&!confirm\('신규입고등록 처리 후 저장할까요\?'\)\)return/);
   assert.match(main,/rollbackCheckIn:true/);
 });
 
