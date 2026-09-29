@@ -65,7 +65,7 @@ test('B3층 E16~I16과 E17~I17 사이에 19번기둥 노란 실선을 표시한�
   assert.match(expanded,/class="parking-pillar-divider" style="grid-column:4\/span 5;grid-row:18"[^>]*><span>19번기둥<\/span>/);
 });
 
-test('새싹타워는 접으면 B5·B6를 7칸 기준으로 표시하고 펼치면 X 구역을 유지한다',()=>{
+test('새싹타워는 접으면 다른 구역과 같은 크기로 5칸씩 4행 표시하고 펼치면 X 구역을 유지한다',()=>{
   const collapsed=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:false});
   const expanded=renderParkingMap(parkingLayouts.tower,[],new Set(),{zoneId:'tower',expanded:true});
   assert.equal((collapsed.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,20);
@@ -75,7 +75,7 @@ test('새싹타워는 접으면 B5·B6를 7칸 기준으로 표시하고 펼치�
   assert.doesNotMatch(collapsed,/aria-label="G14 빈 자리"/);
   assert.doesNotMatch(collapsed,/class="map-row"|>B5층<\/b>|>B6층<\/b>/);
   assert.doesNotMatch(collapsed,/class="map-column"/);
-  assert.match(collapsed,/--map-columns:7;--map-rows:3;--map-header-rows:0/);
+  assert.match(collapsed,/--map-columns:5;--map-rows:4;--map-header-rows:0;--cell-width:62px/);
   assert.match(collapsed,/class="parking-map-grid has-no-column-header has-no-row-label"/);
   assert.match(collapsed,/data-toggle-map="tower"[^>]*aria-expanded="false"/);
   assert.match(expanded,/class="map-column"[^>]*>M<\/b>/);
@@ -132,14 +132,12 @@ test('새싹타워 접기 상태는 층 구분 없이 모든 주차 차량을 �
   assert.match(html,/grid-row:1\/span 1[^>]*aria-label="L01 12가1234 주차 중"[\s\S]*grid-row:1\/span 1[^>]*aria-label="G14 34나5678 주차 중"/);
 });
 
-test('새싹타워 B6 차량 20대는 접기 상태에서 7칸·7칸·6칸으로 표시한다',()=>{
+test('새싹타워 차량 20대는 접기 상태에서 5칸씩 4행으로 표시한다',()=>{
   const labels=['D17','D18','D19','D20','D21','A25','A24','A23','A22','A21','A20','A19','A17','A16','B14','C14','D14','E14','F14','G14'];
   const spots=labels.map((label,index)=>({id:`b6-${index}`,label,plate:`12가${String(index).padStart(4,'0')}`,model:'차량',alerts:[]}));
   const html=renderParkingMap(parkingLayouts.tower,spots,undefined,{zoneId:'tower',expanded:false});
   assert.equal((html.match(/class="parking-cell/g)||[]).length,20);
-  assert.equal((html.match(/grid-row:1\/span 1/g)||[]).length,7);
-  assert.equal((html.match(/grid-row:2\/span 1/g)||[]).length,7);
-  assert.equal((html.match(/grid-row:3\/span 1/g)||[]).length,6);
+  for(const row of [1,2,3,4])assert.equal((html.match(new RegExp(`grid-row:${row}\\/span 1`,'g'))||[]).length,5);
 });
 
 test('새싹타워 펼침 도면은 12행씩 M열 오른쪽에 나란히 배치할 수 있다',()=>{
