@@ -20,6 +20,15 @@ test('빈 자리 배정 목록에서 미배정 차량과 아직 주차되지 않
   assert.match(main,/vehicle\.isCheckedOut\?'assign-checked-out':'move'/);
 });
 
+test('빈 자리 배정에서 추가된 일정의 미입고 차량을 검색하고 입고 후 바로 배정한다',()=>{
+  assert.match(main,/scheduledVehicles=state\.calendarRecords\.filter\(record=>!record\.calendar_completed_at&&!registeredPlates\.has/);
+  assert.match(main,/scheduleRecordId:record\.id,plate:record\.plate,model:record\.model\|\|''/);
+  assert.match(main,/upcomingLabel:expectedDate\?`\$\{expectedDate\.slice\(5\)\.replace\('-','\/'\)\} 입고예정`:'일정 확인중'/);
+  assert.match(main,/class="vehicle-list-upcoming">\(\$\{esc\(vehicle\.upcomingLabel\)\}\)<\/em>/);
+  assert.match(main,/if\(vehicle\.scheduleRecordId\).*api\('vehicles\/check-in'.*api\(`vehicles\/\$\{vehicleId\}\/move`/s);
+  assert.match(main,/rollbackCheckIn:true/);
+});
+
 test('새싹 빈자리 팝업은 실제 셀 좌표 대신 B5·B6 주차구역 번호를 표시한다',()=>{
   assert.match(main,/function modalLocationLabel\(s\)\{if\(state\.mode==='assign'&&s\.zoneId==='tower'\)return`주차구역 · \$\{towerParkingLabel\(s\.label\)\.replace\('층 ',''\)\}`/);
   assert.match(main,/<p class="eyebrow">\$\{esc\(modalLocationLabel\(s\)\)\}<\/p>/);
