@@ -104,8 +104,9 @@ test('모든 주차 도면 Cell은 가독성 크기로 표시한다',()=>{
 test('전체 보기에서 6층·B3 옆에 옥상을 두고 B5·새싹을 같은 행에 배치한다',()=>{
   assert.match(css,/data-map-zone="pillar11"\]\{grid-column:1\/span 3;grid-row:1\}/);
   assert.match(css,/data-map-zone="roof"\]\{grid-column:4\/span 3;grid-row:1\/span 2\}/);
-  assert.match(css,/data-map-zone="b3"\]\{grid-column:1\/span 3;grid-row:2\}/);
   assert.match(css,/data-map-zone="b5"\]\{grid-column:1\/span 3;grid-row:3\}/);
   assert.match(css,/data-map-zone="tower"\]\{grid-column:4\/span 3;grid-row:3\}/);
+  assert.match(css,/data-map-zone="b3"\]\{grid-column:1\/span 3;grid-row:2;align-self:stretch;display:flex;flex-direction:column\}/);
+  assert.match(css,/data-map-zone="b3"\] \.parking-map-scroll\{flex:1;display:flex;align-items:flex-end\}/);
   assert.doesNotMatch(css,/data-map-zone="auto13"/);
 });
