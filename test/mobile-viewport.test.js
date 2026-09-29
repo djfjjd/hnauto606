@@ -94,6 +94,8 @@ test('통계 카드의 영문 라벨을 숨기고 빈 자리 숫자를 빨간색
 });
 
 test('모든 주차 도면 Cell은 가독성 크기로 표시한다',()=>{
+  assert.match(css,/\.parking-map-head\{height:39px;display:flex;align-items:center[^}]*padding:0 14px/);
+  assert.match(css,/@media\(max-width:640px\)\{\.parking-map-head\{align-items:center;padding:0 10px\}/);
   assert.match(css,/grid-template-columns:var\(--row-label-width,20px\) repeat\(var\(--map-columns\),var\(--cell-width,62px\)\)/);
   assert.match(css,/grid-template-rows:repeat\(var\(--map-header-rows,1\),23px\) repeat\(var\(--map-rows\),39px\)/);
   assert.match(css,/\.parking-cell\.is-vacant strong\{font-size:12px;letter-spacing:-\.06em;white-space:nowrap\}/);
