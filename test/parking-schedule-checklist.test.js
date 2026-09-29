@@ -17,6 +17,7 @@ test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 �
   assert.match(main,/parkingScheduleNeedsReview=record=>record\.customer_type==='확인중'\|\|\/탁송/);
   assert.match(main,/!done&&parkingScheduleNeedsReview\(record\)\?'<i class="parking-schedule-review-mark" aria-label="확인 필요" title="확인 필요">!<\/i>'/);
   assert.match(css,/\.parking-schedule-review-mark\{[^}]*color:#ffcf66/);
+  assert.match(css,/@media\(max-width:800px\)\{[\s\S]*?\.parking-schedule-check-plate:has\(\.parking-schedule-review-mark\) b\{color:#ffcf66\}\.parking-schedule-review-mark\{display:none\}/);
   assert.match(main,/function openParkingScheduleReview\(\)/);
   assert.match(main,/법인유무 확인중/);
   assert.match(main,/탁송일정 확인중/);
