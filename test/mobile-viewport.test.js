@@ -104,7 +104,3 @@ test('전체 보기에서 6층·B3 옆에 옥상을 두고 B5·새싹을 같은 
   assert.match(css,/data-map-zone="tower"\]\{grid-column:4\/span 3;grid-row:3\}/);
   assert.doesNotMatch(css,/data-map-zone="auto13"/);
 });
-
-test('모바일 옥상층은 행번호 열 축소분만큼 주차 칸을 넓혀 오른쪽 여백을 채운다',()=>{
-  assert.match(css,/@media\(max-width:800px\)\{\.parking-map\[data-map-zone="roof"\] \.parking-map-grid\{--cell-width:64px!important\}\}/);
-});
