@@ -15,6 +15,8 @@ test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 �
   assert.match(main,/>완료일정</);
   assert.match(main,/data-parking-schedule-review>\$\{reviewCount\}대 확인필요 →<\/button>/);
   assert.match(main,/parkingScheduleNeedsReview=record=>record\.customer_type==='확인중'\|\|\/탁송/);
+  assert.match(main,/!done&&parkingScheduleNeedsReview\(record\)\?'<i class="parking-schedule-review-mark" aria-label="확인 필요" title="확인 필요">!<\/i>'/);
+  assert.match(css,/\.parking-schedule-review-mark\{[^}]*color:#ffcf66/);
   assert.match(main,/function openParkingScheduleReview\(\)/);
   assert.match(main,/법인유무 확인중/);
   assert.match(main,/탁송일정 확인중/);
@@ -56,7 +58,7 @@ test('왼쪽 일정 차량번호는 기존 캘린더 차량 상세 팝업을 연
   assert.match(main,/parkingScheduleModelLabel=model=>\{const words=String\(model\|\|'차종 미입력'\)\.trim\(\)\.split\(\/\\s\+\/\),wordCount=words\[1\]\?\.length===1\?\(words\[2\]\?\.length===1\?4:3\):2;return words\.slice\(0,wordCount\)\.join\(' '\);\}/);
   assert.match(main,/esc\(parkingScheduleModelLabel\(record\.model\)\)/);
   assert.match(css,/parking-schedule-check-plate\{[^}]*display:flex[^}]*gap:6px/);
-  assert.match(css,/@media\(max-width:800px\)\{[^}]*parking-schedule-checklist[\s\S]*?\.parking-schedule-check-plate span:last-child\{display:none\}/);
+  assert.match(css,/@media\(max-width:800px\)\{[^}]*parking-schedule-checklist[\s\S]*?\.parking-schedule-check-plate span:last-of-type\{display:none\}/);
   assert.match(main,/if\(record\)openCalendarRecord\(record\)/);
   assert.match(css,/parking-schedule-check-plate:hover/);
 });
