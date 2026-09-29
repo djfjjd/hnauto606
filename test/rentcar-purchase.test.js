@@ -3,13 +3,13 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
+const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const migration=readFileSync(new URL('../migrations/0021_add_rentcar_records.sql',import.meta.url),'utf8');
 
-test('상단에 렌터카 매입 입력과 목록 하위 메뉴를 제공한다',()=>{
+test('렌터카 페이지는 유지하되 상단 매입정보 메뉴에서는 숨긴다',()=>{
   assert.match(main,/렌터카매입정보/);
-  assert.match(main,/href="\/rentcar">렌터카매입정보/);
-  assert.match(main,/href="\/rentcar\/vehicles">렌터카매입목록/);
+  assert.match(css,/\.drive-menu \.external-submenu a\[href\^="\/rentcar"\]\{display:none\}/);
   assert.match(main,/location\.pathname\.startsWith\('\/rentcar'\)/);
 });
 

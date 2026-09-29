@@ -6,12 +6,12 @@ const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 
-test('상단 매입정보 메뉴에 헤이딜러와 렌터카 하위 메뉴를 함께 표시한다',()=>{
+test('상단 매입정보 메뉴에는 헤이딜러 항목만 표시한다',()=>{
   assert.match(main,/class="external-menu drive-menu"/);
   assert.match(main,/data-drive-menu aria-expanded="false" aria-controls="purchase-submenu">매입정보/);
   assert.match(main,/class="external-submenu" id="purchase-submenu"><a href="\/drive">헤이딜러제로<\/a>/);
   assert.match(main,/<a href="\/drive\/heydealer">선택차량목록<\/a>/);
-  assert.match(main,/<a href="\/rentcar">렌터카매입정보<\/a><a href="\/rentcar\/vehicles">렌터카매입목록<\/a>/);
+  assert.match(css,/\.drive-menu \.external-submenu a\[href\^="\/rentcar"\]\{display:none\}/);
   assert.match(main,/class="header-actions"><a class="header-sheet-link" href="https:\/\/docs\.google\.com\/spreadsheets\/d\/1N3cAmPeS7eOZoqW-k9r1bx_xI0XI-4e0aGo9B04wGbA\/edit\?gid=1361663048#gid=1361663048"[^>]*aria-label="Google Sheets 바로가기"[^>]*><img src="\/sheets\.png" alt=""><\/a><a class="header-dashboard-link" href="\/dashboard">차량 현황판<\/a>/);
   assert.match(main,/class="header-actions"><a class="header-sheet-link" href="https:\/\/docs\.google\.com\/spreadsheets\/d\/1N3cAmPeS7eOZoqW-k9r1bx_xI0XI-4e0aGo9B04wGbA\/edit\?gid=1361663048#gid=1361663048"[^>]*><img src="\/sheets\.png" alt=""><\/a><nav class="board-nav"><a href="\/">주차 위치 현황<\/a>/);
   assert.doesNotMatch(main,/class="external-menu rentcar-menu"/);
