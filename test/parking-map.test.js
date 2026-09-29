@@ -293,9 +293,12 @@ test('6층 E17~I17과 E18~I18 사이에 11번기둥 노란 실선을 표시한�
 
 test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
   const html=renderParkingMap(parkingLayouts.roof,[{id:'roof-a17',label:'A17',plate:'',alerts:[]}]);
-  assert.match(html,/data-spot="roof-a17"[^>]+grid-column:2\/span 3/);
+  const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
+  assert.match(html,/class="parking-map-grid has-no-row-label"/);
+  assert.match(css,/\.parking-map\[data-map-zone="roof"\] \.parking-map-scroll\{padding-left:4px\}/);
+  assert.match(html,/data-spot="roof-a17"[^>]+grid-column:1\/span 3/);
   assert.match(html,/주차장 출입구 램프/);
-  assert.match(html,/grid-column:5\/span 2;grid-row:10\/span 4[^>]+><strong>계단<\/strong>/);
+  assert.match(html,/grid-column:4\/span 2;grid-row:10\/span 4[^>]+><strong>계단<\/strong>/);
   assert.doesNotMatch(html,/A21|D21|I21/);
   assert.doesNotMatch(html,/>09<\/b>/);
   assert.match(html,/>▼<\/span> 펼치기/);

@@ -54,6 +54,7 @@ export const parkingLayouts={
   }),
   roof:baseLayout('서서울모터리움 옥상층',{
     rows:20,
+    hideRowLabels:true,
     collapsedVisibleRows:[1,2,3,4,5,6,7,8,17,18,19,20],
     toggleBeforeRow:9,
     defaultCellType:'blocked',
