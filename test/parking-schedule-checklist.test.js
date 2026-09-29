@@ -13,9 +13,11 @@ test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 �
   assert.match(main,/parking-schedule-checklist/);
   assert.match(main,/<strong>추가된 일정 \(\$\{pending\.length\}대\)<\/strong>/);
   assert.match(main,/>완료일정</);
-  assert.match(main,/data-parking-schedule-review>\$\{reviewCount\}대 확인필요 →<\/button>/);
+  assert.match(main,/data-parking-schedule-review>\$\{reviewCount\}대 점검필요 →<\/button>/);
   assert.match(main,/parkingScheduleNeedsReview=record=>record\.customer_type==='확인중'\|\|\/탁송/);
-  assert.match(main,/!done&&parkingScheduleNeedsReview\(record\)\?'<i class="parking-schedule-review-mark" aria-label="확인 필요" title="확인 필요">!<\/i>'/);
+  assert.match(main,/<h2 id="parking-schedule-review-title">점검 필요 차량<\/h2>/);
+  assert.match(main,/점검 필요한 차량이 없습니다\./);
+  assert.match(main,/!done&&parkingScheduleNeedsReview\(record\)\?'<i class="parking-schedule-review-mark" aria-label="점검 필요" title="점검 필요">!<\/i>'/);
   assert.match(css,/\.parking-schedule-review-mark\{[^}]*color:#ffcf66/);
   assert.match(css,/@media\(max-width:800px\)\{[\s\S]*?\.parking-schedule-check-plate:has\(\.parking-schedule-review-mark\) b\{color:#ffcf66\}\.parking-schedule-review-mark\{display:none\}/);
   assert.match(main,/function openParkingScheduleReview\(\)/);
