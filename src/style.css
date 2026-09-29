@@ -149,8 +149,9 @@ h2 { margin:0; font-family:inherit; font-size:38px; font-weight:800; letter-spac
 .parking-map-scroll{padding-bottom:0}
 .parking-map-grid{width:max-content;min-width:0;grid-template-columns:var(--row-label-width,20px) repeat(var(--map-columns),var(--cell-width,62px));grid-template-rows:repeat(var(--map-header-rows,1),23px) repeat(var(--map-rows),39px);gap:3px}.parking-map-grid.has-no-column-header{grid-template-rows:repeat(var(--map-rows),39px)}.parking-map-grid.has-no-row-label{grid-template-columns:repeat(var(--map-columns),var(--cell-width,62px))}
 .parking-map[data-map-zone="b3"] .parking-map-grid{margin-left:auto}
+.parking-map[data-map-zone="pillar11"] .parking-map-scroll,.parking-map[data-map-zone="b3"] .parking-map-scroll{padding-right:4px}
 .parking-map[data-map-zone="b5"] .parking-map-scroll{padding-left:4px}
-.parking-map[data-map-zone="roof"] .parking-map-scroll{padding-left:4px}
+.parking-map[data-map-zone="roof"] .parking-map-scroll,.parking-map[data-map-zone="tower"] .parking-map-scroll{padding-left:4px}
 .parking-pillar-divider{position:relative;z-index:3;align-self:start;height:0;margin-top:-2px;border-top:3px solid #facc15;pointer-events:none}.parking-pillar-divider span{position:absolute;right:calc(100% + 5px);top:0;transform:translateY(-50%);padding:2px 6px;color:#111;background:#facc15;font-size:13px;font-weight:800;white-space:nowrap}
 .parking-pillar-divider.is-label-right span{right:auto;left:calc(100% + 5px)}
 .parking-pillar-divider.is-after-row{align-self:end;margin-top:0;margin-bottom:-2px}
@@ -272,7 +273,7 @@ fieldset { margin:0; padding:0; border:0; }
 .parking-cell.search-target{z-index:3;border:3px solid #ffd21c!important;box-shadow:0 0 0 2px #111,0 8px 20px rgba(0,0,0,.24)}
 .viewer-page-title{position:absolute;left:50%;margin:0;color:#fff;font-size:24px;transform:translateX(-50%);white-space:nowrap}.viewer-badge{margin-left:auto;padding:9px 13px;border:1px solid rgba(255,255,255,.45);color:#fff;font-size:13px;font-weight:800}.viewer-page .zone-tabs,.viewer-page .workspace>.no-result{display:none}.viewer-page .parking-cell,.viewer-page .zone-tabs button,.viewer-page .map-head-toggle,.viewer-page .parking-search-results>button{cursor:default}.viewer-page .parking-search-results>button{grid-template-columns:1.05fr 1.35fr 1fr .7fr}.viewer-page .parking-search-results>button:disabled{color:inherit;opacity:1}.viewer-page .parking-search-results>button:disabled:hover{background:#fff}
 .viewer-page .zones.is-all>.parking-map[data-map-zone="tower"]{grid-column:1/-1;grid-row:4}
-.viewer-page .parking-map[data-map-zone="tower"] .parking-map-scroll{overflow-x:hidden;padding-right:0;padding-left:0}.viewer-page .parking-map[data-map-zone="tower"] .parking-map-grid{width:100%;grid-template-columns:repeat(var(--map-columns),minmax(0,1fr))}
+.viewer-page .parking-map[data-map-zone="tower"] .parking-map-scroll{overflow-x:hidden;padding-right:0;padding-left:4px}.viewer-page .parking-map[data-map-zone="tower"] .parking-map-grid{width:100%;grid-template-columns:repeat(var(--map-columns),minmax(0,1fr))}
 .viewer-page .parking-map[data-map-zone="tower"] .parking-special.type-facility strong{font-size:36px}
 @media(max-width:800px){.viewer-page .parking-map[data-map-zone="tower"] .parking-cell.is-occupied{padding-inline:0}.viewer-page .parking-map[data-map-zone="tower"] .parking-cell.is-occupied strong{font-size:12px!important;letter-spacing:-.08em;white-space:nowrap}}
 body:has(.viewer-page) .brand,body:has(.viewer-page) .viewer-page button:not(.search-clear),body:has(.viewer-page) .viewer-page [data-spot]{pointer-events:none}

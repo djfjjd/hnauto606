@@ -38,7 +38,7 @@ test('/view 새싹타워는 B5 아래에서 12행씩 좌우로 나눠 표시한�
   assert.match(main,/expanded:viewerTower\|\|state\.expandedLayouts\.has\(zone\.id\),splitAfterRow:viewerTower\?12:0,splitSecondColumns:viewerTower\?8:0/);
   assert.match(main,/firstSideFacilityLabel:viewerTower\?'B5층':'',secondSideFacilityLabel:viewerTower\?'B6층':''/);
   assert.match(css,/\.viewer-page \.zones\.is-all>\.parking-map\[data-map-zone="tower"\]\{grid-column:1\/-1;grid-row:4\}/);
-  assert.match(css,/\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-map-scroll\{overflow-x:hidden;padding-right:0;padding-left:0\}/);
+  assert.match(css,/\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-map-scroll\{overflow-x:hidden;padding-right:0;padding-left:4px\}/);
   assert.match(css,/\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-map-grid\{width:100%;grid-template-columns:repeat\(var\(--map-columns\),minmax\(0,1fr\)\)\}/);
   assert.match(css,/\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-special\.type-facility strong\{font-size:36px\}/);
 });
