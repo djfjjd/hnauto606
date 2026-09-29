@@ -65,6 +65,11 @@ test('넓은 차량 현황판 표는 상단 화면 폭을 밀어내지 않고 �
   assert.match(css,/\.board-table\{width:100%;max-width:100%;overflow-x:auto\}/);
 });
 
+test('모바일 주차 화면은 아이폰 고정 뷰포트의 오른쪽 끝까지 채운다',()=>{
+  assert.match(css,/body:has\(main#top\)\{width:780px;min-width:780px;max-width:780px;overflow-x:hidden\}/);
+  assert.match(css,/body:has\(main#top\)>#app,body:has\(main#top\) main#top\{width:780px;min-width:780px;max-width:780px\}/);
+});
+
 test('모바일 당겨서 새로고침 안내를 두 배 크기로 표시한다',()=>{
   assert.match(css,/\.pull-refresh\{[^}]*min-width:380px[^}]*padding:20px 32px[^}]*font-size:24px/);
   assert.match(main,/distance-90/);
