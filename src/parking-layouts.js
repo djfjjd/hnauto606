@@ -12,6 +12,7 @@ export const parkingLayouts={
   pillar11:baseLayout('서서울모터리움 6층',{
     rows:21,
     collapseBeforeRow:15,
+    collapsedHideColumnHeaders:true,
     defaultCellType:'blocked',
     parkingRanges:[{from:'E15',to:'I20'}],
     tintedRanges:[{from:'E15',to:'I15'}],
@@ -29,6 +30,7 @@ export const parkingLayouts={
     columns:7,
     rows:21,
     collapsedVisibleRows:[17,21],
+    collapsedHideColumnHeaders:true,
     toggleBeforeRow:16,
     defaultCellType:'blocked',
     parkingRanges:[{from:'E17',to:'I17'}],
@@ -57,6 +59,7 @@ export const parkingLayouts={
     rows:20,
     hideRowLabels:true,
     collapsedVisibleRows:[1,2,3,4,5,6,7,8,17,18,19,20],
+    collapsedHideColumnHeaders:true,
     toggleBeforeRow:9,
     defaultCellType:'blocked',
     parkingRanges:[
