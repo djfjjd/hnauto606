@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
+const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 
 test('차량 선택 검색어가 비어 있으면 안내 문구와 목록을 표시하지 않는다',()=>{
   assert.doesNotMatch(main,/차량 검색어를 입력해 주세요/);
@@ -18,6 +19,9 @@ test('출고 차량은 주차·상품화·미배정을 포함한 차량현황판
 test('빈 자리 배정 목록에서 미배정 차량과 아직 주차되지 않은 출고 차량을 검색한다',()=>{
   assert.match(main,/assignableVehicles=\[\.\.\.state\.unassigned,\.\.\.state\.checkedOut\.filter\(vehicle=>!vehicle\.currentSpotId\)\]/);
   assert.match(main,/vehicle\.isCheckedOut\?'assign-checked-out':'move'/);
+  assert.match(main,/if\(!vehicle\.isCheckedOut\)return content;const checkedOutDate=String\(vehicle\.checkedOutAt\|\|''\)\.slice\(0,10\)\|\|'날짜 미입력'/);
+  assert.match(main,/class="vehicle-list-checked-out">\$\{content\} <em>\(출고됨, \$\{esc\(checkedOutDate\)\}\)<\/em>/);
+  assert.match(css,/\.vehicle-list-checked-out,\.vehicle-list-checked-out em\{color:#c82020/);
 });
 
 test('빈 자리 배정에서 추가된 일정의 미입고 차량을 검색하고 입고 후 바로 배정한다',()=>{
