@@ -11,6 +11,8 @@ const envExample=readFileSync(new URL('../.env.example',import.meta.url),'utf8')
 
 test('인증 기기 토큰은 HttpOnly 쿠키와 D1 해시로 관리한다',()=>{
   assert.match(api,/HttpOnly; Secure; SameSite=Lax/);
+  assert.match(api,/const DEVICE_COOKIE_MAX_AGE=34560000/);
+  assert.match(api,/sessionToken\?jsonCookie\(result,200,deviceCookie\(sessionToken\)\):json\(result\)/);
   assert.match(api,/crypto\.subtle\.digest\('SHA-256'/);
   assert.match(migration,/token_hash TEXT NOT NULL UNIQUE/);
   assert.doesNotMatch(migration,/token TEXT/);
