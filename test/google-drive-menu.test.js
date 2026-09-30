@@ -123,6 +123,7 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(css,/\.calendar-record-fields\[hidden\],\.calendar-record-files\[hidden\]\{display:none!important\}/);
   assert.match(css,/\.calendar-record-modal>\.heydealer-edit-form \.drive-field-grid\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)\}/);
   assert.match(css,/\.calendar-record-modal>\.heydealer-edit-form label:has\(input\[name=recordDate\]\)\{display:none\}/);
+  assert.match(css,/\.calendar-record-modal>\.heydealer-edit-form input,\.calendar-record-modal>\.heydealer-edit-form select\{background:#fff\}/);
   assert.match(css,/\.calendar-vehicle-text\{display:flex;align-items:center;min-width:0;overflow:visible;white-space:nowrap\}/);
   assert.match(css,/\.calendar-vehicle-text \.calendar-vehicle-number\{width:auto;min-width:0;flex:none\}/);
   assert.match(css,/\.calendar-vehicle-text>b\{[^}]*flex:none;margin-left:7px/);
