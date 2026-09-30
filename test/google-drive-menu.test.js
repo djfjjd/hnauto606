@@ -128,6 +128,9 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/section\.hidden=!isCorporateCustomer\(form\.elements\.namedItem\('customerType'\)\.value\)/);
   assert.match(main,/data-calendar-edit-file-add>\+ 추가<\/button>/);
   assert.match(main,/fileInput\.click\(\)/);
+  assert.match(main,/data-calendar-file-delete="\$\{esc\(fileId\)\}"/);
+  assert.match(main,/api\(`heydealer\/\$\{recordId\}\/files\/\$\{fileId\}`\,\{method:'DELETE'\}\)/);
+  assert.match(main,/record\.files=\(record\.files\|\|\[\]\)\.filter\(file=>file\.id!==fileId\)/);
   assert.match(css,/\.calendar-record-files\.is-editing-files \[data-calendar-file-list\],\.calendar-record-files\.is-editing-files \[data-calendar-download-all\]\{display:none\}/);
   assert.match(css,/\.calendar-vehicle-text\{display:flex;align-items:center;min-width:0;overflow:visible;white-space:nowrap\}/);
   assert.match(css,/\.calendar-vehicle-text \.calendar-vehicle-number\{width:auto;min-width:0;flex:none\}/);

@@ -55,6 +55,14 @@ test('이미지 첨부파일은 캘린더 미리보기에서 inline으로 연다
   assert.match(handler,/\$\{inline\?'inline':'attachment'\}; filename\*=UTF-8/);
 });
 
+test('선택차량 첨부파일 하나를 R2와 D1에서 함께 삭제한다',()=>{
+  assert.match(handler,/method==='DELETE'&&parts\[1\]&&parts\[2\]==='files'&&parts\[3\]/);
+  assert.match(handler,/SELECT id,record_id,object_key,filename FROM heydealer_files/);
+  assert.match(handler,/await env\.FILES\.delete\(file\.object_key\)/);
+  assert.match(handler,/DELETE FROM heydealer_files WHERE id=\? AND record_id=\?/);
+  assert.match(handler,/'delete','heydealer_file'/);
+});
+
 test('헤이딜러 API는 옵션 외 모든 거래 항목을 필수로 검증한다',()=>{
   assert.match(mileageMigration,/ALTER TABLE heydealer_records ADD COLUMN mileage TEXT NOT NULL DEFAULT ''/);
   assert.match(handler,/requiredValues=\[input\?\.manager,input\?\.modelYear,input\?\.plate,input\?\.model,input\?\.color,input\?\.mileage,input\?\.customerType\|\|input\?\.notes,input\?\.price,input\?\.account,input\?\.origin,input\?\.departureTime\]/);
