@@ -27,9 +27,10 @@ test('빈 자리 배정 목록에서 미배정 차량과 아직 주차되지 않
 });
 
 test('빈 자리 배정에서 추가된 일정의 미입고 차량을 검색하고 입고 후 바로 배정한다',()=>{
-  assert.match(main,/scheduledVehicles=state\.calendarRecords\.filter\(record=>!record\.calendar_completed_at&&!registeredPlates\.has/);
+  assert.match(main,/assignScheduleDates=new Set\(\[assignScheduleYesterday\.toLocaleDateString\('en-CA'\),assignScheduleToday\.toLocaleDateString\('en-CA'\)\]\)/);
+  assert.match(main,/scheduledVehicles=state\.calendarRecords\.filter\(record=>!record\.calendar_completed_at&&!registeredPlates\.has[^\n]+&&assignScheduleDates\.has\(heydealerScheduleDate\(record\)\)\)/);
   assert.match(main,/scheduleRecordId:record\.id,plate:record\.plate,model:record\.model\|\|''/);
-  assert.match(main,/upcomingLabel:expectedDate\?`\$\{expectedDate\.slice\(5\)\.replace\('-','\/'\)\} 입고예정`:'일정 확인중'/);
+  assert.match(main,/upcomingLabel:`\$\{expectedDate\.slice\(5\)\.replace\('-','\/'\)\} 입고예정`/);
   assert.match(main,/class="vehicle-list-upcoming">\(\$\{esc\(vehicle\.upcomingLabel\)\}\)<\/em>/);
   assert.match(main,/if\(vehicle\.scheduleRecordId\).*api\('vehicles\/check-in'.*api\(`vehicles\/\$\{vehicleId\}\/move`/s);
   assert.match(main,/if\(vehicle\.scheduleRecordId&&!confirm\('신규입고등록 처리 후 저장할까요\?'\)\)return/);
