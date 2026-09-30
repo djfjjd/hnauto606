@@ -36,6 +36,7 @@ test('기존 인증 브라우저는 재승인 없이 PC 인증으로 합쳐진�
 
 test('인증 기기 목록 조회와 해제 API를 제공한다',()=>{
   assert.match(api,/parts\[1\]==='devices'/);
+  assert.match(api,/ORDER BY u\.email COLLATE NOCASE ASC,CASE WHEN d\.revoked_at='PENDING' THEN 0 ELSE 1 END,d\.last_used_at DESC/);
   assert.match(api,/method==='DELETE'.*parts\[1\]==='devices'/);
   assert.match(api,/revoked_at=CURRENT_TIMESTAMP/);
   assert.match(ui,/로그인 기기 관리/);
