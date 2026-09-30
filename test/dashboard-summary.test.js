@@ -60,6 +60,23 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
   assert.match(css,/\.parking-schedule-modal li\{gap:4px\}/);
 });
 
+test('미니 캘린더의 첫째 주와 마지막 주를 인접 달 날짜와 일정 점으로 채운다',()=>{
+  assert.match(main,/cellCount=Math\.ceil\(\(firstDay\+lastDate\)\/7\)\*7/);
+  assert.match(main,/startDate=new Date\(year,month-1,1-firstDay\)/);
+  assert.match(main,/scheduleDates=new Set\(state\.calendarRecords\.map\(heydealerScheduleDate\)\.filter\(Boolean\)\)/);
+  assert.match(main,/adjacent=cellMonth!==month/);
+  assert.match(main,/scheduled\?`<button type="button" class="\$\{className\}"[^`]*<i aria-hidden="true"><\/i><\/button>`/);
+  assert.match(css,/\.parking-mini-day\.is-adjacent\{color:rgba\(237,243,239,\.42\)\}/);
+});
+
+test('미니 캘린더도 일요일과 한국 공휴일은 빨간색, 토요일은 파란색으로 표시한다',()=>{
+  assert.match(main,/weekday===0\|\|isKoreanPublicHoliday\(date\)\?' is-holiday':weekday===6\?' is-saturday'/);
+  assert.match(css,/\.parking-mini-day\.is-holiday\{color:#ff8b8b\}/);
+  assert.match(css,/\.parking-mini-day\.is-saturday\{color:#83b9ff\}/);
+  assert.match(css,/\.parking-mini-day\.is-adjacent\.is-holiday\{color:rgba\(255,139,139,\.48\)\}/);
+  assert.match(css,/\.parking-mini-day\.is-adjacent\.is-saturday\{color:rgba\(131,185,255,\.48\)\}/);
+});
+
 test('첫 화면 스프레드시트 아이콘은 바로가기를 유지하고 전체동기화 메뉴를 제공한다',()=>{
   assert.match(main,/function installParkingSheetMenu\(\)/);
   assert.match(main,/menu\.append\(link\)/);
