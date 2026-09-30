@@ -76,8 +76,8 @@ test('모바일 당겨서 새로고침 안내를 두 배 크기로 표시한다'
   assert.match(main,/translate\(-50%, -90px\)/);
 });
 
-test('모바일에서 팝업이 열리면 메인 화면 스크롤을 잠근다',()=>{
-  assert.match(css,/@media\(max-width:800px\)\{html:has\(\.modal-backdrop\),body:has\(\.modal-backdrop\)\{overflow:hidden;overscroll-behavior:none\}\}/);
+test('팝업이 열리면 화면 크기와 관계없이 배경 스크롤을 잠근다',()=>{
+  assert.match(css,/html:has\(\.modal-backdrop\),body:has\(\.modal-backdrop\)\{overflow:hidden;overscroll-behavior:none\}/);
   assert.match(css,/\.modal-backdrop \{[^}]*overflow:auto;[^}]*overscroll-behavior:contain/);
 });
 
