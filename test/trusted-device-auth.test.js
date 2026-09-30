@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const ui=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 const migration=readFileSync(new URL('../migrations/0016_add_trusted_devices.sql',import.meta.url),'utf8');
+const computerSessionMigration=readFileSync(new URL('../migrations/0043_add_trusted_computer_sessions.sql',import.meta.url),'utf8');
 const config=readFileSync(new URL('../wrangler.toml',import.meta.url),'utf8');
 const envExample=readFileSync(new URL('../.env.example',import.meta.url),'utf8');
 
@@ -13,6 +14,24 @@ test('인증 기기 토큰은 HttpOnly 쿠키와 D1 해시로 관리한다',()=>
   assert.match(api,/crypto\.subtle\.digest\('SHA-256'/);
   assert.match(migration,/token_hash TEXT NOT NULL UNIQUE/);
   assert.doesNotMatch(migration,/token TEXT/);
+});
+
+test('같은 PC의 여러 브라우저는 독립 세션으로 승인 상태를 공유한다',()=>{
+  assert.match(ui,/async function getDeviceKey\(\).*crypto\.subtle\.digest\('SHA-256'/);
+  assert.match(ui,/\[platform,dimensions,available,screen\.colorDepth,devicePixelRatio/);
+  assert.match(computerSessionMigration,/CREATE TABLE trusted_device_sessions/);
+  assert.match(computerSessionMigration,/device_id TEXT NOT NULL REFERENCES trusted_devices\(id\) ON DELETE CASCADE/);
+  assert.match(api,/authorize_browser_for_trusted_computer/);
+  assert.match(api,/INSERT INTO trusted_device_sessions/);
+  assert.match(api,/DELETE FROM trusted_device_sessions WHERE device_id=\?/);
+});
+
+test('기존 인증 브라우저는 재승인 없이 PC 인증으로 합쳐진다',()=>{
+  assert.match(api,/async function linkLegacyBrowserToComputer/);
+  assert.match(api,/INSERT OR IGNORE INTO trusted_device_sessions/);
+  assert.match(api,/token_hash=\?,updated_at=CURRENT_TIMESTAMP WHERE id=\?/);
+  assert.match(api,/if\(user\)user=await linkLegacyBrowserToComputer/);
+  assert.match(api,/if\(!row\)row=await env\.DB\.prepare/);
 });
 
 test('인증 기기 목록 조회와 해제 API를 제공한다',()=>{
@@ -30,7 +49,7 @@ test('익명 쓰기를 끄고 삭제된 기기를 신규 승인 요청으로 처
   assert.match(api,/revoked:false,pending/);
   assert.match(ui,/function accessLogoutUrl\(\)\{return'\/cdn-cgi\/access\/logout';\}/);
   assert.doesNotMatch(ui,/삭제된 인증 기기입니다/);
-  assert.match(ui,/처음 인증하는 기기입니다/);
+  assert.match(ui,/처음 인증하는 PC입니다/);
   assert.match(ui,/async function completeDeviceEnrollment\(forceReauthenticate=false\)/);
   assert.match(ui,/if\(enrollPage\)\{await completeDeviceEnrollment\(\);return;\}/);
 });
@@ -46,7 +65,7 @@ test('운영에서 기기 인증과 관리자 승인 절차를 적용한다',()=
   assert.match(ui,/data-device-approve/);
   assert.match(ui,/DEVICE_LABEL_STORAGE='hana-auto-device-label'/);
   assert.match(ui,/data-device-label/);
-  assert.match(ui,/요청 기기명/);
+  assert.match(ui,/요청 PC명/);
 });
 
 test('관리자 페이지는 ADMIN_EMAIL과 Cloudflare Access 인증을 모두 요구한다',()=>{
