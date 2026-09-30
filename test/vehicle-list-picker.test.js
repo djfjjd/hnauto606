@@ -20,8 +20,10 @@ test('빈 자리 배정 목록에서 미배정 차량과 아직 주차되지 않
   assert.match(main,/assignableVehicles=\[\.\.\.state\.unassigned,\.\.\.state\.checkedOut\.filter\(vehicle=>!vehicle\.currentSpotId\)\]/);
   assert.match(main,/vehicle\.isCheckedOut\?'assign-checked-out':'move'/);
   assert.match(main,/if\(!vehicle\.isCheckedOut\)return content;const checkedOutDate=String\(vehicle\.checkedOutAt\|\|''\)\.slice\(0,10\)\|\|'날짜 미입력'/);
-  assert.match(main,/class="vehicle-list-checked-out">\$\{content\} <em>\(출고됨, \$\{esc\(checkedOutDate\)\}\)<\/em>/);
+  assert.match(main,/checkedOutInfo=\[vehicle\.plate,vehicle\.model,normalizeVehicleColor\(vehicle\.color\)\]/);
+  assert.match(main,/class="vehicle-list-checked-out">\$\{checkedOutInfo\} <span class="vehicle-list-checked-out-manager">\$\{esc\(vehicle\.manager\|\|'담당자 미지정'\)\}<\/span> <em>\(출고됨, \$\{esc\(checkedOutDate\)\}\)<\/em>/);
   assert.match(css,/\.vehicle-list-checked-out,\.vehicle-list-checked-out em\{color:#c82020/);
+  assert.match(css,/\.vehicle-list-checked-out \.vehicle-list-checked-out-manager\{color:var\(--ink\)\}/);
 });
 
 test('빈 자리 배정에서 추가된 일정의 미입고 차량을 검색하고 입고 후 바로 배정한다',()=>{
