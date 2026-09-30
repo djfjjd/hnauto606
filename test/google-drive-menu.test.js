@@ -118,6 +118,8 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/<em class="\$\{record\.customer_type==='확인중'\?'is-pending':''\}">\$\{customerBadge\(record\.customer_type\)\}<\/em>/);
   assert.match(css,/\.calendar-record-modal h2 em\.is-pending\{color:#247ba0\}/);
   assert.match(css,/\.calendar-record-edit\{position:absolute;top:22px;right:64px/);
+  assert.match(css,/\.calendar-record-modal>\.heydealer-edit-form \.heydealer-edit-prompts\{display:none\}/);
+  assert.match(css,/\.calendar-record-modal>\.heydealer-edit-form \.heydealer-edit-actions\{position:absolute;top:18px;right:64px;margin:0\}/);
   assert.match(css,/\.calendar-vehicle-text\{display:flex;align-items:center;min-width:0;overflow:visible;white-space:nowrap\}/);
   assert.match(css,/\.calendar-vehicle-text \.calendar-vehicle-number\{width:auto;min-width:0;flex:none\}/);
   assert.match(css,/\.calendar-vehicle-text>b\{[^}]*flex:none;margin-left:7px/);
