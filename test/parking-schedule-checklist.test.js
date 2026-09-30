@@ -12,7 +12,7 @@ test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 �
   assert.match(main,/heydealerScheduleDate\(a\)\|\|'9999-12-31'/);
   assert.match(main,/relativeLabel=!done&&\(scheduleDate===today\?'오늘':scheduleDate===yesterday\?'어제':''\)/);
   assert.match(main,/<em class="parking-schedule-relative">\(\$\{relativeLabel\}\)<\/em>/);
-  assert.match(main,/dateLabel=!done&&scheduleDate\?scheduleDate\.slice\(5\)\.replace\('-','\/'\):''/);
+  assert.match(main,/dateLabel=!done&&scheduleDate&&scheduleDate!==today\?scheduleDate\.slice\(5\)\.replace\('-','\/'\):''/);
   assert.match(main,/<em class="parking-schedule-date">\(\$\{dateLabel\}\)<\/em>/);
   assert.match(css,/\.parking-schedule-relative\{[^}]*color:#ff6666/);
   assert.match(css,/\.parking-schedule-date\{[^}]*color:#d6dfd9/);
