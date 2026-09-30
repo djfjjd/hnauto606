@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {normalizePolishingVendor,normalizeRepairDescription,normalizeServiceDescription,normalizeSheetCheck,normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetMileage,normalizeSheetModelYear,normalizeSheetPlate} from '../functions/_lib/google-sheets.js';
+import {normalizePolishingVendor,normalizeRepairDescription,normalizeServiceDescription,normalizeSheetCheck,normalizeSheetDate,normalizeSheetDepartureDate,normalizeSheetMileage,normalizeSheetModelYear,normalizeSheetPlate,sheetRecordMatches} from '../functions/_lib/google-sheets.js';
 
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const sheets=readFileSync(new URL('../functions/_lib/google-sheets.js',import.meta.url),'utf8');
@@ -11,6 +11,17 @@ test('차량번호는 공백을 제거해 Google Sheet B열 key로 비교한다'
   assert.equal(normalizeSheetPlate(' 219 더 4124 '),'219더4124');
   assert.match(sheets,/plateRows\.get\(plate\)/);
   assert.match(sheets,/pending\.push\(\{action:'updated',row:existing\.row,sequence,values,record\}\)/);
+});
+
+test('기존 시트 행이 최신 입력값과 같으면 건너뛰고 다르면 덮어쓴다',()=>{
+  const record={plate:'219더4124',model:'BMW 120i',model_year:'2022-05',color:'검정',mileage:'18,634km',manager:'대표님',options:'선루프',customer_type:'개인',record_date:'2026-09-30',price:'2,020만원',account:'우리은행',origin:'서울',departure_time:'2026-10-01 10:00'};
+  const values=['219더4124','BMW 120i','','2022-05','검정',18634,'대표님','선루프','개인',normalizeSheetDate('2026-09-30'),'','','','','','','','서울','2026-10-01 10:00'];
+  const row=[7,...values,'','',record.price,record.account,false];
+  assert.equal(sheetRecordMatches(row,7,values,record),true);
+  assert.equal(sheetRecordMatches(row,7,[...values.slice(0,1),'BMW 320i',...values.slice(2)],record),false);
+  assert.match(sheets,/if\(sheetRecordMatches\(rows\[existing\.row-1\]\|\|\[\],sequence,values,record\)\)\{skipped\+=1/);
+  assert.match(sheets,/return\{success:failed===0,updated,inserted,skipped,failed/);
+  assert.match(handler,/sheet:\{updated:sheet\.updated\|\|0,inserted:sheet\.inserted\|\|0,skipped:sheet\.skipped\|\|0\}/);
 });
 
 test('E열 연식의 yy/mm 값을 yyyy-mm 문자열로 동기화한다',()=>{

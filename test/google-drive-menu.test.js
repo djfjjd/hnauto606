@@ -273,6 +273,10 @@ test('선택차량목록 연필 버튼은 항목을 펼쳐 D1 정보를 수정�
   assert.match(handler,/raw_pickup_text=\?,raw_payment_text=\?/);
   assert.match(main,/function animateHeydealerEditSave\(button\)/);
   assert.match(css,/\.heydealer-edit-actions \.drive-saving-label\{grid-template-columns:4em 3ch/);
+  assert.match(main,/function bindHeydealerEditPrompts\(form\)/);
+  assert.match(main,/parseHeydealerText\(prompt\.value\)/);
+  assert.match(main,/name==='notes'\?'customerType':name/);
+  assert.match(main,/raw_pickup_text:values\.rawPickupText,raw_payment_text:values\.rawPaymentText/);
 });
 
 test('선택차량 수정 중 법인 선택 시 클립 버튼으로 파일을 업로드한다',()=>{
