@@ -67,8 +67,8 @@ test('상품화출차 차량 정보에 차종과 담당자를 함께 표시한�
 
 test('상품화출차 차량 정보 가운데에 입고일을 표시한다',()=>{
   assert.match(main,/checkedInDate=String\(s\.checkedInAt\|\|''\)\.slice\(0,10\)/);
-  assert.match(main,/class="productization-checked-in" datetime="\$\{esc\(checkedInDate\)\}"><small>입고일<\/small><b>\$\{esc\(checkedInDate\)\|\|'-'\}<\/b><\/time>/);
-  assert.match(css,/\.productization-checked-in\{grid-column:2;grid-row:1\/3;[^}]*justify-items:center/);
+  assert.match(main,/productizationCheckedIn\.textContent=`\(입고일:\$\{date\?date\.replaceAll\('-','\. '\):'-'\}\)`/);
+  assert.match(css,/\.productization-checked-in\{grid-row:1;display:block;align-self:center;min-width:150px/);
 });
 
 test('상품화출차 차량 정보 오른쪽 연필로 차량 상세정보 수정을 연다',()=>{
