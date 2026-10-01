@@ -65,10 +65,12 @@ test('상품화출차 차량 정보에 차종과 담당자를 함께 표시한�
   assert.match(main,/<span>\$\{esc\(s\.model\)\} · \$\{esc\(s\.manager\|\|'미지정'\)\} · \$\{esc\(normalizeVehicleColor\(s\.color\)\)\}<\/span>/);
 });
 
-test('상품화출차 차량 정보 가운데에 입고일을 표시한다',()=>{
+test('상품화출차 차량번호 행에서 차량번호 바로 오른쪽에 입고일을 표시한다',()=>{
   assert.match(main,/checkedInDate=String\(s\.checkedInAt\|\|''\)\.slice\(0,10\)/);
   assert.match(main,/productizationCheckedIn\.textContent=`\(입고일:\$\{date\?date\.replaceAll\('-','\. '\):'-'\}\)`/);
-  assert.match(css,/\.productization-car\{position:relative\}\.productization-checked-in\{position:static;grid-column:2;grid-row:1\/3;[^}]*transform:none/);
+  assert.match(css,/\.productization-car\{grid-template-columns:max-content max-content minmax\(0,1fr\) auto auto;align-items:center\}/);
+  assert.match(css,/\.productization-car>b\{grid-column:1;grid-row:1\}/);
+  assert.match(css,/\.productization-car\{position:relative\}\.productization-checked-in\{position:static;grid-column:2;grid-row:1;[^}]*transform:none/);
   assert.doesNotMatch(css,/\.productization-checked-in\{position:absolute;left:47%/);
   assert.match(css,/\.productization-car>span:not\(\.productization-warning-icons\)\{white-space:nowrap\}/);
 });
