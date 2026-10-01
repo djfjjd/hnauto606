@@ -68,7 +68,8 @@ test('상품화출차 차량 정보에 차종과 담당자를 함께 표시한�
 test('상품화출차 차량 정보 가운데에 입고일을 표시한다',()=>{
   assert.match(main,/checkedInDate=String\(s\.checkedInAt\|\|''\)\.slice\(0,10\)/);
   assert.match(main,/productizationCheckedIn\.textContent=`\(입고일:\$\{date\?date\.replaceAll\('-','\. '\):'-'\}\)`/);
-  assert.match(css,/\.productization-checked-in\{grid-row:1;display:block;align-self:center;min-width:150px/);
+  assert.match(css,/\.productization-car\{position:relative\}\.productization-checked-in\{position:absolute;left:47%;top:28px;[^}]*transform:translate\(-50%,-50%\)/);
+  assert.match(css,/\.productization-car>span:not\(\.productization-warning-icons\)\{white-space:nowrap\}/);
 });
 
 test('상품화출차 차량 정보 오른쪽 연필로 차량 상세정보 수정을 연다',()=>{
