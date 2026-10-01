@@ -66,9 +66,11 @@ test('출고 차량 행의 휴지통 왼쪽에 출고취소 버튼을 표시한�
   assert.ok(main.indexOf('board-checkout-cancel')<main.indexOf('board-delete-icon'));
   assert.match(css,/\.board-checkout-cancel\{/);
   assert.match(main,/statusDate=String\(s\.checkedOutAt\|\|''\)\.slice\(0,10\)/);
-  assert.match(main,/class="board-checkout-state"><time class="board-status-date"[^>]*>\$\{esc\(statusDate\)\|\|'-'\}<\/time><button[^>]*class="board-checkout-cancel"[^>]*>출고취소<\/button><i class="board-checkout-label">출고<\/i><\/span>\$\{editButton\}/);
+  assert.match(main,/class="board-date-cell"><time>[^<]*\$\{esc\(String\(s\.checkedInAt\|\|''\)\.slice\(0,10\)\)\|\|'-'\}<\/time>\$\{checkedOut\?`<time class="board-status-date"/);
+  assert.match(main,/class="board-checkout-state"><button[^>]*class="board-checkout-cancel"[^>]*>출고취소<\/button><i class="board-checkout-label">출고<\/i><\/span>\$\{editButton\}/);
   assert.match(main,/const checkedOut=s\.isCheckedOut,statusDate=.*editButton=`<button[^>]*class="board-edit-icon"[^>]*data-edit-vehicle=/);
   assert.match(css,/\.board-checkout-state \.board-checkout-cancel\{[^}]*margin-right:-6px/);
+  assert.match(css,/\.board-date-cell\{display:grid;gap:3px/);
   assert.match(css,/\.board-status-date\{[^}]*color:#9e2929!important[^}]*white-space:nowrap/);
 });
 
@@ -76,7 +78,9 @@ test('계약 차량은 계약과 계약취소 및 점선 취소선으로 구분�
   assert.match(main,/function installDashboardContractRows\(\)/);
   assert.match(main,/data-cancel-contract/);
   assert.match(main,/contractDate=String\(vehicle\.contractedAt\|\|''\)\.slice\(0,10\)/);
-  assert.match(main,/class="board-status-date"[^>]*>\$\{esc\(contractDate\)\|\|'-'\}<\/time><button[^>]*>계약취소<\/button><i class="board-checkout-label">계약<\/i>/);
+  assert.match(main,/dateCell=row\?\.querySelector\('\.board-date-cell'\)/);
+  assert.match(main,/dateCell\.insertAdjacentHTML\('beforeend',`<time class="board-status-date"[^>]*>\$\{esc\(contractDate\)\|\|'-'\}<\/time>`\)/);
+  assert.match(main,/contractState\.className='board-checkout-state board-contract-state'.*<button[^>]*>계약취소<\/button><i class="board-checkout-label">계약<\/i>/);
   assert.match(main,/const applyVehicleContracts=.*item\.contracted_at.*contractedAt:contractDates\.get\(vehicle\.vehicleId\)/);
   assert.match(main,/vehicles\/\$\{id\}\/cancel-contract/);
   assert.match(api,/parts\[2\]==='cancel-contract'/);
