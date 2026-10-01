@@ -57,7 +57,7 @@ test('상품화출차 특이사항 상자는 수정·취소·저장 버튼으로
 test('상품화출차 차량 정보 오른쪽에 저장된 경고등 파비콘을 표시한다',()=>{
   assert.match(main,/warningIcons=\(s\.alerts\|\|\[\]\)\.map\(id=>STATUS\.find\(status=>status\.id===id\)\)\.filter\(Boolean\)/);
   assert.match(main,/class="productization-warning-icons".*status\.icon\.normalize\('NFD'\).*status\.label/s);
-  assert.match(css,/\.productization-warning-icons\{grid-column:2;grid-row:1\/3;[^}]*justify-content:flex-end/);
+  assert.match(css,/\.productization-warning-icons\{grid-column:3;grid-row:1\/3;[^}]*justify-content:flex-end/);
   assert.match(css,/\.productization-warning-icons img\{width:40px;height:40px/);
 });
 
@@ -65,10 +65,16 @@ test('상품화출차 차량 정보에 차종과 담당자를 함께 표시한�
   assert.match(main,/<span>\$\{esc\(s\.model\)\} · \$\{esc\(s\.manager\|\|'미지정'\)\} · \$\{esc\(normalizeVehicleColor\(s\.color\)\)\}<\/span>/);
 });
 
+test('상품화출차 차량 정보 가운데에 입고일을 표시한다',()=>{
+  assert.match(main,/checkedInDate=String\(s\.checkedInAt\|\|''\)\.slice\(0,10\)/);
+  assert.match(main,/class="productization-checked-in" datetime="\$\{esc\(checkedInDate\)\}"><small>입고일<\/small><b>\$\{esc\(checkedInDate\)\|\|'-'\}<\/b><\/time>/);
+  assert.match(css,/\.productization-checked-in\{grid-column:2;grid-row:1\/3;[^}]*justify-items:center/);
+});
+
 test('상품화출차 차량 정보 오른쪽 연필로 차량 상세정보 수정을 연다',()=>{
   assert.match(main,/class="productization-edit-vehicle" data-productization-edit/);
   assert.match(main,/querySelector\('\[data-productization-edit\]'\)\?\.addEventListener\('click',\(\)=>\{state\.mode='detail';render\(\);\}\)/);
-  assert.match(css,/\.productization-edit-vehicle\{grid-column:4;grid-row:1\/3/);
+  assert.match(css,/\.productization-edit-vehicle\{grid-column:5;grid-row:1\/3/);
 });
 
 test('상품화출차 연필 왼쪽 i 아이콘에서 차량 옵션 팝업을 연다',()=>{
@@ -76,7 +82,7 @@ test('상품화출차 연필 왼쪽 i 아이콘에서 차량 옵션 팝업을 �
   assert.match(main,/title="\$\{esc\(s\.options\|\|'등록된 옵션이 없습니다\.'\)\}">i<\/button>/);
   assert.match(main,/function bindProductizationOptionsViewer\(\)/);
   assert.match(main,/if\(vehicle\)openDashboardOptions\(vehicle\)/);
-  assert.match(css,/\.productization-options-info\{grid-column:3;grid-row:1\/3/);
+  assert.match(css,/\.productization-options-info\{grid-column:4;grid-row:1\/3/);
 });
 
 test('상품화출차 팝업은 위치 문구와 취소를 숨기고 그냥출차를 제공한다',()=>{
