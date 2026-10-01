@@ -110,7 +110,7 @@ h1 em { color:var(--lime); font-style:normal; }
 .metric.amber strong { color:var(--amber); }
 .metric.amber .metric-details { display:grid; grid-template-columns:repeat(3,max-content); gap:4px 7px; margin:7px 0 0; color:#ff8179; font-size:12px; font-weight:800; line-height:1.4; }
 .metric.amber .metric-details span { color:#fff; white-space:nowrap; }
-.board-checkout-state{display:flex;align-items:center;overflow:visible!important}.board-checkout-state .board-checkout-cancel{position:relative;z-index:2;margin-right:-6px}.board-checkout-state .board-checkout-label{z-index:1;padding-left:10px}
+.board-checkout-state{display:flex;align-items:center;overflow:visible!important}.board-status-date{position:relative;z-index:7;margin-right:6px;color:#9e2929!important;font-size:11px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1;white-space:nowrap;text-decoration:none}.board-checkout-state .board-checkout-cancel{position:relative;z-index:2;margin-right:-6px}.board-checkout-state .board-checkout-label{z-index:1;padding-left:10px}
 .metric.amber .metric-details button { padding:0; border:0; color:#ff8179; background:transparent; font:inherit; text-align:left; white-space:nowrap; cursor:pointer; }
 .vehicle-list-unavailable{margin:0;padding:12px 14px;color:#a33131;background:#fff3f1;font-weight:700;line-height:1.45}
 .vehicle-list-upcoming{margin-left:5px;color:#c82020;font-size:12px;font-weight:800;font-style:normal;white-space:nowrap}

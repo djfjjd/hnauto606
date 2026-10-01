@@ -9,7 +9,7 @@ const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'
 test('대시보드 API가 기존 출고 차량을 별도 목록으로 반환한다',()=>{
   assert.match(api,/checked_out_at IS NOT NULL ORDER BY checked_out_at DESC LIMIT 200/);
   assert.match(api,/spots,unassigned,checkedOut/);
-  assert.match(main,/state\.checkedOut=\(data\.checkedOut\|\|\[\]\)\.map\(mapCheckedOut\)/);
+  assert.match(main,/state\.checkedOut=applyVehicleContracts\(\(data\.checkedOut\|\|\[\]\)\.map\(mapCheckedOut\),contractData\.contracts\)/);
 });
 
 test('출고 차량 행은 빨간 취소선과 활성 드래그 핸들을 표시한다',()=>{
@@ -65,15 +65,19 @@ test('출고 차량 행의 휴지통 왼쪽에 출고취소 버튼을 표시한�
   assert.match(main,/>출고취소<\/button>/);
   assert.ok(main.indexOf('board-checkout-cancel')<main.indexOf('board-delete-icon'));
   assert.match(css,/\.board-checkout-cancel\{/);
-  assert.match(main,/class="board-checkout-state"><button[^>]*class="board-checkout-cancel"[^>]*>출고취소<\/button><i class="board-checkout-label">출고<\/i><\/span>\$\{editButton\}/);
-  assert.match(main,/const checkedOut=s\.isCheckedOut.*editButton=`<button[^>]*class="board-edit-icon"[^>]*data-edit-vehicle=/);
+  assert.match(main,/statusDate=String\(s\.checkedOutAt\|\|''\)\.slice\(0,10\)/);
+  assert.match(main,/class="board-checkout-state"><time class="board-status-date"[^>]*>\$\{esc\(statusDate\)\|\|'-'\}<\/time><button[^>]*class="board-checkout-cancel"[^>]*>출고취소<\/button><i class="board-checkout-label">출고<\/i><\/span>\$\{editButton\}/);
+  assert.match(main,/const checkedOut=s\.isCheckedOut,statusDate=.*editButton=`<button[^>]*class="board-edit-icon"[^>]*data-edit-vehicle=/);
   assert.match(css,/\.board-checkout-state \.board-checkout-cancel\{[^}]*margin-right:-6px/);
+  assert.match(css,/\.board-status-date\{[^}]*color:#9e2929!important[^}]*white-space:nowrap/);
 });
 
 test('계약 차량은 계약과 계약취소 및 점선 취소선으로 구분한다',()=>{
   assert.match(main,/function installDashboardContractRows\(\)/);
   assert.match(main,/data-cancel-contract/);
-  assert.match(main,/>계약취소<\/button><i class="board-checkout-label">계약<\/i>/);
+  assert.match(main,/contractDate=String\(vehicle\.contractedAt\|\|''\)\.slice\(0,10\)/);
+  assert.match(main,/class="board-status-date"[^>]*>\$\{esc\(contractDate\)\|\|'-'\}<\/time><button[^>]*>계약취소<\/button><i class="board-checkout-label">계약<\/i>/);
+  assert.match(main,/const applyVehicleContracts=.*item\.contracted_at.*contractedAt:contractDates\.get\(vehicle\.vehicleId\)/);
   assert.match(main,/vehicles\/\$\{id\}\/cancel-contract/);
   assert.match(api,/parts\[2\]==='cancel-contract'/);
   assert.match(css,/\.board-row\.is-contracted::after\{[^}]*repeating-linear-gradient/);

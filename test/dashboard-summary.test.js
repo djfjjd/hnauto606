@@ -169,6 +169,9 @@ test('검색 결과가 많아도 다섯 행 높이 안에서 스크롤한다',()
 
 test('첫 화면 검색 결과는 보조 제목 없이 실제 값을 큰 글씨로 표시한다',()=>{
   assert.doesNotMatch(main,/<small>주차구역<\/small>|<small>차종<\/small>|<small>색상<\/small>|<small>담당자<\/small>|<small>입고날짜<\/small>|<small>특이사항<\/small>/);
+  assert.match(main,/<span>\$\{esc\(parkingScheduleModelLabel\(s\.model\)\)\|\|'-'\}<\/span>/);
+  assert.match(main,/<span>\$\{esc\(s\.memo\)\|\|'-'\}<\/span>/);
+  assert.doesNotMatch(main,/const notes=s\.alerts\.map/);
   assert.match(css,/\.parking-search-results strong\{font-size:17px\}/);
   assert.match(css,/\.parking-search-results span\{[^}]*font-size:15px[^}]*font-weight:600/);
 });
