@@ -44,6 +44,7 @@ test('헤이딜러 담당자를 차량 현황판의 네 가지 표준 이름으�
 test('헤이딜러 색상명을 현장 표준 색상으로 정규화한다',()=>{
   const parseColor=color=>parseHeydealerText(`219더4124\nBMW 120i\n휘발유ㆍ오토ㆍ${color}`).color;
   assert.equal(parseColor('알파인 화이트'),'흰색');
+  assert.equal(parseColor('글레시어 화이트'),'흰색');
   assert.equal(parseColor('딥 오션 블루'),'블루');
   assert.equal(parseColor('메탈릭 실버'),'쥐색');
   assert.equal(parseColor('스페이스 그레이'),'쥐색');

@@ -36,6 +36,10 @@ test('나이트 검정색 차량은 신규 입고 시 검정으로 분류한다'
   assert.match(main,/if\(color==='나이트 검정색'\)return'검정'/);
 });
 
+test('화이트가 포함된 헤이딜러 색상은 신규 입고 시 흰색으로 분류한다',()=>{
+  assert.match(main,/if\(\/화이트\/i\.test\(color\)\)return'흰색'/);
+});
+
 test('신규 입고 양식은 차량 불러오기 선택 전까지 나머지 항목을 비활성화한다',()=>{
   const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
   assert.match(main,/<fieldset class="checkin-fields" \$\{fresh\?'disabled':''\}>/);
