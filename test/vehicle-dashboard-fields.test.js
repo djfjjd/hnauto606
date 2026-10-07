@@ -68,8 +68,10 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(main,/memoButton\.dataset\.boardMemo=String\(vehicle\.vehicleId\|\|vehicle\.id\)/);
   assert.match(main,/openDashboardInfo\(vehicle,'특이사항',vehicle\.memo\)/);
   assert.match(css,/\.board-info-empty\{color:#6d756f;font-size:18px;line-height:1\}/);
-  assert.match(main,/plateCell=row\.querySelector\('strong'\)/);
-  assert.match(main,/plateCell\.append\(actions\)/);
+  assert.match(main,/modelCell=row\.querySelector\('strong'\)\?\.nextElementSibling/);
+  assert.match(main,/modelCell\.classList\.add\('board-model-cell'\)/);
+  assert.match(main,/modelCell\.append\(actions\)/);
+  assert.match(css,/\.board-model-cell\{position:relative\}/);
   assert.match(css,/\.board-actions-cell\{position:absolute;[^}]*right:4px;[^}]*width:auto!important;min-width:0;[^}]*background:transparent/);
   assert.match(css,/\.board-row\{width:100%;min-width:1670px;padding-right:0/);
   assert.match(css,/\.board-row\{[^}]*column-gap:5px/);
