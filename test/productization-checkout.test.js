@@ -135,7 +135,7 @@ test('현황판 판금·광택·수리 열에서 작업 항목을 바로 추가�
   assert.match(main,/data-service-add="\$\{type\}"/);
   assert.match(main,/serviceAddButton\(s,'body','판금'\)/);
   assert.match(main,/serviceAddButton\(s,'polish','광택'\)/);
-  assert.match(main,/serviceAddButton\(s,'car-center','수리'\)/);
+  assert.match(main,/data-service-add="car-center" data-vehicle-id=/);
   assert.match(main,/state\.productizationType=serviceButton\.dataset\.serviceAdd/);
   assert.match(main,/state\.mode='service-entry'/);
   assert.match(main,/state\.mode==='service-entry'\?'수리내용입력'/);

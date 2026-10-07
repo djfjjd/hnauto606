@@ -24,8 +24,9 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(css,/\.board-performance-dates\{display:grid;place-items:center;gap:2px/);
   assert.match(main,/class="board-polishing-vendor"/);
   assert.match(main,/class="board-bodywork-count"/);
-  assert.match(main,/class="board-repair-note /);
-  assert.match(main,/board-repair-note \$\{note\?'':'is-empty'\}/);
+  assert.match(main,/class="board-options-info board-repair-info" data-board-repair=/);
+  assert.match(main,/data-service-add="car-center"[^>]*data-vehicle-id=.*?<span class="board-options-minus">-<\/span>/);
+  assert.match(main,/openDashboardInfo\(vehicle,'수리 내용',vehicle\.repairDescription\)/);
   assert.match(main,/polishingVendor:String\(s\.polishing_note/);
   assert.match(main,/const bodyworkCount=note=>/);
   assert.match(main,/const repairDescription=note=>/);
@@ -60,10 +61,9 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(css,/\.board-options-empty \.board-options-plus\{opacity:0;color:#fff;font-size:20px;font-weight:800;line-height:1\}/);
   assert.match(css,/\.board-row\.is-checked-out \.board-option-cell\{position:sticky;right:0/);
   assert.match(css,/\.board-option-cell\{[^}]*background:transparent;box-shadow:none/);
-  assert.match(css,/repeat\(6,58px\) minmax\(180px,1fr\)/);
+  assert.match(css,/grid-template-columns:30px 22px 120px 150px 48px 72px 92px 72px 104px 250px repeat\(7,58px\)/);
   assert.match(css,/\.board-row>:last-child\{width:100%;justify-self:stretch\}/);
-  assert.match(css,/\.board-row:not\(\.board-labels\) \.board-repair-note\{padding-left:24px\}/);
-  assert.match(css,/\.board-repair-note\.is-empty\{padding-left:0;text-align:center\}/);
+  assert.match(css,/\.board-options-cell,\.board-repair-cell\{display:grid;place-items:center;text-align:center\}/);
   assert.match(css,/\.board-row\{width:100%;min-width:1670px;padding-right:0/);
   assert.match(css,/\.board-row\{[^}]*column-gap:5px/);
   assert.match(css,/\.board-labels>span:nth-child\(10\)\{padding:6px 5px\}/);
