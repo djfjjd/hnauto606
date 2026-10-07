@@ -65,7 +65,8 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(css,/\.board-row:not\(\.board-labels\) \.board-repair-note\{padding-left:24px\}/);
   assert.match(css,/\.board-repair-note\.is-empty\{padding-left:0;text-align:center\}/);
   assert.match(css,/\.board-row\{width:100%;min-width:1670px;padding-right:0/);
-  assert.match(css,/\.board-labels>span:nth-child\(10\)\{padding:6px 8px\}/);
+  assert.match(css,/\.board-row\{[^}]*column-gap:5px/);
+  assert.match(css,/\.board-labels>span:nth-child\(10\)\{padding:6px 5px\}/);
   assert.doesNotMatch(css,/\.board-labels>span:nth-child\(10\)\{[^}]*position:sticky/);
   assert.match(css,/\.board-row>strong,\.board-labels>span:nth-child\(3\)\{position:sticky;left:0/);
   assert.match(css,/grid-template-columns:30px 22px 120px/);
