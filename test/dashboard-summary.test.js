@@ -108,8 +108,8 @@ test('전체 자리와 빈 자리 카드는 합계 오른쪽에 층별 자리 �
   assert.match(main,/extraCapacity=zone\.id==='pillar11'\?5:zone\.id==='tower'\?10:0/);
   assert.match(main,/baseCapacity=zone\.id==='tower'\?20:zone\.id==='pillar11'\?layoutCapacity-5:layoutCapacity/);
   assert.match(main,/capacity=baseCapacity\+extraCapacity/);
-  assert.match(main,/extraEmpty=Math\.min\(extraCapacity,empty\)/);
-  assert.match(main,/baseEmpty:Math\.max\(0,empty-extraEmpty\),extraEmpty/);
+  assert.match(main,/baseEmpty=Math\.max\(0,baseCapacity-occupied\),extraEmpty=extraCapacity,empty=baseEmpty\+extraEmpty/);
+  assert.match(main,/empty,baseEmpty,extraEmpty/);
   assert.match(main,/emptyLabel=empty>=15\?`\$\{empty-15\}\+15`:empty/);
   assert.match(main,/totalLabel=total>15\?`\$\{total-15\}\+15`:total/);
   assert.match(main,/return\{total:totalLabel,totalFloors:totalDetails/);
@@ -145,7 +145,8 @@ test('새싹 통계는 기본 20자리와 추가 10자리를 분리해 계산한
   assert.match(main,/layoutCapacity=parkingCapacity\(parkingLayouts\[zone\.id\]\)/);
   assert.match(main,/baseCapacity=zone\.id==='tower'\?20:zone\.id==='pillar11'\?layoutCapacity-5:layoutCapacity/);
   assert.match(main,/extraCapacity=zone\.id==='pillar11'\?5:zone\.id==='tower'\?10:0/);
-  assert.match(main,/empty=Math\.max\(0,capacity-occupied\)/);
+  assert.match(main,/baseEmpty=Math\.max\(0,baseCapacity-occupied\)/);
+  assert.match(main,/extraEmpty=extraCapacity/);
   assert.match(main,/empty=floorCounts\.reduce\(\(sum,floor\)=>sum\+floor\.empty,0\)/);
 });
 
