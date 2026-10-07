@@ -61,9 +61,14 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(css,/\.board-options-empty \.board-options-plus\{opacity:0;color:#fff;font-size:20px;font-weight:800;line-height:1\}/);
   assert.match(css,/\.board-row\.is-checked-out \.board-option-cell\{position:sticky;right:0/);
   assert.match(css,/\.board-option-cell\{[^}]*background:transparent;box-shadow:none/);
-  assert.match(css,/grid-template-columns:30px 22px 120px 150px 48px 72px 92px 72px 104px 250px repeat\(7,58px\)/);
+  assert.match(css,/grid-template-columns:30px 22px 120px 150px 48px 72px 92px 72px 104px 58px repeat\(7,58px\) minmax\(180px,1fr\)/);
   assert.match(css,/\.board-row>:last-child\{width:100%;justify-self:stretch\}/);
-  assert.match(css,/\.board-options-cell,\.board-repair-cell\{display:grid;place-items:center;text-align:center\}/);
+  assert.match(css,/\.board-options-cell,\.board-option-cell,\.board-repair-cell\{display:grid;place-items:center;text-align:center\}/);
+  assert.match(main,/function compactDashboardInfoColumns\(\)/);
+  assert.match(main,/memoButton\.dataset\.boardMemo=String\(vehicle\.vehicleId\|\|vehicle\.id\)/);
+  assert.match(main,/openDashboardInfo\(vehicle,'특이사항',vehicle\.memo\)/);
+  assert.match(css,/\.board-info-empty\{color:#6d756f;font-size:18px;line-height:1\}/);
+  assert.match(css,/\.board-actions-cell\{[^}]*min-width:180px/);
   assert.match(css,/\.board-row\{width:100%;min-width:1670px;padding-right:0/);
   assert.match(css,/\.board-row\{[^}]*column-gap:5px/);
   assert.match(css,/\.board-labels>span:nth-child\(10\)\{padding:6px 5px\}/);
