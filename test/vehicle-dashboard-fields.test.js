@@ -73,6 +73,7 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(main,/modelCell\.append\(actions\)/);
   assert.match(css,/\.board-model-cell\{position:relative\}/);
   assert.match(css,/\.board-labels>span:nth-child\(5\),\.board-labels>span:nth-child\(6\)\{text-align:center\}/);
+  assert.match(css,/\.board-row:not\(\.board-labels\)>span:nth-child\(6\)\{text-align:center\}/);
   assert.match(css,/\.board-actions-cell\{position:absolute;[^}]*right:4px;[^}]*width:auto!important;min-width:0;[^}]*background:transparent/);
   assert.match(css,/\.board-row\{width:100%;min-width:1670px;padding-right:0/);
   assert.match(css,/\.board-row\{[^}]*column-gap:5px/);
