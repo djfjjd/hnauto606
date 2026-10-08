@@ -69,12 +69,28 @@ test('출고 차량 행의 휴지통 왼쪽에 출고취소 버튼을 표시한�
   assert.ok(main.indexOf('board-checkout-cancel')<main.indexOf('board-delete-icon'));
   assert.match(css,/\.board-checkout-cancel\{/);
   assert.match(main,/statusDate=String\(s\.checkedOutAt\|\|''\)\.slice\(0,10\)/);
-  assert.match(main,/class="board-date-cell"><time>[^<]*\$\{esc\(String\(s\.checkedInAt\|\|''\)\.slice\(0,10\)\)\|\|'-'\}<\/time>\$\{checkedOut\?`<time class="board-status-date"/);
+  assert.match(main,/class="board-date-cell"><time>[^<]*\$\{esc\(String\(s\.checkedInAt\|\|''\)\.slice\(0,10\)\)\|\|'-'\}<\/time>\$\{checkedOut\?`<span class="board-checkout-date"><time class="board-status-date"/);
   assert.match(main,/class="board-checkout-state"><button[^>]*class="board-checkout-cancel"[^>]*>출고취소<\/button><i class="board-checkout-label">출고<\/i><\/span>\$\{editButton\}/);
   assert.match(main,/const checkedOut=s\.isCheckedOut,statusDate=.*editButton=`<button[^>]*class="board-edit-icon"[^>]*data-edit-vehicle=/);
   assert.match(css,/\.board-checkout-state \.board-checkout-cancel\{[^}]*margin-right:-6px/);
   assert.match(css,/\.board-date-cell\{display:grid;gap:3px/);
   assert.match(css,/\.board-status-date\{[^}]*color:#9e2929!important[^}]*white-space:nowrap/);
+});
+
+test('출고일에 마우스를 올려 연필 버튼으로 날짜만 수정한다',()=>{
+  assert.match(main,/class="board-checkout-date-edit" data-edit-checkout-date=/);
+  assert.match(main,/function openCheckoutDateEditor\(vehicle\)/);
+  assert.match(main,/vehicles\/\$\{vehicleId\}\/checked-out-date.*method:'PATCH'/);
+  assert.match(css,/\.board-date-cell:hover \.board-checkout-date-edit[^}]*opacity:1/);
+  const start=api.indexOf("parts[2]==='checked-out-date'");
+  const end=api.indexOf("parts[2]==='check-out'",start);
+  const handler=api.slice(start,end);
+  assert.match(handler,/checked_out_at IS NOT NULL/);
+  assert.match(handler,/Number\(input\?\.version\)!==vehicle\.version/);
+  assert.match(handler,/UPDATE vehicles SET checked_out_at=\?,version=version\+1/);
+  assert.match(handler,/update_checked_out_date/);
+  assert.match(handler,/checked-out-date-update/);
+  assert.doesNotMatch(handler,/current_spot_id|notification_events/);
 });
 
 test('계약 차량은 계약과 계약취소 및 점선 취소선으로 구분한다',()=>{
