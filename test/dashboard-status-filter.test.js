@@ -16,10 +16,11 @@ test('담당자별 전체·판매중·출고됨·저번달 필터를 펼치기 �
 test('각 담당자의 상태 필터를 독립 저장하고 검색·페이지 처리와 함께 적용한다',()=>{
   assert.match(main,/managerStatusFilters:\{\}/);
   assert.match(main,/status=state\.managerStatusFilters\[manager\]\|\|'all'/);
-  assert.match(main,/const closed=row\.classList\.contains\('is-checked-out'\)\|\|row\.classList\.contains\('is-contracted'\)/);
+  assert.match(main,/const checkedOut=row\.classList\.contains\('is-checked-out'\),closed=checkedOut\|\|row\.classList\.contains\('is-contracted'\)/);
+  assert.match(main,/status==='all'&&!\(checkedOut&&previousMonth\)/);
   assert.match(main,/status==='checked-out'&&closed/);
   assert.match(main,/status==='active'&&!closed/);
-  assert.match(main,/status==='previous-month'&&previousMonth/);
+  assert.match(main,/status==='previous-month'&&checkedOut&&previousMonth/);
   assert.match(main,/data-board-previous-month="\$\{previousMonth\}"/);
   assert.match(main,/s\.isContracted\?'is-contracted':''/);
   assert.match(main,/data-board-sequence="\$\{sequence\}"/);
@@ -27,10 +28,10 @@ test('각 담당자의 상태 필터를 독립 저장하고 검색·페이지 �
   assert.match(main,/state\.managerPages\[manager\]=1;updateDashboardGroup\(group,state\.query\)/);
 });
 
-test('계약·출고 이력은 이번 달과 저번 달만 전체에 남고 저번달 필터는 직전 달만 표시한다',()=>{
+test('저번달 필터는 직전 달 출고 차량만 표시하고 전체에서는 제외한다',()=>{
   assert.match(main,/dashboardMonthWindow=\(today=new Date\(\)\)=>\(\{previousStart:dashboardDateKey\(new Date\(today\.getFullYear\(\),today\.getMonth\(\)-1,1\)\),currentStart:dashboardDateKey\(new Date\(today\.getFullYear\(\),today\.getMonth\(\),1\)\)\}\)/);
   assert.match(main,/isVisibleBoardHistory=vehicle=>\{if\(!isClosedBoardVehicle\(vehicle\)\)return true;.*return Boolean\(date&&date>=previousStart\)/);
-  assert.match(main,/isPreviousMonthBoardVehicle=vehicle=>\{if\(!isClosedBoardVehicle\(vehicle\)\)return false;.*date>=previousStart&&date<currentStart/);
+  assert.match(main,/isPreviousMonthBoardVehicle=vehicle=>\{if\(!vehicle\.isCheckedOut\)return false;const date=String\(vehicle\.checkedOutAt\|\|''\)\.slice\(0,10\),.*date>=previousStart&&date<currentStart/);
   assert.match(main,/boardVehicles\(\)\.filter\(isVisibleBoardHistory\)\.reduce/);
 });
 
