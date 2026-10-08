@@ -11,6 +11,7 @@ test('담당자별 차량을 10대씩 독립적으로 페이지 처리한다',()
   assert.match(main,/const BOARD_PAGE_SIZE=10/);
   assert.match(main,/state\.managerPages\[manager\]/);
   assert.match(main,/start\+BOARD_PAGE_SIZE/);
+  assert.match(main,/pages=Math\.max\(1,Math\.ceil\(editableMatches\.length\/BOARD_PAGE_SIZE\)\)/);
   assert.match(css,/\.board-row\[hidden\]\{display:none!important\}/);
 });
 
@@ -50,6 +51,7 @@ test('대표님 59다3609 차량은 순번 0으로 고정하고 순번 편집과
   assert.match(main,/pinned\?0:index\+\(hasPinned\?0:1\)/);
   assert.match(main,/editableRows=rows\.filter\(row=>row\.dataset\.boardPinned!=='true'\)/);
   assert.match(main,/editableRows=rows\.filter\(row=>row\.dataset\.boardPinned!=='true'\)/);
+  assert.match(main,/pinned\?page!==1:editableIndex<start\|\|editableIndex>=start\+BOARD_PAGE_SIZE/);
 });
 
 test('페이지 탐색에 맨처음·이전·번호·다음·맨끝을 제공한다',()=>{
@@ -66,7 +68,7 @@ test('담당자명 옆에 차량 대수를 표시하고 전체 펼치기와 10�
   assert.match(main,/data-manager-expand/);
   assert.match(main,/expanded\?\'접기\':\'펼치기\'/);
   assert.match(main,/pager\.hidden=expanded/);
-  assert.match(main,/!expanded&&\(index<start\|\|index>=start\+BOARD_PAGE_SIZE\)/);
+  assert.match(main,/!expanded&&\(pinned\?page!==1:editableIndex<start\|\|editableIndex>=start\+BOARD_PAGE_SIZE\)/);
   assert.match(css,/\.manager-heading\{display:flex;align-items:center;gap:10px\}/);
   assert.match(css,/\.board-pagination\[hidden\]\{display:none\}/);
 });

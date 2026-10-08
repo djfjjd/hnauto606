@@ -24,8 +24,8 @@ test('각 담당자의 상태 필터를 독립 저장하고 검색·페이지 �
   assert.match(main,/data-board-previous-month="\$\{previousMonth\}"/);
   assert.match(main,/s\.isContracted\?'is-contracted':''/);
   assert.match(main,/data-board-sequence="\$\{sequence\}"/);
-  assert.match(main,/visibleEditableRows=matches\.filter\(row=>row\.dataset\.boardPinned!=='true'\)/);
-  assert.match(main,/cell\.textContent=row\.dataset\.boardPinned==='true'\?'0':String\(visibleEditableRows\.indexOf\(row\)\+1\)/);
+  assert.match(main,/editableMatches=matches\.filter\(row=>row\.dataset\.boardPinned!=='true'\)/);
+  assert.match(main,/cell\.textContent=row\.dataset\.boardPinned==='true'\?'0':String\(editableMatches\.indexOf\(row\)\+1\)/);
   assert.match(main,/state\.managerPages\[manager\]=1;updateDashboardGroup\(group,state\.query\)/);
 });
 
