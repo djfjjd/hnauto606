@@ -148,12 +148,12 @@ function toggleDashboardSequenceEdit(group,button){
  const rows=[...group.querySelectorAll('[data-board-search]')],editing=group.classList.contains('is-sequence-editing');
  if(!editing){
   group.dataset.sequenceWasExpanded=String(state.expandedManagers.has(group.dataset.manager));state.expandedManagers.add(group.dataset.manager);group.classList.add('is-sequence-editing');updateDashboardGroup(group,state.query);
-  rows.filter(row=>row.dataset.boardPinned!=='true').forEach((row,index)=>{const cell=row.querySelector('[data-board-sequence]');cell.innerHTML=`<input type="number" min="1" step="1" value="${index+1}" aria-label="${row.querySelector('strong')?.textContent||'차량'} 순번">`;const input=cell.querySelector('input');input.addEventListener('click',event=>event.stopPropagation());input.addEventListener('keydown',event=>event.stopPropagation());});
+  const editableRows=rows.filter(row=>row.dataset.boardPinned!=='true');editableRows.forEach((row,index)=>{const cell=row.querySelector('[data-board-sequence]');cell.innerHTML=`<input type="number" min="1" step="1" value="${editableRows.length-index}" aria-label="${row.querySelector('strong')?.textContent||'차량'} 순번">`;const input=cell.querySelector('input');input.addEventListener('click',event=>event.stopPropagation());input.addEventListener('keydown',event=>event.stopPropagation());});
   button.textContent='저장';button.setAttribute('aria-label',`${group.dataset.manager} 순번 저장`);button.title='순번 저장';rows.find(row=>row.dataset.boardPinned!=='true')?.querySelector('[data-board-sequence] input')?.focus();return;
  }
  const pinnedRows=rows.filter(row=>row.dataset.boardPinned==='true'),entries=rows.filter(row=>row.dataset.boardPinned!=='true').map((row,index)=>({row,index,order:Number(row.querySelector('[data-board-sequence] input')?.value)}));
  if(entries.some(entry=>!Number.isInteger(entry.order)||entry.order<1)){alert('순번을 1 이상의 숫자로 입력해 주세요.');return;}
- [...pinnedRows,...entries.sort((a,b)=>a.order-b.order||a.index-b.index).map(entry=>entry.row)].forEach(row=>group.querySelector('.board-table').append(row));
+ [...pinnedRows,...entries.sort((a,b)=>b.order-a.order||a.index-b.index).map(entry=>entry.row)].forEach(row=>group.querySelector('.board-table').append(row));
  group.classList.remove('is-sequence-editing');if(group.dataset.sequenceWasExpanded!=='true')state.expandedManagers.delete(group.dataset.manager);delete group.dataset.sequenceWasExpanded;button.textContent='✎';button.setAttribute('aria-label',`${group.dataset.manager} 순번 수정`);button.title='순번 수정';saveDashboardOrder(group);
 }
 async function deleteDashboardVehicle(button){

@@ -29,7 +29,9 @@ test('순번 왼쪽 연필 버튼으로 숫자 수정 모드와 저장 모드를
   assert.match(main,/function toggleDashboardSequenceEdit\(group,button\)/);
   assert.match(main,/cell\.innerHTML=`<input type="number" min="1" step="1"/);
   assert.match(main,/button\.textContent='저장'/);
-  assert.match(main,/entries\.sort\(\(a,b\)=>a\.order-b\.order\|\|a\.index-b\.index\)/);
+  assert.match(main,/const editableRows=rows\.filter\(row=>row\.dataset\.boardPinned!=='true'\);editableRows\.forEach/);
+  assert.match(main,/value="\$\{editableRows\.length-index\}"/);
+  assert.match(main,/entries\.sort\(\(a,b\)=>b\.order-a\.order\|\|a\.index-b\.index\)/);
   assert.match(main,/saveDashboardOrder\(group\)/);
   assert.match(css,/\.sequence-edit-button\{/);
   assert.match(css,/\.board-sequence input\{/);
@@ -46,7 +48,7 @@ test('대표님 59다3609 차량은 순번 0으로 고정하고 순번 편집과
   assert.match(main,/data-board-pinned="\$\{pinned\}"/);
   assert.match(main,/pinned\?0:index\+\(hasPinned\?0:1\)/);
   assert.match(main,/editableRows=rows\.filter\(row=>row\.dataset\.boardPinned!=='true'\)/);
-  assert.match(main,/rows\.filter\(row=>row\.dataset\.boardPinned!=='true'\)\.forEach/);
+  assert.match(main,/editableRows=rows\.filter\(row=>row\.dataset\.boardPinned!=='true'\)/);
 });
 
 test('페이지 탐색에 맨처음·이전·번호·다음·맨끝을 제공한다',()=>{
