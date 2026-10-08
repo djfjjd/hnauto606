@@ -27,11 +27,12 @@ test('차량 목록에 순번과 6점 드래그 핸들을 표시하고 D1에 순
 test('순번 왼쪽 연필 버튼으로 숫자 수정 모드와 저장 모드를 전환한다',()=>{
   assert.match(main,/class="sequence-edit-button" data-sequence-edit[^>]*>✎<\/button><span>순번<\/span>/);
   assert.match(main,/function toggleDashboardSequenceEdit\(group,button\)/);
-  assert.match(main,/cell\.innerHTML=`<input type="number" min="1" step="1"/);
+  assert.match(main,/cell\.innerHTML=`<input type="number" min="1" max="\$\{editableRows\.length\}" step="1"/);
   assert.match(main,/button\.textContent='저장'/);
   assert.match(main,/const editableRows=rows\.filter\(row=>row\.dataset\.boardPinned!=='true'\);editableRows\.forEach/);
-  assert.match(main,/value="\$\{editableRows\.length-index\}"/);
-  assert.match(main,/entries\.sort\(\(a,b\)=>b\.order-a\.order\|\|a\.index-b\.index\)/);
+  assert.match(main,/value="\$\{order\}" data-original-order="\$\{order\}"/);
+  assert.match(main,/entries\.filter\(entry=>entry\.order!==entry\.originalOrder\)\.forEach/);
+  assert.match(main,/ordered\.splice\(entry\.order-1,0,entry\.row\)/);
   assert.match(main,/saveDashboardOrder\(group\)/);
   assert.match(css,/\.sequence-edit-button\{/);
   assert.match(css,/\.board-sequence input\{/);
