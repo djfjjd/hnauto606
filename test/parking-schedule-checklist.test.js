@@ -37,6 +37,11 @@ test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 �
   assert.match(css,/parking-schedule-check-item small\{font-size:14px/);
 });
 
+test('완료일정은 완료 처리일 기준 최근 3일만 첫 화면에 표시한다',()=>{
+  assert.match(main,/completionCutoffDate\.setDate\(now\.getDate\(\)-2\)/);
+  assert.match(main,/completed=scheduled\.filter\(record=>record\.calendar_completed_at&&String\(record\.calendar_completed_at\)\.slice\(0,10\)>=completionCutoff\)/);
+});
+
 test('개인과 법인 일정 표시는 구분되고 체크 상태를 되돌릴 수 있다',()=>{
   assert.match(main,/record\.customer_type==='확인중'\?'\(확인중\)'/);
   assert.match(main,/record\.customer_type==='확인중'\?'is-pending'/);
