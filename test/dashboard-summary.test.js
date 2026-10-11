@@ -54,7 +54,11 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
   assert.match(css,/\.parking-mini-day>i\{[^}]*border-radius:50%;background:#9aa29d/);
   assert.match(css,/\.parking-mini-day:is\(button\)\{[^}]*background:transparent;cursor:pointer/);
   assert.match(css,/\.parking-schedule-modal ul\{[^}]*overflow-y:auto/);
-  assert.match(css,/\.parking-schedule-detail\{position:absolute;top:70px;right:24px/);
+  assert.match(main,/data-parking-schedule-shift="-1"[^>]*>어제<\/button>/);
+  assert.match(main,/data-parking-schedule-shift="1"[^>]*>내일<\/button>/);
+  assert.match(main,/openParkingDaySchedule\(shiftParkingScheduleDate\(date,Number\(button\.dataset\.parkingScheduleShift\)\)\)/);
+  assert.match(css,/\.parking-schedule-title-row\{display:grid;grid-template-columns:64px minmax\(0,1fr\) 64px/);
+  assert.match(css,/\.parking-schedule-detail\{display:block;width:max-content/);
   assert.match(css,/\.parking-schedule-vehicle\{display:flex;align-items:center;gap:6px/);
   assert.match(css,/\.parking-schedule-manager\{[^}]*text-overflow:ellipsis/);
   assert.match(css,/\.parking-schedule-model\{flex:0 0 5\.5em;width:5\.5em;max-width:5\.5em/);
