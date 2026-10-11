@@ -13,3 +13,9 @@ export function isKoreanPublicHoliday(date){
   if(fixedHolidays.has(date.slice(5)))return true;
   return new Set(['12-30','1-1','1-2','4-8','8-14','8-15','8-16']).has(lunarMonthDay(date));
 }
+
+export function recentKoreanBusinessDayCutoff(date,count=3){
+  const cursor=new Date(`${date}T12:00:00Z`);let businessDays=0,cutoff=date;
+  while(businessDays<count){cutoff=cursor.toISOString().slice(0,10);const weekday=cursor.getUTCDay();if(weekday!==0&&weekday!==6&&!isKoreanPublicHoliday(cutoff))businessDays++;if(businessDays<count)cursor.setUTCDate(cursor.getUTCDate()-1);}
+  return cutoff;
+}

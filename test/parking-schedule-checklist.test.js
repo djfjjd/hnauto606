@@ -37,8 +37,8 @@ test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 �
   assert.match(css,/parking-schedule-check-item small\{font-size:14px/);
 });
 
-test('완료일정은 완료 처리일 기준 최근 3일만 첫 화면에 표시한다',()=>{
-  assert.match(main,/completionCutoffDate\.setDate\(now\.getDate\(\)-2\)/);
+test('완료일정은 완료 처리일 기준 최근 3영업일만 첫 화면에 표시한다',()=>{
+  assert.match(main,/completionCutoff=recentKoreanBusinessDayCutoff\(today,3\)/);
   assert.match(main,/completed=scheduled\.filter\(record=>record\.calendar_completed_at&&String\(record\.calendar_completed_at\)\.slice\(0,10\)>=completionCutoff\)/);
 });
 
