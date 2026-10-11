@@ -79,3 +79,11 @@ test('확인 필요 전체 목록 오른쪽에 차량별 경고등 이미지를 
   assert.match(css,/\.attention-list-icons\{grid-column:3;grid-row:1\/3;[^}]*justify-content:flex-end/);
   assert.match(css,/\.attention-list-icons img\{width:30px;height:30px/);
 });
+
+test('점검 필요 전체 목록 차량을 선택하면 검색어를 입력하고 주차 칸을 강조한다',()=>{
+  assert.match(main,/data-attention-vehicle="\$\{esc\(vehicle\.id\)\}" role="button" tabindex="0"/);
+  assert.match(main,/state\.query=vehicle\.plate;state\.zone='all';state\.selected=null;render\(\)/);
+  assert.match(main,/cell\.classList\.add\('search-target'\)/);
+  assert.match(main,/target\?\.scrollIntoView\(\{behavior:'smooth',block:'center',inline:'center'\}\)/);
+  assert.match(css,/\.attention-vehicle-list article:hover,\.attention-vehicle-list article:focus-visible/);
+});
