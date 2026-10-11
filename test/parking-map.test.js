@@ -180,6 +180,18 @@ test('차량 Cell에는 차량번호 뒤 4자리만 크게 표시한다',()=>{
   assert.match(html,/data-spot="spot-1"/);
 });
 
+test('주차구역 Cell의 차종은 한 글자 단어를 고려해 최대 네 단어까지만 표시한다',()=>{
+  const normal=renderParkingMap(parkingLayouts.b3,[{id:'normal',label:'E17',plate:'11가1234',model:'제네시스 GV80 가솔린 터보',alerts:[]}],undefined,{expanded:true});
+  const thirdWord=renderParkingMap(parkingLayouts.b3,[{id:'third',label:'E17',plate:'11가1234',model:'현대 더 뉴그랜저 프리미엄',alerts:[]}],undefined,{expanded:true});
+  const fourthWord=renderParkingMap(parkingLayouts.b3,[{id:'fourth',label:'E17',plate:'11가1234',model:'현대 디 올 뉴 싼타페 하이브리드',alerts:[]}],undefined,{expanded:true});
+  assert.match(normal,/<span>제네시스 GV80<\/span>/);
+  assert.doesNotMatch(normal,/제네시스 GV80 가솔린/);
+  assert.match(thirdWord,/<span>현대 더 뉴그랜저<\/span>/);
+  assert.doesNotMatch(thirdWord,/현대 더 뉴그랜저 프리미엄/);
+  assert.match(fourthWord,/<span>현대 디 올 뉴<\/span>/);
+  assert.doesNotMatch(fourthWord,/현대 디 올 뉴 싼타페/);
+});
+
 test('주차 차량 Cell에는 차량 색상 클래스가 적용된다',()=>{
   const white=renderParkingMap(parkingLayouts.b3,[{id:'white-car',label:'E17',plate:'11가1234',model:'차량',color:'흰색',alerts:[]}],undefined,{expanded:true});
   const glacierWhite=renderParkingMap(parkingLayouts.b3,[{id:'glacier-white-car',label:'E17',plate:'11가4321',model:'차량',color:'글레시어 화이트',alerts:[]}],undefined,{expanded:true});

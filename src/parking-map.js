@@ -3,6 +3,7 @@ import {STATUS} from './data.js';
 
 const escapeHtml=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 const lastFour=plate=>String(plate||'').slice(-4);
+const parkingModelLabel=model=>{const words=String(model||'차량').trim().split(/\s+/),wordCount=words[1]?.length===1?(words[2]?.length===1?4:3):2;return words.slice(0,wordCount).join(' ');};
 const vehicleColorClass=value=>{const color=String(value||'').trim();if(/화이트/i.test(color))return'white';return{검정:'black',흰색:'white',쥐색:'gray',회색:'gray',은색:'gray',녹색:'green',빨강:'red',파랑:'blue',블루:'blue',베이지:'beige',노랑:'yellow'}[color]||'black';};
 
 function areaBounds(area){
@@ -20,7 +21,7 @@ function parkingCell(code,spot,visible,column,gridRow,columnSpan=1,rowSpan=1,tin
   if(!spot)return`<div class="parking-cell is-vacant is-virtual${tinted?' is-company-tint':''}" style="${position}" role="gridcell" aria-label="${code} 빈 자리">${spaceNumber}</div>`;
   const occupied=Boolean(spot.plate),checkedOut=occupied&&spot.isCheckedOut,contracted=occupied&&spot.isContracted,rental=occupied&&/[하허호]/.test(String(spot.plate)),hasMemo=occupied&&Boolean(String(spot.memo||'').trim())&&String(spot.memo).trim().toUpperCase()!=='X',alerts=occupied?(spot.alerts||[]).map(id=>STATUS.find(status=>status.id===id)).filter(Boolean):[],classes=['parking-cell',occupied?'is-occupied':'is-vacant',occupied?`vehicle-color-${vehicleColorClass(spot.color)}`:'',rental?'is-rental':'',checkedOut?'is-checked-out':contracted?'is-contracted':'',hasMemo?'has-memo':'',visible?'':'is-filtered'].filter(Boolean).join(' '),alertIcons=alerts.length?`<span class="parking-alert-icons" aria-label="${escapeHtml(alerts.map(status=>status.label).join(', '))}">${alerts.map(status=>`<img src="/${escapeHtml(status.icon.normalize('NFD'))}" alt="${escapeHtml(status.label)}">`).join('')}</span>`:'',optionIndicator=hasMemo?`<i class="parking-option-indicator" aria-label="특이사항 있음" title="${escapeHtml(spot.memo)}">!</i>`:'';
   const stateLabel=contracted?'계약됨':checkedOut?'출고됨':'주차 중';
-  return`<button class="${classes}${tinted&&!occupied?' is-company-tint':''}" data-spot="${escapeHtml(spot.id)}" ${occupied?'draggable="true"':''} style="${position}" role="gridcell" aria-label="${code} ${occupied?`${spot.plate} ${stateLabel}`:'빈 자리'}">${spaceNumber}${occupied?`<strong>${escapeHtml(lastFour(spot.plate))}</strong><span>${contracted?'(계약됨) ':checkedOut?'(출고됨) ':''}${escapeHtml(spot.model||'차량')}</span>${alertIcons}${optionIndicator}`:''}</button>`;
+  return`<button class="${classes}${tinted&&!occupied?' is-company-tint':''}" data-spot="${escapeHtml(spot.id)}" ${occupied?'draggable="true"':''} style="${position}" role="gridcell" aria-label="${code} ${occupied?`${spot.plate} ${stateLabel}`:'빈 자리'}">${spaceNumber}${occupied?`<strong>${escapeHtml(lastFour(spot.plate))}</strong><span>${contracted?'(계약됨) ':checkedOut?'(출고됨) ':''}${escapeHtml(parkingModelLabel(spot.model))}</span>${alertIcons}${optionIndicator}`:''}</button>`;
 }
 
 function blockedCell(code,column,gridRow){
