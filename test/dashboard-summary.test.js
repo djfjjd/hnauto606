@@ -42,6 +42,9 @@ test('첫 화면 제목 오른쪽에 이번 달 일정 미니 캘린더를 표�
   assert.doesNotMatch(daySchedule,/customerBadge/);
   assert.match(main,/class="parking-schedule-info" data-parking-schedule-record="\$\{esc\(record\.id\)\}"/);
   assert.match(main,/openCalendarRecord\(record\)/);
+  assert.match(main,/class="\$\{record\.calendar_completed_at\?'is-completed':''\}"/);
+  assert.match(main,/record\.calendar_completed_at\?'<b class="parking-schedule-completed">완료<\/b>':''/);
+  assert.match(css,/\.parking-schedule-modal li\.is-completed\{[^}]*background:#ffe8ee/);
   assert.match(main,/Promise\.all\(\[api\('dashboard'\),api\('heydealer'\)\.catch/);
   assert.match(css,/\.parking-mini-calendar\{position:absolute;right:max\(24px,calc\(\(100vw - 1280px\)\/2\)\);top:40px;width:340px;[^}]*background:transparent/);
   assert.match(css,/@media\(max-width:800px\)\{\.parking-mini-calendar\{right:0;top:40px;width:205px/);

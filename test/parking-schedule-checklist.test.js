@@ -17,9 +17,9 @@ test('첫 화면 일정 관리 패널은 추가/완료 일정을 두 행으로 �
   assert.match(css,/\.parking-schedule-relative\{[^}]*color:#ff6666/);
   assert.match(css,/\.parking-schedule-date\{[^}]*color:#d6dfd9/);
   assert.match(main,/parking-schedule-checklist/);
-  assert.match(main,/<strong>추가된 일정 \(\$\{pending\.length\}대\)<\/strong>/);
   assert.match(main,/>완료일정</);
-  assert.match(main,/data-parking-schedule-review>\$\{reviewCount\}대 확인필요 →<\/button>/);
+  assert.match(main,/추가된 일정\$\{pending\.length\?` \(\$\{pending\.length\}대\)`:''\}/);
+  assert.match(main,/data-parking-schedule-review>\$\{reviewCount\?`\$\{reviewCount\}대 `:''\}확인필요 →<\/button>/);
   assert.match(main,/parkingScheduleNeedsReview=record=>record\.customer_type==='확인중'\|\|\/탁송/);
   assert.match(main,/<h2 id="parking-schedule-review-title">확인 필요 차량<\/h2>/);
   assert.match(main,/확인 필요한 차량이 없습니다\./);
