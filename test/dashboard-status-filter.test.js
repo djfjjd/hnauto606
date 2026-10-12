@@ -18,7 +18,7 @@ test('각 담당자의 상태 필터를 독립 저장하고 검색·페이지 �
   assert.match(main,/status=state\.managerStatusFilters\[manager\]\|\|'all'/);
   assert.match(main,/const checkedOut=row\.classList\.contains\('is-checked-out'\),closed=checkedOut\|\|row\.classList\.contains\('is-contracted'\)/);
   assert.match(main,/status==='all'&&!\(checkedOut&&previousMonth\)/);
-  assert.match(main,/status==='checked-out'&&closed/);
+  assert.match(main,/status==='checked-out'&&closed&&!\(checkedOut&&previousMonth\)/);
   assert.match(main,/status==='active'&&!closed/);
   assert.match(main,/status==='previous-month'&&checkedOut&&previousMonth/);
   assert.match(main,/data-board-previous-month="\$\{previousMonth\}"/);
@@ -34,6 +34,7 @@ test('저번달 필터는 직전 달 출고 차량만 표시하고 전체에서�
   assert.match(main,/isVisibleBoardHistory=vehicle=>\{if\(!isClosedBoardVehicle\(vehicle\)\)return true;.*return Boolean\(date&&date>=previousStart\)/);
   assert.match(main,/isPreviousMonthBoardVehicle=vehicle=>\{if\(!vehicle\.isCheckedOut\)return false;const date=String\(vehicle\.checkedOutAt\|\|''\)\.slice\(0,10\),.*date>=previousStart&&date<currentStart/);
   assert.match(main,/boardVehicles\(\)\.filter\(isVisibleBoardHistory\)\.reduce/);
+  assert.match(main,/status==='checked-out'&&closed&&!\(checkedOut&&previousMonth\)/);
 });
 
 test('현황판 상단 차량 대수는 출고 차량을 제외한다',()=>{
