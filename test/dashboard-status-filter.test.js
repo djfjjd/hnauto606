@@ -19,7 +19,7 @@ test('각 담당자의 상태 필터를 독립 저장하고 검색·페이지 �
   assert.match(main,/const checkedOut=row\.classList\.contains\('is-checked-out'\),closed=checkedOut\|\|row\.classList\.contains\('is-contracted'\)/);
   assert.match(main,/status==='all'&&!\(checkedOut&&previousMonth\)/);
   assert.match(main,/status==='checked-out'&&closed&&!\(checkedOut&&previousMonth\)/);
-  assert.match(main,/status==='active'&&!closed/);
+  assert.match(main,/status==='active'&&!checkedOut/);
   assert.match(main,/status==='previous-month'&&checkedOut&&previousMonth/);
   assert.match(main,/data-board-previous-month="\$\{previousMonth\}"/);
   assert.match(main,/s\.isContracted\?'is-contracted':''/);
