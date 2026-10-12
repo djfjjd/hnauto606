@@ -7,6 +7,7 @@ const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const migration=readFileSync(new URL('../migrations/0015_add_vehicle_dashboard_fields.sql',import.meta.url),'utf8');
 const optionMigration=readFileSync(new URL('../migrations/0026_move_legacy_options_to_memo.sql',import.meta.url),'utf8');
+const representativePerformanceCorrection=readFileSync(new URL('../migrations/0044_correct_representative_performance_dates.sql',import.meta.url),'utf8');
 
 test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수리 순서로 표시한다',()=>{
   assert.match(main,/\['performance','성능','date'\],\['performanceDate','재성능','reperformance'\],\['underbody','하부','check'\],\['dent','덴트','check'\],\['bodywork','판금','count'\],\['polishing','광택','vendor'\],\['repair','수리','note'\]/);
@@ -108,4 +109,12 @@ test('기존 옵션값은 특이사항으로 한 번 이동하고 이후 옵션 
   assert.match(main,/data-board-options=/);
   assert.match(main,/vehicles\/\$\{vehicle\.vehicleId\|\|vehicle\.id\}\/options/);
   assert.match(main,/class="board-option-text">\$\{esc\(s\.memo\)\|\|'-'\}/);
+});
+
+test('대표님 현황 순번 3~6의 기존 성능일을 재성능일로 보존하고 성능일을 입고일로 교정한다',()=>{
+  for(const plateId of ['3671df5e-f9b8-434b-b3ad-84608e9c91fb','4ea66292d51aa8a3aa22b0604e8acecd','e3e838da54bf1a973027de7c2dd46330','9789c842c6c6ba4b3b31a47050ebad2f'])assert.match(representativePerformanceCorrection,new RegExp(plateId));
+  assert.match(representativePerformanceCorrection,/INSERT OR IGNORE INTO service_records/);
+  assert.match(representativePerformanceCorrection,/'\[재성능\]'/);
+  assert.match(representativePerformanceCorrection,/started_at = \(SELECT checked_in_at FROM vehicles/);
+  assert.match(representativePerformanceCorrection,/v\.manager = '대표님'/);
 });
