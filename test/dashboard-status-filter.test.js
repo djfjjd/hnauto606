@@ -39,5 +39,8 @@ test('저번달 필터는 직전 달 출고 차량만 표시하고 전체에서�
 
 test('현황판 상단 차량 대수는 출고 차량을 제외한다',()=>{
   assert.match(main,/vehicles=boardVehicles\(\)\.filter\(vehicle=>!vehicle\.isCheckedOut\)/);
-  assert.match(main,/<strong>\$\{vehicles\.length\}<small>대<\/small><\/strong>/);
+  assert.match(main,/boardCountLabel=\(count,hasPinned\)=>hasPinned\?`\$\{Math\.max\(0,count-1\)\}\+1`:String\(count\)/);
+  assert.match(main,/<strong>\$\{boardCountLabel\(vehicles\.length,vehicles\.some\(isPinnedBoardVehicle\)\)\}<small>대<\/small><\/strong>/);
+  assert.match(main,/data-manager-count>\$\{boardCountLabel\(cars\.length,cars\.some\(isPinnedBoardVehicle\)\)\}대/);
+  assert.match(main,/boardCountLabel\(matches\.length,matches\.some\(row=>row\.dataset\.boardPinned==='true'\)\)/);
 });
