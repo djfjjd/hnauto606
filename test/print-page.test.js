@@ -15,4 +15,6 @@ test('/printpage는 검색부터 시작하고 모든 주차구역을 접은 인�
   assert.match(main,/expanded:PRINT_MODE\?false:options\.expanded/);
   assert.match(css,/@page\{size:landscape;margin:8mm\}/);
   assert.match(css,/\.print-page \.parking-map,\.print-page \.zone-card\{margin:0 0 8mm;box-shadow:none\}/);
+  assert.match(css,/\.print-page \.zones\.is-all\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)\}/);
+  assert.match(css,/@media print\{\.print-page \.zones\.is-all\{display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\);gap:6mm\}/);
 });
