@@ -8,7 +8,7 @@ const parkingMap=readFileSync(new URL('../src/parking-map.js',import.meta.url),'
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 
 test('/view는 인증 전에 공개 조회 데이터를 불러온다',()=>{
-  assert.match(main,/if\(VIEWER_MODE\)\{await loadViewer\(\);return;\}/);
+  assert.match(main,/if\(VIEWER_MODE\|\|PRINT_MODE\)\{await loadViewer\(\);return;\}/);
   assert.match(handler,/parts\.join\('\/'\)==='viewer\/dashboard'[\s\S]*?const auth=await requireUser\(request,env,method!=='GET'\)/);
 });
 
@@ -35,7 +35,7 @@ test('/view는 통계와 상품화·계약 출고 목록 및 모든 펼치기 �
 
 test('/view 새싹타워는 B5 아래에서 12행씩 좌우로 나눠 표시한다',()=>{
   assert.match(main,/viewerTower=VIEWER_MODE&&zone\.id==='tower'/);
-  assert.match(main,/expanded:viewerTower\|\|state\.expandedLayouts\.has\(zone\.id\),splitAfterRow:viewerTower\?12:0,splitSecondColumns:viewerTower\?8:0/);
+  assert.match(main,/expanded:PRINT_MODE\|\|viewerTower\|\|state\.expandedLayouts\.has\(zone\.id\),splitAfterRow:viewerTower\?12:0,splitSecondColumns:viewerTower\?8:0/);
   assert.match(main,/firstSideFacilityLabel:viewerTower\?'B5층':'',secondSideFacilityLabel:viewerTower\?'B6층':''/);
   assert.match(css,/\.viewer-page \.zones\.is-all>\.parking-map\[data-map-zone="tower"\]\{grid-column:1\/-1;grid-row:4\}/);
   assert.match(css,/\.viewer-page \.parking-map\[data-map-zone="tower"\] \.parking-map-scroll\{overflow-x:hidden;padding-right:0;padding-left:0\}/);
