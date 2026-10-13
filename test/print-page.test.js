@@ -25,4 +25,5 @@ test('/printpage는 검색부터 시작하고 모든 주차구역을 접은 인�
   assert.match(css,/data-map-zone="b5"\]\{grid-column:1!important;grid-row:3!important\}/);
   assert.match(css,/data-map-zone="roof"\]\{grid-column:2!important;grid-row:1\/span 2!important\}/);
   assert.match(css,/data-map-zone="tower"\]\{grid-column:2!important;grid-row:3!important\}/);
+  assert.match(css,/\.print-page \.parking-map\[data-map-zone="tower"\] \.parking-map-head h2\{color:#fff\}/);
 });
