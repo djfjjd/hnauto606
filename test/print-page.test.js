@@ -29,4 +29,5 @@ test('/printpage는 검색부터 시작하고 모든 주차구역을 접은 인�
   assert.match(css,/@media print\{\.print-page \.parking-map\{min-width:0;overflow:hidden;box-sizing:border-box\}/);
   assert.match(css,/\.print-page \.parking-map-grid\{width:100%;max-width:100%;grid-template-columns:var\(--row-label-width,20px\) repeat\(var\(--map-columns\),minmax\(0,1fr\)\)\}/);
   assert.match(css,/\.print-page \.parking-map-grid\.has-no-row-label\{grid-template-columns:repeat\(var\(--map-columns\),minmax\(0,1fr\)\)\}/);
+  assert.match(css,/@media print\{\.print-page\{zoom:74%\}\}/);
 });
