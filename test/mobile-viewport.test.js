@@ -53,8 +53,8 @@ test('모바일 버전 문구를 상단에서 숨기고 하단 아이콘 오른�
 });
 
 test('하단 종소리 왼쪽의 프린트 아이콘으로 인쇄 전용 페이지를 연다',()=>{
-  assert.match(main,/<a class="footer-icon print-page-link" href="\/printpage"[^>]*>[\s\S]*?<\/a><button class="footer-icon notify-button"/);
-  assert.match(main,/aria-label="인쇄 전용 페이지" title="인쇄 전용 페이지"/);
+  assert.match(main,/<a class="footer-icon print-page-link" href="\/printpage" target="_blank" rel="noopener noreferrer"[^>]*>[\s\S]*?<\/a><button class="footer-icon notify-button"/);
+  assert.match(main,/aria-label="인쇄 전용 페이지 새 탭에서 열기" title="인쇄 전용 페이지"/);
 });
 
 test('모바일 하단은 로고를 숨기고 사업자 정보를 한 행에 표시한다',()=>{
