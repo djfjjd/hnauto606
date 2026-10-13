@@ -52,6 +52,11 @@ test('모바일 버전 문구를 상단에서 숨기고 하단 아이콘 오른�
   assert.match(css,/@media\(max-width:800px\)\{\.brand::after\{display:none\}\.footer-version\{display:inline-flex/);
 });
 
+test('하단 종소리 왼쪽의 프린트 아이콘으로 인쇄 전용 페이지를 연다',()=>{
+  assert.match(main,/<a class="footer-icon print-page-link" href="\/printpage"[^>]*>[\s\S]*?<\/a><button class="footer-icon notify-button"/);
+  assert.match(main,/aria-label="인쇄 전용 페이지" title="인쇄 전용 페이지"/);
+});
+
 test('모바일 하단은 로고를 숨기고 사업자 정보를 한 행에 표시한다',()=>{
   assert.match(css,/@media\(max-width:800px\)\{footer\{[^}]*grid-template-columns:minmax\(0,1fr\) auto;align-items:center[^}]*\}\.footer-brand\{display:none!important\}\.company-info\{[^}]*align-items:center;align-self:center[^}]*white-space:nowrap\}/);
   assert.match(css,/\.footer-tools\{grid-column:2;grid-row:1;align-self:center;justify-self:end;margin:0 12px 0 0\}/);
