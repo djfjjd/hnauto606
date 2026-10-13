@@ -13,8 +13,16 @@ test('/printpage는 검색부터 시작하고 모든 주차구역을 접은 인�
   assert.match(css,/\.print-page\{padding-top:24px\}/);
   assert.match(css,/\.print-page \.zone-tabs,\.print-page \.workspace>\.no-result\{display:none\}/);
   assert.match(main,/expanded:PRINT_MODE\?false:options\.expanded/);
+  assert.match(main,/if\(PRINT_MODE\)installPrintPageButton\(\)/);
+  assert.match(main,/class="print-page-button"[\s\S]*?프린트[\s\S]*?onclick=\(\)=>window\.print\(\)/);
+  assert.match(css,/\.print-page \.print-page-button\{[^}]*pointer-events:auto!important/);
   assert.match(css,/@page\{size:landscape;margin:8mm\}/);
   assert.match(css,/\.print-page \.parking-map,\.print-page \.zone-card\{margin:0 0 8mm;box-shadow:none\}/);
   assert.match(css,/\.print-page \.zones\.is-all\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)\}/);
   assert.match(css,/@media print\{\.print-page \.zones\.is-all\{display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\);gap:6mm\}/);
+  assert.match(css,/data-map-zone="pillar11"\]\{grid-column:1!important;grid-row:1!important\}/);
+  assert.match(css,/data-map-zone="b3"\]\{grid-column:1!important;grid-row:2!important\}/);
+  assert.match(css,/data-map-zone="b5"\]\{grid-column:1!important;grid-row:3!important\}/);
+  assert.match(css,/data-map-zone="roof"\]\{grid-column:2!important;grid-row:1\/span 2!important\}/);
+  assert.match(css,/data-map-zone="tower"\]\{grid-column:2!important;grid-row:3!important\}/);
 });
