@@ -8,7 +8,7 @@ const parkingMap=readFileSync(new URL('../src/parking-map.js',import.meta.url),'
 const handler=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 
 test('/view는 인증 전에 공개 조회 데이터를 불러온다',()=>{
-  assert.match(main,/if\(VIEWER_MODE\|\|PRINT_MODE\)\{await loadViewer\(\);return;\}/);
+  assert.match(main,/if\(VIEWER_MODE\)\{await loadViewer\(\);return;\}/);
   assert.match(handler,/parts\.join\('\/'\)==='viewer\/dashboard'[\s\S]*?const auth=await requireUser\(request,env,method!=='GET'\)/);
 });
 
