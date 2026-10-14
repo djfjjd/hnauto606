@@ -98,3 +98,12 @@ test('/view 새싹타워 B5 M열과 B6 A열 사이에 빨간 경계선을 표시
   assert.match(parkingMap,/options\.zoneId==='tower'&&sideBySide[^\n]*class="tower-floor-divider"/);
   assert.match(css,/\.tower-floor-divider\{[^}]*border-left:3px solid #d92323/);
 });
+
+test('초기화면 전체보기는 새싹만 펼치고 펼친 도면을 B5 아래 가로 한 줄로 배치한다',()=>{
+  assert.match(main,/towerSideBySide=options\.zoneId==='tower'&&expanded/);
+  assert.match(main,/splitAfterRow:towerSideBySide\?12:options\.splitAfterRow,splitSecondColumns:towerSideBySide\?8:options\.splitSecondColumns/);
+  assert.match(main,/firstSideFacilityLabel:towerSideBySide\?'B5층':options\.firstSideFacilityLabel,secondSideFacilityLabel:towerSideBySide\?'B6층':options\.secondSideFacilityLabel/);
+  assert.match(css,/\.zones\.is-all>\.parking-map:not\(\[data-map-zone="tower"\]\) \.map-head-toggle\{display:none\}/);
+  assert.match(css,/data-map-zone="tower"\]\:has\(\.map-head-toggle\[aria-expanded="true"\]\)\{grid-column:1\/-1;grid-row:4\}/);
+  assert.match(css,/data-map-zone="tower"\]\:has\(\.map-head-toggle\[aria-expanded="true"\]\) \.parking-map-grid\{width:100%;grid-template-columns:repeat\(var\(--map-columns\),minmax\(0,1fr\)\)\}/);
+});

@@ -13,7 +13,7 @@ test('/printpage는 검색부터 시작하고 모든 주차구역을 접은 인�
   assert.match(main,/expanded:PRINT_MODE\|\|viewerTower\|\|state\.expandedLayouts\.has\(zone\.id\)/);
   assert.match(css,/\.print-page\{padding-top:24px\}/);
   assert.match(css,/\.print-page \.zone-tabs,\.print-page \.workspace>\.no-result\{display:none\}/);
-  assert.match(main,/expanded:PRINT_MODE\?false:options\.expanded/);
+  assert.match(main,/const expanded=PRINT_MODE\?false:options\.expanded/);
   assert.match(main,/if\(PRINT_MODE\)installPrintPageButton\(\)/);
   assert.match(main,/class="print-page-button"[\s\S]*?프린트[\s\S]*?onclick=\(\)=>window\.print\(\)/);
   assert.match(css,/\.print-page \.print-page-button\{[^}]*pointer-events:auto!important/);

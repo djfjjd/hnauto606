@@ -11,7 +11,7 @@ import {installRecurringCalendarUI} from './calendar-recurring.js';
 const app=document.querySelector('#app');
 const VIEWER_MODE=location.pathname==='/view'||location.pathname==='/view/';
 const PRINT_MODE=location.pathname==='/printpage'||location.pathname==='/printpage/';
-const renderParkingMap=(layout,spots,visibleIds,options={})=>renderParkingMapBase(layout,spots,visibleIds,{...options,expanded:PRINT_MODE?false:options.expanded});
+const renderParkingMap=(layout,spots,visibleIds,options={})=>{const expanded=PRINT_MODE?false:options.expanded,towerSideBySide=options.zoneId==='tower'&&expanded;return renderParkingMapBase(layout,spots,visibleIds,{...options,expanded,splitAfterRow:towerSideBySide?12:options.splitAfterRow,splitSecondColumns:towerSideBySide?8:options.splitSecondColumns,firstSideFacilityLabel:towerSideBySide?'B5층':options.firstSideFacilityLabel,secondSideFacilityLabel:towerSideBySide?'B6층':options.secondSideFacilityLabel});};
 const TOWER_PASS_URL='https://console.humax-parcs.com/store';
 const MASTER_WARNING_ICON=(STATUS.find(status=>status.id==='master-warning')?.icon||'통합경고등.png').normalize('NFD');
 const CUSTOMER_TYPES=['개인','비사업용','업무용으로 비용처리함','간이사업자','법인','확인중'],isCorporateCustomer=value=>['비사업용','업무용으로 비용처리함','간이사업자','법인'].includes(value),customerBadge=value=>value==='개인'?'':value?`(${value})`:'';
