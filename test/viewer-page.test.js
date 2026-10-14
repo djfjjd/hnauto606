@@ -106,4 +106,5 @@ test('초기화면 전체보기는 새싹만 펼치고 펼친 도면을 B5 아�
   assert.match(css,/\.zones\.is-all>\.parking-map:not\(\[data-map-zone="tower"\]\) \.map-head-toggle\{display:none\}/);
   assert.match(css,/data-map-zone="tower"\]\:has\(\.map-head-toggle\[aria-expanded="true"\]\)\{grid-column:1\/-1;grid-row:4\}/);
   assert.match(css,/data-map-zone="tower"\]\:has\(\.map-head-toggle\[aria-expanded="true"\]\) \.parking-map-grid\{width:100%;grid-template-columns:repeat\(var\(--map-columns\),minmax\(0,1fr\)\)\}/);
+  assert.match(css,/@media\(max-width:800px\)\{\.zones\.is-all>\.parking-map\[data-map-zone="tower"\]\:has\(\.map-head-toggle\[aria-expanded="true"\]\) \.parking-cell\.is-occupied\{padding-inline:0\}[^}]+\.parking-cell\.is-occupied strong\{font-size:12px!important;letter-spacing:-\.08em;white-space:nowrap\}\}/);
 });
