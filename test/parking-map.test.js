@@ -292,6 +292,8 @@ test('6층은 A06~C06을 펼치면 원래 좌표에, 접으면 A15~C15 위치에
   assert.match(html,/aria-label="A06 빈 자리"[^>]*is-company-tint|is-company-tint[^>]*aria-label="A06 빈 자리"/);
   assert.match(expanded,/aria-label="A06 빈 자리"/);
   assert.match(expanded,/aria-label="C06 빈 자리"/);
+  assert.match(html,/type-company-area is-borderless" style="grid-column:5\/span 1;grid-row:1\/span 1"[^>]+><strong>윤카<\/strong>/);
+  assert.match(html,/type-company-area is-borderless" style="grid-column:2\/span 4;grid-row:2\/span 5"[^>]+><strong>윤카<\/strong>/);
   assert.match(html,/>윤카<\/strong>/);
   assert.match(html,/type-company-area is-borderless[^>]+><strong>윤카<\/strong>/);
   assert.match(html,/grid-column:2\/span 2;grid-row:7\/span 1[^>]+><strong>윤카<\/strong>/);
