@@ -14,8 +14,9 @@ export const parkingLayouts={
     collapseBeforeRow:15,
     collapsedHideColumnHeaders:true,
     defaultCellType:'blocked',
-    parkingRanges:[{from:'E15',to:'I20'}],
-    tintedRanges:[{from:'E15',to:'I15'}],
+    parkingRanges:[{from:'A06',to:'C06'},{from:'E15',to:'I20'}],
+    tintedRanges:[{from:'A06',to:'C06'},{from:'E15',to:'I15'}],
+    collapsedPositionOverrides:{A15:'A06',B15:'B06',C15:'C06'},
     specialAreas:[
       {from:'A15',to:'D20',type:'company-area',label:'윤카',borderless:true},
       {from:'A21',to:'B21',type:'company-area',label:'윤카',borderless:true},

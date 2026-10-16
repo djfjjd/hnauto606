@@ -51,7 +51,8 @@ export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=
     if(collapsedGroupRow){for(const [index,item] of collapsedGroupRow.items.entries()){const number=towerParkingLabel(item.position).split(' ').at(-1);cells.push(parkingCell(item.position,item.spot,!item.spot||visibleIds.has(item.spot.id),index+(hasRowLabelColumn?1:0),gridRow,1,1,false,number));}continue;}
     const rowEndColumn=sideBySide&&row>splitAfterRow?secondEndColumn:endColumn;
     for(let column=startColumn;column<=rowEndColumn;column+=1){
-      const code=`${PARKING_COLUMNS[column-1]}${String(row).padStart(2,'0')}`,match=areaAt(layout,column,row);
+      const code=`${PARKING_COLUMNS[column-1]}${String(row).padStart(2,'0')}`,overrideCode=collapsed?normalizePosition(layout.collapsedPositionOverrides?.[code]):'',match=overrideCode?null:areaAt(layout,column,row);
+      if(overrideCode){const spot=byPosition.get(overrideCode);cells.push(parkingCell(overrideCode,spot,!spot||visibleIds.has(spot.id),gridColumn(column,row),gridRow,1,1,positionInRanges(overrideCode,layout.tintedRanges)));continue;}
       if(match){
         const visibleAreaStart=Math.max(match.bounds.column,startColumn),visibleAreaEnd=Math.min(match.bounds.column+match.bounds.columnSpan-1,rowEndColumn);
         if(column!==visibleAreaStart||row!==match.bounds.row)continue;
@@ -71,6 +72,7 @@ export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=
     }
   }
   if(options.zoneId==='pillar11'&&gridRowByActual.has(18))cells.push(`<div class="parking-pillar-divider" style="grid-column:6/span 5;grid-row:${gridRowByActual.get(18)}" aria-label="17행과 18행 사이 11번기둥"><span>11번기둥</span></div>`);
+  if(options.zoneId==='pillar11'&&gridRowByActual.has(collapsed?15:6))cells.push(`<div class="parking-pillar-divider is-label-right" style="grid-column:${hasRowLabelColumn?2:1}/span 3;grid-row:${gridRowByActual.get(collapsed?15:6)}" aria-label="${collapsed?'14행 A~C와 15행 A~C':'A05~C05와 A06~C06'} 사이 9번기둥"><span>9번기둥</span></div>`);
   if(options.zoneId==='b3'&&gridRowByActual.has(17))cells.push(`<div class="parking-pillar-divider" style="grid-column:4/span 5;grid-row:${gridRowByActual.get(17)}" aria-label="16행과 17행 사이 19번기둥"><span>19번기둥</span></div>`);
   if(options.zoneId==='b5'&&gridRowByActual.has(14))cells.push(`<div class="parking-pillar-divider is-label-right" style="grid-column:${hasRowLabelColumn?2:1}/span 6;grid-row:${gridRowByActual.get(14)}" aria-label="13행 A~F와 14행 A~F 사이 9번기둥"><span>9번기둥</span></div>`);
   if(options.zoneId==='b5'&&(gridRowByActual.has(18)||gridRowByActual.has(17))){const afterVisibleRow=!gridRowByActual.has(18);cells.push(`<div class="parking-pillar-divider is-label-right${afterVisibleRow?' is-after-row':''}" style="grid-column:${hasRowLabelColumn?2:1}/span 6;grid-row:${gridRowByActual.get(afterVisibleRow?17:18)}" aria-label="17행 A~F와 18행 A~F 사이 8번기둥"><span>8번기둥</span></div>`);}
