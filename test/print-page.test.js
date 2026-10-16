@@ -32,3 +32,7 @@ test('/printpage는 검색부터 시작하고 모든 주차구역을 접은 인�
   assert.match(css,/\.print-page \.parking-map-grid\.has-no-row-label\{grid-template-columns:repeat\(var\(--map-columns\),minmax\(0,1fr\)\)\}/);
   assert.match(css,/@media print\{\.print-page\{zoom:74%\}\}/);
 });
+
+test('인쇄 페이지는 새싹타워를 숨기고 그 자리에 주차구역 미배정을 표시한다',()=>{
+  assert.match(css,/\.print-page \.parking-map\[data-map-zone="tower"\]\{display:none!important\}\.print-page \.zones\.is-all>\.product-unassigned\{grid-column:4\/span 3;grid-row:3;margin:0\}/);
+});
