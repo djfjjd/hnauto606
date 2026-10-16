@@ -10,6 +10,7 @@ test('현황판 판매중 대수에 담당자별 차량 목록 링크를 제공�
   assert.match(main,/function renderDashboardSalesPage\(\)/);
   assert.match(main,/location\.pathname==='\/dashboard\/sales'/);
   assert.match(main,/class="sales-manager-group"/);
+  assert.match(main,/leftGroups=groups\.filter\(\(\[manager\]\)=>manager==='대표님'\),rightGroups=groups\.filter\(\(\[manager\]\)=>manager!==\'대표님\'/);
   assert.match(main,/parkingScheduleModelLabel\(vehicle\.model\)/);
 });
 
