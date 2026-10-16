@@ -18,7 +18,7 @@ export const parkingLayouts={
     tintedRanges:[{from:'A06',to:'C06'},{from:'E15',to:'I15'}],
     collapsedPositionOverrides:{A15:'A06',B15:'B06',C15:'C06'},
     collapsedSpecialAreas:[
-      {from:'D15',type:'company-area',label:'윤카',borderless:true},
+      {from:'D15',type:'company-area',label:'',borderless:true},
       {from:'A16',to:'D20',type:'company-area',label:'윤카',borderless:true},
       {from:'A21',to:'B21',type:'company-area',label:'윤카',borderless:true},
       {from:'C21',to:'D21',type:'facility',label:'E/V · 화장실'},
