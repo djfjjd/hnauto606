@@ -118,8 +118,12 @@ test('전체 자리와 빈 자리 카드는 합계 오른쪽에 층별 자리 �
   assert.match(main,/capacity=baseCapacity\+extraCapacity/);
   assert.match(main,/baseEmpty=Math\.max\(0,baseCapacity-baseOccupied\),extraEmpty=zone\.id==='pillar11'\?Math\.max\(0,extraCapacity-extraOccupied\):extraCapacity,empty=baseEmpty\+extraEmpty/);
   assert.match(main,/empty,baseEmpty,extraEmpty/);
-  assert.match(main,/emptyLabel=empty>=15\?`\$\{empty-15\}\+15`:empty/);
-  assert.match(main,/totalLabel=total>15\?`\$\{total-15\}\+15`:total/);
+  assert.match(main,/baseEmptyTotal=floorCounts\.reduce\(\(sum,floor\)=>sum\+floor\.baseEmpty,0\)/);
+  assert.match(main,/extraEmptyTotal=floorCounts\.reduce\(\(sum,floor\)=>sum\+floor\.extraEmpty,0\)/);
+  assert.match(main,/emptyLabel=extraEmptyTotal\?`\$\{baseEmptyTotal\}\+\$\{extraEmptyTotal\}`:empty/);
+  assert.match(main,/baseCapacityTotal=floorCounts\.reduce\(\(sum,floor\)=>sum\+floor\.baseCapacity,0\)/);
+  assert.match(main,/extraCapacityTotal=floorCounts\.reduce\(\(sum,floor\)=>sum\+floor\.extraCapacity,0\)/);
+  assert.match(main,/totalLabel=extraCapacityTotal\?`\$\{baseCapacityTotal\}\+\$\{extraCapacityTotal\}`:total/);
   assert.match(main,/return\{total:totalLabel,totalFloors:totalDetails/);
   assert.match(main,/empty:emptyLabel,emptyFloors:emptyDetails/);
   assert.match(main,/totalDetails=floorCounts\.map\(floor=>`\$\{floor\.label\} \$\{floor\.extraCapacity\?`\$\{floor\.baseCapacity\}\+\$\{floor\.extraCapacity\}`:String\(floor\.capacity\)\.padStart\(2,'0'\)\}자리`\)\.join\('\\n'\)/);
