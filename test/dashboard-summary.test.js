@@ -113,10 +113,10 @@ test('주차 차량과 상품화 차량을 분리해 다섯 개 통계 카드로
 });
 
 test('전체 자리와 빈 자리 카드는 합계 오른쪽에 층별 자리 수를 줄바꿈해 표시한다',()=>{
-  assert.match(main,/extraCapacity=zone\.id==='pillar11'\?5:zone\.id==='tower'\?10:0/);
-  assert.match(main,/baseCapacity=zone\.id==='tower'\?20:zone\.id==='pillar11'\?layoutCapacity-5:layoutCapacity/);
+  assert.match(main,/extraCapacity=zone\.id==='pillar11'\?8:zone\.id==='tower'\?10:0/);
+  assert.match(main,/baseCapacity=zone\.id==='tower'\?20:zone\.id==='pillar11'\?layoutCapacity-8:layoutCapacity/);
   assert.match(main,/capacity=baseCapacity\+extraCapacity/);
-  assert.match(main,/baseEmpty=Math\.max\(0,baseCapacity-occupied\),extraEmpty=extraCapacity,empty=baseEmpty\+extraEmpty/);
+  assert.match(main,/baseEmpty=Math\.max\(0,baseCapacity-baseOccupied\),extraEmpty=zone\.id==='pillar11'\?Math\.max\(0,extraCapacity-extraOccupied\):extraCapacity,empty=baseEmpty\+extraEmpty/);
   assert.match(main,/empty,baseEmpty,extraEmpty/);
   assert.match(main,/emptyLabel=empty>=15\?`\$\{empty-15\}\+15`:empty/);
   assert.match(main,/totalLabel=total>15\?`\$\{total-15\}\+15`:total/);
@@ -149,12 +149,15 @@ test('전체 자리와 빈 자리 카드는 합계 오른쪽에 층별 자리 �
   assert.match(css,/@media\(max-width:800px\)\{\.metric\.capacity\{display:flex;cursor:pointer\}\.metric\.capacity \.metric-details\{display:none\}\}/);
 });
 
-test('새싹 통계는 기본 20자리와 추가 10자리를 분리해 계산한다',()=>{
+test('6층은 기본 25자리와 실제 점유를 반영하는 추가 8자리로 분리하고 새싹 통계도 유지한다',()=>{
   assert.match(main,/layoutCapacity=parkingCapacity\(parkingLayouts\[zone\.id\]\)/);
-  assert.match(main,/baseCapacity=zone\.id==='tower'\?20:zone\.id==='pillar11'\?layoutCapacity-5:layoutCapacity/);
-  assert.match(main,/extraCapacity=zone\.id==='pillar11'\?5:zone\.id==='tower'\?10:0/);
-  assert.match(main,/baseEmpty=Math\.max\(0,baseCapacity-occupied\)/);
-  assert.match(main,/extraEmpty=extraCapacity/);
+  assert.match(main,/pillar11ExtraLabels=new Set\(\['A06','B06','C06','E15','F15','G15','H15','I15'\]\)/);
+  assert.match(main,/baseCapacity=zone\.id==='tower'\?20:zone\.id==='pillar11'\?layoutCapacity-8:layoutCapacity/);
+  assert.match(main,/extraCapacity=zone\.id==='pillar11'\?8:zone\.id==='tower'\?10:0/);
+  assert.match(main,/extraOccupied=zone\.id==='pillar11'\?occupiedSpots\.filter\(spot=>pillar11ExtraLabels\.has\(normalizePosition\(spot\.label\)\)\)\.length:0/);
+  assert.match(main,/baseOccupied=zone\.id==='pillar11'\?occupied-extraOccupied:occupied/);
+  assert.match(main,/baseEmpty=Math\.max\(0,baseCapacity-baseOccupied\)/);
+  assert.match(main,/extraEmpty=zone\.id==='pillar11'\?Math\.max\(0,extraCapacity-extraOccupied\):extraCapacity/);
   assert.match(main,/empty=floorCounts\.reduce\(\(sum,floor\)=>sum\+floor\.empty,0\)/);
 });
 
