@@ -12,6 +12,8 @@ test('현황판 판매중 대수에 담당자별 차량 목록 링크를 제공�
   assert.match(main,/class="sales-manager-group"/);
   assert.match(main,/leftGroups=groups\.filter\(\(\[manager\]\)=>manager==='대표님'\),rightGroups=groups\.filter\(\(\[manager\]\)=>manager!==\'대표님\'/);
   assert.match(main,/parkingScheduleModelLabel\(vehicle\.model\)/);
+  assert.match(main,/class="sales-vehicle-sequence">\$\{isPinnedBoardVehicle\(vehicle\)\?0:index\+\(hasPinned\?0:1\)\}/);
+  assert.match(css,/\.sales-manager-group li\{display:grid;grid-template-columns:28px 130px minmax\(0,1fr\)/);
 });
 
 test('판매중 차량 목록은 인쇄 버튼과 A4 인쇄 스타일을 제공한다',()=>{
