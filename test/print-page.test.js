@@ -15,7 +15,9 @@ test('/printpage는 검색부터 시작하고 모든 주차구역을 접은 인�
   assert.match(css,/\.print-page \.zone-tabs,\.print-page \.workspace>\.no-result\{display:none\}/);
   assert.match(main,/const expanded=PRINT_MODE\?false:options\.expanded/);
   assert.match(main,/if\(PRINT_MODE\)installPrintPageButton\(\)/);
-  assert.match(main,/class="print-page-button"[\s\S]*?프린트[\s\S]*?onclick=\(\)=>window\.print\(\)/);
+  assert.match(main,/PRINT_PAGE_TITLE='\(주\)하나오토 주차현황 인쇄';\s*if\(PRINT_MODE\)document\.title=PRINT_PAGE_TITLE/);
+  assert.match(main,/function printParkingPage\(\)\{document\.title=PRINT_PAGE_TITLE;window\.focus\(\);window\.print\(\);\}/);
+  assert.match(main,/class="print-page-button"[\s\S]*?프린트[\s\S]*?event\.preventDefault\(\);event\.stopPropagation\(\);printParkingPage\(\)/);
   assert.match(css,/\.print-page \.print-page-button\{[^}]*pointer-events:auto!important/);
   assert.match(css,/@page\{size:landscape;margin:8mm\}/);
   assert.match(css,/\.print-page \.parking-map,\.print-page \.zone-card\{margin:0 0 8mm;box-shadow:none\}/);
