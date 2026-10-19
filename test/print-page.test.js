@@ -34,6 +34,8 @@ test('/printpage는 검색부터 시작하고 모든 주차구역을 접은 인�
   assert.match(css,/data-map-zone="roof"\]\{grid-column:2!important;grid-row:1\/span 2!important\}/);
   assert.match(css,/data-map-zone="tower"\]\{grid-column:2!important;grid-row:3!important\}/);
   assert.match(css,/\.print-page \.parking-map\[data-map-zone="tower"\] \.parking-map-head h2\{display:none\}/);
+  assert.match(css,/\.print-page \.parking-cell,\.print-page \.parking-special,\.print-page \.spot\{color:#111!important;background:#fff!important\}/);
+  assert.match(css,/\.print-page \.parking-cell strong,[^{]+\.print-page \.spot small\{color:#111!important;text-shadow:none!important\}/);
   assert.match(css,/@media print\{\.print-page \.parking-map\{min-width:0;overflow:hidden;box-sizing:border-box\}/);
   assert.match(css,/\.print-page \.parking-map-grid\{width:100%;max-width:100%;grid-template-columns:var\(--row-label-width,20px\) repeat\(var\(--map-columns\),minmax\(0,1fr\)\)\}/);
   assert.match(css,/\.print-page \.parking-map-grid\.has-no-row-label\{grid-template-columns:repeat\(var\(--map-columns\),minmax\(0,1fr\)\)\}/);
