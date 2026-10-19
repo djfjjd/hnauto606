@@ -16,7 +16,12 @@ test('/printpage는 검색부터 시작하고 모든 주차구역을 접은 인�
   assert.match(main,/const expanded=PRINT_MODE\?false:options\.expanded/);
   assert.match(main,/if\(PRINT_MODE\)installPrintPageButton\(\)/);
   assert.match(main,/PRINT_PAGE_TITLE='\(주\)하나오토 주차현황 인쇄';\s*if\(PRINT_MODE\)document\.title=PRINT_PAGE_TITLE/);
-  assert.match(main,/function printParkingPage\(\)\{document\.title=PRINT_PAGE_TITLE;window\.focus\(\);window\.print\(\);\}/);
+  assert.match(main,/const printWindow=window\.open\('','hana-auto-parking-print','popup'\)/);
+  assert.match(main,/filter\(node=>node\.tagName!=='SCRIPT'&&node\.tagName!=='TITLE'\)/);
+  assert.match(main,/<title>\$\{PRINT_PAGE_TITLE\}<\/title>/);
+  assert.match(main,/await printWindow\.document\.fonts\?\.ready;await Promise\.all\(\[\.\.\.printWindow\.document\.images\]/);
+  assert.match(main,/printWindow\.document\.title=PRINT_PAGE_TITLE;printWindow\.focus\(\);printWindow\.print\(\)/);
+  assert.match(main,/if\(!printWindow\)\{window\.focus\(\);window\.print\(\);return;\}/);
   assert.match(main,/class="print-page-button"[\s\S]*?프린트[\s\S]*?event\.preventDefault\(\);event\.stopPropagation\(\);printParkingPage\(\)/);
   assert.match(css,/\.print-page \.print-page-button\{[^}]*pointer-events:auto!important/);
   assert.match(css,/@page\{size:landscape;margin:8mm\}/);
