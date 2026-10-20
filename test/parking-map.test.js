@@ -26,9 +26,9 @@ test('전체 주차면은 실제 parking Cell만 합산한다',()=>{
   assert.equal(parkingCapacity(parkingLayouts.pillar11),36);
   assert.equal(parkingCapacity(parkingLayouts.b3),5);
   assert.equal(parkingCapacity(parkingLayouts.b5),12);
-  assert.equal(parkingCapacity(parkingLayouts.roof),20);
+  assert.equal(parkingCapacity(parkingLayouts.roof),22);
   assert.equal(parkingCapacity(parkingLayouts.tower),34);
-  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),107);
+  assert.equal(Object.values(parkingLayouts).reduce((sum,layout)=>sum+parkingCapacity(layout),0),109);
 });
 
 test('B3층은 A·B열을 제외하고 C~I열을 도면 오른쪽 끝에 맞춘다',()=>{
@@ -322,14 +322,20 @@ test('6층 9번기둥은 A05~C05와 A06~C06 사이에 표시하고 접으면 A15
   assert.match(expanded,/parking-pillar-divider is-label-right" style="grid-column:2\/span 3;grid-row:7"[^>]*><span>9번기둥<\/span>/);
 });
 
-test('옥상의 A17~C17은 하나의 넓은 주차 Cell로 표시한다',()=>{
-  const html=renderParkingMap(parkingLayouts.roof,[{id:'roof-a17',label:'A17',plate:'',alerts:[]}]);
+test('옥상의 A16~B16·A17~B17과 C16~C17은 세 개의 병합 주차 Cell로 표시한다',()=>{
+  const html=renderParkingMap(parkingLayouts.roof,[
+    {id:'roof-a16',label:'A16',plate:'',alerts:[]},
+    {id:'roof-c16',label:'C16',plate:'',alerts:[]},
+    {id:'roof-a17',label:'A17',plate:'',alerts:[]},
+  ]);
   const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
   assert.match(html,/class="parking-map-grid has-no-column-header has-no-row-label"/);
   assert.match(css,/\.parking-map\[data-map-zone="b5"\] \.parking-map-scroll,\.parking-map\[data-map-zone="roof"\] \.parking-map-scroll,\.parking-map\[data-map-zone="tower"\] \.parking-map-scroll\{padding-left:0\}/);
-  assert.match(html,/data-spot="roof-a17"[^>]+grid-column:1\/span 3;grid-row:9\/span 1/);
+  assert.match(html,/data-spot="roof-a16"[^>]+grid-column:1\/span 2;grid-row:9\/span 1/);
+  assert.match(html,/data-spot="roof-c16"[^>]+grid-column:3\/span 1;grid-row:9\/span 2/);
+  assert.match(html,/data-spot="roof-a17"[^>]+grid-column:1\/span 2;grid-row:10\/span 1/);
   assert.match(html,/주차장 출입구 램프/);
-  assert.match(html,/grid-column:4\/span 2;grid-row:9\/span 4[^>]+><strong>계단<\/strong>/);
+  assert.match(html,/grid-column:4\/span 2;grid-row:10\/span 4[^>]+><strong>계단<\/strong>/);
   assert.doesNotMatch(html,/A21|D21|I21/);
   assert.doesNotMatch(html,/>09<\/b>/);
   assert.match(html,/>▼<\/span> 펼치기/);
