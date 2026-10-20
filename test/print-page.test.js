@@ -39,7 +39,7 @@ test('/printpage는 검색부터 시작하고 모든 주차구역을 접은 인�
   assert.match(css,/@media print\{\.print-page \.parking-map\{min-width:0;overflow:hidden;box-sizing:border-box\}/);
   assert.match(css,/\.print-page \.parking-map-grid\{width:100%;max-width:100%;grid-template-columns:var\(--row-label-width,20px\) repeat\(var\(--map-columns\),minmax\(0,1fr\)\)\}/);
   assert.match(css,/\.print-page \.parking-map-grid\.has-no-row-label\{grid-template-columns:repeat\(var\(--map-columns\),minmax\(0,1fr\)\)\}/);
-  assert.match(css,/@media print\{\.print-page\{zoom:74%\}\}/);
+  assert.match(css,/@media print\{\.print-page\{zoom:72%\}\}/);
 });
 
 test('인쇄 페이지는 B3층과 새싹타워를 숨기고 새싹타워 자리에 절반 높이의 미배정·출고예정 목록을 표시한다',()=>{
