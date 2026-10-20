@@ -121,6 +121,8 @@ test('미배정 차량도 상품화출차하고 작업 종류를 위치에 표�
   assert.match(api,/latest_movement_note/);
   assert.match(api,/latest_productization_date/);
   assert.match(main,/const productizationLocation=note=>/);
+  assert.match(main,/repair=productization==='상품화\(카센터\)'\?repairDescription\(v\.repair_note\):''/);
+  assert.match(main,/label:repair\?`\$\{productization\}_\$\{repair\}`:productization\|\|'주차 미배정'/);
   assert.match(main,/productizationDate:productization\?date:''/);
   assert.match(main,/<time datetime="\$\{esc\(s\.productizationDate\)\}">\$\{esc\(s\.productizationDate\)\}<\/time>/);
 });
