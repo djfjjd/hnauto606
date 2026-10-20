@@ -54,7 +54,8 @@ test('인쇄 페이지는 새싹타워 자리에 절반 높이의 미배정·출
 });
 
 test('인쇄 페이지의 계약·출고 차량은 차종 왼쪽에 상태를 표시한다',()=>{
-  assert.match(main,/printStatus=PRINT_MODE\?\(s\.isContracted\?'\(계약됨\) ':s\.isCheckedOut\?'\(출고됨\) ':''\):''/);
+  assert.match(main,/printStatus=PRINT_MODE\?\(s\.isContracted\?'\(계약됨\) ':s\.isCheckedOut\?'\(출고예정\) ':''\):''/);
   assert.match(main,/`\$\{printStatus\}\$\{s\.model\} · \$\{s\.color\}`/);
-  assert.match(css,/\.print-page \.parking-cell\[data-print-status\] span:not\(\.parking-alert-icons\)::before\{content:"\(" attr\(data-print-status\) "\) "/);
+  assert.match(css,/data-print-status="출고됨"\] span:not\(\.parking-alert-icons\)::before\{content:"\(출고예정\) "/);
+  assert.match(css,/data-print-status="계약됨"\] span:not\(\.parking-alert-icons\)::before\{content:"\(계약됨\) "/);
 });
