@@ -42,7 +42,17 @@ test('/printpage는 검색부터 시작하고 모든 주차구역을 접은 인�
   assert.match(css,/@media print\{\.print-page\{zoom:74%\}\}/);
 });
 
-test('인쇄 페이지는 새싹타워를 숨기고 그 자리에 주차구역 미배정을 표시한다',()=>{
-  assert.match(css,/\.print-page \.parking-map\[data-map-zone="tower"\]\{display:none!important\}\.print-page \.zones\.is-all>\.product-unassigned\{grid-column:4\/span 3;grid-row:3;margin:0\}/);
-  assert.match(css,/\.print-page \.product-unassigned \.spot-grid\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)\}/);
+test('인쇄 페이지는 새싹타워 자리에 절반 높이의 미배정·출고예정 목록을 표시한다',()=>{
+  assert.match(main,/function installPrintStatusLayouts\(\)/);
+  assert.match(main,/className='zone-card service product-checked-out'/);
+  assert.match(main,/state\.checkedOut\.map\(spot\)\.join\(''\)/);
+  assert.match(main,/stack\.append\(unassigned,departures\)/);
+  assert.match(css,/\.print-page \.parking-map\[data-map-zone="tower"\]\{display:none!important\}\.print-page \.print-status-stack\{grid-column:2!important;grid-row:3!important;display:grid;grid-template-rows:repeat\(2,minmax\(0,1fr\)\)/);
+  assert.match(css,/\.print-page \.print-status-stack \.spot\{min-height:46px;padding:5px\}/);
+});
+
+test('인쇄 페이지의 계약·출고 차량은 차종 왼쪽에 상태를 표시한다',()=>{
+  assert.match(main,/printStatus=PRINT_MODE\?\(s\.isContracted\?'\(계약됨\) ':s\.isCheckedOut\?'\(출고됨\) ':''\):''/);
+  assert.match(main,/`\$\{printStatus\}\$\{s\.model\} · \$\{s\.color\}`/);
+  assert.match(css,/\.print-page \.parking-cell\[data-print-status\] span:not\(\.parking-alert-icons\)::before\{content:"\(" attr\(data-print-status\) "\) "/);
 });
