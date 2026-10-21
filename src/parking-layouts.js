@@ -68,7 +68,7 @@ export const parkingLayouts={
   roof:baseLayout('서서울모터리움 옥상층',{
     rows:20,
     hideRowLabels:true,
-    collapsedVisibleRows:[1,2,3,4,5,6,7,8,16,17,18,19,20],
+    collapsedVisibleRows:[1,2,3,4,5,6,7,8,17,18,19,20],
     collapsedHideColumnHeaders:true,
     toggleBeforeRow:9,
     defaultCellType:'blocked',
@@ -80,9 +80,7 @@ export const parkingLayouts={
     ],
     specialAreas:[
       {from:'H03',to:'I07',type:'entrance',label:'주차장 출입구 램프'},
-      {from:'A16',to:'B16',type:'parking',label:'A16'},
-      {from:'C16',to:'C17',type:'parking',label:'C16'},
-      {from:'A17',to:'B17',type:'parking',label:'A17'},
+      {from:'A17',to:'C17',type:'parking',label:'A17'},
       {from:'D17',to:'E20',type:'stairs',label:'계단'},
     ],
   }),
