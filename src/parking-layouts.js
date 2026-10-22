@@ -15,6 +15,7 @@ export const parkingLayouts={
     collapsedHideColumnHeaders:true,
     defaultCellType:'blocked',
     parkingRanges:[{from:'A05',to:'C06'},{from:'E15',to:'I20'}],
+    unavailableRanges:[{from:'A05',to:'C06'}],
     tintedRanges:[{from:'A05',to:'C06'},{from:'E15',to:'I15'}],
     collapsedPositionOverrides:{A15:'A05',B15:'B05',C15:'C05',A16:'A06',B16:'B06',C16:'C06'},
     collapsedSpecialAreas:[
@@ -167,7 +168,7 @@ export function parkingCapacity(layout){
         if(area.type==='parking'&&normalizePosition(area.from)===code)total+=1;
         continue;
       }
-      if(layout.defaultCellType==='parking'||positionInRanges(code,layout.parkingRanges))total+=1;
+      if(!positionInRanges(code,layout.unavailableRanges)&&(layout.defaultCellType==='parking'||positionInRanges(code,layout.parkingRanges)))total+=1;
     }
   }
   return total;
