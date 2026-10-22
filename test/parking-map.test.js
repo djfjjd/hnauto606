@@ -277,7 +277,7 @@ test('출고 차량의 빨간 글씨에는 그림자를 표시하지 않는다',
   assert.match(css,/\.parking-cell\.is-occupied\.is-checked-out strong,[^{]+\{[^}]*text-shadow:none/);
 });
 
-test('6층은 A05~C06을 펼치거나 접어도 비활성 칸으로 표시한다',()=>{
+test('6층 A05~C06은 펼치면 X 없는 회색 칸, 접으면 A15~C20 윤카 구역으로 합친다',()=>{
   const html=renderParkingMap(parkingLayouts.pillar11,[],new Set(),{zoneId:'pillar11',expanded:false});
   const expanded=renderParkingMap(parkingLayouts.pillar11,[],new Set(),{zoneId:'pillar11',expanded:true});
   assert.doesNotMatch(html,/>01<\/b>/);
@@ -286,12 +286,11 @@ test('6층은 A05~C06을 펼치거나 접어도 비활성 칸으로 표시한다
   assert.doesNotMatch(html,/class="parking-map" data-zone=/);
   assert.match(html,/>▼<\/span> 펼치기/);
   assert.equal((html.match(/class="parking-cell is-vacant is-virtual/g)||[]).length,30);
-  for(const label of ['A05','B05','C05','A06','B06','C06']){
-    assert.match(html,new RegExp(`aria-label="${label} 비활성 구역"`));
-    assert.match(expanded,new RegExp(`aria-label="${label} 비활성 구역"`));
-  }
-  assert.match(html,/type-company-area is-borderless" style="grid-column:5\/span 1;grid-row:1\/span 2"[^>]+><strong><\/strong>/);
-  assert.match(html,/type-company-area is-borderless" style="grid-column:2\/span 4;grid-row:3\/span 4"[^>]+><strong>윤카<\/strong>/);
+  assert.doesNotMatch(html,/A0[56] 비활성 구역/);
+  for(const label of ['A05','B05','C05','A06','B06','C06'])assert.match(expanded,new RegExp(`class="parking-cell is-layout-blocked"[^>]*aria-label="${label} 비주차 구역"`));
+  assert.doesNotMatch(expanded,/parking-unavailable-mark/);
+  assert.match(html,/type-company-area is-borderless" style="grid-column:2\/span 3;grid-row:1\/span 6"[^>]+><strong>윤카<\/strong>/);
+  assert.match(html,/type-company-area is-borderless" style="grid-column:5\/span 1;grid-row:1\/span 6"[^>]+><strong><\/strong>/);
   assert.match(html,/>윤카<\/strong>/);
   assert.match(html,/type-company-area is-borderless[^>]+><strong>윤카<\/strong>/);
   assert.match(html,/grid-column:2\/span 2;grid-row:7\/span 1[^>]+><strong>윤카<\/strong>/);

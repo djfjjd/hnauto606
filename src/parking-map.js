@@ -68,7 +68,7 @@ export function renderParkingMap(layout,spots,visibleIds=new Set(spots.map(spot=
         continue;
       }
       const spot=byPosition.get(code),unavailable=!collapsed&&positionInRanges(code,layout.unavailableRanges),parking=layout.defaultCellType==='parking'||positionInRanges(code,parkingRanges);
-      cells.push(unavailable?unavailableCell(code,gridColumn(column,row),gridRow):parking?parkingCell(code,spot,!spot||visibleIds.has(spot.id),gridColumn(column,row),gridRow,1,1,positionInRanges(code,layout.tintedRanges)):blockedCell(code,gridColumn(column,row),gridRow));
+      cells.push(unavailable?(options.zoneId==='pillar11'?blockedCell(code,gridColumn(column,row),gridRow):unavailableCell(code,gridColumn(column,row),gridRow)):parking?parkingCell(code,spot,!spot||visibleIds.has(spot.id),gridColumn(column,row),gridRow,1,1,positionInRanges(code,layout.tintedRanges)):blockedCell(code,gridColumn(column,row),gridRow));
     }
   }
   if(options.zoneId==='pillar11'&&gridRowByActual.has(18))cells.push(`<div class="parking-pillar-divider" style="grid-column:6/span 5;grid-row:${gridRowByActual.get(18)}" aria-label="17행과 18행 사이 11번기둥"><span>11번기둥</span></div>`);
