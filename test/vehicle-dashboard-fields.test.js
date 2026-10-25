@@ -88,6 +88,8 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(css,/\.board-row>strong\{[^}]*background:transparent\}/);
   assert.match(css,/\.board-row:not\(\.board-labels\):hover>strong,[^{]*\.board-row\.is-checked-out>strong\{background:transparent\}/);
   assert.match(css,/\.topbar \{ position:sticky; top:0; z-index:9;/);
+  assert.match(css,/\.board-hero \{[^}]*margin:0 auto 24px/);
+  assert.match(css,/\.board-hero\{margin-top:0;padding:24px 18px/);
   assert.match(css,/\.board-row\.is-checked-out::after\{[^}]*z-index:6/);
   assert.match(css,/border-right:1px solid #d9ded9/);
 });
