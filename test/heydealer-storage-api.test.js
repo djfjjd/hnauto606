@@ -8,6 +8,7 @@ const mileageMigration=readFileSync(new URL('../migrations/0014_add_heydealer_mi
 const customerTypeMigration=readFileSync(new URL('../migrations/0017_add_non_business_corporate_type.sql',import.meta.url),'utf8');
 const pendingTypeMigration=readFileSync(new URL('../migrations/0022_add_pending_customer_type.sql',import.meta.url),'utf8');
 const latestCustomerTypeMigration=readFileSync(new URL('../migrations/0025_update_customer_types.sql',import.meta.url),'utf8');
+const customerTypeRepairMigration=readFileSync(new URL('../migrations/0027_repair_heydealer_customer_types.sql',import.meta.url),'utf8');
 const wrangler=readFileSync(new URL('../wrangler.toml',import.meta.url),'utf8');
 
 test('헤이딜러 거래와 파일 메타데이터를 별도 D1 테이블에 보관한다',()=>{
@@ -48,6 +49,13 @@ test('특이사항 확인중 값을 저장할 수 있도록 스키마를 확장�
 test('간이사업자와 업무용 비용처리 유형을 저장하고 기존 명칭을 변환한다',()=>{
   assert.match(latestCustomerTypeMigration,/customer_type IN \('개인','비사업용','업무용으로 비용처리함','간이사업자','법인','확인중'\)/);
   assert.match(latestCustomerTypeMigration,/WHEN customer_type='간이과세자' THEN '간이사업자'/);
+});
+
+test('운영 DB의 이전 특이사항 제약조건을 복구하면서 첨부파일 메타데이터를 보존한다',()=>{
+  assert.match(customerTypeRepairMigration,/customer_type IN \('개인','비사업용','업무용으로 비용처리함','간이사업자','법인','확인중'\)/);
+  assert.match(customerTypeRepairMigration,/WHEN customer_type='간이과세자' THEN '간이사업자'/);
+  assert.match(customerTypeRepairMigration,/CREATE TABLE heydealer_files_repair_backup AS SELECT \* FROM heydealer_files/);
+  assert.match(customerTypeRepairMigration,/INSERT INTO heydealer_files SELECT id,record_id,object_key,filename,mime_type,size_bytes,uploaded_by,created_at FROM heydealer_files_repair_backup/);
 });
 
 test('이미지 첨부파일은 캘린더 미리보기에서 inline으로 연다',()=>{
