@@ -142,7 +142,10 @@ test('차량현황판 상세 수정은 차량 행이 아닌 연필 버튼으로�
 
 test('현황판 판금·광택·수리 열에서 작업 항목을 바로 추가한다',()=>{
   assert.match(main,/data-service-add="\$\{type\}"/);
-  assert.match(main,/serviceAddButton\(s,'body','판금'\)/);
+  assert.match(main,/serviceAddButton\(s,'body','판금',false,editing\)/);
+  assert.match(main,/editing\?'✎':'\+'/);
+  assert.match(main,/value="\$\{esc\(String\(s\.bodyworkCount\|\|''\)\.replace\(\/\[\^0-9\]\/g,''\)\)\}"/);
+  assert.match(main,/value="\$\{esc\(s\.bodyworkNote\|\|''\)\}" placeholder="외판부위"/);
   assert.match(main,/serviceAddButton\(s,'polish','광택'\)/);
   assert.match(main,/data-service-add="car-center" data-vehicle-id=/);
   assert.match(main,/state\.productizationType=serviceButton\.dataset\.serviceAdd/);

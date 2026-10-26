@@ -24,12 +24,14 @@ test('차량 현황판에 성능·재성능·하부·덴트·판금·광택·수
   assert.match(main,/class="board-performance-dates".*class="board-service-date .*\$\{reperformanceDate\?`<time class="board-reperformance-date"/);
   assert.match(css,/\.board-performance-dates\{display:grid;place-items:center;gap:2px/);
   assert.match(main,/class="board-polishing-vendor"/);
-  assert.match(main,/class="board-bodywork-count"/);
+  assert.match(main,/class="board-bodywork-details"><b>\$\{esc\(s\.bodyworkCount\)\|\|'-'\}<\/b><small>\$\{esc\(part\)\|\|'-'\}<\/small>/);
+  assert.match(css,/\.board-bodywork-details\{display:grid;place-items:center;gap:1px/);
+  assert.match(css,/\.board-bodywork-details small\{[^}]*font-size:9px/);
   assert.match(main,/class="board-options-info board-repair-info" data-board-repair=/);
   assert.match(main,/data-service-add="car-center"[^>]*data-vehicle-id=.*?<span class="board-options-minus">-<\/span>/);
   assert.match(main,/openDashboardInfo\(vehicle,'수리 내용',vehicle\.repairDescription\)/);
   assert.match(main,/polishingVendor:String\(s\.polishing_note/);
-  assert.match(main,/const bodyworkCount=note=>/);
+  assert.match(main,/const bodyworkDetails=note=>/);
   assert.match(main,/const repairDescription=note=>/);
   assert.match(handler,/performance_service_date/);
   assert.match(handler,/COALESCE\(\(SELECT started_at FROM service_records sr WHERE sr\.vehicle_id=v\.id AND sr\.note LIKE '\[성능\]%'/);
