@@ -12,8 +12,8 @@ test('주차 도면 차량 클릭은 상세 대신 상품화출차 팝업을 연
   assert.match(main,/state\.mode==='productization'\?productizationForm\(s\)/);
 });
 
-test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입력을 제공한다',()=>{
-  assert.match(main,/\['performance','성능'\],\['body','판금'\],\['dent','덴트'\],\['polish','광택'\],\['car-center','카센터\(기타\)'\]/);
+test('상품화출차 팝업은 하부세차를 포함한 작업 6종과 오늘 날짜 및 작업별 입력을 제공한다',()=>{
+  assert.match(main,/\['performance','성능'\],\['underbody','하부세차'\],\['body','판금'\],\['dent','덴트'\],\['polish','광택'\],\['car-center','카센터\(기타\)'\]/);
   assert.match(main,/name="serviceDate" value="\$\{today\}" required/);
   assert.doesNotMatch(main,/data-service-detail="performance"/);
   assert.match(main,/name="exteriorCount"[\s\S]*name="bodyNote"[\s\S]*placeholder="외판부위"/);
@@ -25,7 +25,7 @@ test('상품화출차 팝업은 작업 5종과 오늘 날짜 및 작업별 입�
   assert.match(main,/bindProductizationFields/);
   assert.match(main,/input\.dataset\.wasChecked=String\(input\.checked\)/);
   assert.match(main,/if\(input\.dataset\.wasChecked==='true'\)input\.checked=false/);
-  assert.match(css,/\.productization-tabs\{display:grid;grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+  assert.match(css,/\.productization-tabs\{display:grid;grid-template-columns:repeat\(6,minmax\(0,1fr\)\)/);
   assert.match(css,/\.modal \.polish-vendors label\{[^}]*font-size:17px/);
   assert.match(css,/#productization-form \.productization-detail\[hidden\]\{display:none!important\}/);
 });
@@ -111,6 +111,13 @@ test('상품화출차는 주차면 해제와 서비스·이동·감사·알림 �
   assert.match(api,/productization_checkout/);
   assert.match(api,/notifyVehicleAction\(context,vehicle,'상품화출차',`상품화\(\$\{type\.label\}\)`,eventId\)/);
   assert.match(main,/vehicles\/\$\{s\.vehicleId\}\/productization/);
+});
+
+test('하부세차 상품화출차는 차량현황판 하부 체크를 함께 저장한다',()=>{
+  assert.match(main,/\['underbody','하부세차'\]/);
+  assert.match(main,/serviceType==='underbody'\?'하부세차'/);
+  assert.match(api,/underbody:\{db:'other',label:'하부세차',boardColumn:'underbody_checked'\}/);
+  assert.match(api,/boardUpdate=type\.boardColumn\?`,\$\{type\.boardColumn\}=1`/);
 });
 
 test('미배정 차량도 상품화출차하고 작업 종류를 위치에 표시한다',()=>{
