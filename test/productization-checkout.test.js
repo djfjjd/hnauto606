@@ -137,7 +137,10 @@ test('미배정 차량도 상품화출차하고 작업 종류를 위치에 표�
 test('상품화출차 팝업 작업 선택 제목에 최근 작업이력을 표시한다',()=>{
   assert.match(main,/const productizationHistory=note=>/);
   assert.match(main,/return body\?`\$\{body\[2\]\} \$\{body\[1\]\}판 판금`/);
-  assert.match(main,/productizationHistory:productizationHistory\(v\.latest_movement_note\)/);
+  assert.match(api,/latest_productization_note/);
+  assert.match(main,/productizationHistory:productizationHistory\(s\.latest_productization_note\)/);
+  assert.match(main,/latestProductization=v\.latest_productization_note\|\|v\.latest_movement_note/);
+  assert.match(main,/productizationHistory:productizationHistory\(latestProductization\)/);
   assert.match(main,/class="productization-work-title"><span>작업 선택<\/span>\$\{state\.mode==='productization'&&s\.productizationHistory\?`<small>- 작업이력 : \$\{esc\(s\.productizationHistory\)\}<\/small>`:''\}/);
   assert.match(css,/\.productization-work-title\{display:flex;align-items:baseline/);
   assert.match(css,/\.productization-work-title small\{[^}]*font-size:11px/);
