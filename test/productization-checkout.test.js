@@ -12,8 +12,9 @@ test('주차 도면 차량 클릭은 상세 대신 상품화출차 팝업을 연
   assert.match(main,/state\.mode==='productization'\?productizationForm\(s\)/);
 });
 
-test('상품화출차 팝업은 하부세차를 포함한 작업 6종과 오늘 날짜 및 작업별 입력을 제공한다',()=>{
-  assert.match(main,/\['performance','성능'\],\['underbody','하부세차'\],\['body','판금'\],\['dent','덴트'\],\['polish','광택'\],\['car-center','카센터\(기타\)'\]/);
+test('상품화출차 팝업은 성능을 제외한 작업 5종과 오늘 날짜 및 작업별 입력을 제공한다',()=>{
+  assert.match(main,/types=\[\['underbody','하부세차'\],\['body','판금'\],\['dent','덴트'\],\['polish','광택'\],\['car-center','카센터\(기타\)'\]\]/);
+  assert.doesNotMatch(main,/types=\[[^;]*\['performance','성능'\]/);
   assert.match(main,/name="serviceDate" value="\$\{today\}" required/);
   assert.doesNotMatch(main,/data-service-detail="performance"/);
   assert.match(main,/name="exteriorCount"[\s\S]*name="bodyNote"[\s\S]*placeholder="외판부위"/);
@@ -25,7 +26,7 @@ test('상품화출차 팝업은 하부세차를 포함한 작업 6종과 오늘 
   assert.match(main,/bindProductizationFields/);
   assert.match(main,/input\.dataset\.wasChecked=String\(input\.checked\)/);
   assert.match(main,/if\(input\.dataset\.wasChecked==='true'\)input\.checked=false/);
-  assert.match(css,/\.productization-tabs\{display:grid;grid-template-columns:repeat\(6,minmax\(0,1fr\)\)/);
+  assert.match(css,/\.productization-tabs\{display:grid;grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
   assert.match(css,/\.modal \.polish-vendors label\{[^}]*font-size:17px/);
   assert.match(css,/#productization-form \.productization-detail\[hidden\]\{display:none!important\}/);
 });
@@ -136,6 +137,7 @@ test('미배정 차량도 상품화출차하고 작업 종류를 위치에 표�
 
 test('상품화출차 팝업 작업 선택 제목에 최근 작업이력을 표시한다',()=>{
   assert.match(main,/const productizationHistoryItem=note=>/);
+  assert.doesNotMatch(main,/const productizationHistoryItem=note=>[^;]*성능/);
   assert.match(main,/return body\?`\$\{body\[2\]\} \$\{body\[1\]\}판 판금`/);
   assert.match(api,/group_concat\(note,char\(30\)\)/);
   assert.match(api,/productization_notes/);
