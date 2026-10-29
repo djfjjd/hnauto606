@@ -196,7 +196,7 @@ test('새싹타워 검색 결과는 실제 좌표의 B5·B6 주차번호를 표�
   assert.match(main,/import \{normalizePosition,parkingCapacity,parkingLayouts,towerParkingLabel\} from '\.\/parking-layouts\.js'/);
   assert.match(main,/function parkingSearchZoneLabel\(spot\)/);
   assert.match(main,/spot\.zoneId==='tower'/);
-  assert.match(main,/spot\.zoneId==='tower'\)return`새싹 \$\{towerParkingLabel\(spot\.label\)\}`\.trim\(\)/);
+  assert.match(main,/spot\.zoneId==='tower'\)return`새싹🌱 \$\{towerParkingLabel\(spot\.label\)\}`\.trim\(\)/);
   assert.match(main,/zoneLabel=parkingSearchZoneLabel\(s\)/);
   assert.match(main,/class="parking-search-location">\$\{esc\(zoneLabel\)\|\|'-'\}\$\{!VIEWER_MODE&&s\.isContracted\?'<b>\(계약중\)<\/b>':''\}/);
   assert.match(css,/\.parking-search-location b\{[^}]*color:#c82020/);
