@@ -145,9 +145,10 @@ test('상품화출차 팝업 작업 선택 제목에 최근 작업이력을 표�
   assert.match(main,/productizationHistory:productizationHistory\(s\.productization_notes\)/);
   assert.match(main,/productizationNotes=v\.productization_notes\|\|v\.latest_movement_note/);
   assert.match(main,/productizationHistory:productizationHistory\(productizationNotes\)/);
-  assert.match(main,/class="productization-work-title"><span>작업 선택<\/span>\$\{state\.mode==='productization'&&s\.productizationHistory\?`<small>- 작업이력 : \$\{esc\(s\.productizationHistory\)\}<\/small>`:''\}/);
+  assert.match(main,/class="productization-work-title"><span class="productization-work-label">작업 선택<\/span>\$\{state\.mode==='productization'&&s\.productizationHistory\?`<small><b>- 작업이력 :<\/b><span>\$\{esc\(s\.productizationHistory\)\}<\/span><\/small>`:''\}/);
   assert.match(css,/\.productization-work-title\{display:flex;align-items:baseline/);
-  assert.match(css,/\.productization-work-title small\{[^}]*font-size:11px/);
+  assert.match(css,/\.productization-work-title small\{display:grid;grid-template-columns:max-content minmax\(0,1fr\);[^}]*font-size:11px/);
+  assert.match(css,/\.productization-work-title small span\{[^}]*overflow-wrap:anywhere;white-space:normal/);
 });
 
 test('차량현황판 상세 수정은 차량 행이 아닌 연필 버튼으로만 연다',()=>{
