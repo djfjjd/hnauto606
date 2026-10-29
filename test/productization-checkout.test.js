@@ -139,6 +139,7 @@ test('상품화출차 팝업 작업 선택 제목에 최근 작업이력을 표�
   assert.match(main,/const productizationHistoryItem=note=>/);
   assert.doesNotMatch(main,/const productizationHistoryItem=note=>[^;]*성능/);
   assert.match(main,/return body\?`\$\{body\[2\]\} \$\{body\[1\]\}판 판금`/);
+  assert.match(main,/if\(type==='덴트'\)\{const repair=detail\.split\(' · 비용 '\)\[0\]\.trim\(\);return repair\?`\$\{repair\} 덴트`:'덴트';\}/);
   assert.match(api,/group_concat\(note,'\|\|\|HISTORY\|\|\|'\)/);
   assert.match(api,/productization_notes/);
   assert.match(main,/split\('\|\|\|HISTORY\|\|\|'\)\.map\(productizationHistoryItem\)\.filter\(Boolean\)\.join\(' \/ '\)/);
