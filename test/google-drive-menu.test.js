@@ -46,6 +46,7 @@ test('내부 월간 캘린더는 헤이딜러 차량과 법인 첨부파일을 �
   assert.match(main,/탁송\\s\*일정\\s\*확인\\s\*중/);
   assert.match(main,/class="calendar-pending"><strong>탁송일정확인중<\/strong>/);
   assert.match(main,/records\.filter\(heydealerSchedulePending\)/);
+  assert.match(main,/departureTime==='-'\|\|\/탁송/);
   assert.match(main,/customerBadge\(record\.customer_type\)/);
   assert.match(main,/class="calendar-vehicle"><span class="calendar-vehicle-text"><button/);
   assert.match(main,/isCorporateCustomer\(record\.customer_type\)&&record\.files\?\.length/);
