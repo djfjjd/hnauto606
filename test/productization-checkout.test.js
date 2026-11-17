@@ -142,9 +142,9 @@ test('상품화출차 팝업 작업 선택 제목에 최근 작업이력을 표�
   assert.match(main,/if\(type==='덴트'\)\{const repair=detail\.split\(' · 비용 '\)\[0\]\.trim\(\);return repair\?`\$\{repair\} 덴트`:'덴트';\}/);
   assert.match(api,/group_concat\(note,'\|\|\|HISTORY\|\|\|'\)/);
   assert.match(api,/productization_notes/);
-  assert.match(main,/let hasBodywork=false/);
-  assert.match(main,/if\(!\/\^\\\[판금\\\]\//);
-  assert.match(main,/if\(hasBodywork\)return false;hasBodywork=true/);
+  assert.match(main,/const latestOnly=new Set/);
+  assert.match(main,/match\(\/\^\\\[\(판금\|광택\)\\\]\//);
+  assert.match(main,/if\(latestOnly\.has\(type\)\)return false;latestOnly\.add\(type\)/);
   assert.match(main,/\.map\(productizationHistoryItem\)\.filter\(Boolean\)\.join\(' \/ '\)/);
   assert.match(main,/productizationHistory:productizationHistory\(s\.productization_notes\)/);
   assert.match(main,/productizationNotes=v\.productization_notes\|\|v\.latest_movement_note/);
