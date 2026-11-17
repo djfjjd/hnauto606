@@ -4,7 +4,7 @@ import {STATUS} from './data.js';
 const escapeHtml=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 const lastFour=plate=>String(plate||'').slice(-4);
 const parkingModelLabel=model=>{const words=String(model||'차량').trim().split(/\s+/),wordCount=words[1]?.length===1?(words[2]?.length===1?4:3):2;return words.slice(0,wordCount).join(' ');};
-const vehicleColorClass=value=>{const color=String(value||'').trim();if(/화이트/i.test(color))return'white';return{검정:'black',흰색:'white',쥐색:'gray',회색:'gray',은색:'gray',녹색:'green',빨강:'red',파랑:'blue',블루:'blue',베이지:'beige',노랑:'yellow'}[color]||'black';};
+const vehicleColorClass=value=>{const color=String(value||'').trim();if(/화이트/i.test(color))return'white';return{검정:'black',흰색:'white',쥐색:'gray',회색:'gray',은색:'gray',녹색:'green',빨강:'red',레드:'red',파랑:'blue',블루:'blue',베이지:'beige',노랑:'yellow'}[color]||'black';};
 
 function areaBounds(area){
   const from=positionParts(area.from),to=positionParts(area.to||area.from);

@@ -197,10 +197,12 @@ test('주차 차량 Cell에는 차량 색상 클래스가 적용된다',()=>{
   const glacierWhite=renderParkingMap(parkingLayouts.b3,[{id:'glacier-white-car',label:'E17',plate:'11가4321',model:'차량',color:'글레시어 화이트',alerts:[]}],undefined,{expanded:true});
   const gray=renderParkingMap(parkingLayouts.b3,[{id:'gray-car',label:'E17',plate:'11가5678',model:'차량',color:'은색',alerts:[]}],undefined,{expanded:true});
   const blue=renderParkingMap(parkingLayouts.b3,[{id:'blue-car',label:'E17',plate:'11가9012',model:'차량',color:'블루',alerts:[]}],undefined,{expanded:true});
+  const red=renderParkingMap(parkingLayouts.b3,[{id:'red-car',label:'E17',plate:'11가3456',model:'차량',color:'레드',alerts:[]}],undefined,{expanded:true});
   assert.match(white,/vehicle-color-white/);
   assert.match(glacierWhite,/vehicle-color-white/);
   assert.match(gray,/vehicle-color-gray/);
   assert.match(blue,/vehicle-color-blue/);
+  assert.match(red,/vehicle-color-red/);
   assert.match(white,/draggable="true"/);
 });
 
