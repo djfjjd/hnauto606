@@ -27,7 +27,8 @@ test('검색에서 미주차 출고 차량의 작업이력을 열고 주차 차�
   };
   const renderModal=runInNewContext([
     line('const used='),line('const isCheckedOutSearchVehicle='),line('const selectedParkingVehicle='),
-    search,line('function productizationForm('),line('function modal('),
+    search,line('function productizationForm('),line('function modal('),line('function bindProductizationFields('),
+    "bindProductizationFields({elements:{namedItem:()=>null}});",
     'renderParkingSearchResults(); () => modal(selectedParkingVehicle());'
   ].join('\n'),context);
 
@@ -35,7 +36,10 @@ test('검색에서 미주차 출고 차량의 작업이력을 열고 주차 차�
   assert.equal(state.selected,checkedOut.id);
   assert.equal(scrolled,false);
   const html=renderModal();
+  assert.match(html,/<h2 id="modal-title">출고됨<\/h2>/);
+  assert.match(html,/작업이력/);
   assert.match(html,/조수석 1판 판금/);
+  assert.doesNotMatch(html,/작업 선택|productization-tabs|name="serviceType"/);
   assert.match(html,/value="2026-11-25"[^>]*readonly/);
   assert.doesNotMatch(html,/data-unassign|data-contract-checkout|data-warning-entry|>상품화출차<\/button>/);
 
@@ -43,6 +47,11 @@ test('검색에서 미주차 출고 차량의 작업이력을 열고 주차 차�
   assert.equal(state.selected,null);
   assert.equal(scrolled,true);
   assert.equal(state.query,parked.plate);
+  state.selected=parked.id;
+  const parkedHtml=renderModal();
+  assert.match(parkedHtml,/<h2 id="modal-title">상품화출차<\/h2>/);
+  assert.match(parkedHtml,/작업 선택/);
+  assert.equal((parkedHtml.match(/name="serviceType"/g)||[]).length,5);
 });
 
 test('주차 도면 차량 클릭은 상세 대신 상품화출차 팝업을 연다',()=>{
@@ -71,7 +80,7 @@ test('상품화출차 팝업은 성능을 제외한 작업 5종과 오늘 날짜
 });
 
 test('상품화출차 상단에 출차일을 놓고 기존 날짜 자리에 차량 특이사항을 보여준다',()=>{
-  assert.match(main,/class="productization-modal-header"[\s\S]*?<h2 id="modal-title">상품화출차<\/h2>[\s\S]*?class="productization-date-field"><span>출차일<\/span><input type="date" name="serviceDate" form="productization-form" value="\$\{today\}" lang="ko-KR" placeholder="yyyy\. mm\. dd\." required[\s\S]*?class="warning-entry-button"/);
+  assert.match(main,/class="productization-modal-header"[\s\S]*?<h2 id="modal-title">[^<]+<\/h2>[\s\S]*?class="productization-date-field"><span>출차일<\/span><input type="date" name="serviceDate" form="productization-form" value="\$\{today\}" lang="ko-KR" placeholder="yyyy\. mm\. dd\." required[\s\S]*?class="warning-entry-button"/);
   assert.match(main,/class="productization-options"><span class="field-title">특이사항<\/span>[\s\S]*?<p data-option-value>\$\{esc\(s\.memo\|\|'X'\)\}/);
   assert.match(css,/\.productization-modal-header\{display:flex/);
   assert.match(css,/\.productization-modal-header \.productization-date-field\{display:flex/);
@@ -188,7 +197,7 @@ test('상품화출차 팝업 작업 선택 제목에 최근 작업이력을 표�
   assert.match(main,/productizationHistory:productizationHistory\(s\.productization_notes\)/);
   assert.match(main,/productizationNotes=v\.productization_notes\|\|v\.latest_movement_note/);
   assert.match(main,/productizationHistory:productizationHistory\(productizationNotes\)/);
-  assert.match(main,/class="productization-work-title"><span class="productization-work-label">작업 선택<\/span>\$\{state\.mode==='productization'&&s\.productizationHistory\?`<small><b>- 작업이력 :<\/b><span>\$\{esc\(s\.productizationHistory\)\}<\/span><\/small>`:''\}/);
+  assert.match(main,/class="productization-work-title">[^\n]*?<small><b>- 작업이력 :<\/b><span>\$\{esc\(s\.productizationHistory\)\}<\/span><\/small>/);
   assert.match(css,/\.productization-work-title\{display:flex;align-items:baseline/);
   assert.match(css,/\.productization-work-title small\{display:grid;grid-template-columns:max-content minmax\(0,1fr\);[^}]*font-size:11px/);
   assert.match(css,/\.productization-work-title small span\{[^}]*overflow-wrap:anywhere;white-space:normal/);
