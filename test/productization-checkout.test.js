@@ -1,10 +1,49 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
 
 const main=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 const css=readFileSync(new URL('../src/style.css',import.meta.url),'utf8');
 const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
+
+test('검색에서 미주차 출고 차량의 작업이력을 열고 주차 차량은 위치로 이동한다',()=>{
+  const parked={id:'spot-1',plate:'12가3456',zoneId:'test',alerts:[]};
+  const checkedOut={id:'checked-out-1',plate:'12나3456',isCheckedOut:true,checkedOutAt:'2026-11-25',productizationHistory:'조수석 1판 판금',alerts:[]};
+  const state={spots:[parked],checkedOut:[checkedOut],query:'3456',zone:'test'};
+  const buttons=[parked,checkedOut].map(vehicle=>({dataset:{searchSpot:vehicle.id}}));
+  const panel={setAttribute(){},querySelectorAll:()=>buttons};
+  const toolbar={querySelector:()=>null,append(){}};
+  let scrolled=false;
+  const cell={dataset:{spot:parked.id},classList:{toggle(){},add(){}},scrollIntoView(){scrolled=true;}};
+  const lines=main.split('\n');
+  const line=prefix=>lines.find(source=>source.startsWith(prefix));
+  const search=main.slice(main.indexOf('function renderParkingSearchResults('),main.indexOf('function attentionVehicles('));
+  const context={
+    state,VIEWER_MODE:false,document:{querySelector:()=>toolbar,querySelectorAll:()=>[cell],createElement:()=>panel},
+    highlightSearchZoneTabs(){},render(){},requestAnimationFrame:callback=>callback(),
+    parkingSearchZoneLabel:()=>'',parkingScheduleModelLabel:()=>'',normalizeVehicleColor:()=>'',matchesSearchTerms:()=>true,
+    parkingSearchValues:()=>[],STATUS:[],MASTER_WARNING_ICON:'warning.png'
+  };
+  const renderModal=runInNewContext([
+    line('const used='),line('const isCheckedOutSearchVehicle='),line('const selectedParkingVehicle='),
+    search,line('function productizationForm('),line('function modal('),
+    'renderParkingSearchResults(); () => modal(selectedParkingVehicle());'
+  ].join('\n'),context);
+
+  buttons[1].onclick();
+  assert.equal(state.selected,checkedOut.id);
+  assert.equal(scrolled,false);
+  const html=renderModal();
+  assert.match(html,/조수석 1판 판금/);
+  assert.match(html,/value="2026-11-25"[^>]*readonly/);
+  assert.doesNotMatch(html,/data-unassign|data-contract-checkout|data-warning-entry|>상품화출차<\/button>/);
+
+  buttons[0].onclick();
+  assert.equal(state.selected,null);
+  assert.equal(scrolled,true);
+  assert.equal(state.query,parked.plate);
+});
 
 test('주차 도면 차량 클릭은 상세 대신 상품화출차 팝업을 연다',()=>{
   assert.match(main,/state\.mode=used\(selected\)\?'productization':'assign'/);
